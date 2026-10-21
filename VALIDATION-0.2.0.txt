@@ -1,0 +1,17 @@
+The New Dimension 0.2.0-dev
+Minecraft 26.2 / NeoForge 26.2.0.93 / Java 25
+
+JAR SHA-256: 25ca392d83106e0e45aaa52a0b5bd4b9afe68fdb0984da64fa47c30d460902a5
+
+Build + GameTestServer:
+PASS: 50033 assertions (progression, saves, production, cycle)
+[02:07:51] [Server thread/INFO] [minecraft/GameTestServer]: ========= 11 GAME TESTS COMPLETE IN 8.357 s ======================
+[02:07:51] [Server thread/INFO] [minecraft/GameTestServer]: All 11 required tests passed :)
+BUILD SUCCESSFUL in 47s
+
+Final UI layout: rebuilt successfully, checked in the Minecraft client.
+Extractor: 16 coal -> 13 coal and 3 raw iron; labels and slots visually checked.
+Resources: 9 checks passed. 42 original textures, all 16 x 16.
+Normal world: 50 visible root-ore blocks in 121 spawn-area chunks; blue/red ore also generated.
+World screenshots are original Minecraft F2 captures.
+OpenAL initialized on No Output (headless audio validation; no physical speakers).
