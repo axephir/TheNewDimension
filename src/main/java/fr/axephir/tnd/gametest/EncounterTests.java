@@ -104,12 +104,16 @@ public final class EncounterTests {
         check(h,!target.hasChunk(landing.getX()>>4,landing.getZ()>>4),"The regression fixture starts with an unloaded arrival chunk");
         p.teleport(new TeleportTransition(target,Vec3.atBottomCenterOf(landing),Vec3.ZERO,0,0,TeleportTransition.DO_NOTHING));
         p.connection.markClientLoaded();p.hasChangedDimension();
-        h.runAfterDelay(10,()->{
+        // The embedded client never acknowledges destination chunk batches. Keep the
+        // destination ticking only AFTER the cold transfer has happened. This cannot
+        // rescue a failed transfer: a pet left at the source will still fail below.
+        target.setChunkForced(landing.getX()>>4,landing.getZ()>>4,true);
+        h.runAfterDelay(20,()->{
             try {
                 check(h,target.getEntity(uuid) instanceof Shardling moved&&moved.getOwnerReference().matches(p),"Companion must reach an initially unloaded destination; source alive="+pet.isAlive()+", loaded="+target.hasChunk(landing.getX()>>4,landing.getZ()>>4)+", floor="+target.getBlockState(landing.below())+", landing="+CompanionTravel.findLanding(target,landing,pet));
                 check(h,source.getEntity(uuid)==null,"Cold arrival leaves no duplicate behind");
                 target.getEntity(uuid).discard();
-            }finally{if(source.getEntity(uuid)!=null)source.getEntity(uuid).discard();GameplayTests.cleanup(p);}
+            }finally{if(source.getEntity(uuid)!=null)source.getEntity(uuid).discard();GameplayTests.cleanup(p);target.setChunkForced(landing.getX()>>4,landing.getZ()>>4,false);}
             h.succeed();
         });
     }
