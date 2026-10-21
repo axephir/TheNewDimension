@@ -35,6 +35,18 @@ public final class ModContent {
     public static final DeferredHolder<SoundEvent, SoundEvent> METAL_ECHO = SOUNDS.register("metal_echo",
             () -> SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(TheNewDimension.ID, "metal_echo")));
 
+    public static final java.util.Map<String,DeferredHolder<SoundEvent,SoundEvent>> ATMOSPHERE_SOUNDS=new java.util.LinkedHashMap<>();
+    static{for(String name:java.util.List.of("fracture_drone","hollow_resonance","glass_whispers","basin_lament","dune_rumble","night_pressure","enclosed_hum","distant_pulse","glass_tinkle","stone_shift","submerged_groan","dust_scrape","reverse_breath","spatial_chime","mastery_ascend"))
+        ATMOSPHERE_SOUNDS.put(name,SOUNDS.register(name,()->SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(TheNewDimension.ID,name))));}
+    public static SoundEvent atmosphereSound(String name){
+        if(name.equals("low_signal"))return LOW_SIGNAL.get();if(name.equals("metal_echo"))return METAL_ECHO.get();
+        return ATMOSPHERE_SOUNDS.get(name).get();
+    }
+    public static final DeferredBlock<Block> VITREOUS_STONE=stone("vitreous_stone",3.5f,8,0);
+    public static final DeferredBlock<Block> VITRIFIED_ASH=stone("vitrified_ash",2.5f,6,0);
+    public static final DeferredBlock<Block> ASHEN_SILT=stone("ashen_silt",1.5f,4,0);
+    public static final DeferredBlock<Block> FOSSIL_COLUMN=stone("fossil_column",3,6,0);
+    public static final DeferredBlock<Block> PALE_CRYSTAL=BLOCKS.registerSimpleBlock("pale_crystal",p->p.strength(3,6).requiresCorrectToolForDrops().lightLevel(state->3).sound(net.minecraft.world.level.block.SoundType.AMETHYST));
     public static final DeferredBlock<Block> ASHSTONE = stone("ashstone", 3.5f, 6, 0);
     public static final DeferredBlock<Block> ANCIENT_ALLOY = stone("ancient_alloy", 5, 12, 0);
     public static final DeferredBlock<Block> RESONANT_ORE = stone("resonant_ore", 5, 8, 4);
@@ -116,7 +128,11 @@ public final class ModContent {
                 || name.contains("vent") || name.contains("console");
         return BLOCKS.registerSimpleBlock(name, p -> p.mapColor(MapColor.COLOR_GRAY)
                 .strength(hardness, resistance).requiresCorrectToolForDrops().lightLevel(state -> light)
-                .sound(metal ? net.minecraft.world.level.block.SoundType.METAL : name.endsWith("_lamp")
+                .sound(name.equals("ashen_silt")?net.minecraft.world.level.block.SoundType.MUD:
+                        name.equals("vitrified_ash")?net.minecraft.world.level.block.SoundType.SAND:
+                        name.equals("vitreous_stone")?net.minecraft.world.level.block.SoundType.DEEPSLATE:
+                        name.equals("fossil_column")?net.minecraft.world.level.block.SoundType.CALCITE:
+                        metal ? net.minecraft.world.level.block.SoundType.METAL : name.endsWith("_lamp")
                         ? net.minecraft.world.level.block.SoundType.GLASS : net.minecraft.world.level.block.SoundType.STONE));
     }
 

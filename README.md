@@ -3,22 +3,24 @@
 Mod RPG, exploration et automatisation pour **Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25**.
 Nom du mod, de la dimension « Vestige » et des ressources : propositions de travail, modifiables avant une première publication.
 
-**Version actuelle : 0.5.0-dev — premier sanctuaire de combat et égide résonante.**
+**Version actuelle : 0.6.0-dev — paysages, ambiance sonore et célébrations de maîtrise.**
 
-[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.5.0-dev.jar).
+[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.6.0-dev.jar).
 Placer ce fichier dans `mods/` avec **Minecraft Java 26.2 et NeoForge 26.2.0.93**, en remplaçant l’ancien JAR TND.
 
-Les six bâtiments sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive, fonderie et sanctuaire de résonance. Toutes les textures du mod sont en **16 × 16**. Vingt-cinq blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
+Les six bâtiments sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive, fonderie et sanctuaire de résonance. Toutes les textures du mod sont en **16 × 16**. Des blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
 
 Dans l’inventaire, cliquer sur le petit onglet à droite pour ouvrir les maîtrises, sans transporter de livre. Les minerais bleus affleurent sous l’eau dans tous les océans d’au moins huit blocs de profondeur ; les rouges occupent la première couche solide sous la lave de l’Overworld ; les verts apparaissent, plus rarement, contre les troncs des forêts, taïgas et jungles.
 
 **Créer un monde de test ou explorer de nouveaux chunks** pour découvrir les nouvelles structures et les nouveaux minerais. Les bâtiments déjà enregistrés dans une sauvegarde conservent leur géométrie ; leurs textures sont actualisées. Le mod ne détruit pas les constructions existantes.
 
-Le [compte rendu de cette version](docs/DUNGEON_0.5.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour étoffer les créatures, les donjons, l’industrie et le scénario final.
+Le [compte rendu de cette version](docs/ATMOSPHERE_0.6.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour étoffer les créatures, les donjons, l’industrie et le scénario final.
 
-L’**Éclat errant** est un familier rare, apprivoisable avec un cristal composite : suivi, attente, soin, aide au combat et repérage du minerai résonant. La **sentinelle de faille** annonce sa zone d’attaque avant de frapper ; il est possible d’esquiver ou d’interrompre sa charge. Les agrégats d’écho produisent uniquement la nuit de Vestige. Leur poussière alimente un prisme révélant temporairement les ennemis proches. Voir les [captures en jeu](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.5.0.md).
+L’**Éclat errant** est un familier rare, apprivoisable avec un cristal composite : suivi, attente, soin, aide au combat et repérage du minerai résonant. La **sentinelle de faille** annonce sa zone d’attaque avant de frapper ; il est possible d’esquiver ou d’interrompre sa charge. Les agrégats d’écho produisent uniquement la nuit de Vestige. Leur poussière alimente un prisme révélant temporairement les ennemis proches. Voir les [captures en jeu](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.6.0.md).
 
 Le **sanctuaire de résonance** propose trois ailes de combat à activer avec de la poussière d’écho, des gardiens aux attaques annoncées et un trésor partagé unique. Le cœur récupéré sert à fabriquer l’**égide résonante**, qui donne deux cœurs temporaires. La progression des ailes est sauvegardée et les issues restent ouvertes. Les nouveaux sanctuaires naturels se trouvent dans les nouveaux chunks de Vestige.
+
+Vestige possède maintenant une **forêt de verre**, des **bassins de cendre** et des **dunes vitrifiées**, avec leurs propres sols, formations et nappes sonores. La nuit et les lieux couverts ajoutent des couches graves ; des événements spatialisés plus rares ponctuent l’exploration. Les montées de maîtrise déclenchent un carillon et un effet de particules. [Écouter un extrait des sons](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/Vestige-0.6-audio-preview.ogg).
 
 ## Développement
 
@@ -41,6 +43,8 @@ python3 scripts/check_resources.py
 java scripts/CheckJavaSyntax.java
 ```
 
+Pour vérifier les fichiers audio encodés, `python3 scripts/check_audio.py` demande ffmpeg. `python3 scripts/make_audio_preview.py` recrée le montage d’écoute.
+
 La dernière commande ne vérifie que la syntaxe Java. Elle ne remplace ni la compilation ni les GameTests. `build` exécute aussi les régressions du noyau via la tâche `coreTest`.
 
 Dans l’environnement Codex actuel :
@@ -54,7 +58,7 @@ Le script installe/réutilise un JDK Temurin épinglé avec vérification SHA-25
 
 ## Contenu jouable
 
-- Dimension procédurale distincte de l’Overworld, trois biomes silencieux, matériaux propres, horloge indépendante de 48 000 ticks et ambiance sonore originale.
+- Dimension procédurale distincte de l’Overworld, six biomes silencieux, matériaux propres, horloge indépendante de 48 000 ticks et ambiance sonore originale.
 - Avant-poste initial à environ 1 000 blocs du premier point d’arrivée d’un nouveau monde ; fresques, coffre et noyau de localisation.
 - Trois minerais exposés associés aux fonds marins, aux fonds de lave et aux racines des arbres ; cristal composite, détecteur et recherche native des vraies structures de portail.
 - Détecteur démontable par utilisation accroupie ; mécanisme consommant un cristal pour établir un passage partagé et permanent, avec destination de retour persistante.
@@ -64,7 +68,7 @@ Le script installe/réutilise un JDK Temurin épinglé avec vérification SHA-25
 - Agrégats à croissance nocturne, poussière et prisme d’écho pour repérer les dangers proches.
 - Extracteur avec cinq productions (fer, cuivre, or, redstone, diamant), charbon, modules d’efficacité ou de stabilisation, calibrage par les consoles et les talents. Production différée bornée, sans XP automatique.
 
-La validation de cette version est détaillée dans [DUNGEON_0.5.0.md](docs/DUNGEON_0.5.0.md). Les [rencontres de la 0.4](docs/ENCOUNTERS_0.4.0.md) restent incluses. La [progression 0.3](docs/PROGRESSION_0.3.0.md) reste incluse. La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
+La validation de cette version est détaillée dans [ATMOSPHERE_0.6.0.md](docs/ATMOSPHERE_0.6.0.md). Le [sanctuaire de la 0.5](docs/DUNGEON_0.5.0.md) reste inclus. Les [rencontres de la 0.4](docs/ENCOUNTERS_0.4.0.md) restent incluses. La [progression 0.3](docs/PROGRESSION_0.3.0.md) reste incluse. La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
 
 ## Commandes
 
@@ -85,4 +89,4 @@ Les options serveur `experienceMultiplier`, `extractorTicksPerItem`, `maxCatchup
 
 Le mod préserve les capacités vanilla des débutants. Les grands donjons à plusieurs étages, les boss, les machines avancées et le scénario final restent à développer. Aucune catastrophe n’est déclenchable dans ce code.
 
-Les textures 16 × 16, modèles, données et structures NBT sont générés par `scripts/generate_resources.py`, `scripts/pixel_art.py` et `scripts/architecture.py`. L’option `--audio` régénère les trois ambiances originales avec `ffmpeg`. Voir [ARCHITECTURE.md](docs/ARCHITECTURE.md) et [THIRD_PARTY.md](docs/THIRD_PARTY.md).
+Les textures 16 × 16, modèles, données et structures NBT sont générés par `scripts/generate_resources.py`, `scripts/pixel_art.py` et `scripts/architecture.py`. L’option `--audio` régénère les dix-huit sons originaux avec `ffmpeg`. Voir [ARCHITECTURE.md](docs/ARCHITECTURE.md) et [THIRD_PARTY.md](docs/THIRD_PARTY.md).

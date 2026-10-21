@@ -19,7 +19,7 @@ public final class EchoBloomFeature extends Feature<NoneFeatureConfiguration> {
         for(int i=0;i<3;i++) {
             int x=x0+2+random.nextInt(12),z=z0+2+random.nextInt(12);
             var pos=new BlockPos(x,level.getHeight(Heightmap.Types.WORLD_SURFACE_WG,x,z),z);
-            if(level.ensureCanWrite(pos)&&level.getBlockState(pos).isAir()&&level.getBlockState(pos.below()).is(ModContent.ASHSTONE.get())) {
+            if(level.ensureCanWrite(pos)&&level.getBlockState(pos).isAir()&&level.getBlockState(pos.below()).is(VestigeLandscapeFeature.SURFACES)) {
                 level.setBlock(pos,ModContent.ECHO_BLOOM.get().defaultBlockState().setValue(EchoBloomBlock.CHARGE,random.nextInt(4)),2);made=true;
             }
         }

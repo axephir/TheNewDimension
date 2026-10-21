@@ -35,7 +35,7 @@ public final class VestigeEntities {
     }
     public static boolean habitat(ServerLevelAccessor level,BlockPos pos) {
         return level.getLevel().dimension().equals(DevelopmentCommands.DIMENSION)&&level.canSeeSky(pos)
-                &&level.getBlockState(pos.below()).is(ModContent.ASHSTONE.get());
+                &&level.getBlockState(pos.below()).is(VestigeLandscapeFeature.SURFACES);
     }
     public static boolean scoutSpawn(EntityType<Shardling> type,ServerLevelAccessor level,EntitySpawnReason reason,BlockPos pos,RandomSource random) {
         return habitat(level,pos)&&random.nextInt(24)==0

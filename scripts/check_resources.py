@@ -154,7 +154,27 @@ class Resources(unittest.TestCase):
         recipe=json.loads((DATA/'recipe/resonant_aegis.json').read_text())
         self.assertIn('tnd:resonance_heart',recipe['ingredients'])
         self.assertFalse((DATA/'recipe/resonance_heart.json').exists())
-        self.assertEqual(json.loads((DATA/'worldgen/structure/resonance_vault.json').read_text())['biomes'],['tnd:silent_expanse','tnd:fractured_fields','tnd:hollow_shelves'])
+        self.assertEqual(json.loads((DATA/'worldgen/structure/resonance_vault.json').read_text())['biomes'],'#tnd:is_vestige')
+
+    def test_atmosphere_and_biome_content(self):
+        biomes={'silent_expanse','fractured_fields','hollow_shelves','glass_woodland','ashen_basin','obsidian_dunes'}
+        stem=json.loads((DATA/'dimension/vestige.json').read_text())
+        self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['biomes']},biomes)
+        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),18)
+        loops=set()
+        for biome in biomes:
+            data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())
+            loop=data['attributes']['minecraft:audio/ambient_sounds']['loop'][4:];loops.add(loop);self.assertIn(loop,sounds)
+            self.assertIn('tnd:vestige_landscape',sum(data['features'],[]))
+        self.assertEqual(len(loops),6)
+        report=json.loads((ASSETS/'sound_design_report.json').read_text())
+        self.assertEqual(set(report),set(sounds))
+        for name,event in sounds.items():
+            for sound in event['sounds']:
+                self.assertTrue((ASSETS/('sounds/'+sound['name'][4:]+'.ogg')).read_bytes().startswith(b'OggS'))
+                self.assertIn(event['subtitle'],json.loads((ASSETS/'lang/fr_fr.json').read_text()))
+            self.assertGreater(report[name]['rms'],.02);self.assertLess(report[name]['peak'],.65)
+            if report[name]['loop']:self.assertLess(report[name]['splice_delta'],.03)
 
     def test_recipes_only_use_known_local_items(self):
         registered = set(generator.BLOCKS + generator.ITEMS)
@@ -229,7 +249,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis'})
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration'})
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

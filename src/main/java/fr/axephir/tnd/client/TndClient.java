@@ -15,6 +15,8 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 public final class TndClient {
     public TndClient(IEventBus bus, ModContainer container) {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        container.registerConfig(net.neoforged.fml.config.ModConfig.Type.CLIENT,AtmosphereOptions.SPEC);
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(AtmosphereDirector::tick);
         bus.addListener(TndClient::screens);
         bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions e)->RelicRenderer.layers(e));
         bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers e)->RelicRenderer.renderers(e));

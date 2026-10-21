@@ -101,7 +101,27 @@ def pixels(name, item=False):
             k=(x//2,(y+(x//5))//2)
             if k not in cluster:cluster[k]=rng.choice([-12,-6,-3,0,3,7,11])
             dot(x,y,shade(base,cluster[k]+rng.choice([-2,0,0,2])))
-    if name.startswith('vault_'):
+    if name=='vitreous_stone':
+        rect(0,0,15,15,(47,64,66))
+        for a in [(1,0,6,5),(6,5,4,11),(4,11,9,15),(10,0,13,6),(13,6,10,11),(10,11,15,14)]:line(*a,(76,105,105))
+        for x,y in [(5,3),(11,8),(6,13)]:line(x,y,x+2,y,(114,139,133))
+    elif name=='vitrified_ash':
+        rect(0,0,15,15,(64,60,58))
+        for y in [2,6,10,14]:
+            for x in range(16):dot(x,y+(x//5)%2,(88,78,66));dot(x,y+1+(x//5)%2,(47,47,46))
+    elif name=='ashen_silt':
+        rect(0,0,15,15,(82,94,86))
+        for x,y in [(1,2),(9,1),(5,7),(12,10),(3,12),(9,14)]:rect(x,y,x+3,y+1,(64,78,73));dot(x,y-1,(111,120,99))
+    elif name=='fossil_column':
+        rect(0,0,15,15,(91,96,91))
+        for x in [1,5,9,13]:
+            line(x,0,x,15,(58,70,68));line(x+1,0,x+1,15,(134,133,111))
+        for x,y in [(2,4),(6,11),(10,7),(14,14)]:dot(x,y,(170,163,134))
+    elif name=='pale_crystal':
+        rect(0,0,15,15,(125,155,155))
+        for x in [0,4,8,12]:line(x,0,x,15,(74,107,120));line(x+1,0,x+1,15,(183,207,199));line(x+2,0,x+2,15,(151,179,179))
+        line(0,3,15,7,(212,224,207));line(0,12,15,8,(104,140,155))
+    elif name.startswith('vault_'):
         rect(1,1,14,14,(44,52,51));rect(2,2,13,13,(143,121,78));rect(3,3,12,12,(57,72,68))
         for x,y in [(3,3),(12,3),(3,12),(12,12)]:dot(x,y,(208,190,130))
         active=name.endswith('_active')

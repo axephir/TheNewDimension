@@ -1,0 +1,128 @@
+{
+  "vestige_wind": {
+    "duration": 32,
+    "loop": true,
+    "peak": 0.579986572265625,
+    "rms": 0.1211455964044504,
+    "splice_delta": 0.0
+  },
+  "fracture_drone": {
+    "duration": 32,
+    "loop": true,
+    "peak": 0.579986572265625,
+    "rms": 0.15547346838548964,
+    "splice_delta": 0.0
+  },
+  "hollow_resonance": {
+    "duration": 32,
+    "loop": true,
+    "peak": 0.579986572265625,
+    "rms": 0.1753120841907527,
+    "splice_delta": 0.0
+  },
+  "glass_whispers": {
+    "duration": 32,
+    "loop": true,
+    "peak": 0.561065673828125,
+    "rms": 0.112868191103991,
+    "splice_delta": 0.0
+  },
+  "basin_lament": {
+    "duration": 32,
+    "loop": true,
+    "peak": 0.579986572265625,
+    "rms": 0.1255032598339664,
+    "splice_delta": 0.0
+  },
+  "dune_rumble": {
+    "duration": 32,
+    "loop": true,
+    "peak": 0.579986572265625,
+    "rms": 0.12531099722715233,
+    "splice_delta": 0.0
+  },
+  "night_pressure": {
+    "duration": 32,
+    "loop": true,
+    "peak": 0.579986572265625,
+    "rms": 0.19188263791914076,
+    "splice_delta": 0.0
+  },
+  "enclosed_hum": {
+    "duration": 32,
+    "loop": true,
+    "peak": 0.579986572265625,
+    "rms": 0.16950211284652103,
+    "splice_delta": 0.0
+  },
+  "low_signal": {
+    "duration": 7,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.16547222102959724,
+    "splice_delta": 0
+  },
+  "metal_echo": {
+    "duration": 5,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.12302277634015667,
+    "splice_delta": 0
+  },
+  "distant_pulse": {
+    "duration": 5,
+    "loop": false,
+    "peak": 0.30084228515625,
+    "rms": 0.0604372611261065,
+    "splice_delta": 0
+  },
+  "glass_tinkle": {
+    "duration": 5,
+    "loop": false,
+    "peak": 0.221649169921875,
+    "rms": 0.0405893592137377,
+    "splice_delta": 0
+  },
+  "stone_shift": {
+    "duration": 5,
+    "loop": false,
+    "peak": 0.549530029296875,
+    "rms": 0.0709075820546751,
+    "splice_delta": 0
+  },
+  "submerged_groan": {
+    "duration": 7,
+    "loop": false,
+    "peak": 0.373016357421875,
+    "rms": 0.07189925491054812,
+    "splice_delta": 0
+  },
+  "dust_scrape": {
+    "duration": 5,
+    "loop": false,
+    "peak": 0.3665771484375,
+    "rms": 0.045770345558129595,
+    "splice_delta": 0
+  },
+  "reverse_breath": {
+    "duration": 7,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.10471148120226707,
+    "splice_delta": 0
+  },
+  "spatial_chime": {
+    "duration": 5,
+    "loop": false,
+    "peak": 0.317291259765625,
+    "rms": 0.07144251113597427,
+    "splice_delta": 0
+  },
+  "mastery_ascend": {
+    "duration": 2.5,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.11305468022979778,
+    "splice_delta": 0
+  }
+}

@@ -32,6 +32,9 @@ public final class ReadinessTests {
         FUNCTIONS.register("vault_safety",()->DungeonTests::safety);
         FUNCTIONS.register("vault_rotations",()->DungeonTests::rotations);
         FUNCTIONS.register("resonant_aegis",()->DungeonTests::aegis);
+        FUNCTIONS.register("biome_palette",()->AtmosphereTests::biomes);
+        FUNCTIONS.register("vestige_landscapes",()->AtmosphereTests::landscapes);
+        FUNCTIONS.register("mastery_celebration",()->AtmosphereTests::celebration);
         FUNCTIONS.register("dimension", () -> ReadinessTests::dimension);
         FUNCTIONS.register("extractor", () -> ReadinessTests::extractor);
         FUNCTIONS.register("portal_resistance", () -> ReadinessTests::portalResistance);

@@ -6,7 +6,10 @@
     "water_color": "#284753"
   },
   "attributes": {
-    "minecraft:visual/fog_color": "#747f7f"
+    "minecraft:visual/fog_color": "#747f7f",
+    "minecraft:audio/ambient_sounds": {
+      "loop": "tnd:vestige_wind"
+    }
   },
   "carvers": [],
   "features": [
@@ -23,6 +26,7 @@
     [],
     [],
     [
+      "tnd:vestige_landscape",
       "tnd:echo_bloom"
     ]
   ],

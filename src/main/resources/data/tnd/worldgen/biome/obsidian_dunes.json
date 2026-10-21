@@ -1,0 +1,73 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.3,
+  "downfall": 0.0,
+  "effects": {
+    "water_color": "#284753"
+  },
+  "attributes": {
+    "minecraft:visual/fog_color": "#86745e",
+    "minecraft:audio/ambient_sounds": {
+      "loop": "tnd:dune_rumble"
+    },
+    "minecraft:visual/fog_end_distance": 165.0,
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "minecraft:ash"
+        },
+        "probability": 0.014
+      }
+    ]
+  },
+  "carvers": [],
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "tnd:resonant_ore"
+    ],
+    [],
+    [],
+    [],
+    [
+      "tnd:vestige_landscape",
+      "tnd:echo_bloom"
+    ]
+  ],
+  "creature_spawn_probability": 0.02,
+  "spawn_costs": {
+    "tnd:rift_sentinel": {
+      "energy_budget": 0.1,
+      "charge": 1.0
+    }
+  },
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [
+      {
+        "type": "tnd:shardling",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "misc": [],
+    "monster": [
+      {
+        "type": "tnd:rift_sentinel",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  }
+}

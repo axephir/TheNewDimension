@@ -37,17 +37,7 @@
       }
     },
     "minecraft:audio/ambient_sounds": {
-      "mood": {
-        "block_search_extent": 8,
-        "offset": 2.0,
-        "sound": "tnd:low_signal",
-        "tick_delay": 6000
-      },
-      "loop": "tnd:vestige_wind",
-      "additions": {
-        "sound": "tnd:metal_echo",
-        "tick_chance": 0.00035
-      }
+      "loop": "tnd:vestige_wind"
     }
   }
 }

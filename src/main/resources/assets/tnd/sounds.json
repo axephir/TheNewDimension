@@ -1,19 +1,99 @@
 {
-  "low_signal": {
-    "subtitle": "subtitles.tnd.low_signal",
-    "sounds": [
-      {
-        "name": "tnd:ambient/low_signal",
-        "volume": 0.3
-      }
-    ]
-  },
   "vestige_wind": {
     "subtitle": "subtitles.tnd.vestige_wind",
     "sounds": [
       {
         "name": "tnd:ambient/vestige_wind",
-        "volume": 0.22
+        "volume": 0.52,
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ]
+  },
+  "fracture_drone": {
+    "subtitle": "subtitles.tnd.fracture_drone",
+    "sounds": [
+      {
+        "name": "tnd:ambient/fracture_drone",
+        "volume": 0.52,
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ]
+  },
+  "hollow_resonance": {
+    "subtitle": "subtitles.tnd.hollow_resonance",
+    "sounds": [
+      {
+        "name": "tnd:ambient/hollow_resonance",
+        "volume": 0.52,
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ]
+  },
+  "glass_whispers": {
+    "subtitle": "subtitles.tnd.glass_whispers",
+    "sounds": [
+      {
+        "name": "tnd:ambient/glass_whispers",
+        "volume": 0.52,
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ]
+  },
+  "basin_lament": {
+    "subtitle": "subtitles.tnd.basin_lament",
+    "sounds": [
+      {
+        "name": "tnd:ambient/basin_lament",
+        "volume": 0.52,
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ]
+  },
+  "dune_rumble": {
+    "subtitle": "subtitles.tnd.dune_rumble",
+    "sounds": [
+      {
+        "name": "tnd:ambient/dune_rumble",
+        "volume": 0.52,
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ]
+  },
+  "night_pressure": {
+    "subtitle": "subtitles.tnd.night_pressure",
+    "sounds": [
+      {
+        "name": "tnd:ambient/night_pressure",
+        "volume": 0.52,
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ]
+  },
+  "enclosed_hum": {
+    "subtitle": "subtitles.tnd.enclosed_hum",
+    "sounds": [
+      {
+        "name": "tnd:ambient/enclosed_hum",
+        "volume": 0.52,
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ]
+  },
+  "low_signal": {
+    "subtitle": "subtitles.tnd.low_signal",
+    "sounds": [
+      {
+        "name": "tnd:ambient/low_signal",
+        "volume": 0.65,
+        "attenuation_distance": 32
       }
     ]
   },
@@ -22,7 +102,88 @@
     "sounds": [
       {
         "name": "tnd:ambient/metal_echo",
-        "volume": 0.23
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "distant_pulse": {
+    "subtitle": "subtitles.tnd.distant_pulse",
+    "sounds": [
+      {
+        "name": "tnd:ambient/distant_pulse",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "glass_tinkle": {
+    "subtitle": "subtitles.tnd.glass_tinkle",
+    "sounds": [
+      {
+        "name": "tnd:ambient/glass_tinkle",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "stone_shift": {
+    "subtitle": "subtitles.tnd.stone_shift",
+    "sounds": [
+      {
+        "name": "tnd:ambient/stone_shift",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "submerged_groan": {
+    "subtitle": "subtitles.tnd.submerged_groan",
+    "sounds": [
+      {
+        "name": "tnd:ambient/submerged_groan",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "dust_scrape": {
+    "subtitle": "subtitles.tnd.dust_scrape",
+    "sounds": [
+      {
+        "name": "tnd:ambient/dust_scrape",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "reverse_breath": {
+    "subtitle": "subtitles.tnd.reverse_breath",
+    "sounds": [
+      {
+        "name": "tnd:ambient/reverse_breath",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "spatial_chime": {
+    "subtitle": "subtitles.tnd.spatial_chime",
+    "sounds": [
+      {
+        "name": "tnd:ambient/spatial_chime",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "mastery_ascend": {
+    "subtitle": "subtitles.tnd.mastery_ascend",
+    "sounds": [
+      {
+        "name": "tnd:ambient/mastery_ascend",
+        "volume": 0.8,
+        "attenuation_distance": 32
       }
     ]
   }

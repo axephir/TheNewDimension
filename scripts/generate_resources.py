@@ -23,13 +23,14 @@ from architecture import SIZES, build
 from progression_resources import expand as expand_progression_languages
 import creature_resources
 import dungeon_resources
+import atmosphere_resources
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
 DATA = ROOT / 'data/tnd'
 ASSETS = ROOT / 'assets/tnd'
 BLOCKS = ['ashstone', 'ancient_alloy', 'resonant_ore', 'conduit',
           'blue_ore', 'red_ore', 'green_ore', 'portal_frame',
-          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault'] + EXTRA_BLOCKS + list(SHAPES)
+          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault'] + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES)
 ITEMS = ['blue_shard', 'red_shard', 'green_shard', 'resonant_shard',
          'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis']
 
@@ -55,7 +56,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Vestige 0.5 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Vestige 0.6 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}
@@ -225,6 +226,7 @@ def world():
         {'type': 'minecraft:height_range', 'height': {'type': 'minecraft:uniform',
             'min_inclusive': {'absolute': 8}, 'max_inclusive': {'absolute': 150}}}, {'type': 'minecraft:biome'}]})
     ore_worldgen()
+    atmosphere_resources.world(write,DATA)
 
 
 def ore_worldgen():
@@ -279,7 +281,7 @@ def structure(name, size):
     write(DATA/f'worldgen/template_pool/{name}.json',{'fallback':'minecraft:empty','elements':[{'weight':1,
         'element':{'element_type':'minecraft:single_pool_element','location':f'tnd:{name}',
                    'processors':'minecraft:empty','projection':'rigid'}}]})
-    biomes='#minecraft:is_overworld' if name in ('outpost','portal_site') else ['tnd:silent_expanse','tnd:fractured_fields','tnd:hollow_shelves']
+    biomes='#minecraft:is_overworld' if name in ('outpost','portal_site') else '#tnd:is_vestige'
     write(DATA/f'worldgen/structure/{name}.json',{'type':'minecraft:jigsaw','biomes':biomes,
         'max_distance_from_center':80,'project_start_to_heightmap':'WORLD_SURFACE_WG','size':1,
         'spawn_overrides':{},'start_height':{'absolute':-1},'start_pool':f'tnd:{name}',
@@ -324,9 +326,9 @@ def structures():
     for name, maximum in [('dimension', 200), ('extractor', 3000), ('portal_resistance', 100),
                           ('portal_terrain', 200), ('portal_arrival', 100),
                           ('portal_no_space', 200), ('portal_round_trip', 400),
-                          ('habitat_ores', 200), ('buildings', 200), ('outpost_terrain',200), ('mastery_actions',100), ('console',100), ('extraction_modes',100), ('talent_menus',100), ('talent_effects',100), ('companion_bond',100), ('companion_follow',150), ('companion_travel',200), ('companion_cold_arrival',150), ('sentinel_dodge',100), ('sentinel_hit',100), ('sentinel_interrupt',100), ('echo_lens',100), ('echo_deposits',100), ('vault_progress',400), ('vault_recovery',400), ('vault_safety',200), ('vault_rotations',200), ('resonant_aegis',100)]:
+                          ('habitat_ores', 200), ('buildings', 200), ('outpost_terrain',200), ('mastery_actions',100), ('console',100), ('extraction_modes',100), ('talent_menus',100), ('talent_effects',100), ('companion_bond',100), ('companion_follow',150), ('companion_travel',200), ('companion_cold_arrival',150), ('sentinel_dodge',100), ('sentinel_hit',100), ('sentinel_interrupt',100), ('echo_lens',100), ('echo_deposits',100), ('vault_progress',400), ('vault_recovery',400), ('vault_safety',200), ('vault_rotations',200), ('resonant_aegis',100), ('biome_palette',200), ('vestige_landscapes',200), ('mastery_celebration',100)]:
         write(DATA / f'test_instance/{name}.json', {'type': 'minecraft:function', 'environment': 'minecraft:default',
-            'function': f'tnd:{name}', 'structure': 'tnd:'+('test_habitat' if name in ('habitat_ores','outpost_terrain','sentinel_dodge','sentinel_hit','sentinel_interrupt','companion_follow','companion_travel','companion_cold_arrival','echo_deposits') else 'test_buildings' if name in ('buildings','vault_progress','vault_recovery','vault_safety','vault_rotations') else 'test_empty'), 'max_ticks': maximum, 'required': True})
+            'function': f'tnd:{name}', 'structure': 'tnd:'+('test_habitat' if name in ('habitat_ores','outpost_terrain','sentinel_dodge','sentinel_hit','sentinel_interrupt','companion_follow','companion_travel','companion_cold_arrival','echo_deposits','vestige_landscapes') else 'test_buildings' if name in ('buildings','vault_progress','vault_recovery','vault_safety','vault_rotations') else 'test_empty'), 'max_ticks': maximum, 'required': True})
 
 
 def languages():
@@ -455,37 +457,14 @@ def languages():
     expand_progression_languages(fr,en,ids)
     creature_resources.languages(fr,en)
     dungeon_resources.languages(fr,en)
+    atmosphere_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 
 
 def audio():
-    # Original synthesized soundscapes; no third-party audio or music.
-    rate=22050
-    sounds={}
-    with tempfile.TemporaryDirectory() as temp:
-        for name,duration,volume in [('low_signal',5,0.3),('vestige_wind',12,0.22),('metal_echo',4,0.23)]:
-            path=Path(temp)/(name+'.wav'); rng=random.Random(719); smooth=0.0
-            samples=bytearray()
-            for i in range(rate*duration):
-                t=i/rate
-                if name=='vestige_wind':
-                    smooth=smooth*0.97+rng.uniform(-1,1)*0.03
-                    env=min(1,t/0.25,(duration-t)/0.25)
-                    value=(smooth*4+0.08*math.sin(math.tau*55*t))*(0.7+0.25*math.sin(math.tau*t/duration))*env
-                elif name=='metal_echo':
-                    env=(1-math.exp(-t*40))*math.exp(-t*1.5)
-                    value=env*sum(a*math.sin(math.tau*f*t) for f,a in [(173,0.4),(269,0.27),(419,0.15),(631,0.08)])
-                else:
-                    env=math.sin(math.pi*t/duration)**2
-                    value=env*(math.sin(math.tau*49*t)+0.3*math.sin(math.tau*73.5*t))*0.4
-                samples.extend(struct.pack('<h',int(max(-1,min(1,value))*6000)))
-            with wave.open(str(path),'wb') as output:
-                output.setparams((1,2,rate,rate*duration,'NONE','not compressed'));output.writeframes(samples)
-            destination=ASSETS/f'sounds/ambient/{name}.ogg';destination.parent.mkdir(parents=True,exist_ok=True)
-            subprocess.run(['ffmpeg','-v','error','-y','-i',str(path),'-map_metadata','-1','-c:a','libvorbis','-q:a','3',str(destination)],check=True)
-            sounds[name]={'subtitle':f'subtitles.tnd.{name}','sounds':[{'name':f'tnd:ambient/{name}','volume':volume}]}
-    write(ASSETS/'sounds.json',sounds)
+    import soundscape_audio
+    soundscape_audio.generate(ASSETS,write)
 
 
 if __name__ == '__main__':
