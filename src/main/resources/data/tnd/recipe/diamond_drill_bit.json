@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "DTD",
+    " T "
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "T": "tnd:tempered_alloy"
+  },
+  "result": {
+    "id": "tnd:diamond_drill_bit",
+    "count": 4
+  }
+}

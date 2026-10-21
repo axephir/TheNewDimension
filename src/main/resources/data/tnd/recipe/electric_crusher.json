@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TPT",
+    "FCF",
+    "OHO"
+  ],
+  "key": {
+    "T": "tnd:tempered_alloy",
+    "P": "minecraft:diamond_pickaxe",
+    "F": "tnd:industrial_frame",
+    "C": "tnd:control_circuit",
+    "O": "tnd:copper_coil",
+    "H": "minecraft:hopper"
+  },
+  "result": {
+    "id": "tnd:electric_crusher",
+    "count": 1
+  }
+}

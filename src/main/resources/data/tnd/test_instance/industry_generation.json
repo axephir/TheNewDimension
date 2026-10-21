@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:industry_generation",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 700,
+  "required": true
+}

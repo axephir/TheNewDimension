@@ -94,6 +94,22 @@ class Resources(unittest.TestCase):
             self.assertEqual(len(desks),1);self.assertEqual(desks[0]['nbt']['SurveySite'],0)
             self.assertGreaterEqual(sum(root['palette'][b['state']]['Name']=='tnd:return_anchor' for b in root['blocks']),1)
 
+    def test_industrial_survival_chain(self):
+        from industry_resources import BLOCKS,ITEMS,MACHINES
+        for name in BLOCKS+ITEMS:
+            if name not in ['iron_grit','copper_grit','gold_grit']:self.assertTrue((DATA/f'recipe/{name}.json').is_file(),name)
+        for name in MACHINES:
+            self.assertEqual(len(json.loads((ASSETS/f'blockstates/{name}.json').read_text())['variants']),8)
+            for locale in ['fr_fr','en_us']:
+                text=json.loads((ASSETS/f'lang/{locale}.json').read_text())
+                for row in range(3):self.assertGreater(len(text[f'industry.tnd.help.{name}.{row}']),40)
+        recipe=json.loads((DATA/'recipe/industrial_quarry.json').read_text())
+        self.assertIn('minecraft:netherite_ingot',recipe['key'].values())
+        self.assertIn('tnd:umbra_alloy',recipe['key'].values())
+        for grit in ['iron_grit','copper_grit','gold_grit']:
+            self.assertFalse((DATA/f'recipe/{grit}.json').exists(),'Grit is obtained only by processing raw material')
+            self.assertEqual(json.loads((DATA/f'recipe/{grit}_smelting.json').read_text())['experience'],0)
+
     def test_json_and_namespaces(self):
         paths = list(RES.rglob('*.json'))
         self.assertGreater(len(paths), 100)
@@ -234,7 +250,7 @@ class Resources(unittest.TestCase):
         registered = set(generator.BLOCKS + generator.ITEMS)
         for path in (DATA / 'recipe').glob('*.json'):
             recipe = json.loads(path.read_text())
-            self.assertIn(recipe['result']['id'][4:], registered)
+            if recipe['result']['id'].startswith('tnd:'):self.assertIn(recipe['result']['id'][4:], registered)
             for ingredient in recipe.get('ingredients',[recipe.get('ingredient','')]):
                 if ingredient.startswith('tnd:'): self.assertIn(ingredient[4:], registered)
 
@@ -340,7 +356,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS))
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS))
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

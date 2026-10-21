@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BFB",
+    "OCO",
+    "BHB"
+  ],
+  "key": {
+    "B": "minecraft:nether_bricks",
+    "F": "minecraft:blast_furnace",
+    "O": "tnd:copper_coil",
+    "C": "tnd:control_circuit",
+    "H": "tnd:industrial_frame"
+  },
+  "result": {
+    "id": "tnd:electric_kiln",
+    "count": 1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UDU",
+    "TNT",
+    "FCF"
+  ],
+  "key": {
+    "U": "tnd:umbra_alloy",
+    "D": "minecraft:diamond_block",
+    "T": "tnd:tempered_alloy",
+    "N": "minecraft:netherite_ingot",
+    "F": "tnd:industrial_frame",
+    "C": "tnd:control_circuit"
+  },
+  "result": {
+    "id": "tnd:industrial_quarry",
+    "count": 1
+  }
+}

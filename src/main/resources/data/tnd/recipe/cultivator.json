@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IHI",
+    "FCF",
+    "ODO"
+  ],
+  "key": {
+    "I": "minecraft:iron_block",
+    "H": "minecraft:iron_hoe",
+    "F": "tnd:industrial_frame",
+    "C": "tnd:control_circuit",
+    "O": "tnd:copper_coil",
+    "D": "minecraft:dispenser"
+  },
+  "result": {
+    "id": "tnd:cultivator",
+    "count": 1
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FCF",
+    "OBO",
+    "FRF"
+  ],
+  "key": {
+    "F": "tnd:industrial_frame",
+    "C": "tnd:control_circuit",
+    "O": "tnd:copper_coil",
+    "B": "minecraft:blast_furnace",
+    "R": "minecraft:redstone_block"
+  },
+  "result": {
+    "id": "tnd:coal_dynamo",
+    "count": 1
+  }
+}

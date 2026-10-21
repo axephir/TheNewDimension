@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": "tnd:copper_grit",
+  "result": {
+    "id": "minecraft:copper_ingot"
+  },
+  "experience": 0,
+  "cookingtime": 100
+}

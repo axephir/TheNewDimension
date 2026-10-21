@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SHS",
+    "FCF",
+    "OBO"
+  ],
+  "key": {
+    "S": "minecraft:shears",
+    "H": "minecraft:hopper",
+    "F": "tnd:industrial_frame",
+    "C": "tnd:control_circuit",
+    "O": "tnd:copper_coil",
+    "B": "minecraft:bucket"
+  },
+  "result": {
+    "id": "tnd:pastoral_station",
+    "count": 1
+  }
+}

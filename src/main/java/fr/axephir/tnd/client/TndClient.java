@@ -33,5 +33,6 @@ public final class TndClient {
         event.register(MachineRegistry.FORGE_MENU.get(),ResonanceForgeScreen::new);
         event.register(MachineRegistry.SEPARATOR_MENU.get(),ResonanceForgeScreen::new);
         event.register(MachineRegistry.REAPER_MENU.get(),ResonanceForgeScreen::new);
+        event.register(fr.axephir.tnd.technology.Industry.MENU.get(),IndustrialScreen::new);
     }
 }

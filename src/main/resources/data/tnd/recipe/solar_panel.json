@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "LLL",
+    "QQQ"
+  ],
+  "key": {
+    "G": "minecraft:glass",
+    "L": "minecraft:lapis_lazuli",
+    "Q": "minecraft:quartz"
+  },
+  "result": {
+    "id": "tnd:solar_panel",
+    "count": 2
+  }
+}

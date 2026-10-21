@@ -27,6 +27,22 @@ public final class ReadinessTests {
     public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
             BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
     static {
+        FUNCTIONS.register("industry_energy_guards",()->IndustryTests::energyGuards);
+        FUNCTIONS.register("industry_farm_guards",()->IndustryTests::farmGuards);
+        FUNCTIONS.register("industry_ranch_cap",()->IndustryTests::ranchCap);
+        FUNCTIONS.register("industry_milking",()->IndustryTests::milking);
+        FUNCTIONS.register("industry_energy",()->IndustryTests::energy);
+        FUNCTIONS.register("industry_generation",()->IndustryTests::generation);
+        FUNCTIONS.register("industry_processing",()->IndustryTests::processing);
+        FUNCTIONS.register("industry_hoppers",()->IndustryTests::hoppers);
+        FUNCTIONS.register("industry_quarry_hopper",()->IndustryTests::quarryHopper);
+        FUNCTIONS.register("industry_quarry",()->IndustryTests::quarry);
+        FUNCTIONS.register("industry_quarry_guards",()->IndustryTests::quarryGuards);
+        FUNCTIONS.register("industry_farming",()->IndustryTests::farming);
+        FUNCTIONS.register("industry_ranching",()->IndustryTests::ranching);
+        FUNCTIONS.register("industry_pasture",()->IndustryTests::pasture);
+        FUNCTIONS.register("industry_recovery",()->IndustryTests::recovery);
+        FUNCTIONS.register("industry_solar",()->IndustryTests::solar);
         FUNCTIONS.register("crowned_generation",()->CrownedSiteTests::generation);
         FUNCTIONS.register("crowned_mountain",()->CrownedSiteTests::mountain);
         FUNCTIONS.register("crowned_starter",()->CrownedSiteTests::starter);

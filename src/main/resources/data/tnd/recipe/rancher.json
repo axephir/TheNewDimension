@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HBH",
+    "FCF",
+    "ODO"
+  ],
+  "key": {
+    "H": "minecraft:hay_block",
+    "B": "minecraft:golden_carrot",
+    "F": "tnd:industrial_frame",
+    "C": "tnd:control_circuit",
+    "O": "tnd:copper_coil",
+    "D": "minecraft:dispenser"
+  },
+  "result": {
+    "id": "tnd:rancher",
+    "count": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ICI",
+    "CSC",
+    "ICI"
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "C": "minecraft:copper_ingot",
+    "S": "minecraft:smooth_stone"
+  },
+  "result": {
+    "id": "tnd:industrial_frame",
+    "count": 2
+  }
+}

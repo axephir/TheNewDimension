@@ -3,18 +3,20 @@
 Mod RPG, exploration et automatisation pour **Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25**.
 Nom du mod, de la dimension « Vestige » et des ressources : propositions de travail, modifiables avant une première publication.
 
-**Version actuelle : 0.9.0-dev — Éveil des profondeurs.**
+**Version actuelle : 0.10.0-dev — L’âge industriel.**
 
-[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.9.0-dev.jar).
+[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.10.0-dev.jar).
 Placer ce fichier dans `mods/` avec **Minecraft Java 26.2 et NeoForge 26.2.0.93**, en remplaçant l’ancien JAR TND.
+
+La **0.10** ajoute **neuf machines** : dynamo, contrôleur solaire, accumulateur, broyeur, four électrique, carrière, cultivateur, éleveur et station pastorale. Un réseau FE avec câbles alimente des chaînes de production et d’élevage. Les machines avancées coûtent des matériaux de Vestige ; la carrière exige un derrick de 37 charpentes et des trépans. **Inventaire → Guide → Industrie** explique les montages. Ces ajouts fonctionnent dans les sauvegardes existantes. [Guide industriel](docs/INDUSTRY_0.10.0.md).
 
 Les neuf bâtiments apparaissent sur des massifs de scorie ferrenoire légèrement lumineuse, entourés d’une couronne de pics et accessibles par une montée pavée. Ils sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive, fonderie, sanctuaire de résonance, observatoire ancien, citadelle auréole et conservatoire d’écho. Les textures des blocs et des icônes restent en **16 × 16** ; les créatures et l’armure utilisent désormais des atlas **64 × 64** et des modèles avec davantage de relief. Des blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
 
 Dans l’inventaire, cliquer sur les onglets à gauche pour ouvrir les maîtrises, les expéditions et le guide, sans transporter de livre. Les minerais bleus affleurent sous l’eau dans tous les océans d’au moins huit blocs de profondeur ; les rouges occupent la première couche solide sous la lave de l’Overworld ; les verts apparaissent, plus rarement, contre les troncs des forêts, taïgas et jungles.
 
-**Créer un monde de test ou explorer de nouveaux chunks** pour découvrir les nouvelles structures et les nouveaux minerais. Les bâtiments déjà enregistrés dans une sauvegarde conservent leur géométrie ; leurs textures sont actualisées. Le mod ne détruit pas les constructions existantes.
+**Créer un monde de test ou explorer de nouveaux chunks** pour découvrir les nouvelles structures et les nouveaux minerais. Les bâtiments déjà enregistrés dans une sauvegarde conservent leur géométrie ; leurs textures sont actualisées. La génération conserve les constructions existantes. La carrière de la 0.10 creuse uniquement la zone choisie lorsque le joueur démarre explicitement son forage.
 
-Le [compte rendu de cette version](docs/AWAKENING_0.9.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour étoffer les créatures, les donjons, l’industrie et le scénario final.
+Le [compte rendu de cette version](docs/INDUSTRY_0.10.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour étoffer les créatures, les donjons, l’industrie et le scénario final.
 
 L’**Éclat errant** est un familier rare, apprivoisable avec un cristal composite : suivi, attente, soin, aide au combat et repérage du minerai résonant. La **sentinelle de faille** annonce sa zone d’attaque avant de frapper ; il est possible d’esquiver ou d’interrompre sa charge. Les agrégats d’écho produisent uniquement la nuit de Vestige. Leur poussière alimente un prisme révélant temporairement les ennemis proches. Voir les [captures en jeu](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.9.0.md).
 
@@ -78,7 +80,7 @@ Le script installe/réutilise un JDK Temurin épinglé avec vérification SHA-25
 - Forge résonante : quatre transformations, poussière d’écho, entonnoirs, pause redstone et rattrapage borné. Pioche, lame et cinq progrès natifs.
 - Extracteur avec cinq productions (fer, cuivre, or, redstone, diamant), charbon, modules d’efficacité ou de stabilisation, calibrage par les consoles et les talents. Production différée bornée, sans XP automatique.
 
-La validation de cette version est détaillée dans [AWAKENING_0.9.0.md](docs/AWAKENING_0.9.0.md). Les [expéditions et le retour de la 0.8](docs/FIELDWORK_0.8.0.md) restent inclus. Le [boss et la forge de la 0.7](docs/EXPEDITION_0.7.0.md) restent inclus. L’[ambiance de la 0.6](docs/ATMOSPHERE_0.6.0.md) reste incluse. Le [sanctuaire de la 0.5](docs/DUNGEON_0.5.0.md) reste inclus. Les [rencontres de la 0.4](docs/ENCOUNTERS_0.4.0.md) restent incluses. La [progression 0.3](docs/PROGRESSION_0.3.0.md) reste incluse. La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
+La validation de cette version est détaillée dans [INDUSTRY_0.10.0.md](docs/INDUSTRY_0.10.0.md). La [0.9](docs/AWAKENING_0.9.0.md) reste incluse. Les [expéditions et le retour de la 0.8](docs/FIELDWORK_0.8.0.md) restent inclus. Le [boss et la forge de la 0.7](docs/EXPEDITION_0.7.0.md) restent inclus. L’[ambiance de la 0.6](docs/ATMOSPHERE_0.6.0.md) reste incluse. Le [sanctuaire de la 0.5](docs/DUNGEON_0.5.0.md) reste inclus. Les [rencontres de la 0.4](docs/ENCOUNTERS_0.4.0.md) restent incluses. La [progression 0.3](docs/PROGRESSION_0.3.0.md) reste incluse. La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
 
 ## Commandes
 

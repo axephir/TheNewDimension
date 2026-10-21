@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "CCC",
+    "RRR"
+  ],
+  "key": {
+    "R": "minecraft:dried_kelp",
+    "C": "minecraft:copper_ingot"
+  },
+  "result": {
+    "id": "tnd:energy_cable",
+    "count": 8
+  }
+}

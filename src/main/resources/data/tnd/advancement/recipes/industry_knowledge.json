@@ -1,0 +1,38 @@
+{
+  "criteria": {
+    "copper": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:copper_ingot"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "copper"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:industrial_frame",
+      "tnd:control_circuit",
+      "tnd:copper_coil",
+      "tnd:diamond_drill_bit",
+      "tnd:energy_cable",
+      "tnd:solar_panel",
+      "tnd:coal_dynamo",
+      "tnd:solar_controller",
+      "tnd:industrial_accumulator",
+      "tnd:electric_crusher",
+      "tnd:electric_kiln",
+      "tnd:industrial_quarry",
+      "tnd:cultivator",
+      "tnd:rancher",
+      "tnd:pastoral_station"
+    ]
+  }
+}

@@ -87,6 +87,18 @@
     "tnd:umbra_tiles_stairs",
     "tnd:umbra_tiles_slab",
     "tnd:conservatory_tiles_stairs",
-    "tnd:conservatory_tiles_slab"
+    "tnd:conservatory_tiles_slab",
+    "tnd:coal_dynamo",
+    "tnd:solar_controller",
+    "tnd:industrial_accumulator",
+    "tnd:electric_crusher",
+    "tnd:electric_kiln",
+    "tnd:industrial_quarry",
+    "tnd:cultivator",
+    "tnd:rancher",
+    "tnd:pastoral_station",
+    "tnd:industrial_frame",
+    "tnd:energy_cable",
+    "tnd:solar_panel"
   ]
 }
