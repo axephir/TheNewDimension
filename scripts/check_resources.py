@@ -333,7 +333,10 @@ class Resources(unittest.TestCase):
         self.assertLessEqual(portal['spacing'] * 16, 15000)
         sites=json.loads((DATA/'worldgen/structure_set/vestige_sites.json').read_text())
         self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry','tnd:resonance_vault','tnd:observatory','tnd:aureate_citadel','tnd:echo_conservatory'})
-        self.assertGreater(sites['placement']['separation']*16,2*max(max(size[0],size[2]) for size in generator.SIZES.values()))
+        from math import ceil,hypot
+        largest_radius=max(ceil(hypot(size[0]/2,size[2]/2))+39 for size in generator.SIZES.values())
+        self.assertGreater((sites['placement']['separation']+1)*16,2*largest_radius+1)
+        self.assertGreaterEqual(json.loads((DATA/'worldgen/structure_set/outpost.json').read_text())['placement']['exclusion_zone']['chunk_count'],12)
         for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',

@@ -64,10 +64,11 @@ final class CrownedSiteTests {
         var floors=piece.ascent();int clear=0;
         for(var p:floors)if(w.getBlockState(p).is(AwakeningContent.DECOR.get("umbra_tiles").get())||w.getBlockState(p).is(AwakeningContent.STAIRS.get("umbra_tiles").get())){
             if(w.isEmptyBlock(p.above())&&w.isEmptyBlock(p.above(2)))clear++;
+            for(int dy=1;dy<=8;dy++)check(h,!w.isEmptyBlock(p.below(dy)),"Ascent has continuous support below its paving, including the summit approach");
         }
         check(h,clear>floors.size()*.9,"A five-block-wide ascent retains two clear blocks of walking height");
         int crowns=0;for(int x=-85;x<=85;x++)for(int z=-85;z<=85;z++){
-            var s=w.getBlockState(center.offset(x,16,z));if(s.is(AwakeningContent.NIGHTSLAG.get())||s.is(AwakeningContent.VEINED_NIGHTSLAG.get()))crowns++;
+            var s=w.getBlockState(center.offset(x,10,z));if(s.is(AwakeningContent.NIGHTSLAG.get())||s.is(AwakeningContent.VEINED_NIGHTSLAG.get()))crowns++;
         }
         check(h,crowns>60,"A real ring of tall mineral needles crowns the summit");
         var start=floors.stream().min(java.util.Comparator.comparingInt(BlockPos::getY)).orElseThrow().above();

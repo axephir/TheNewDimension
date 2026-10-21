@@ -47,6 +47,7 @@ public final class CrownedSitePiece extends StructurePiece {
     }
     public BlockPos buildingOrigin(){return summit.offset(-building.getSize().getX()/2,0,-building.getSize().getZ()/2);}
     public BlockPos summit(){return summit;}
+    @Override public BlockPos getLocatorPosition(){return summit.above();}
     public Rotation siteRotation(){return facing;}
     public List<BlockPos> ascent(){return path.entrySet().stream().map(e->local(unpackX(e.getKey()),e.getValue(),unpackZ(e.getKey()))).toList();}
     private BlockPos local(int x,int y,int z){BlockPos v=new BlockPos(x,0,z).rotate(facing);return new BlockPos(summit.getX()+v.getX(),y,summit.getZ()+v.getZ());}
@@ -103,13 +104,16 @@ public final class CrownedSitePiece extends StructurePiece {
             int px=(int)Math.round(Math.cos(a)*r),pz=(int)Math.round(Math.sin(a)*r);
             int start=ground(px,pz)-3, h=ring==0?18+(i*7%15):13+(i*11%19),w=ring==0?4:3;
             for(int dy=0;dy<h;dy++){
-                int spread=(int)Math.ceil(w*Math.pow(1-dy/(double)h,1.4));
+                int spread=(int)Math.floor(w*Math.pow(1-dy/(double)h,1.2));
                 int lean=(int)(dy/(double)h*(ring==0?3:5));
                 int cx=px+(int)Math.round(Math.cos(a)*lean),cz=pz+(int)Math.round(Math.sin(a)*lean);
                 for(int ox=-spread;ox<=spread;ox++)for(int oz=-spread;oz<=spread;oz++){
                     if(Math.abs(ox)+Math.abs(oz)>spread+1)continue;
                     var p=local(cx+ox,start+dy,cz+oz);
-                    if(clip.isInside(p)&&boundingBox.isInside(p))world.setBlock(p,mineral(cx+ox,start+dy,cz+oz),2);
+                    if(clip.isInside(p)&&boundingBox.isInside(p)){
+                        world.setBlock(p,mineral(cx+ox,start+dy,cz+oz),2);
+                        if(dy==0)support(world,p,clip);
+                    }
                 }
             }
         }
@@ -124,11 +128,19 @@ public final class CrownedSitePiece extends StructurePiece {
             }
             world.setBlock(p,floor,2);
             for(int dy=1;dy<=4;dy++)if(clip.isInside(p.above(dy)))world.setBlock(p.above(dy),Blocks.AIR.defaultBlockState(),2);
-            for(int dy=1;dy<=3;dy++)if(clip.isInside(p.below(dy)))world.setBlock(p.below(dy),mineral(x,y-dy,z),2);
+            support(world,p,clip);
             if(Math.floorMod(x*7+z*11,37)==0&& !path.containsKey(pack(x-1,z))){var lamp=p.above();if(clip.isInside(lamp))world.setBlock(lamp,AwakeningContent.DECOR.get("violet_lamp").get().defaultBlockState(),2);}
         }
         var settings=new StructurePlaceSettings().setIgnoreEntities(true).setRotation(facing)
                 .setRotationPivot(new BlockPos(building.getSize().getX()/2,0,building.getSize().getZ()/2)).setBoundingBox(clip);
         building.placeInWorld(world,buildingOrigin(),reference,settings,random,2);
+    }
+    private void support(WorldGenLevel world,BlockPos top,BoundingBox clip){
+        var p=top.below();
+        while(p.getY()>=boundingBox.minY()&&clip.isInside(p)){
+            var state=world.getBlockState(p);
+            if(state.isFaceSturdy(world,p,Direction.UP)&&state.getFluidState().isEmpty())break;
+            world.setBlock(p,mineral(p.getX()-summit.getX(),p.getY(),p.getZ()-summit.getZ()),2);p=p.below();
+        }
     }
 }

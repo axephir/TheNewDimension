@@ -310,7 +310,7 @@ def structures():
         'type':'minecraft:random_spread','salt':129811,'spacing':20,'separation':13},
         'structures':[{'structure':f'tnd:{name}','weight':1} for name in ['relay','archive','foundry','resonance_vault','observatory','aureate_citadel','echo_conservatory']]})
     path=DATA/'worldgen/structure_set/outpost.json';outpost=json.loads(path.read_text())
-    outpost['placement']['exclusion_zone']={'other_set':'tnd:portal_site','chunk_count':8}
+    outpost['placement']['exclusion_zone']={'other_set':'tnd:portal_site','chunk_count':12}
     write(path,outpost)
     write(DATA / 'loot_table/chests/outpost.json', {'type': 'minecraft:chest', 'pools': [
         {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'tnd:locator_core'}]},
