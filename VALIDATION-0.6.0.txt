@@ -1,0 +1,28 @@
+The New Dimension 0.6.0-dev — 21 octobre 2026
+Source main : 7b92608917cc8fd782225222c23ef382dc1dcf0c
+Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25
+
+Validation :
+- Build Java et JAR, 50 114 assertions du domaine.
+- 33 tests Minecraft requis (32 TND + contrôle vanilla).
+- 13 contrôles de ressources ; 66 textures PNG toutes en 16 x 16.
+- 18 fichiers Vorbis distribués décodés par ffmpeg, durées et marge avant saturation mesurées ; raccords de boucles vérifiés. Pic maximal décodé inférieur à 0,7 ; signal RMS audible.
+
+Les nouveaux tests exercent le véritable échantillonneur climatique et retrouvent les six biomes, vérifient la hauteur du terrain, génèrent les trois types de paysage avec de vrais blocs, contrôlent les bords/fonds des mares et préservent un bloc de construction. Les quinze maîtrises envoient un seul son et 17 paquets de particules à leur propriétaire lors du franchissement d'un seuil. Aucun effet sous le seuil, chez un autre joueur, ou lors d'une simple synchronisation.
+
+Le test d'arrivée froide du familier a été stabilisé : le client Netty simulé ne gère pas les acquittements de chunks d'un client normal. Un ticket de fixture est ajouté après le transfert froid, puis retiré à la fin du test. Cela ne précharge pas la destination et ne peut pas sauver un familier resté à la source. Aucun ticket de ce type n'est ajouté au gameplay.
+
+Client normal :
+- Les trois nouveaux biomes sont accessibles depuis la sauvegarde de validation existante. Nouveaux chunks visités autour de [14000,14000].
+- Dunes, mares, colonnes fossilisées et forêt cristalline générées naturellement et photographiées avec F2. Les raccords de relief sont lissés par mélange des densités climatiques.
+- Sous-titres et déclenchement des événements sonores de biome vérifiés. Aucun son ou fichier de texture TND manquant dans le journal final.
+- Célébration de maîtrise déclenchée par minage en survie : spirale de particules et sous-titre du carillon visibles. Fixture de minerai préparée par commande ; multiplicateur d'XP temporairement augmenté sur le profil de test de niveau 20, puis restauré à 1,0.
+- L'hôte graphique utilise une sortie OpenAL sans périphérique physique. Les fichiers ont été décodés et mesurés ; aucune écoute matérielle du mixage en jeu n'est revendiquée. Le montage audio permet l'écoute des créations distribuées.
+- Avertissement X11 de curseur indisponible propre à l'affichage virtuel.
+
+CI indépendante réussie : https://github.com/axephir/TheNewDimension/actions/runs/39556160994
+La CI confirme les 50 114 assertions, les 13 contrôles de ressources et les 33 GameTests requis.
+
+Installation : remplacement du JAR TND, même Minecraft/NeoForge. Audio et célébrations disponibles dans les parties existantes ; nouveaux biomes uniquement dans les nouveaux chunks de Vestige. Aucun monde existant réécrit.
+
+Les boss, l'industrie avancée et le scénario final restent à développer. Aucun événement destructeur ajouté. Empreintes : SHA256SUMS-0.6.0-dev.
