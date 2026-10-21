@@ -58,7 +58,12 @@ final class AwakeningTests {
     }
     static void lithoPatterns(GameTestHelper h){
         var at=h.absolutePos(new BlockPos(16,1,16));FieldworkTests.platform(h.getLevel(),at);var p=GameplayTests.player(h);p.setPos(Vec3.atBottomCenterOf(at.east(4)));var m=mob(h,at,true);m.hurtServer(h.getLevel(),p.damageSources().playerAttack(p),1);check(h,m.beginAttack(p),"First attack starts");
-        h.runAfterDelay(115,()->{try{check(h,m.marks().size()==3&&m.charge()>0,"The next native AI attack alternates to three separately announced fractures");}finally{m.discard();GameplayTests.cleanup(p);FieldworkTests.release(h.getLevel(),at);}h.succeed();});
+        // AI navigation after the first knockback is intentionally not scheduled to
+        // an exact tick. Observe the actual next wind-up, without starting it by hand.
+        m.setTarget(p);
+        Runnable cleanup=()->{m.discard();GameplayTests.cleanup(p);FieldworkTests.release(h.getLevel(),at);};
+        h.onEachTick(()->{if(m.charge()>0&&m.marks().size()==3){cleanup.run();h.succeed();}});
+        h.runAtTickTime(190,()->{try{check(h,false,"Native AI must announce its alternating three-fracture attack within 190 ticks; charge="+m.charge()+", recovery="+m.recovery()+", marks="+m.marks().size());}finally{cleanup.run();}});
     }
     static void stalkerInterrupt(GameTestHelper h){
         var at=h.absolutePos(new BlockPos(16,1,16));var p=GameplayTests.player(h);p.setPos(Vec3.atBottomCenterOf(at.east(4)));var m=mob(h,at,false);m.setNoAi(true);
