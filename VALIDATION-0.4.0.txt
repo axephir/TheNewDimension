@@ -1,0 +1,27 @@
+The New Dimension 0.4.0-dev — 21 octobre 2026
+Source main : a8ec6d6a212a732b107a7d1fe7c043b9569f1974
+Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25
+
+Exécution cloud locale :
+- python3 scripts/cloud_gradle.py build runGameTestServer : BUILD SUCCESSFUL.
+- 50 114 assertions du domaine exécutées et réussies.
+- Les 25 GameTests Minecraft requis ont tous réussi (24 TND et un test de contrôle vanilla).
+- python3 scripts/check_resources.py : 11 tests réussis ; 54 textures PNG, toutes en 16 x 16.
+- git diff --check : réussi avant commit.
+
+Les nouveaux GameTests exercent les interactions natives : coût de liaison et de soin, ordre suivre/attendre, sauvegarde native du familier, absence d'XP de chasse, protection des familiers d'autrui, navigation effective, transferts Overworld/End/Nether sans duplication, arrivée dans un chunk initialement déchargé, dégâts réels du cercle de la sentinelle, esquive et interruption, coût/recharge du prisme et génération effective des agrégats sur surface préparée. Les régressions 0.3 restent incluses.
+
+Client normal lancé sur une partie de validation :
+- Modèles articulés originaux et textures propres visibles ; apprivoisement en survie avec consommation d'un cristal et succès vanilla.
+- Refus de récolte d'agrégat mûr pendant le jour ; récolte effective à l'horloge nocturne et retour à charge zéro.
+- Surbrillance native du prisme et consommation de poussière vérifiées.
+- Transfert Vestige vers Overworld : même UUID [-1736761631,2084652509,-1510365167,-820998500], même propriétaire et présence à moins de six blocs vérifiées par commandes natives.
+- Captures F2 natives publiées. Créatures et agrégats placés par commande pour les contrôles ; taux naturels non mesurés par ces images.
+
+Le serveur GameTest termine sans erreur. Le client cloud signale un avertissement X11 de forme de curseur indisponible sur l'affichage virtuel et des avertissements de session locale ; aucun échec de chargement des modèles/textures TND observé. L'écoute physique des sons n'est pas vérifiée sur cet hôte sans sortie audio.
+
+Les nouvelles ressources naturelles exigent de nouveaux chunks. Cette version ne termine pas les donjons complets, les boss, l'industrie avancée ni le scénario final du cahier des charges. Équilibrage des rencontres à poursuivre sur des parties longues.
+
+CI GitHub indépendante : réussie. Les mêmes 50 114 assertions, 11 contrôles de ressources et 25 GameTests requis ont été exécutés et ont tous réussi.
+CI du commit source : https://github.com/axephir/TheNewDimension/actions/runs/39548823317
+Les empreintes des fichiers distribués sont dans SHA256SUMS-0.4.0-dev.

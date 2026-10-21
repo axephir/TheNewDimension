@@ -1,21 +1,20 @@
-# The New Dimension — téléchargement
+# The New Dimension — téléchargements
 
-**0.3.0-dev · Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**
+**Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**
 
-- [Télécharger directement le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.3.0-dev.jar)
-- [JAR + sources dans un ZIP](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.3.0-dev.zip)
-- [Sources consultables sur main](https://github.com/axephir/TheNewDimension/tree/main)
-- [Captures prises dans Minecraft](GALLERY_0.3.0.md)
-- [Fonctionnalités, installation et limites](docs/PROGRESSION_0.3.0.md)
-- [Validation](VALIDATION-0.3.0.txt) · [SHA-256](SHA256SUMS-0.3.0-dev)
+## Version actuelle : 0.4.0-dev
 
-Quinze maîtrises jouables et leurs talents, perception depuis l’inventaire, fresques lisibles,
-consoles réparables, fragments de relique, module de stabilisation et cinq profils d’extraction.
-La refonte des cinq bâtiments, les textures 16 × 16 et les minerais exposés de la 0.2 sont inclus.
+- [Télécharger le mod (.jar)](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.4.0-dev.jar)
+- [Archive complète : mod et sources (.zip)](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.4.0-dev.zip)
+- [Captures natives en jeu](GALLERY_0.4.0.md)
+- [Fonctionnalités et installation](docs/ENCOUNTERS_0.4.0.md)
+- [Validation](VALIDATION-0.4.0.txt) · [SHA-256](SHA256SUMS-0.4.0-dev)
+- [Code source sur main](https://github.com/axephir/TheNewDimension/tree/main)
 
-Remplacer l’ancien JAR TND dans `mods/`, conserver une seule version du mod et lancer le profil NeoForge.
-Les nouvelles maîtrises et les interactions fonctionnent dans les mondes existants. Les nouvelles consoles
-des archives et sanctuaires se trouvent dans les nouveaux chunks ; les consoles déjà présentes sont utilisables.
-L’XP se gagne en survie. Les créatures originales, l’industrie avancée et la fin narrative restent à développer.
+Un familier original apprivoisable, une sentinelle à attaque annoncée, des agrégats nocturnes et un prisme de détection rejoignent les structures aménagées, les quinze maîtrises, les minerais exposés et les extracteurs de la 0.3. Les textures restent toutes en 16 × 16.
 
-Les versions 0.2 et 0.1 restent archivées dans cette branche. Les captures 0.2 sont dans [leur galerie](GALLERY_0.2.0.md).
+Placer le JAR dans `mods/` en retirant l’ancienne version TND. Sauvegarder sa partie avant mise à jour. Les nouveaux agrégats naturels apparaissent dans les nouveaux chunks de Vestige ; les créatures peuvent apparaître dans les terrains existants compatibles.
+
+Cette version reste en développement : les donjons complets, boss, machines industrielles supplémentaires et scénario final restent à réaliser.
+
+Les anciennes versions sont conservées dans cette branche, dont [la 0.3](GALLERY_0.3.0.md).
