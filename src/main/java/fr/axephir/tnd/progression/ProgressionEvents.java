@@ -92,7 +92,7 @@ public final class ProgressionEvents {
     @SubscribeEvent
     public void tooltip(net.neoforged.neoforge.event.entity.player.ItemTooltipEvent event) {
         var item=event.getItemStack();
-        String key=item.is(ModContent.ECHO_DUST.get())?"echo_dust":item.is(ModContent.ECHO_LENS.get())?"echo_lens":item.is(ModContent.ECHO_BLOOM.get().asItem())?"echo_bloom":item.is(ModContent.RELIC_FRAGMENT.get())?"relic":item.is(ModContent.STABILIZER_MODULE.get())?"stabilizer":item.is(ModContent.EFFICIENCY_MODULE.get())?"efficiency":null;
+        String key=item.is(ModContent.RESONANT_AEGIS.get())?"resonant_aegis":item.is(ModContent.RESONANCE_HEART.get())?"resonance_heart":item.is(ModContent.ECHO_DUST.get())?"echo_dust":item.is(ModContent.ECHO_LENS.get())?"echo_lens":item.is(ModContent.ECHO_BLOOM.get().asItem())?"echo_bloom":item.is(ModContent.RELIC_FRAGMENT.get())?"relic":item.is(ModContent.STABILIZER_MODULE.get())?"stabilizer":item.is(ModContent.EFFICIENCY_MODULE.get())?"efficiency":null;
         if(key!=null)event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+key).withStyle(net.minecraft.ChatFormatting.GRAY));
     }
     @SubscribeEvent

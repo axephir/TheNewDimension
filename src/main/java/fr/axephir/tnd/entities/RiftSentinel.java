@@ -18,6 +18,24 @@ import net.minecraft.world.phys.*;
 /** Locks an impact point, announces it, then strikes. Move away or interrupt it. */
 public final class RiftSentinel extends Monster {
     private static final EntityDataAccessor<Integer> WINDUP=SynchedEntityData.defineId(RiftSentinel.class,EntityDataSerializers.INT);
+    private net.minecraft.core.BlockPos trialHome;
+    private String trialToken="";
+    public String trialToken(){return trialToken;}
+    public boolean isTrialGuardian(){return trialHome!=null;}
+    public void bindTrial(net.minecraft.core.BlockPos home,String token){trialHome=home.immutable();trialToken=token;setPersistenceRequired();}
+    @Override protected boolean shouldDropLoot(ServerLevel level){return !isTrialGuardian()&&super.shouldDropLoot(level);}
+    @Override protected int getBaseExperienceReward(ServerLevel level){return isTrialGuardian()?0:super.getBaseExperienceReward(level);}
+    @Override public void die(DamageSource source){
+        boolean wasDead=dead;super.die(source);
+        if(!wasDead&&dead&&trialHome!=null&&level() instanceof ServerLevel world&&world.hasChunk(trialHome.getX()>>4,trialHome.getZ()>>4)
+                &&world.getBlockEntity(trialHome) instanceof fr.axephir.tnd.dungeon.VaultCoreEntity vault)vault.defeated(getUUID(),trialToken);
+    }
+    @Override protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput out){
+        super.addAdditionalSaveData(out);if(trialHome!=null){out.store("trialHome",net.minecraft.core.BlockPos.CODEC,trialHome);out.putString("trialToken",trialToken);}
+    }
+    @Override protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput in){
+        super.readAdditionalSaveData(in);trialHome=in.read("trialHome",net.minecraft.core.BlockPos.CODEC).orElse(null);trialToken=in.getStringOr("trialToken","");
+    }
     private int recovery;
     private long provokedUntil;
     private Vec3 impact;
@@ -28,7 +46,7 @@ public final class RiftSentinel extends Monster {
     }
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder){super.defineSynchedData(builder);builder.define(WINDUP,0);}
     public int windup(){return entityData.get(WINDUP);}
-    public boolean awake(){return VestigeTime.isNight(level())||level().getGameTime()<provokedUntil;}
+    public boolean awake(){return isTrialGuardian()||VestigeTime.isNight(level())||level().getGameTime()<provokedUntil;}
     @Override protected void registerGoals() {
         goalSelector.addGoal(0,new FloatGoal(this));
         goalSelector.addGoal(1,new Goal(){
@@ -54,6 +72,10 @@ public final class RiftSentinel extends Monster {
         playSound(SoundEvents.RESPAWN_ANCHOR_CHARGE,.6f,1.3f);return true;
     }
     @Override protected void customServerAiStep(ServerLevel level) {
+        if(trialHome!=null&&tickCount%20==0&&level.hasChunk(trialHome.getX()>>4,trialHome.getZ()>>4)){
+            if(!(level.getBlockEntity(trialHome) instanceof fr.axephir.tnd.dungeon.VaultCoreEntity vault)
+                    ||!vault.accepts(getUUID(),trialToken)||trialHome.distToCenterSqr(position())>64*64){discard();return;}
+        }
         super.customServerAiStep(level);
         if(!awake()){setTarget(null);navigation.stop();entityData.set(WINDUP,0);impact=null;}
         if(recovery>0)recovery--;

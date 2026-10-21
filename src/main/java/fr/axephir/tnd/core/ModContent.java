@@ -82,6 +82,11 @@ public final class ModContent {
     public static final DeferredItem<fr.axephir.tnd.world.EchoLensItem> ECHO_LENS=ITEMS.registerItem("echo_lens",fr.axephir.tnd.world.EchoLensItem::new,p->p.stacksTo(1));
     public static final DeferredItem<SpawnEggItem> SHARDLING_EGG=ITEMS.registerItem("shardling_spawn_egg",SpawnEggItem::new,p->p.spawnEgg(fr.axephir.tnd.entities.VestigeEntities.SHARDLING.get()));
     public static final DeferredItem<SpawnEggItem> SENTINEL_EGG=ITEMS.registerItem("rift_sentinel_spawn_egg",SpawnEggItem::new,p->p.spawnEgg(fr.axephir.tnd.entities.VestigeEntities.SENTINEL.get()));
+    public static final DeferredBlock<fr.axephir.tnd.dungeon.VaultCoreBlock> VAULT_CORE=BLOCKS.registerBlock("vault_core",fr.axephir.tnd.dungeon.VaultCoreBlock::new,p->p.strength(5,12).requiresCorrectToolForDrops().lightLevel(state->6));
+    public static final DeferredBlock<fr.axephir.tnd.dungeon.VaultBlock> VAULT_SEAL=BLOCKS.registerBlock("vault_seal",p->new fr.axephir.tnd.dungeon.VaultBlock(p,false),p->p.strength(5,12).requiresCorrectToolForDrops().lightLevel(state->state.getValue(fr.axephir.tnd.dungeon.VaultBlock.LIT)?12:2));
+    public static final DeferredBlock<InscriptionBlock> MURAL_VAULT=BLOCKS.registerBlock("mural_vault",p->new InscriptionBlock(p,"vault"),p->p.strength(4,10).lightLevel(state->2));
+    public static final DeferredItem<Item> RESONANCE_HEART=ITEMS.registerSimpleItem("resonance_heart");
+    public static final DeferredItem<fr.axephir.tnd.dungeon.ResonantAegisItem> RESONANT_AEGIS=ITEMS.registerItem("resonant_aegis",fr.axephir.tnd.dungeon.ResonantAegisItem::new,p->p.stacksTo(1));
     public static final DeferredItem<Item> RELIC_FRAGMENT = ITEMS.registerSimpleItem("relic_fragment");
     public static final DeferredItem<Item> STABILIZER_MODULE = ITEMS.registerSimpleItem("stabilizer_module", p -> p.stacksTo(1));
     public static final DeferredItem<Item> BLUE_SHARD = ITEMS.registerSimpleItem("blue_shard");

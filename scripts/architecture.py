@@ -4,7 +4,7 @@ Every interior is cleared, roofed, lit and furnished; corridors connect all wing
 from collections import Counter, deque
 
 SIZES={'outpost':(49,35,49),'portal_site':(57,43,57),'relay':(41,41,41),
-       'archive':(55,39,49),'foundry':(57,41,49)}
+       'archive':(55,39,49),'foundry':(57,41,49),'resonance_vault':(63,43,63)}
 class Building:
     def __init__(self,name):self.name=name;self.size=SIZES[name];self.grid={};self.rooms=[]
     def put(self,x,y,z,block,props=None,loot=None):
@@ -134,7 +134,33 @@ class Building:
 
 def build(name):
     b=Building(name)
-    if name=='outpost':
+    if name=='resonance_vault':
+        # Five interlocking enclosed volumes; the central nave connects every wing.
+        b.room(24,2,38,16,h=10).room(24,17,38,43,h=16)
+        b.room(3,18,23,42,h=12).room(39,18,59,42,h=12).room(22,44,40,60,h=14)
+        b.passage(29,16,33,17);b.passage(23,28,24,32);b.passage(38,28,39,32);b.passage(29,43,33,44)
+        b.entrance(30,2)
+        b.workshop(26,7);b.shelf(36,6,7)
+        b.put(35,3,14,'tnd:mural_vault')
+        # Covered side alcoves, specimen cabinets and broken couplings, away from combat lanes.
+        for x in [5,57]:
+            for z in [22,27,38]:
+                b.box(x,1,z,x,3,z+1,'tnd:ancient_grate');b.put(x,4,z,'tnd:blue_lamp')
+        for x in [9,17,45,53]:
+            b.box(x,1,20,x,5,20,'tnd:ancient_pillar');b.put(x,6,20,'tnd:resonant_lamp')
+            b.put(x,2,40,'tnd:alloy_vent')
+        for x in [25,37]:
+            b.shelf(x,46,4);b.box(x,1,57,x,6,57,'tnd:ancient_pillar');b.put(x,7,57,'tnd:resonant_lamp')
+        b.put(31,1,30,'tnd:vault_core',{'facing':'north','seal':'0','lit':'false','mirrored':'false'})
+        for index,(x,z) in enumerate([(13,30),(49,30),(31,52)]):
+            b.put(x,1,z,'tnd:vault_seal',{'facing':'north','seal':str(index),'lit':'false','mirrored':'false'})
+            for dx in [-2,2]:b.put(x+dx,0,z,'tnd:'+['blue_lamp','green_lamp','red_lamp'][index])
+        # Suspended fragments make the engine silhouette distinct without blocking the player.
+        for y,r in [(5,2),(8,3),(11,2)]:
+            for dx,dz in [(-r,0),(r,0),(0,-r),(0,r)]:b.put(31+dx,y,30+dz,'tnd:conduit')
+        b.put(31,7,30,'tnd:resonant_lamp')
+        b.chest(35,40,'relics');b.put(27,3,41,'tnd:mural_vault')
+    elif name=='outpost':
         b.plaza(2,2,46,46)
         b.room(15,10,33,37,15).room(3,15,15,37,9).room(33,15,45,37,9)
         b.room(18,2,30,10,9).room(18,37,30,46,18)

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "tnd:block/vault_core_active",
+    "down": "tnd:block/cut_alloy",
+    "up": "tnd:block/vault_core_active",
+    "north": "tnd:block/vault_core_active",
+    "south": "tnd:block/ancient_alloy",
+    "west": "tnd:block/riveted_alloy",
+    "east": "tnd:block/riveted_alloy"
+  }
+}

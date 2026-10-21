@@ -44,6 +44,16 @@ def pixels(name, item=False):
         elif name=='echo_dust':
             for x,y in [(4,9),(8,5),(11,10),(7,12),(4,13),(11,4)]:
                 dot(x,y,(46,62,58));dot(x+1,y,(110,199,180));dot(x,y-1,(189,229,202))
+        elif name in ['resonance_heart','resonant_aegis']:
+            for y in range(1,15):
+                for x in range(2,14):
+                    d=abs(x-7.5)+abs(y-7.5)*.7
+                    if d<7:dot(x,y,(43,48,49) if d>5.8 else (154,128,76) if d>4.7 else (79,99,98))
+                    if d<3:dot(x,y,(159,133,191) if x>7 else (194,184,214))
+            if name=='resonant_aegis':
+                line(4,3,4,10,(198,177,120));line(5,11,8,14,(198,177,120));line(8,14,12,9,(108,91,61))
+            else:
+                for x,y in [(4,4),(11,4),(4,11),(11,11)]:dot(x,y,(110,198,171))
         elif name=='echo_lens':
             for y in range(2,13):
                 for x in range(2,14):
@@ -91,7 +101,15 @@ def pixels(name, item=False):
             k=(x//2,(y+(x//5))//2)
             if k not in cluster:cluster[k]=rng.choice([-12,-6,-3,0,3,7,11])
             dot(x,y,shade(base,cluster[k]+rng.choice([-2,0,0,2])))
-    if name=='echo_bloom':
+    if name.startswith('vault_'):
+        rect(1,1,14,14,(44,52,51));rect(2,2,13,13,(143,121,78));rect(3,3,12,12,(57,72,68))
+        for x,y in [(3,3),(12,3),(3,12),(12,12)]:dot(x,y,(208,190,130))
+        active=name.endswith('_active')
+        c=(142,217,179) if active else (127,112,158)
+        for x in [5,8,11]:line(x,5,x,10,c)
+        line(5,11,11,11,c)
+        if name.startswith('vault_core'):rect(6,6,9,9,c);dot(7,6,(223,226,207))
+    elif name=='echo_bloom':
         rect(0,0,15,15,(48,93,91));
         for x in [2,6,10,14]:line(x,0,x,15,(119,199,173));line(x+1,0,x+1,15,(76,145,137))
         for x,y in [(3,4),(9,11),(13,2),(7,7)]:dot(x,y,(203,230,192))

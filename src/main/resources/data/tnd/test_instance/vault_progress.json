@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:vault_progress",
+  "structure": "tnd:test_buildings",
+  "max_ticks": 400,
+  "required": true
+}

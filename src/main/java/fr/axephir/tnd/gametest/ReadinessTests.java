@@ -27,6 +27,11 @@ public final class ReadinessTests {
     public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
             BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
     static {
+        FUNCTIONS.register("vault_progress",()->DungeonTests::progress);
+        FUNCTIONS.register("vault_recovery",()->DungeonTests::recovery);
+        FUNCTIONS.register("vault_safety",()->DungeonTests::safety);
+        FUNCTIONS.register("vault_rotations",()->DungeonTests::rotations);
+        FUNCTIONS.register("resonant_aegis",()->DungeonTests::aegis);
         FUNCTIONS.register("dimension", () -> ReadinessTests::dimension);
         FUNCTIONS.register("extractor", () -> ReadinessTests::extractor);
         FUNCTIONS.register("portal_resistance", () -> ReadinessTests::portalResistance);

@@ -19,6 +19,8 @@ public final class MachineRegistry {
             () -> new BlockEntityType<>(ExtractorBlockEntity::new, EXTRACTOR.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PortalControllerEntity>> PORTAL_ENTITY = ENTITIES.register("portal_controller",
             () -> new BlockEntityType<>(PortalControllerEntity::new, ModContent.PORTAL_CONTROLLER.get()));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<fr.axephir.tnd.dungeon.VaultCoreEntity>> VAULT_ENTITY=ENTITIES.register("vault_core",
+            ()->new BlockEntityType<>(fr.axephir.tnd.dungeon.VaultCoreEntity::new,ModContent.VAULT_CORE.get()));
     public static final DeferredHolder<MenuType<?>, MenuType<ExtractorMenu>> EXTRACTOR_MENU = ModContent.MENUS.register("extractor",
             () -> new MenuType<>(ExtractorMenu::new, FeatureFlags.DEFAULT_FLAGS));
 

@@ -17,6 +17,10 @@
     {
       "structure": "tnd:foundry",
       "weight": 1
+    },
+    {
+      "structure": "tnd:resonance_vault",
+      "weight": 1
     }
   ]
 }

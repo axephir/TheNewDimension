@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:vault_rotations",
+  "structure": "tnd:test_buildings",
+  "max_ticks": 200,
+  "required": true
+}

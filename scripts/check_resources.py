@@ -140,6 +140,22 @@ class Resources(unittest.TestCase):
         cache=json.loads((DATA/'loot_table/chests/outpost.json').read_text())
         self.assertNotIn('tnd:field_journal',json.dumps(cache))
 
+    def test_vault_authorship_and_reward_chain(self):
+        building=generator.build('resonance_vault')
+        self.assertEqual(len(building.rooms),5)
+        parser=Nbt(gzip.decompress((DATA/'structure/resonance_vault.nbt').read_bytes()));parser.take(1);parser.string();root=parser.read(10)
+        cores=[b for b in root['blocks'] if root['palette'][b['state']]['Name']=='tnd:vault_core']
+        self.assertEqual(len(cores),1);self.assertEqual(cores[0]['nbt']['TrialSite'],1)
+        self.assertEqual(sum(v[0]=='tnd:vault_seal' for v in building.grid.values()),3)
+        for name in ['vault_core','vault_seal']:
+            self.assertEqual(len(json.loads((ASSETS/f'blockstates/{name}.json').read_text())['variants']),48)
+        for locale in ['fr_fr','en_us']:
+            self.assertIn('message.tnd.lore.vault',json.loads((ASSETS/f'lang/{locale}.json').read_text()))
+        recipe=json.loads((DATA/'recipe/resonant_aegis.json').read_text())
+        self.assertIn('tnd:resonance_heart',recipe['ingredients'])
+        self.assertFalse((DATA/'recipe/resonance_heart.json').exists())
+        self.assertEqual(json.loads((DATA/'worldgen/structure/resonance_vault.json').read_text())['biomes'],['tnd:silent_expanse','tnd:fractured_fields','tnd:hollow_shelves'])
+
     def test_recipes_only_use_known_local_items(self):
         registered = set(generator.BLOCKS + generator.ITEMS)
         for path in (DATA / 'recipe').glob('*.json'):
@@ -208,12 +224,12 @@ class Resources(unittest.TestCase):
         self.assertGreaterEqual(portal['separation'] * 16, 10000)
         self.assertLessEqual(portal['spacing'] * 16, 15000)
         sites=json.loads((DATA/'worldgen/structure_set/vestige_sites.json').read_text())
-        self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry'})
+        self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry','tnd:resonance_vault'})
         self.assertGreater(sites['placement']['separation']*16,2*max(max(size[0],size[2]) for size in generator.SIZES.values()))
         for name in ['relay','archive','foundry']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits'})
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis'})
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

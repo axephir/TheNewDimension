@@ -1,0 +1,196 @@
+{
+  "variants": {
+    "facing=north,seal=0,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 0
+    },
+    "facing=north,seal=0,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 0
+    },
+    "facing=north,seal=0,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 0
+    },
+    "facing=north,seal=0,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 0
+    },
+    "facing=north,seal=1,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 0
+    },
+    "facing=north,seal=1,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 0
+    },
+    "facing=north,seal=1,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 0
+    },
+    "facing=north,seal=1,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 0
+    },
+    "facing=north,seal=2,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 0
+    },
+    "facing=north,seal=2,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 0
+    },
+    "facing=north,seal=2,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 0
+    },
+    "facing=north,seal=2,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 0
+    },
+    "facing=east,seal=0,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 90
+    },
+    "facing=east,seal=0,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 90
+    },
+    "facing=east,seal=0,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 90
+    },
+    "facing=east,seal=0,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 90
+    },
+    "facing=east,seal=1,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 90
+    },
+    "facing=east,seal=1,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 90
+    },
+    "facing=east,seal=1,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 90
+    },
+    "facing=east,seal=1,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 90
+    },
+    "facing=east,seal=2,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 90
+    },
+    "facing=east,seal=2,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 90
+    },
+    "facing=east,seal=2,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 90
+    },
+    "facing=east,seal=2,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 90
+    },
+    "facing=south,seal=0,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 180
+    },
+    "facing=south,seal=0,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 180
+    },
+    "facing=south,seal=0,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 180
+    },
+    "facing=south,seal=0,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 180
+    },
+    "facing=south,seal=1,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 180
+    },
+    "facing=south,seal=1,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 180
+    },
+    "facing=south,seal=1,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 180
+    },
+    "facing=south,seal=1,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 180
+    },
+    "facing=south,seal=2,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 180
+    },
+    "facing=south,seal=2,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 180
+    },
+    "facing=south,seal=2,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 180
+    },
+    "facing=south,seal=2,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 180
+    },
+    "facing=west,seal=0,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 270
+    },
+    "facing=west,seal=0,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 270
+    },
+    "facing=west,seal=0,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 270
+    },
+    "facing=west,seal=0,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 270
+    },
+    "facing=west,seal=1,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 270
+    },
+    "facing=west,seal=1,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 270
+    },
+    "facing=west,seal=1,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 270
+    },
+    "facing=west,seal=1,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 270
+    },
+    "facing=west,seal=2,lit=false,mirrored=true": {
+      "model": "tnd:block/vault_seal",
+      "y": 270
+    },
+    "facing=west,seal=2,lit=false,mirrored=false": {
+      "model": "tnd:block/vault_seal",
+      "y": 270
+    },
+    "facing=west,seal=2,lit=true,mirrored=true": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 270
+    },
+    "facing=west,seal=2,lit=true,mirrored=false": {
+      "model": "tnd:block/vault_seal_active",
+      "y": 270
+    }
+  }
+}

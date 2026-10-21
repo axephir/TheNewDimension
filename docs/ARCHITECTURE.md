@@ -17,9 +17,10 @@ Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:ve
 | `technology` | Bloc, inventaire, calcul différé et menu de l’extracteur |
 | `client` | Écrans et configuration graphique, chargés uniquement sur le client |
 | `entities` | Familiers, sentinelles, apparition rare et transport interdimensionnel |
+| `dungeon` | Sceaux, épreuves finies, contrôleur persistant et égide défensive |
 | `gametest` | Tests d’intégration natifs : monde, portails, progression, consoles et machines |
 
-Les modules narratifs, entités et anomalies ne sont pas représentés par des classes vides : ils seront ajoutés avec leur première fonctionnalité réelle.
+Les modules narratifs et anomalies ne sont pas représentés par des classes vides : ils seront ajoutés avec leur première fonctionnalité réelle.
 
 ## Autorité et persistance
 
@@ -43,7 +44,7 @@ L’extracteur possède cinq profils persistants : fer brut, cuivre brut, or bru
 
 La génération repose sur des registres de données natifs : densité 3D originale, biomes, minerais, pools de structures et placement `random_spread`. Pour les portails, l’espacement de 768 chunks et la séparation de 640 chunks sont des réglages provisoires visant l’ordre de grandeur du document ; la distribution réelle doit être mesurée sur plusieurs seeds.
 
-Le détecteur appelle la recherche native de structure. Il ne calcule pas de coordonnées fictives. Les cinq modèles de ruines sont originaux, fermés et aménagés. L’avant-poste de départ est demandé uniquement lors de la création du spawn d’un nouveau monde et placé à la première connexion ; les mondes existants ne sont pas automatiquement modifiés par ce mécanisme.
+Le détecteur appelle la recherche native de structure. Il ne calcule pas de coordonnées fictives. Les six modèles de ruines sont originaux, fermés et aménagés. L’avant-poste de départ est demandé uniquement lors de la création du spawn d’un nouveau monde et placé à la première connexion ; les mondes existants ne sont pas automatiquement modifiés par ce mécanisme.
 
 Le passage du prototype s’utilise en cliquant son mécanisme. L’animation et la traversée automatique d’une surface de portail restent à compléter. Les couples sont sauvegardés en `GlobalPos`. L’arrivée doit être dégagée ; le code refuse de supprimer des constructions pour placer un passage retour. Les déplacements de familiers concernent actuellement les animaux vanilla apprivoisés compatibles ; les Éclats errants utilisent aussi les changements de dimension vanilla, avec capture avant transfert puis recherche d’un sol sûr après réussite. Aucun déplacement n’a lieu sur un transfert annulé.
 
@@ -54,3 +55,5 @@ Le document exige de développer la catastrophe tardivement. Aucun appel d’exp
 Avant une implémentation, la solution devra préserver les données sources, créer une représentation isolée des destructions et séparer les inventaires temporaires. La copie ne devra jamais s’exécuter dans les chemins du monde d’origine. Un journal transactionnel durable devra distinguer préparation, vérification, exploration et retour. Le retour restera accessible indépendamment de l’interface. Aucune copie de récupération ne sera supprimée automatiquement tant que la validation finale n’aura pas réussi.
 
 La politique multijoueur demeure ouverte : déclenchement administré, consentement des joueurs concernés et isolation d’une session sont à décider. Un test de disque plein, corruption, arrêt brutal à chaque transition, déconnexion et redémarrage sera indispensable. Cette description ne constitue ni une preuve de sûreté ni une sauvegarde implémentée.
+
+Le sanctuaire de résonance utilise un seul contrôleur de données, trois sceaux ordinaires et au plus trois UUID de gardiens actifs. Le marquage naturel provient du modèle NBT ; les objets reposés ne le transportent pas. Les morts confirmées et le jeton de vague font autorité, sans déduire une victoire de l’absence d’une entité. Rotations et miroirs transforment à la fois les positions et le repère des mécanismes.
