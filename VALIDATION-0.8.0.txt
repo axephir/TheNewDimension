@@ -1,0 +1,70 @@
+The New Dimension 0.8.0-dev — 2026-10-21
+Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25
+Source commit: 34911965a00828106e59a3607f72c64f5c250e90
+
+LOCAL VALIDATION — PASS
+python3 scripts/cloud_gradle.py build runGameTestServer
+  Gradle BUILD SUCCESSFUL, exit 0.
+  51,035 core assertions executed and passed.
+  All 54 required native Minecraft GameTests passed (53 TND + 1 vanilla).
+python3 scripts/check_resources.py
+  All 15 resource tests passed.
+python3 scripts/check_audio.py
+  All 24 distributed Ogg sounds decoded successfully, audible signal, no clipping.
+git diff --check
+  Passed; source checkout clean after commit.
+
+New native scenarios cover server-authoritative expedition actions/rewards,
+actual six-biome observation, natural versus player-placed consoles/pupitres,
+harvests, confirmed sentinel deaths, trial exclusions, finite trophy rewards,
+player save/death-copy data, full 100-tick native item use, fuel and cooldown,
+movement/damage interruption, blocked/replaced anchors, dimension guards,
+companion recall, observatory block entities and a native path to its gallery.
+
+The GameTest server does not instantiate datapack dimensions by default.
+Fieldwork tests create a real tnd:vestige ServerLevel in separate test storage
+with the authored dimension type and a flat fixture generator. The existing
+biome/landscape tests and the normal client exercise the procedural terrain.
+Embedded test players advance through ServerPlayer.doTick each server tick;
+successful recall never invokes the completion callback directly.
+
+NORMAL CLIENT — PASS
+python3 scripts/cloud_gradle.py runClient -PquickPlayWorld=Vestige02 Final
+Native Minecraft client on software Mesa, French UI, original F2 captures.
+Natural observatory found with /locate in fresh Vestige chunks, then inspected:
+library, workshop, dormitory, archive, central orrery and upper gallery.
+Natural pupitre opened the objectives and recorded its discovery in Survival.
+Actual inventory tab opened the same menu; visiting three actual biomes in
+Survival unlocked the first reward. Two distinct reward buttons switched to
+Obtenue and the summary advanced to 2 / 8.
+Prism bound by normal right-click to an existing natural anchor. After travel
+of over eight kilometres, execute unless loaded confirmed the anchor chunk was
+unloaded. Holding the item returned the player to [19802.5, 89, 19734.5], safely
+above that anchor; Echo Dust decreased from 49 to 47.
+After Save and Quit, the native compressed player NBT contains three visited
+biomes, both claimed-reward bits, the observatory note and the original prism
+binding token. Client exited normally; worlds were preserved.
+
+Commands prepared this validation world and equipment. These are functional
+checks and native screenshots, not an unassisted survival playthrough.
+The cloud client uses a null audio device; Ogg decoding is checked separately,
+without physical loudspeaker listening. No public multiplayer playtest claimed.
+
+PACKAGE INTEGRITY — PASS
+JAR metadata matches 0.8.0-dev; all 85 mod PNG textures are 16 x 16.
+All 24 previous Ogg assets are byte-for-byte unchanged from 0.7.
+JAR/ZIP CRC checks pass; the ZIP contains the identical distributed JAR.
+Every included source file matches the committed checkout; every source
+resource matches its corresponding JAR entry. Worlds, caches and credentials
+are excluded. SHA-256 values are in SHA256SUMS-0.8.0-dev.
+
+GITHUB ACTIONS
+Run: https://github.com/axephir/TheNewDimension/actions/runs/39593883336
+PASS: completed successfully for the exact source commit above.
+Downloaded CI logs independently confirm 51,035 core assertions, all 54
+required Minecraft tests and all 15 resource tests actually ran and passed.
+
+The final story and additional industrial branches from the original design
+remain future work. New observatories require unexplored chunks; previous
+buildings and the existing mastery profile are preserved. Field notes start
+with 0.8, while previously owned resonant equipment is recognized.
