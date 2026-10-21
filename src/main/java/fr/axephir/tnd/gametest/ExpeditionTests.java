@@ -80,7 +80,7 @@ final class ExpeditionTests {
             var reloaded=(FracturedCustodian)EntityType.create(VestigeEntities.CUSTODIAN.get(),TagValueInput.create(ProblemReporter.DISCARDING,h.getLevel().registryAccess(),out.buildResult()),h.getLevel(),EntitySpawnReason.LOAD).orElseThrow();
             check(h,reloaded.bound()&&v.acceptsBoss(reloaded.getUUID(),reloaded.trialToken()),"A native entity reload retains boss UUID and sanctuary binding");
             b.hurtServer(h.getLevel(),p.damageSources().playerAttack(p),10000);check(h,b.isDeadOrDying()&&v.bossCleared(),"Only the actual registered boss death clears the encounter");
-            check(h,v.claimBoss(p)&&p.getInventory().countItem(ModContent.INERTIAL_MATRIX.get())==1&&p.getInventory().countItem(ModContent.TEMPERED_ALLOY.get())==6,"The shared reward contains exactly one matrix and six alloys");
+            v.interact(p);check(h,p.getInventory().countItem(ModContent.INERTIAL_MATRIX.get())==1&&p.getInventory().countItem(ModContent.TEMPERED_ALLOY.get())==6,"The actual core interaction claims exactly one matrix and six alloys even while holding invocation dust");
             check(h,!v.claimBoss(p)&&!v.claimBoss(other)&&!v.summonBoss(p),"Neither a second player nor a repeated click can duplicate a completed boss reward");
             var restored=(VaultCoreEntity)BlockEntity.loadStatic(at,v.getBlockState(),v.saveWithFullMetadata(h.getLevel().registryAccess()),h.getLevel().registryAccess());restored.setLevel(h.getLevel());
             check(h,restored.bossCleared()&&!restored.claimBoss(p),"Claimed boss treasure survives native serialization");

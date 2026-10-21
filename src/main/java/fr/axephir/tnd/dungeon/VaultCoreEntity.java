@@ -98,6 +98,7 @@ public final class VaultCoreEntity extends BlockEntity {
     public UUID bossId(){return bossId;}
     public boolean acceptsBoss(UUID id,String key){return natural&&!bossCleared&&id.equals(bossId)&&!bossToken.isEmpty()&&bossToken.equals(key);}
     public void interact(ServerPlayer p){
+        if(claimed&&bossCleared&&!bossRewardClaimed){claimBoss(p);return;}
         if(completed==3&&(p.isShiftKeyDown()||claimed&&p.getMainHandItem().is(ModContent.ECHO_DUST.get()))){summonBoss(p);return;}
         if(!claimed){claim(p);return;}
         if(bossCleared&&!bossRewardClaimed){claimBoss(p);return;}

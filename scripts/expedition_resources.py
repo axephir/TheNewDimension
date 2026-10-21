@@ -6,11 +6,17 @@ def content(write,png,assets,data):
         glow=(123,219,190) if state=='_open' else (225,143,91) if state=='_enraged' else (170,148,205)
         for y in range(16):
             for x in range(16):
-                c=(65,73,75);n=rng.choice([-5,0,0,5]);c=tuple(v+n for v in c)
-                if x%4==0 or y%4==0:c=(36,46,49)
-                if (x,y) in [(1,1),(6,1),(1,6),(6,6),(9,1),(14,6)]:c=(171,147,91)
-                if y>=8 and x>=8:c=glow if (x+y)%4 else tuple(min(255,v+25) for v in glow)
-                if x in [2,5,10,13] and y in [3,4]:c=(139,157,153)
+                c=(111,125,119);n=rng.choice([-7,0,0,6]);c=tuple(v+n for v in c)
+                if x%4==0 or y%4==0:c=(48,63,65)
+                if (x,y) in [(1,1),(6,1),(1,6),(6,6),(9,1),(14,6)]:c=(195,168,106)
+                if y>=8 and x>=8:
+                    shift=38 if (x+y)%4==0 else -32 if (x+y)%4==2 else 0
+                    c=tuple(max(0,min(255,v+shift)) for v in glow)
+                if y==4 and x<8:c=(155,164,144)
+                if 4<x<8 and y in [5,6]:c=(169,145,93) if x==5 else (68,91,90)
+                if x in [2,6] and 9<=y<=14:c=(153,162,142)
+                if x in [3,7] and y in [10,13]:c=(78,114,109)
+                if x in [2,5,10,13] and y in [3,4]:c=(183,193,167)
                 pixels.append((*c,255))
         png(assets/f'textures/entity/fractured_custodian{state}.png',pixels)
     write(data/'loot_table/entities/fractured_custodian.json',{'type':'minecraft:entity','pools':[]})
