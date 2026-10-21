@@ -40,14 +40,15 @@ public final class StarterOutpost {
             level.setData(LOCATION, pos.asLong());
         } else pos = BlockPos.of(saved);
         var template = level.getServer().getStructureManager().get(Identifier.fromNamespaceAndPath("tnd", "outpost"));
-        if (template.isPresent()) {
-            var size = template.get().getSize();
-            pos = OutpostTerrain.prepare(level,pos.getX(),pos.getZ(),size.getX(),size.getZ(),size.getY());
-            level.setData(LOCATION,pos.asLong());
-        }
-        if (template.isPresent() && template.get().placeInWorld(level, pos, pos,
-                new StructurePlaceSettings().setIgnoreEntities(true), level.getRandom(), 2)) {
-            level.setData(COMPLETE, true);
+        if(template.isPresent()){
+            // Extreme vanilla peaks can exceed the build limit. Try another nearby
+            // site before modifying any blocks; a failed preflight is harmless.
+            for(int attempt=0;attempt<4;attempt++){
+                var placed=OutpostTerrain.crowned(level,pos.getX()+attempt*192,pos.getZ(),template.get());
+                if(placed.isPresent()){
+                    level.setData(LOCATION,placed.get().asLong());level.setData(COMPLETE,true);break;
+                }
+            }
         }
     }
 }

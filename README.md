@@ -8,9 +8,9 @@ Nom du mod, de la dimension « Vestige » et des ressources : propositions de tr
 [Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.9.0-dev.jar).
 Placer ce fichier dans `mods/` avec **Minecraft Java 26.2 et NeoForge 26.2.0.93**, en remplaçant l’ancien JAR TND.
 
-Les neuf bâtiments sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive, fonderie, sanctuaire de résonance observatoire ancien, citadelle auréole et conservatoire d’écho. Toutes les textures du mod sont en **16 × 16**. Des blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
+Les neuf bâtiments apparaissent sur des massifs de scorie ferrenoire légèrement lumineuse, entourés d’une couronne de pics et accessibles par une montée pavée. Ils sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive, fonderie, sanctuaire de résonance, observatoire ancien, citadelle auréole et conservatoire d’écho. Les textures des blocs et des icônes restent en **16 × 16** ; les créatures et l’armure utilisent désormais des atlas **64 × 64** et des modèles avec davantage de relief. Des blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
 
-Dans l’inventaire, cliquer sur le petit onglet à droite pour ouvrir les maîtrises, sans transporter de livre. Les minerais bleus affleurent sous l’eau dans tous les océans d’au moins huit blocs de profondeur ; les rouges occupent la première couche solide sous la lave de l’Overworld ; les verts apparaissent, plus rarement, contre les troncs des forêts, taïgas et jungles.
+Dans l’inventaire, cliquer sur les onglets à gauche pour ouvrir les maîtrises, les expéditions et le guide, sans transporter de livre. Les minerais bleus affleurent sous l’eau dans tous les océans d’au moins huit blocs de profondeur ; les rouges occupent la première couche solide sous la lave de l’Overworld ; les verts apparaissent, plus rarement, contre les troncs des forêts, taïgas et jungles.
 
 **Créer un monde de test ou explorer de nouveaux chunks** pour découvrir les nouvelles structures et les nouveaux minerais. Les bâtiments déjà enregistrés dans une sauvegarde conservent leur géométrie ; leurs textures sont actualisées. Le mod ne détruit pas les constructions existantes.
 
@@ -26,7 +26,7 @@ Après les trois épreuves du sanctuaire, **poussière d’écho en main + clic 
 
 Le nouvel onglet **Expéditions**, sous les maîtrises dans l’inventaire, propose **huit objectifs personnels**, leurs récompenses et un trophée final. Un grand **observatoire** ajoute une galerie, une bibliothèque et un mécanisme céleste à découvrir. Liez un **prisme de retour** à une ancre dans Vestige : maintenir cinq secondes permet de revenir contre deux poussières d’écho, avec une arrivée vérifiée et une recharge d’une minute. [Guide de la 0.8](docs/FIELDWORK_0.8.0.md).
 
-La **0.9** ajoute deux grandes structures (**95 × 47 × 95** et **79 × 45 × 79**), un Lithogarde massif et un Traqueur de verre aux attaques annoncées, deux minerais exposés, neuf équipements dont une armure complète et un marteau à onde frontale, un séparateur de minerais et un récolteur nocturne. **28 blocs**, **16 nouveaux sons**, des animations de combat, des panneaux animés, une carte de découverte de biome et un guide depuis le troisième onglet de l’inventaire complètent cette version. [Guide de la 0.9](docs/AWAKENING_0.9.0.md).
+La **0.9** ajoute deux grandes structures (**95 × 47 × 95** et **79 × 45 × 79**), un Lithogarde massif et un Traqueur de verre aux attaques annoncées, deux minerais exposés, neuf équipements dont une armure complète et un marteau à onde frontale, un séparateur de minerais et un récolteur nocturne. **30 blocs**, **16 nouveaux sons**, des animations de combat, des panneaux animés, une carte de découverte de biome et un guide depuis le troisième onglet de l’inventaire complètent cette version. [Guide de la 0.9](docs/AWAKENING_0.9.0.md).
 
 ## Développement
 
@@ -100,4 +100,4 @@ Les options serveur `experienceMultiplier`, `extractorTicksPerItem`, `maxCatchup
 
 Le mod préserve les capacités vanilla des débutants. Les grands donjons à plusieurs étages, les autres boss, les machines avancées et le scénario final restent à développer. Aucune catastrophe n’est déclenchable dans ce code.
 
-Les textures 16 × 16, modèles, données et structures NBT sont générés par `scripts/generate_resources.py`, `scripts/pixel_art.py` et `scripts/architecture.py`. L’option `--audio` régénère les 40 sons originaux avec `ffmpeg`. Voir [ARCHITECTURE.md](docs/ARCHITECTURE.md) et [THIRD_PARTY.md](docs/THIRD_PARTY.md).
+Les textures 16 × 16 des blocs et icônes, les atlas 64 × 64 des personnages, modèles, données et structures NBT sont générés par `scripts/generate_resources.py`, `scripts/pixel_art.py` et `scripts/architecture.py`. L’option `--audio` régénère les 40 sons originaux avec `ffmpeg`. Voir [ARCHITECTURE.md](docs/ARCHITECTURE.md) et [THIRD_PARTY.md](docs/THIRD_PARTY.md).

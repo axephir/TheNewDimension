@@ -12,11 +12,20 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 
 final class InventoryMasteries {
+    private static final java.util.Map<net.minecraft.client.gui.screens.Screen,java.util.List<Button>> TABS=new java.util.WeakHashMap<>();
+    static void position(ScreenEvent.Render.Pre event){
+        var tabs=TABS.get(event.getScreen());if(tabs==null)return;
+        var screen=(AbstractContainerScreen<?>)event.getScreen();var player=Minecraft.getInstance().player;
+        boolean book=screen instanceof InventoryScreen&&player!=null&&player.getRecipeBook().isOpen(net.minecraft.world.inventory.RecipeBookType.CRAFTING);
+        boolean overlay=book&&screen.width<379;
+        int x=Math.max(2,screen.getLeftPos()-(book?204:24));
+        for(int i=0;i<tabs.size();i++){var tab=tabs.get(i);tab.setPosition(x,screen.getTopPos()+6+i*25);tab.visible=!overlay;}
+    }
     static void init(ScreenEvent.Init.Post event) {
         if (!(event.getScreen() instanceof InventoryScreen || event.getScreen() instanceof CreativeModeInventoryScreen)) return;
         var screen = (AbstractContainerScreen<?>) event.getScreen();
-        // A tab attached to the right edge leaves recipe book and inventory slots free.
-        int x = screen.getLeftPos()+screen.getImageWidth()-2, y = screen.getTopPos()+6;
+        // Potion effects own the right edge. Keep our tabs attached to the left.
+        int x = screen.getLeftPos()-24, y = screen.getTopPos()+6;
         Button button = new Button(x,y,22,22,Component.translatable("gui.tnd.masteries"), b -> {
             var player = Minecraft.getInstance().player;
             if (player != null) player.connection.sendCommand("tnd masteries");
@@ -33,6 +42,7 @@ final class InventoryMasteries {
             @Override protected void extractContents(GuiGraphicsExtractor g,int mx,int my,float partial){StonePanel.frame(g,getX(),getY(),22,22);if(isHoveredOrFocused())g.fill(getX()+3,getY()+3,getX()+19,getY()+19,0xffd8d3a3);g.item(ModContent.STAR_CHART.get().asItem().getDefaultInstance(),getX()+3,getY()+3);}
         };expeditions.setTooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_expeditions")));event.addListener(expeditions);
         var guide=Button.builder(Component.literal("?"),b->Minecraft.getInstance().gui.setScreen(new FieldGuideScreen(event.getScreen()))).bounds(x,y+50,22,22).tooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_guide"))).build();event.addListener(guide);
+        TABS.put(event.getScreen(),java.util.List.of(button,expeditions,guide));
     }
     private InventoryMasteries() {}
 }

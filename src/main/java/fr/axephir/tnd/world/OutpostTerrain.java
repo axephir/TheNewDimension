@@ -8,6 +8,32 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 /** The manually seeded starter building needs real foundations, too. */
 public final class OutpostTerrain {
+    /** The first-login outpost uses exactly the same geology as natural sites.
+     * Load first, preflight all heights, then place in individual clipped chunks.
+     */
+    public static java.util.Optional<BlockPos> crowned(ServerLevel level,int x,int z,net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate template){
+        int width=template.getSize().getX(),depth=template.getSize().getZ();
+        int radius=CrownedSitePiece.radius(width,depth),cx=x+width/2,cz=z+depth/2;
+        for(int xx=(cx-radius)>>4;xx<=(cx+radius)>>4;xx++)for(int zz=(cz-radius)>>4;zz<=(cz+radius)>>4;zz++)level.getChunk(xx,zz);
+        int highest=level.getMinY()+1;
+        for(int ix=-2;ix<=2;ix++)for(int iz=-2;iz<=2;iz++)highest=Math.max(highest,surface(level,cx+ix*radius/2,cz+iz*radius/2));
+        int base=surface(level,cx+(int)Math.round(Math.cos(-Math.PI/2-1.8)*(radius-5)),cz+(int)Math.round(Math.sin(-Math.PI/2-1.8)*(radius-5)));
+        int peak=Math.max(base+48,highest+26);
+        if(peak+Math.max(36,template.getSize().getY())>=level.getMaxY()-2)return java.util.Optional.empty();
+        var center=new BlockPos(cx,peak,cz);
+        var piece=new CrownedSitePiece(level.getServer().getStructureManager(),net.minecraft.resources.Identifier.fromNamespaceAndPath("tnd","outpost"),center,base,level.getMinY()+1,net.minecraft.world.level.block.Rotation.NONE);
+        for(int xx=(cx-radius)>>4;xx<=(cx+radius)>>4;xx++)for(int zz=(cz-radius)>>4;zz<=(cz+radius)>>4;zz++){
+            var chunk=new net.minecraft.world.level.ChunkPos(xx,zz);
+            var clip=new net.minecraft.world.level.levelgen.structure.BoundingBox(chunk.getMinBlockX(),level.getMinY(),chunk.getMinBlockZ(),chunk.getMaxBlockX(),level.getMaxY()-1,chunk.getMaxBlockZ());
+            piece.postProcess(level,level.structureManager(),level.getChunkSource().getGenerator(),level.getRandom(),clip,chunk,center);
+        }
+        return java.util.Optional.of(piece.buildingOrigin());
+    }
+    private static int surface(ServerLevel level,int x,int z){
+        int y=level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,x,z)-1;
+        while(y>level.getMinY()+1&&foliage(level,new BlockPos(x,y,z)))y--;
+        return y;
+    }
     public static BlockPos prepare(ServerLevel level,int x,int z,int width,int depth,int height) {
         // An unvisited chunk reports minY from getHeight: load the footprint first.
         for(int cx=x>>4;cx<=(x+width-1)>>4;cx++)

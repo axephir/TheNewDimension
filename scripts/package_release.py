@@ -10,7 +10,9 @@ with zipfile.ZipFile(jar) as archive:
     assert f'version="{version}"' in archive.read('META-INF/neoforge.mods.toml').decode().replace(' ','')
     textures=[n for n in archive.namelist() if n.endswith('.png') and n.startswith('assets/tnd/textures/')]
     assert len(textures)>=42
-    for name in textures:assert struct.unpack('>II',archive.read(name)[16:24])==(16,16),name
+    for name in textures:
+        size=64 if '/textures/entity/' in name else 16
+        assert struct.unpack('>II',archive.read(name)[16:24])==(size,size),name
     assert archive.testzip() is None
 shutil.copy2(jar,out/jar.name)
 files=[]

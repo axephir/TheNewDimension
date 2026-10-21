@@ -123,7 +123,7 @@ final class AwakeningTests {
     private static void building(GameTestHelper h,String name,BlockPos from,BlockPos to){
         var w=h.getLevel();var template=w.getStructureManager().get(Identifier.fromNamespaceAndPath("tnd",name)).orElseThrow();var origin=h.absolutePos(new BlockPos(2,1,2));
         check(h,template.placeInWorld(w,origin,origin,new StructurePlaceSettings(),w.getRandom(),2),"The complete authored structure places in the native engine");
-        var walker=net.minecraft.world.entity.EntityTypes.ZOMBIE.create(w,EntitySpawnReason.EVENT);walker.setPos(Vec3.atBottomCenterOf(origin.offset(from)));walker.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(128);w.addFreshEntity(walker);var nav=(net.minecraft.world.entity.ai.navigation.GroundPathNavigation)walker.getNavigation();nav.setCanOpenDoors(true);nav.setRequiredPathLength(160);nav.setMaxVisitedNodesMultiplier(8);
+        var walker=net.minecraft.world.entity.EntityTypes.ZOMBIE.create(w,EntitySpawnReason.EVENT);walker.setNoAi(true);walker.setPos(Vec3.atBottomCenterOf(origin.offset(from)));walker.setOnGround(true);walker.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(128);w.addFreshEntity(walker);var nav=(net.minecraft.world.entity.ai.navigation.GroundPathNavigation)walker.getNavigation();nav.setCanOpenDoors(true);nav.setRequiredPathLength(160);nav.setMaxVisitedNodesMultiplier(32);
         h.runAfterDelay(2,()->{try{
             if(name.equals("aureate_citadel")){
                 var upper=origin.offset(39,11,65);var ascent=nav.createPath(upper,0);

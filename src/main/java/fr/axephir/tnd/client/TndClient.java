@@ -18,11 +18,13 @@ public final class TndClient {
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.CLIENT,AtmosphereOptions.SPEC);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(AtmosphereDirector::tick);
         bus.addListener(TndClient::screens);
+        bus.addListener(UmbraArmorModels::register);
         bus.addListener(VestigeHud::register);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(VestigeHud::tick);
         bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions e)->{RelicRenderer.layers(e);CustodianRenderer.layers(e);AwakenedRenderer.layers(e);});
         bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers e)->{RelicRenderer.renderers(e);CustodianRenderer.renderers(e);AwakenedRenderer.renderers(e);});
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(InventoryMasteries::init);
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(InventoryMasteries::position);
     }
     private static void screens(RegisterMenuScreensEvent event) {
         event.register(ModContent.MASTERY_MENU.get(), MasteryScreen::new);

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:ashstone",
+  "result": {
+    "id": "tnd:nightslag",
+    "count": 1
+  }
+}

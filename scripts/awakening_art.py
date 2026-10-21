@@ -1,6 +1,6 @@
 """Authored 16px palettes and silhouettes for 0.9. No scaled texture-pack assets."""
 import hashlib,random
-DECOR=['citadel_bricks','carved_citadel_bricks','cracked_citadel_bricks','gilded_pillar','gilded_trim','auralite_block','umbra_block','umbra_tiles','etched_umbra','crystal_mosaic','conservatory_tiles','verdigris_panel','latticed_alloy','runic_lamp','amber_lamp','violet_lamp','lithic_trophy']
+DECOR=['citadel_bricks','carved_citadel_bricks','cracked_citadel_bricks','gilded_pillar','gilded_trim','auralite_block','umbra_block','umbra_tiles','etched_umbra','crystal_mosaic','conservatory_tiles','verdigris_panel','latticed_alloy','runic_lamp','amber_lamp','violet_lamp','lithic_trophy','nightslag','veined_nightslag']
 BLOCKS=['auralite_ore','noctilite_ore']+DECOR+['harmonic_chime','ore_separator','echo_reaper']
 ITEMS=['raw_auralite','raw_noctilite','auralite_grit','noctilite_grit','auralite_ingot','noctilite_crystal','umbra_alloy','lithic_heart','glass_filament','auralite_pickaxe','auralite_blade','umbra_pickaxe','umbra_blade','gravitas_hammer','umbra_helmet','umbra_chestplate','umbra_leggings','umbra_boots','lithoguard_spawn_egg','glass_stalker_spawn_egg']
 ENTITIES=['lithoguard','lithoguard_charged','glass_stalker','glass_stalker_charged']
@@ -75,7 +75,19 @@ def paint(name,item=False):
     base=(60,61,67) if 'umbra' in name else (102,107,103) if 'citadel' in name else (61,85,82) if any(t in name for t in ['conservatory','verdigris']) else (69,75,78)
     for y in range(16):
         for x in range(16):dot(x,y,shade(base,rng.choice([-8,-3,0,2,5])))
-    if name.endswith('_ore'):
+    if name in ['nightslag','veined_nightslag']:
+        for y in range(16):
+            for x in range(16):
+                c=(24,28,34) if (x+y*2)%9<6 else (39,44,50)
+                dot(x,y,shade(c,rng.choice([-4,-1,0,2,4])))
+        for x0,y0 in [(1,3),(6,0),(10,8),(2,12)]:
+            line(x0,y0,min(15,x0+4),min(15,y0+3),(12,15,21))
+            line(x0+1,y0,min(15,x0+5),min(15,y0+3),(59,65,73))
+        if name=='veined_nightslag':
+            line(2,0,4,5,(84,92,109));line(4,5,9,8,(109,114,139));line(9,8,10,15,(65,83,111))
+            for x,y in [(3,3),(6,6),(10,12)]:dot(x,y,(162,164,183))
+    elif name.endswith('_ore'):
+
         for x,y in [(3,4),(10,2),(12,9),(5,12),(7,7)]:
             rect(x-1,y,x+1,y+2,shade(base,-24));dot(x,y,high);dot(x+1,y+1,accent);dot(x,y+2,shade(accent,-20));dot(x-1,y+1,accent)
     elif 'armor' in name or name in ENTITIES:

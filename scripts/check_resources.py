@@ -45,6 +45,23 @@ class Nbt:
 
 
 class Resources(unittest.TestCase):
+    def test_crowned_sites_and_character_resolution(self):
+        for name in generator.SIZES:
+            site=json.loads((DATA/f'worldgen/structure/{name}.json').read_text())
+            self.assertEqual(site['type'],'tnd:crowned_site')
+            self.assertEqual(site['template'],'tnd:'+name)
+            self.assertEqual(site['terrain_adaptation'],'none')
+            expected='#minecraft:is_overworld' if name in ['outpost','portal_site'] else '#tnd:is_vestige'
+            self.assertEqual(site['biomes'],expected)
+        for name in ['nightslag','veined_nightslag']:
+            self.assertTrue((DATA/f'loot_table/blocks/{name}.json').is_file())
+            self.assertTrue((DATA/f'recipe/{name}.json').is_file())
+        from character_art import MOBS
+        for name in MOBS:
+            raw=(ASSETS/f'textures/entity/{name}.png').read_bytes()
+            self.assertEqual(struct.unpack('>II',raw[16:24]),(64,64))
+        for name in ['umbra_helmet','umbra_chestplate','umbra_leggings','umbra_boots']:
+            self.assertEqual(struct.unpack('>II',(ASSETS/f'textures/item/{name}.png').read_bytes()[16:24]),(16,16))
     def test_awakening_progression_and_equipment_assets(self):
         self.assertEqual(generator.SIZES['aureate_citadel'],(95,47,95))
         self.assertEqual(generator.SIZES['echo_conservatory'],(79,45,79))
@@ -121,8 +138,9 @@ class Resources(unittest.TestCase):
                 if kind == b'IHDR': dimensions = struct.unpack('>IIBBBBB', payload)
                 if kind == b'IDAT': compressed.extend(payload)
                 index += 12 + size
-            self.assertEqual(dimensions, (16, 16, 8, 6, 0, 0, 0))
-            self.assertEqual(len(zlib.decompress(compressed)), 16 * (1 + 16 * 4))
+            size=64 if path.relative_to(ASSETS/'textures').parts[0]=='entity' else 16
+            self.assertEqual(dimensions, (size, size, 8, 6, 0, 0, 0))
+            self.assertEqual(len(zlib.decompress(compressed)), size * (1 + size * 4))
 
     def test_nbt_structures(self):
         for path in (DATA / 'structure').glob('*.nbt'):

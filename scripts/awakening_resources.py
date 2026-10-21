@@ -2,7 +2,7 @@
 import json
 from awakening_art import BLOCKS,ITEMS,DECOR,ENTITIES,paint
 SHAPES={f'{base}_{shape}':(base,shape) for base in ['citadel_bricks','umbra_tiles','conservatory_tiles'] for shape in ['stairs','slab']}
-TESTS=['awakening_materials', 'awakening_ores', 'lithoguard_hit', 'lithoguard_dodge', 'lithoguard_patterns', 'stalker_hit', 'stalker_interrupt', 'awakened_loot', 'separator_processing', 'separator_hoppers', 'reaper_night', 'reaper_guards', 'reaper_save', 'awakening_equipment', 'gravitas_wave', 'citadel_layout', 'conservatory_layout']
+TESTS=['crowned_generation','crowned_mountain','crowned_starter','awakening_materials', 'awakening_ores', 'lithoguard_hit', 'lithoguard_dodge', 'lithoguard_patterns', 'stalker_hit', 'stalker_interrupt', 'awakened_loot', 'separator_processing', 'separator_hoppers', 'reaper_night', 'reaper_guards', 'reaper_save', 'awakening_equipment', 'gravitas_wave', 'citadel_layout', 'conservatory_layout']
 SOUNDS=['lithoguard_wake','lithoguard_charge','lithoguard_impact','lithoguard_step','lithoguard_fall','stalker_charge','stalker_shot','stalker_hurt','stalker_fall','separator_complete','reaper_harvest','hammer_charge','hammer_impact','ruin_chime','expedition_complete','anchor_depart']
 
 def content(write,png,assets,data):
@@ -52,8 +52,9 @@ def content(write,png,assets,data):
     for raw,made in [('raw_auralite','auralite_ingot'),('auralite_grit','auralite_ingot'),('raw_noctilite','noctilite_crystal'),('noctilite_grit','noctilite_crystal')]:
         for kind,ticks in [('smelting',200),('blasting',100)]:write(data/f'recipe/{raw}_{kind}.json',{'type':'minecraft:'+kind,'ingredient':'tnd:'+raw,'result':{'id':'tnd:'+made},'experience':.5,'cookingtime':ticks})
     for name in DECOR:
-        if name in ['auralite_block','umbra_block','lithic_trophy']:continue
+        if name in ['auralite_block','umbra_block','lithic_trophy','veined_nightslag']:continue
         write(data/f'recipe/{name}.json',{'type':'minecraft:stonecutting','ingredient':'tnd:ancient_alloy' if name in ['gilded_pillar','gilded_trim','latticed_alloy','verdigris_panel'] else 'tnd:ashstone','result':{'id':'tnd:'+name,'count':1}})
+    write(data/'recipe/veined_nightslag.json',{'type':'minecraft:crafting_shapeless','ingredients':['tnd:nightslag','tnd:echo_dust'],'result':{'id':'tnd:veined_nightslag','count':1}})
     for name in SHAPES:
         base,shape=SHAPES[name];write(data/f'recipe/{name}.json',{'type':'minecraft:stonecutting','ingredient':'tnd:'+base,'result':{'id':'tnd:'+name,'count':2 if shape=='slab' else 1}})
     write(data/'advancement/recipes/awakening_knowledge.json',{'criteria':{'mineral':{'trigger':'minecraft:inventory_changed','conditions':{'items':[{'items':['tnd:raw_auralite','tnd:raw_noctilite','tnd:ashstone','tnd:lithic_heart','tnd:glass_filament']}]}}},'requirements':[['mineral']],'rewards':{'recipes':['tnd:'+name for name in recipes]+['tnd:'+name for name in DECOR+list(SHAPES) if name not in recipes]}})
@@ -75,6 +76,7 @@ def content(write,png,assets,data):
 
 def languages(fr,en):
     names={
+      'nightslag':('Scorie ferrenoire','Nightslag'),'veined_nightslag':('Scorie ferrenoire veinée','Veined Nightslag'),
       'auralite_ore':('Minerai d’auralite','Auralite Ore'),'noctilite_ore':('Minerai de noctilite','Noctilite Ore'),
       'citadel_bricks':('Briques de citadelle','Citadel Bricks'),'carved_citadel_bricks':('Briques de citadelle sculptées','Carved Citadel Bricks'),'cracked_citadel_bricks':('Briques de citadelle fissurées','Cracked Citadel Bricks'),
       'gilded_pillar':('Pilier doré','Gilded Pillar'),'gilded_trim':('Corniche dorée','Gilded Trim'),'auralite_block':('Bloc d’auralite','Block of Auralite'),'umbra_block':('Bloc d’alliage ombral','Block of Umbra Alloy'),'umbra_tiles':('Carreaux ombraux','Umbra Tiles'),'etched_umbra':('Pierre ombrale gravée','Etched Umbra'),

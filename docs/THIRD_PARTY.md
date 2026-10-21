@@ -11,4 +11,4 @@ Le code et les créations originales restent sous **All Rights Reserved**, confo
 
 Les dix-huit sons de la 0.6 sont synthétisés par `scripts/soundscape_audio.py` (oscillateurs, bruit filtré et enveloppes), puis encodés par ffmpeg. Aucun échantillon vocal, morceau de musique ou enregistrement tiers n’est incorporé.
 
-Les seize effets de la 0.9 sont synthétisés par `scripts/awakening_audio.py` avec des oscillateurs, bruit filtré et enveloppes propres, puis encodés par ffmpeg. Les modèles articulés, les textures 16 × 16 et les deux nouvelles architectures sont également des créations originales du projet.
+Les seize effets de la 0.9 sont synthétisés par `scripts/awakening_audio.py` avec des oscillateurs, bruit filtré et enveloppes propres, puis encodés par ffmpeg. Les modèles articulés, les textures de blocs et d’icônes 16 × 16, les atlas de personnages 64 × 64, les massifs de scorie et les deux nouvelles architectures sont également des créations originales du projet.

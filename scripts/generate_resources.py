@@ -27,6 +27,7 @@ import atmosphere_resources
 import expedition_resources
 import fieldwork_resources
 import awakening_resources
+import character_art
 SHAPES.update(awakening_resources.SHAPES)
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
@@ -290,10 +291,8 @@ def structure(name, size):
         'element':{'element_type':'minecraft:single_pool_element','location':f'tnd:{name}',
                    'processors':'minecraft:empty','projection':'rigid'}}]})
     biomes='#minecraft:is_overworld' if name in ('outpost','portal_site') else '#tnd:is_vestige'
-    write(DATA/f'worldgen/structure/{name}.json',{'type':'minecraft:jigsaw','biomes':biomes,
-        'max_distance_from_center':112 if name in ('aureate_citadel','echo_conservatory') else 80,'project_start_to_heightmap':'WORLD_SURFACE_WG','size':1,
-        'spawn_overrides':{},'start_height':{'absolute':-1},'start_pool':f'tnd:{name}',
-        'step':'surface_structures','terrain_adaptation':'beard_box','use_expansion_hack':False})
+    write(DATA/f'worldgen/structure/{name}.json',{'type':'tnd:crowned_site','template':f'tnd:{name}','biomes':biomes,
+        'spawn_overrides':{},'step':'surface_structures','terrain_adaptation':'none'})
     spacing={'outpost':(64,40),'portal_site':(768,640),'relay':(26,14),'archive':(32,18),'foundry':(30,16),'resonance_vault':(30,16),'observatory':(30,16),'aureate_citadel':(30,16),'echo_conservatory':(30,16)}[name]
     write(DATA/f'worldgen/structure_set/{name}.json',{'placement':{'type':'minecraft:random_spread',
         'salt':{'outpost':845331,'portal_site':934281,'relay':129811,'archive':129812,'foundry':129813,'resonance_vault':129814,'observatory':129815,'aureate_citadel':129816,'echo_conservatory':129817}[name],
@@ -489,9 +488,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--audio', action='store_true')
     options = parser.parse_args()
-    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); languages()
+    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); languages()
     if options.audio:
         audio()
         import awakening_audio
         awakening_audio.generate(ASSETS,write)
-    print('Generated 16×16 textures, building materials, habitat ores and nine furnished structures.')
+    print('Generated 16px blocks/items, 64px character atlases and nine furnished crowned sites.')

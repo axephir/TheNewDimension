@@ -27,6 +27,9 @@ public final class ReadinessTests {
     public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
             BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
     static {
+        FUNCTIONS.register("crowned_generation",()->CrownedSiteTests::generation);
+        FUNCTIONS.register("crowned_mountain",()->CrownedSiteTests::mountain);
+        FUNCTIONS.register("crowned_starter",()->CrownedSiteTests::starter);
         FUNCTIONS.register("awakening_materials",()->AwakeningTests::materials);
         FUNCTIONS.register("awakening_ores",()->AwakeningTests::ores);
         FUNCTIONS.register("lithoguard_hit",()->AwakeningTests::lithoHit);

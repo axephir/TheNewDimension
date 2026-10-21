@@ -5,7 +5,7 @@ import net.minecraft.client.model.geom.*;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 
-/** Original jointed silhouettes; every UV island fits the same 16x16 atlas. */
+/** Original jointed silhouettes; 64px atlases separate shell, joints, face and luminous mineral islands. */
 public final class RelicModel extends EntityModel<RelicRenderState> {
     private final ModelPart body,core,head;
     private final ModelPart[] legs=new ModelPart[4];
@@ -18,23 +18,31 @@ public final class RelicModel extends EntityModel<RelicRenderState> {
     public static LayerDefinition layer(boolean sentinel) {
         var mesh=new MeshDefinition();var root=mesh.getRoot();
         if(sentinel) {
-            root.addOrReplaceChild("body",cube(0,0,-2,-2,-2,4,4,4),PartPose.offset(0,6,0).withScale(2));
-            root.addOrReplaceChild("core",cube(8,8,-1,-1,-1,2,2,2),PartPose.offsetAndRotation(0,12,0,0,0,.785f).withScale(2));
-            root.addOrReplaceChild("head",cube(0,8,-1,-1,-1,2,2,2),PartPose.offset(0,5,-5).withScale(1.5f));
+            var shell=root.addOrReplaceChild("body",cube(0,0,-2,-2,-2,4,4,4),PartPose.offset(0,6,0).withScale(2));
+            shell.addOrReplaceChild("carapace",cube(0,32,-2.4f,-2.5f,-2.4f,4.8f,1.2f,4.8f),PartPose.ZERO);
+            for(int side:new int[]{-1,1})shell.addOrReplaceChild("crest"+side,cube(32,32,-.4f,-2,-1,.8f,3,2),PartPose.offsetAndRotation(side*1.7f,-2,0,0,0,side*.3f));
+            root.addOrReplaceChild("core",cube(48,0,-1,-1,-1,2,2,2),PartPose.offsetAndRotation(0,12,0,0,0,.785f).withScale(2));
+            var face=root.addOrReplaceChild("head",cube(0,16,-1,-1,-1,2,2,2),PartPose.offset(0,5,-5).withScale(1.5f));
+            face.addOrReplaceChild("optic",cube(48,16,-.8f,-.3f,-1.2f,1.6f,.6f,.4f),PartPose.ZERO);
+            face.addOrReplaceChild("brow",cube(0,32,-1.2f,-1.1f,-1.4f,2.4f,.6f,1),PartPose.ZERO);
             for(int i=0;i<4;i++) {
                 float x=(i%2==0?-1:1)*4,z=(i<2?-1:1)*4;
-                var leg=root.addOrReplaceChild("leg"+i,cube(0,8,-1,0,-1,2,4,2),new PartPose(x,13,z,0,0,(i%2==0?.25f:-.25f),1,2.4f,1));
-                leg.addOrReplaceChild("foot",cube(0,8,-1,0,-2,2,1,3),PartPose.offset(0,3.6f,-.5f));
-                root.addOrReplaceChild("brace"+i,cube(0,8,-1,-2,-1,2,4,2),PartPose.offsetAndRotation(x*.8f,11,z*.8f,0,0,i%2==0?.7f:-.7f));
+                var leg=root.addOrReplaceChild("leg"+i,cube(32,0,-1,0,-1,2,4,2),new PartPose(x,13,z,0,0,(i%2==0?.25f:-.25f),1,2.4f,1));
+                leg.addOrReplaceChild("foot",cube(32,0,-1,0,-2,2,1,3),PartPose.offset(0,3.6f,-.5f));
+                root.addOrReplaceChild("brace"+i,cube(32,0,-1,-2,-1,2,4,2),PartPose.offsetAndRotation(x*.8f,11,z*.8f,0,0,i%2==0?.7f:-.7f));
             }
         } else {
-            root.addOrReplaceChild("body",cube(0,0,-2,0,-2,4,3,4),PartPose.offset(0,14.5f,0).withScale(1.65f));
-            root.addOrReplaceChild("core",cube(8,8,-1,-1,-1,2,2,2),PartPose.offsetAndRotation(0,14,0,0,0,.785f).withScale(1.2f));
-            var head=root.addOrReplaceChild("head",cube(8,8,-1,-1,-1,2,2,2),PartPose.offset(0,16,-4).withScale(1.5f));
-            for(int i=0;i<2;i++)head.addOrReplaceChild("feelers"+i,cube(0,8,0,-3,0,1,3,1),PartPose.offsetAndRotation(i==0?-1.5f:.8f,-.5f,-.5f,0,0,i==0?-.3f:.3f));
-            for(int i=0;i<4;i++)root.addOrReplaceChild("leg"+i,cube(0,8,-.5f,0,-.5f,1,4,1),PartPose.offsetAndRotation(i%2==0?-3.5f:3.5f,19,i<2?-2.5f:2.5f,0,0,i%2==0?.3f:-.3f));
+            var shell=root.addOrReplaceChild("body",cube(0,0,-2,0,-2,4,3,4),PartPose.offset(0,14.5f,0).withScale(1.65f));
+            for(int i=0;i<3;i++)shell.addOrReplaceChild("segment"+i,cube(0,32,-2.1f,-.5f,-.5f,4.2f,1,1),PartPose.offset(0,0,-1.4f+i*1.4f));
+            shell.addOrReplaceChild("tail",cube(32,32,-.5f,-.5f,0,1,1,2),PartPose.offsetAndRotation(0,1.5f,2,-.4f,0,0));
+            root.addOrReplaceChild("core",cube(48,0,-1,-1,-1,2,2,2),PartPose.offsetAndRotation(0,14,0,0,0,.785f).withScale(1.2f));
+            var head=root.addOrReplaceChild("head",cube(48,0,-1,-1,-1,2,2,2),PartPose.offset(0,16,-4).withScale(1.5f));
+            head.addOrReplaceChild("mask",cube(0,16,-1.3f,-1.1f,-1.3f,2.6f,1,1),PartPose.ZERO);
+            for(int side:new int[]{-1,1})head.addOrReplaceChild("eye"+side,cube(48,16,-.2f,-.2f,-.2f,.4f,.4f,.4f),PartPose.offset(side*.65f,.15f,-1.1f));
+            for(int i=0;i<2;i++)head.addOrReplaceChild("feelers"+i,cube(32,0,0,-3,0,1,3,1),PartPose.offsetAndRotation(i==0?-1.5f:.8f,-.5f,-.5f,0,0,i==0?-.3f:.3f));
+            for(int i=0;i<4;i++)root.addOrReplaceChild("leg"+i,cube(32,0,-.5f,0,-.5f,1,4,1),PartPose.offsetAndRotation(i%2==0?-3.5f:3.5f,19,i<2?-2.5f:2.5f,0,0,i%2==0?.3f:-.3f));
         }
-        return LayerDefinition.create(mesh,16,16);
+        return LayerDefinition.create(mesh,64,64);
     }
     @Override public void setupAnim(RelicRenderState state) {
         super.setupAnim(state);

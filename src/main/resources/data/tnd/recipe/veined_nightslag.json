@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "tnd:nightslag",
+    "tnd:echo_dust"
+  ],
+  "result": {
+    "id": "tnd:veined_nightslag",
+    "count": 1
+  }
+}

@@ -25,6 +25,8 @@ public final class TheNewDimension {
         ReadinessTests.FUNCTIONS.register(bus);
         ModContent.register(bus);
         fr.axephir.tnd.world.HabitatOreFeature.FEATURES.register(bus);
+        fr.axephir.tnd.world.CrownedSiteStructure.TYPES.register(bus);
+        fr.axephir.tnd.world.CrownedSiteStructure.PIECES.register(bus);
         PlayerProgression.TYPES.register(bus);
         container.registerConfig(ModConfig.Type.SERVER, TndConfig.SERVER);
         NeoForge.EVENT_BUS.register(new ProgressionEvents());

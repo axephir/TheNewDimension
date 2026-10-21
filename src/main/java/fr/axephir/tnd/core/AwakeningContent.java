@@ -19,10 +19,12 @@ public final class AwakeningContent {
     static{for(var name:SOUND_IDS)ModContent.ATMOSPHERE_SOUNDS.put(name,ModContent.SOUNDS.register(name,()->net.minecraft.sounds.SoundEvent.createVariableRangeEvent(id(name))));}
     public static final DeferredBlock<Block> AURALITE_ORE=block("auralite_ore",3);
     public static final DeferredBlock<Block> NOCTILITE_ORE=block("noctilite_ore",4);
+    public static final DeferredBlock<fr.axephir.tnd.world.NightslagBlock> NIGHTSLAG=slag("nightslag",1),VEINED_NIGHTSLAG=slag("veined_nightslag",4);
     public static final Map<String,DeferredBlock<Block>> DECOR=new LinkedHashMap<>();
+    public static final Map<String,DeferredBlock<StairBlock>> STAIRS=new LinkedHashMap<>();
     static{for(var name:List.of("citadel_bricks","carved_citadel_bricks","cracked_citadel_bricks","gilded_pillar","gilded_trim","auralite_block","umbra_block","umbra_tiles","etched_umbra","crystal_mosaic","conservatory_tiles","verdigris_panel","latticed_alloy","runic_lamp","amber_lamp","violet_lamp","lithic_trophy"))DECOR.put(name,block(name,name.endsWith("lamp")?15:name.endsWith("trophy")?7:0));
         for(var base:List.of("citadel_bricks","umbra_tiles","conservatory_tiles")){
-            var stone=DECOR.get(base);var stair=ModContent.BLOCKS.registerBlock(base+"_stairs",p->new StairBlock(stone.get().defaultBlockState(),p),p->p.strength(4,10).requiresCorrectToolForDrops());ModContent.ITEMS.registerSimpleBlockItem(base+"_stairs",stair);
+            var stone=DECOR.get(base);var stair=ModContent.BLOCKS.registerBlock(base+"_stairs",p->new StairBlock(stone.get().defaultBlockState(),p),p->p.strength(4,10).requiresCorrectToolForDrops());STAIRS.put(base,stair);ModContent.ITEMS.registerSimpleBlockItem(base+"_stairs",stair);
             var slab=ModContent.BLOCKS.registerBlock(base+"_slab",SlabBlock::new,p->p.strength(4,10).requiresCorrectToolForDrops());ModContent.ITEMS.registerSimpleBlockItem(base+"_slab",slab);
         }
     }
@@ -43,6 +45,10 @@ public final class AwakeningContent {
     public static final DeferredItem<SpawnEggItem> LITHOGUARD_EGG=ModContent.ITEMS.registerItem("lithoguard_spawn_egg",SpawnEggItem::new,p->p.spawnEgg(VestigeEntities.LITHOGUARD.get()));
     public static final DeferredItem<SpawnEggItem> STALKER_EGG=ModContent.ITEMS.registerItem("glass_stalker_spawn_egg",SpawnEggItem::new,p->p.spawnEgg(VestigeEntities.STALKER.get()));
     private static DeferredItem<Item> armor(String name,ArmorType type){return ModContent.ITEMS.registerSimpleItem(name,p->p.humanoidArmor(UMBRA_ARMOR,type));}
+    private static DeferredBlock<fr.axephir.tnd.world.NightslagBlock> slag(String name,int light){
+        var b=ModContent.BLOCKS.registerBlock(name,fr.axephir.tnd.world.NightslagBlock::new,p->p.strength(5,18).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK).lightLevel(s->light));
+        ModContent.ITEMS.registerSimpleBlockItem(name,b);return b;
+    }
     private static DeferredItem<Item> item(String name){return ModContent.ITEMS.registerSimpleItem(name);}
     private static DeferredBlock<Block> block(String name,int light){var b=ModContent.BLOCKS.registerSimpleBlock(name,p->p.strength(4,10).requiresCorrectToolForDrops().lightLevel(s->light).sound(name.contains("lamp")?SoundType.GLASS:SoundType.DEEPSLATE));ModContent.ITEMS.registerSimpleBlockItem(name,b);return b;}
     private static Identifier id(String name){return Identifier.fromNamespaceAndPath("tnd",name);}
