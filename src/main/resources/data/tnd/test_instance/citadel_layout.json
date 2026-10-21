@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:citadel_layout",
+  "structure": "tnd:test_awakening",
+  "max_ticks": 400,
+  "required": true
+}

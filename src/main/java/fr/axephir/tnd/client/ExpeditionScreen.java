@@ -12,6 +12,7 @@ import java.util.*;
 
 public final class ExpeditionScreen extends AbstractContainerScreen<ExpeditionMenu> {
     private int page;
+    private final PanelMotion motion=new PanelMotion();
     private final List<Button> claims=new ArrayList<>();
     public ExpeditionScreen(ExpeditionMenu m,Inventory i,Component title){super(m,i,title,300,216);}
     private ExpeditionProgress progress(){return minecraft!=null&&minecraft.player!=null?minecraft.player.getData(PlayerProgression.EXPEDITIONS):ExpeditionProgress.empty();}
@@ -42,7 +43,7 @@ public final class ExpeditionScreen extends AbstractContainerScreen<ExpeditionMe
             var e=Expedition.values()[page*4+row];int yy=y+37+row*38;StonePanel.inset(g,x+8,yy,284,35);
             g.text(font,Component.translatable("expedition.tnd."+e.id()),x+14,yy+4,s.claimed(e)?0xffa7c7a0:0xffe9dbaf,false);
             g.text(font,Component.translatable("expedition.tnd."+e.id()+".short"),x+14,yy+15,0xffc8d4c0,false);
-            g.fill(x+14,yy+27,x+202,yy+30,0xff172b22);g.fill(x+14,yy+27,x+14+s.progress(e)*188/e.goal,yy+30,0xff82b49a);
+            g.fill(x+14,yy+27,x+202,yy+30,0xff172b22);g.fill(x+14,yy+27,x+14+motion.value(e.ordinal(),s.progress(e)*1000/e.goal)*188/1000,yy+30,0xff82b49a);
             var count=Component.literal(s.progress(e)+" / "+e.goal);g.text(font,count,x+254-font.width(count)/2,yy+23,0xffd2dfc7,false);
         }
         g.text(font,Component.translatable("gui.tnd.expedition.page",page+1),x+120,y+197,0xff394d3e,false);

@@ -3,6 +3,9 @@
   "values": [
     "tnd:ashstone_bricks_stairs",
     "tnd:polished_ashstone_stairs",
-    "tnd:cut_alloy_stairs"
+    "tnd:cut_alloy_stairs",
+    "tnd:citadel_bricks_stairs",
+    "tnd:umbra_tiles_stairs",
+    "tnd:conservatory_tiles_stairs"
   ]
 }

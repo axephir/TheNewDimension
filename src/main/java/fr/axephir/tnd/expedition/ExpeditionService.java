@@ -22,7 +22,7 @@ public final class ExpeditionService {
         if(!eligible(p))return;var before=p.getData(PlayerProgression.EXPEDITIONS);var after=action.apply(before);
         if(after.equals(before))return;p.setData(PlayerProgression.EXPEDITIONS,after);
         boolean newlyComplete=Arrays.stream(Expedition.values()).anyMatch(e->!before.complete(e)&&after.complete(e));
-        if(newlyComplete){p.sendOverlayMessage(Component.translatable("message.tnd.expedition_ready"));sound(p,SoundEvents.AMETHYST_BLOCK_CHIME,SoundSource.PLAYERS,.5f,1.2f);}
+        if(newlyComplete){p.sendOverlayMessage(Component.translatable("message.tnd.expedition_ready"));sound(p,ModContent.atmosphereSound("expedition_complete"),SoundSource.PLAYERS,.5f,1.2f);}
     }
     public static void discover(ServerPlayer p,String biome){if(inVestige(p)){int index=BIOMES.indexOf(biome);if(index>=0)update(p,s->s.discover(index));}}
     public static void console(ServerPlayer p,BlockPos pos){if(inVestige(p))update(p,s->s.console(Long.toString(pos.asLong())));}
@@ -32,7 +32,7 @@ public final class ExpeditionService {
         if(!(e.getEntity() instanceof ServerPlayer p)||p.tickCount%20!=0||!eligible(p))return;
         if(inVestige(p))p.level().getBiome(p.blockPosition()).unwrapKey().ifPresent(key->{if(key.identifier().getNamespace().equals("tnd"))discover(p,key.identifier().getPath());});
         if(!p.getData(PlayerProgression.EXPEDITIONS).gear())for(int i=0;i<p.getInventory().getContainerSize();i++){
-            var item=p.getInventory().getItem(i);if(item.is(ModContent.RESONANT_PICKAXE.get())||item.is(ModContent.RESONANT_BLADE.get())){update(p,ExpeditionProgress::equip);break;}
+            var item=p.getInventory().getItem(i);if(item.is(ModContent.RESONANT_PICKAXE.get())||item.is(ModContent.RESONANT_BLADE.get())||item.is(fr.axephir.tnd.core.AwakeningContent.UMBRA_PICKAXE.get())||item.is(fr.axephir.tnd.core.AwakeningContent.UMBRA_BLADE.get())||item.is(fr.axephir.tnd.core.AwakeningContent.HAMMER.get())){update(p,ExpeditionProgress::equip);break;}
         }
     }
     public static void sentinelKilled(ServerPlayer p){if(inVestige(p))update(p,ExpeditionProgress::sentinel);}

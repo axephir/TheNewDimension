@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:ashstone",
+  "result": {
+    "id": "tnd:amber_lamp",
+    "count": 1
+  }
+}

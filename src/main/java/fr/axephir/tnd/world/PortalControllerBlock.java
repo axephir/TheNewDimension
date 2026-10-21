@@ -18,6 +18,13 @@ public final class PortalControllerBlock extends Block implements EntityBlock {
     public PortalControllerBlock(Properties properties) { super(properties); registerDefaultState(stateDefinition.any().setValue(ACTIVE, false)); }
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(ACTIVE); }
     @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new PortalControllerEntity(pos, state); }
+    @Override public void animateTick(BlockState state,Level world,BlockPos pos,net.minecraft.util.RandomSource random){
+        if(!state.getValue(ACTIVE))return;
+        double time=world.getGameTime()*.09;for(int i=0;i<2;i++){double angle=time+i*Math.PI;
+            world.addParticle(net.minecraft.core.particles.ParticleTypes.PORTAL,pos.getX()+.5+Math.cos(angle)*.7,pos.getY()+1+Math.sin(time*.7)*.4,pos.getZ()+.5+Math.sin(angle)*.7,0,.02,0);
+        }
+        if(random.nextInt(5)==0)world.addParticle(net.minecraft.core.particles.ParticleTypes.END_ROD,pos.getX()+.5,pos.getY()+1.4,pos.getZ()+.5,0,.015,0);
+    }
     @Override protected InteractionResult useItemOn(ItemStack item, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (player instanceof ServerPlayer serverPlayer && level.getBlockEntity(pos) instanceof PortalControllerEntity portal) {
             if (!state.getValue(ACTIVE) && item.is(ModContent.COMPOSITE_CRYSTAL.get())) portal.activate(serverPlayer, item);

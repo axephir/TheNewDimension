@@ -30,6 +30,10 @@ public final class MachineRegistry {
     public static final DeferredHolder<MenuType<?>,MenuType<ResonanceForgeMenu>> FORGE_MENU=ModContent.MENUS.register("resonance_forge",()->new MenuType<>(ResonanceForgeMenu::new,FeatureFlags.DEFAULT_FLAGS));
     public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<fr.axephir.tnd.expedition.ReturnAnchorEntity>> ANCHOR_ENTITY=ENTITIES.register("return_anchor",()->new BlockEntityType<>(fr.axephir.tnd.expedition.ReturnAnchorEntity::new,ModContent.RETURN_ANCHOR.get()));
     public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<fr.axephir.tnd.expedition.SurveyTerminalEntity>> SURVEY_ENTITY=ENTITIES.register("survey_terminal",()->new BlockEntityType<>(fr.axephir.tnd.expedition.SurveyTerminalEntity::new,ModContent.SURVEY_TERMINAL.get()));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<ResonanceForgeEntity>> SEPARATOR_ENTITY=ENTITIES.register("ore_separator",()->new BlockEntityType<>((p,s)->new ResonanceForgeEntity(MachineRegistry.SEPARATOR_ENTITY.get(),p,s,true),fr.axephir.tnd.core.AwakeningContent.SEPARATOR.get()));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<EchoReaperEntity>> REAPER_ENTITY=ENTITIES.register("echo_reaper",()->new BlockEntityType<>(EchoReaperEntity::new,fr.axephir.tnd.core.AwakeningContent.REAPER.get()));
+    public static final DeferredHolder<MenuType<?>,MenuType<ResonanceForgeMenu>> SEPARATOR_MENU=ModContent.MENUS.register("ore_separator",()->new MenuType<>((id,inv)->new ResonanceForgeMenu(id,inv,1),FeatureFlags.DEFAULT_FLAGS));
+    public static final DeferredHolder<MenuType<?>,MenuType<ResonanceForgeMenu>> REAPER_MENU=ModContent.MENUS.register("echo_reaper",()->new MenuType<>((id,inv)->new ResonanceForgeMenu(id,inv,2),FeatureFlags.DEFAULT_FLAGS));
     public static void register(IEventBus bus) {
         ModContent.ITEMS.registerSimpleBlockItem("extractor", EXTRACTOR);
         ModContent.ITEMS.registerSimpleBlockItem("resonance_forge",FORGE);

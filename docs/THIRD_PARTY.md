@@ -10,3 +10,5 @@
 Le code et les créations originales restent sous **All Rights Reserved**, conformément au choix initial du modèle. Aucune licence de publication définitive n’a été choisie à la place de l’auteur. Minecraft, NeoForge et leurs marques appartiennent à leurs titulaires respectifs ; les fichiers Minecraft téléchargés par Gradle ne sont pas redistribués dans ce dépôt.
 
 Les dix-huit sons de la 0.6 sont synthétisés par `scripts/soundscape_audio.py` (oscillateurs, bruit filtré et enveloppes), puis encodés par ffmpeg. Aucun échantillon vocal, morceau de musique ou enregistrement tiers n’est incorporé.
+
+Les seize effets de la 0.9 sont synthétisés par `scripts/awakening_audio.py` avec des oscillateurs, bruit filtré et enveloppes propres, puis encodés par ffmpeg. Les modèles articulés, les textures 16 × 16 et les deux nouvelles architectures sont également des créations originales du projet.

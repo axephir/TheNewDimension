@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:umbra_tiles",
+  "result": {
+    "id": "tnd:umbra_tiles_stairs",
+    "count": 1
+  }
+}

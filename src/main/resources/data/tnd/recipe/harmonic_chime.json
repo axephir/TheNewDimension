@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "ANA",
+    " A "
+  ],
+  "key": {
+    "A": "tnd:auralite_ingot",
+    "N": "tnd:noctilite_crystal"
+  },
+  "result": {
+    "id": "tnd:harmonic_chime",
+    "count": 1
+  }
+}

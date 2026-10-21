@@ -1,0 +1,65 @@
+{
+  "criteria": {
+    "mineral": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "tnd:raw_auralite",
+              "tnd:raw_noctilite",
+              "tnd:ashstone",
+              "tnd:lithic_heart",
+              "tnd:glass_filament"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mineral"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:ore_separator",
+      "tnd:echo_reaper",
+      "tnd:umbra_alloy",
+      "tnd:auralite_pickaxe",
+      "tnd:auralite_blade",
+      "tnd:umbra_pickaxe",
+      "tnd:umbra_blade",
+      "tnd:gravitas_hammer",
+      "tnd:umbra_helmet",
+      "tnd:umbra_chestplate",
+      "tnd:umbra_leggings",
+      "tnd:umbra_boots",
+      "tnd:auralite_block",
+      "tnd:umbra_block",
+      "tnd:harmonic_chime",
+      "tnd:lithic_trophy",
+      "tnd:citadel_bricks",
+      "tnd:carved_citadel_bricks",
+      "tnd:cracked_citadel_bricks",
+      "tnd:gilded_pillar",
+      "tnd:gilded_trim",
+      "tnd:umbra_tiles",
+      "tnd:etched_umbra",
+      "tnd:crystal_mosaic",
+      "tnd:conservatory_tiles",
+      "tnd:verdigris_panel",
+      "tnd:latticed_alloy",
+      "tnd:runic_lamp",
+      "tnd:amber_lamp",
+      "tnd:violet_lamp",
+      "tnd:citadel_bricks_stairs",
+      "tnd:citadel_bricks_slab",
+      "tnd:umbra_tiles_stairs",
+      "tnd:umbra_tiles_slab",
+      "tnd:conservatory_tiles_stairs",
+      "tnd:conservatory_tiles_slab"
+    ]
+  }
+}

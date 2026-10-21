@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 import java.util.*;
 
 public final class MasteryScreen extends AbstractContainerScreen<MasteryMenu> {
+    private final PanelMotion motion=new PanelMotion();
     private Mastery selected = Mastery.MINING;
     private Button sense;
     private final Map<Talent,Button> talents = new EnumMap<>(Talent.class);
@@ -76,6 +77,7 @@ public final class MasteryScreen extends AbstractContainerScreen<MasteryMenu> {
         g.text(font,Component.translatable("gui.tnd.level",p.level()),x+132,y+46,0xffdce5cd,false);
         long base=Experience.threshold(p.level()),next=Experience.threshold(p.level()+1);
         int fill=(int)Math.clamp((p.experience()-base)*169L/Math.max(1,next-base),0,169);
+        fill=motion.value(selected.ordinal(),fill*1000/169)*169/1000;
         g.fill(x+132,y+59,x+301,y+66,0xff17231c);
         g.fill(x+132,y+59,x+132+fill,y+66,0xff78a95d);
         if(fill>0)g.fill(x+132,y+59,x+132+fill,y+60,0xffb1d882);

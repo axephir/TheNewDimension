@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    " H ",
+    " S "
+  ],
+  "key": {
+    "A": "tnd:umbra_alloy",
+    "H": "tnd:lithic_heart",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "tnd:gravitas_hammer",
+    "count": 1
+  }
+}

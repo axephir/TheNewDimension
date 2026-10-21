@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:ashstone",
+  "result": {
+    "id": "tnd:etched_umbra",
+    "count": 1
+  }
+}

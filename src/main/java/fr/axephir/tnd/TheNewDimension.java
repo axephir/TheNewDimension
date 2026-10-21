@@ -19,6 +19,7 @@ public final class TheNewDimension {
     public static final String ID = "tnd";
 
     public TheNewDimension(IEventBus bus, ModContainer container) {
+        fr.axephir.tnd.core.AwakeningContent.bootstrap();
         MachineRegistry.register(bus);
         fr.axephir.tnd.entities.VestigeEntities.register(bus);
         ReadinessTests.FUNCTIONS.register(bus);

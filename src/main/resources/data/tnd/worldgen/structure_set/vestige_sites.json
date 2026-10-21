@@ -2,8 +2,8 @@
   "placement": {
     "type": "minecraft:random_spread",
     "salt": 129811,
-    "spacing": 22,
-    "separation": 9
+    "spacing": 20,
+    "separation": 13
   },
   "structures": [
     {
@@ -24,6 +24,14 @@
     },
     {
       "structure": "tnd:observatory",
+      "weight": 1
+    },
+    {
+      "structure": "tnd:aureate_citadel",
+      "weight": 1
+    },
+    {
+      "structure": "tnd:echo_conservatory",
       "weight": 1
     }
   ]

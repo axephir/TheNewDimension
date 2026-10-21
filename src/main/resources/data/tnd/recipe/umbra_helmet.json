@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "A A"
+  ],
+  "key": {
+    "A": "tnd:umbra_alloy"
+  },
+  "result": {
+    "id": "tnd:umbra_helmet",
+    "count": 1
+  }
+}

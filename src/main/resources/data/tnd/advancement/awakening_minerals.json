@@ -1,0 +1,37 @@
+{
+  "parent": "tnd:expedition/tempered",
+  "display": {
+    "icon": {
+      "id": "tnd:raw_auralite"
+    },
+    "title": {
+      "translate": "advancement.tnd.awakening_minerals"
+    },
+    "description": {
+      "translate": "advancement.tnd.awakening_minerals.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "earned": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "tnd:raw_auralite",
+              "tnd:raw_noctilite"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "earned"
+    ]
+  ]
+}

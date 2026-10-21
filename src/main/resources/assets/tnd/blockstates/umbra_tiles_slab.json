@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "tnd:block/umbra_tiles_slab"
+    },
+    "type=top": {
+      "model": "tnd:block/umbra_tiles_slab_top"
+    },
+    "type=double": {
+      "model": "tnd:block/umbra_tiles"
+    }
+  }
+}

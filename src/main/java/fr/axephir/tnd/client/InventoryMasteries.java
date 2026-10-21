@@ -32,6 +32,7 @@ final class InventoryMasteries {
         Button expeditions=new Button(x,y+25,22,22,Component.translatable("gui.tnd.expeditions"),b->{var p=Minecraft.getInstance().player;if(p!=null)p.connection.sendCommand("tnd expeditions");},n->n.get()){
             @Override protected void extractContents(GuiGraphicsExtractor g,int mx,int my,float partial){StonePanel.frame(g,getX(),getY(),22,22);if(isHoveredOrFocused())g.fill(getX()+3,getY()+3,getX()+19,getY()+19,0xffd8d3a3);g.item(ModContent.STAR_CHART.get().asItem().getDefaultInstance(),getX()+3,getY()+3);}
         };expeditions.setTooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_expeditions")));event.addListener(expeditions);
+        var guide=Button.builder(Component.literal("?"),b->Minecraft.getInstance().gui.setScreen(new FieldGuideScreen(event.getScreen()))).bounds(x,y+50,22,22).tooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_guide"))).build();event.addListener(guide);
     }
     private InventoryMasteries() {}
 }

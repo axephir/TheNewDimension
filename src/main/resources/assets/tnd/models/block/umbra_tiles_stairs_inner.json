@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "top": "tnd:block/umbra_tiles",
+    "bottom": "tnd:block/umbra_tiles",
+    "side": "tnd:block/umbra_tiles"
+  }
+}

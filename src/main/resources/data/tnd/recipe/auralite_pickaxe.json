@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "A": "tnd:auralite_ingot",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "tnd:auralite_pickaxe",
+    "count": 1
+  }
+}

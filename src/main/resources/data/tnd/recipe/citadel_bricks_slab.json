@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:citadel_bricks",
+  "result": {
+    "id": "tnd:citadel_bricks_slab",
+    "count": 2
+  }
+}

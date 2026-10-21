@@ -10,6 +10,7 @@ import fr.axephir.tnd.technology.*;
 import java.util.*;
 
 public final class ExtractorScreen extends AbstractContainerScreen<ExtractorMenu> {
+    private final PanelMotion motion=new PanelMotion();
     private final Map<ExtractionMode,Button> modes=new EnumMap<>(ExtractionMode.class);
     public ExtractorScreen(ExtractorMenu menu,Inventory inventory,Component title){super(menu,inventory,title,176,193);}
     @Override protected void init() {
@@ -41,7 +42,7 @@ public final class ExtractorScreen extends AbstractContainerScreen<ExtractorMenu
         label(g,Component.translatable("gui.tnd.extractor.output"),x+133,y+49);
         for(int sx:new int[]{27,71,125})StonePanel.slot(g,x+sx,y+71);
         g.fill(x+96,y+74,x+118,y+83,0xff19271e);
-        g.fill(x+96,y+75,x+96+menu.progress()*22/1000,y+82,0xff9bb665);
+        g.fill(x+96,y+75,x+96+motion.value(0,menu.progress())*22/1000,y+82,0xff9bb665);
         g.fill(x+114,y+72,x+116,y+85,0xffa8af95);
         g.fill(x+116,y+74,x+118,y+83,0xffa8af95);
         g.text(font,Component.translatable("gui.tnd.extractor.period",menu.periodSeconds()),x+13,y+61,0xffc6d0b8,false);

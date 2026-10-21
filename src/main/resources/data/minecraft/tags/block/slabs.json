@@ -3,6 +3,9 @@
   "values": [
     "tnd:ashstone_bricks_slab",
     "tnd:polished_ashstone_slab",
-    "tnd:cut_alloy_slab"
+    "tnd:cut_alloy_slab",
+    "tnd:citadel_bricks_slab",
+    "tnd:umbra_tiles_slab",
+    "tnd:conservatory_tiles_slab"
   ]
 }

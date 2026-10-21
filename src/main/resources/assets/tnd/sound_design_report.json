@@ -166,5 +166,117 @@
     "peak": 0.579986572265625,
     "rms": 0.08836689710694709,
     "splice_delta": 0
+  },
+  "lithoguard_wake": {
+    "duration": 2.6,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.13768475323638762,
+    "splice_delta": 0
+  },
+  "lithoguard_charge": {
+    "duration": 1.8,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.14841855566160095,
+    "splice_delta": 0
+  },
+  "lithoguard_impact": {
+    "duration": 1.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.08091912373811747,
+    "splice_delta": 0
+  },
+  "lithoguard_step": {
+    "duration": 0.6,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.07951398179184742,
+    "splice_delta": 0
+  },
+  "lithoguard_fall": {
+    "duration": 2.6,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.13050857872031865,
+    "splice_delta": 0
+  },
+  "stalker_charge": {
+    "duration": 1.8,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.12515639413423496,
+    "splice_delta": 0
+  },
+  "stalker_shot": {
+    "duration": 0.6,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.1281282573561118,
+    "splice_delta": 0
+  },
+  "stalker_hurt": {
+    "duration": 0.6,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.12179923585241106,
+    "splice_delta": 0
+  },
+  "stalker_fall": {
+    "duration": 1.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.13625746497917104,
+    "splice_delta": 0
+  },
+  "separator_complete": {
+    "duration": 1.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.11726122830768772,
+    "splice_delta": 0
+  },
+  "reaper_harvest": {
+    "duration": 1.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.10604027653050863,
+    "splice_delta": 0
+  },
+  "hammer_charge": {
+    "duration": 1.8,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.1705542271055345,
+    "splice_delta": 0
+  },
+  "hammer_impact": {
+    "duration": 1.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.07944691050591,
+    "splice_delta": 0
+  },
+  "ruin_chime": {
+    "duration": 2.6,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.10490087773146729,
+    "splice_delta": 0
+  },
+  "expedition_complete": {
+    "duration": 1.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.10864334211808425,
+    "splice_delta": 0
+  },
+  "anchor_depart": {
+    "duration": 1.8,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.1627156863212671,
+    "splice_delta": 0
   }
 }

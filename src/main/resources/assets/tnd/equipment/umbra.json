@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "tnd:umbra_armor"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "tnd:umbra_leggings_armor"
+      }
+    ]
+  }
+}

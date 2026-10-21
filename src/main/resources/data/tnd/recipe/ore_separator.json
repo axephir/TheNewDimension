@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TAT",
+    "RFR",
+    "TAT"
+  ],
+  "key": {
+    "T": "tnd:tempered_alloy",
+    "A": "tnd:auralite_ingot",
+    "R": "tnd:resonant_shard",
+    "F": "minecraft:blast_furnace"
+  },
+  "result": {
+    "id": "tnd:ore_separator",
+    "count": 1
+  }
+}

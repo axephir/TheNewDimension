@@ -3,20 +3,20 @@
 Mod RPG, exploration et automatisation pour **Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25**.
 Nom du mod, de la dimension « Vestige » et des ressources : propositions de travail, modifiables avant une première publication.
 
-**Version actuelle : 0.8.0-dev — observatoires, expéditions et retour à l’ancre.**
+**Version actuelle : 0.9.0-dev — Éveil des profondeurs.**
 
-[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.8.0-dev.jar).
+[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.9.0-dev.jar).
 Placer ce fichier dans `mods/` avec **Minecraft Java 26.2 et NeoForge 26.2.0.93**, en remplaçant l’ancien JAR TND.
 
-Les sept bâtiments sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive, fonderie, sanctuaire de résonance et observatoire ancien. Toutes les textures du mod sont en **16 × 16**. Des blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
+Les neuf bâtiments sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive, fonderie, sanctuaire de résonance observatoire ancien, citadelle auréole et conservatoire d’écho. Toutes les textures du mod sont en **16 × 16**. Des blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
 
 Dans l’inventaire, cliquer sur le petit onglet à droite pour ouvrir les maîtrises, sans transporter de livre. Les minerais bleus affleurent sous l’eau dans tous les océans d’au moins huit blocs de profondeur ; les rouges occupent la première couche solide sous la lave de l’Overworld ; les verts apparaissent, plus rarement, contre les troncs des forêts, taïgas et jungles.
 
 **Créer un monde de test ou explorer de nouveaux chunks** pour découvrir les nouvelles structures et les nouveaux minerais. Les bâtiments déjà enregistrés dans une sauvegarde conservent leur géométrie ; leurs textures sont actualisées. Le mod ne détruit pas les constructions existantes.
 
-Le [compte rendu de cette version](docs/FIELDWORK_0.8.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour étoffer les créatures, les donjons, l’industrie et le scénario final.
+Le [compte rendu de cette version](docs/AWAKENING_0.9.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour étoffer les créatures, les donjons, l’industrie et le scénario final.
 
-L’**Éclat errant** est un familier rare, apprivoisable avec un cristal composite : suivi, attente, soin, aide au combat et repérage du minerai résonant. La **sentinelle de faille** annonce sa zone d’attaque avant de frapper ; il est possible d’esquiver ou d’interrompre sa charge. Les agrégats d’écho produisent uniquement la nuit de Vestige. Leur poussière alimente un prisme révélant temporairement les ennemis proches. Voir les [captures en jeu](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.8.0.md).
+L’**Éclat errant** est un familier rare, apprivoisable avec un cristal composite : suivi, attente, soin, aide au combat et repérage du minerai résonant. La **sentinelle de faille** annonce sa zone d’attaque avant de frapper ; il est possible d’esquiver ou d’interrompre sa charge. Les agrégats d’écho produisent uniquement la nuit de Vestige. Leur poussière alimente un prisme révélant temporairement les ennemis proches. Voir les [captures en jeu](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.9.0.md).
 
 Le **sanctuaire de résonance** propose trois ailes de combat à activer avec de la poussière d’écho, des gardiens aux attaques annoncées et un trésor partagé unique. Le cœur récupéré sert à fabriquer l’**égide résonante**, qui donne deux cœurs temporaires. La progression des ailes est sauvegardée et les issues restent ouvertes. Les nouveaux sanctuaires naturels se trouvent dans les nouveaux chunks de Vestige.
 
@@ -25,6 +25,8 @@ Vestige possède maintenant une **forêt de verre**, des **bassins de cendre** e
 Après les trois épreuves du sanctuaire, **poussière d’écho en main + clic sur le noyau (coût : deux poussières)** éveille le **Conservateur brisé**. Esquivez fractures et couronne, puis frappez son cœur exposé. Sa matrice permet de fabriquer la **forge résonante**, qui transforme les métaux bruts et produit l’alliage des nouvelles pioche et lame. Les sanctuaires déjà terminés sont compatibles. [Guide de cette progression](docs/EXPEDITION_0.7.0.md).
 
 Le nouvel onglet **Expéditions**, sous les maîtrises dans l’inventaire, propose **huit objectifs personnels**, leurs récompenses et un trophée final. Un grand **observatoire** ajoute une galerie, une bibliothèque et un mécanisme céleste à découvrir. Liez un **prisme de retour** à une ancre dans Vestige : maintenir cinq secondes permet de revenir contre deux poussières d’écho, avec une arrivée vérifiée et une recharge d’une minute. [Guide de la 0.8](docs/FIELDWORK_0.8.0.md).
+
+La **0.9** ajoute deux grandes structures (**95 × 47 × 95** et **79 × 45 × 79**), un Lithogarde massif et un Traqueur de verre aux attaques annoncées, deux minerais exposés, neuf équipements dont une armure complète et un marteau à onde frontale, un séparateur de minerais et un récolteur nocturne. **28 blocs**, **16 nouveaux sons**, des animations de combat, des panneaux animés, une carte de découverte de biome et un guide depuis le troisième onglet de l’inventaire complètent cette version. [Guide de la 0.9](docs/AWAKENING_0.9.0.md).
 
 ## Développement
 
@@ -62,12 +64,13 @@ Le script installe/réutilise un JDK Temurin épinglé avec vérification SHA-25
 
 ## Contenu jouable
 
+- Deux nouveaux minerais de Vestige, neuf équipements, deux machines et guide intégré ; détails dans le compte rendu 0.9.
 - Dimension procédurale distincte de l’Overworld, six biomes silencieux, matériaux propres, horloge indépendante de 48 000 ticks et ambiance sonore originale.
 - Avant-poste initial à environ 1 000 blocs du premier point d’arrivée d’un nouveau monde ; fresques, coffre et noyau de localisation.
 - Trois minerais exposés associés aux fonds marins, aux fonds de lave et aux racines des arbres ; cristal composite, détecteur et recherche native des vraies structures de portail.
 - Détecteur démontable par utilisation accroupie ; mécanisme consommant un cristal pour établir un passage partagé et permanent, avec destination de retour persistante.
 - Quinze maîtrises indépendantes : récolte, pêche, élevage, combat, construction, exploration, alchimie, artisanat et technologie. Talents, perception active, synergies, notifications de niveau et interface depuis l’inventaire.
-- Deux espèces originales rares et un boss de sanctuaire : familier lié au joueur et sentinelle à attaque annoncée ; transferts sûrs du familier entre dimensions, modèles et animations propres. Conservateur brisé à deux attaques annoncées, deuxième phase et fenêtres de vulnérabilité.
+- Quatre espèces originales et un boss de sanctuaire : familier lié au joueur et sentinelle à attaque annoncée ; transferts sûrs du familier entre dimensions, modèles et animations propres. Conservateur brisé à deux attaques annoncées, deuxième phase et fenêtres de vulnérabilité.
 - Observatoire à deux niveaux et huit objectifs d’expédition personnels, notes persistantes, récompenses finies et trophée du cartographe.
 - Ancres et prismes de retour dans Vestige : canalisation, annulation en cas de déplacement ou dégâts, coût fini et transport sûr du familier proche.
 - Sanctuaire de combat fermé de 63 × 43 × 63 blocs : trois épreuves, reprise après abandon, butin commun unique et égide défensive.
@@ -75,7 +78,7 @@ Le script installe/réutilise un JDK Temurin épinglé avec vérification SHA-25
 - Forge résonante : quatre transformations, poussière d’écho, entonnoirs, pause redstone et rattrapage borné. Pioche, lame et cinq progrès natifs.
 - Extracteur avec cinq productions (fer, cuivre, or, redstone, diamant), charbon, modules d’efficacité ou de stabilisation, calibrage par les consoles et les talents. Production différée bornée, sans XP automatique.
 
-La validation de cette version est détaillée dans [FIELDWORK_0.8.0.md](docs/FIELDWORK_0.8.0.md). Le [boss et la forge de la 0.7](docs/EXPEDITION_0.7.0.md) restent inclus. L’[ambiance de la 0.6](docs/ATMOSPHERE_0.6.0.md) reste incluse. Le [sanctuaire de la 0.5](docs/DUNGEON_0.5.0.md) reste inclus. Les [rencontres de la 0.4](docs/ENCOUNTERS_0.4.0.md) restent incluses. La [progression 0.3](docs/PROGRESSION_0.3.0.md) reste incluse. La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
+La validation de cette version est détaillée dans [AWAKENING_0.9.0.md](docs/AWAKENING_0.9.0.md). Les [expéditions et le retour de la 0.8](docs/FIELDWORK_0.8.0.md) restent inclus. Le [boss et la forge de la 0.7](docs/EXPEDITION_0.7.0.md) restent inclus. L’[ambiance de la 0.6](docs/ATMOSPHERE_0.6.0.md) reste incluse. Le [sanctuaire de la 0.5](docs/DUNGEON_0.5.0.md) reste inclus. Les [rencontres de la 0.4](docs/ENCOUNTERS_0.4.0.md) restent incluses. La [progression 0.3](docs/PROGRESSION_0.3.0.md) reste incluse. La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
 
 ## Commandes
 
@@ -97,4 +100,4 @@ Les options serveur `experienceMultiplier`, `extractorTicksPerItem`, `maxCatchup
 
 Le mod préserve les capacités vanilla des débutants. Les grands donjons à plusieurs étages, les autres boss, les machines avancées et le scénario final restent à développer. Aucune catastrophe n’est déclenchable dans ce code.
 
-Les textures 16 × 16, modèles, données et structures NBT sont générés par `scripts/generate_resources.py`, `scripts/pixel_art.py` et `scripts/architecture.py`. L’option `--audio` régénère les 24 sons originaux avec `ffmpeg`. Voir [ARCHITECTURE.md](docs/ARCHITECTURE.md) et [THIRD_PARTY.md](docs/THIRD_PARTY.md).
+Les textures 16 × 16, modèles, données et structures NBT sont générés par `scripts/generate_resources.py`, `scripts/pixel_art.py` et `scripts/architecture.py`. L’option `--audio` régénère les 40 sons originaux avec `ffmpeg`. Voir [ARCHITECTURE.md](docs/ARCHITECTURE.md) et [THIRD_PARTY.md](docs/THIRD_PARTY.md).

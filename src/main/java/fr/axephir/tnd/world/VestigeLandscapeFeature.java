@@ -50,6 +50,7 @@ public final class VestigeLandscapeFeature extends Feature<NoneFeatureConfigurat
                 put(world,at.offset(1,0,0),ModContent.VITREOUS_STONE.get());placed++;
             }
         }
+        AwakeningOres.generate(world,origin,random);
         return placed;
     }
     private boolean open(WorldGenLevel world,BlockPos at,int radius,int height){

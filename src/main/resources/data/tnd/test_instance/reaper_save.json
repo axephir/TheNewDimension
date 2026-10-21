@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:reaper_save",
+  "structure": "tnd:test_empty",
+  "max_ticks": 400,
+  "required": true
+}

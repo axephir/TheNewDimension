@@ -27,6 +27,24 @@ public final class ReadinessTests {
     public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
             BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
     static {
+        FUNCTIONS.register("awakening_materials",()->AwakeningTests::materials);
+        FUNCTIONS.register("awakening_ores",()->AwakeningTests::ores);
+        FUNCTIONS.register("lithoguard_hit",()->AwakeningTests::lithoHit);
+        FUNCTIONS.register("lithoguard_dodge",()->AwakeningTests::lithoDodge);
+        FUNCTIONS.register("lithoguard_patterns",()->AwakeningTests::lithoPatterns);
+        FUNCTIONS.register("stalker_hit",()->AwakeningTests::stalkerHit);
+        FUNCTIONS.register("stalker_interrupt",()->AwakeningTests::stalkerInterrupt);
+        FUNCTIONS.register("awakened_loot",()->AwakeningTests::loot);
+        FUNCTIONS.register("separator_processing",()->AwakeningTests::separatorProcessing);
+        FUNCTIONS.register("separator_hoppers",()->AwakeningTests::separatorHoppers);
+        FUNCTIONS.register("reaper_night",()->AwakeningTests::reaperNight);
+        FUNCTIONS.register("reaper_guards",()->AwakeningTests::reaperGuards);
+        FUNCTIONS.register("reaper_save",()->AwakeningTests::reaperSave);
+        FUNCTIONS.register("awakening_equipment",()->AwakeningTests::equipment);
+        FUNCTIONS.register("gravitas_wave",()->AwakeningTests::hammer);
+        FUNCTIONS.register("citadel_layout",()->AwakeningTests::citadel);
+        FUNCTIONS.register("conservatory_layout",()->AwakeningTests::conservatory);
+
         FUNCTIONS.register("field_objectives",()->FieldworkTests::objectives);
         FUNCTIONS.register("field_actions",()->FieldworkTests::actions);
         FUNCTIONS.register("field_completion",()->FieldworkTests::completion);

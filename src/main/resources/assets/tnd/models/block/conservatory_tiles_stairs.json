@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "top": "tnd:block/conservatory_tiles",
+    "bottom": "tnd:block/conservatory_tiles",
+    "side": "tnd:block/conservatory_tiles"
+  }
+}

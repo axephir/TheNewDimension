@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " H ",
+    "AAA",
+    " T "
+  ],
+  "key": {
+    "H": "tnd:lithic_heart",
+    "A": "tnd:auralite_ingot",
+    "T": "tnd:tempered_alloy"
+  },
+  "result": {
+    "id": "tnd:lithic_trophy",
+    "count": 1
+  }
+}

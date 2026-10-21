@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGT",
+    "CHC",
+    "TAT"
+  ],
+  "key": {
+    "T": "tnd:tempered_alloy",
+    "G": "tnd:glass_filament",
+    "C": "tnd:composite_crystal",
+    "H": "tnd:lithic_heart",
+    "A": "tnd:auralite_ingot"
+  },
+  "result": {
+    "id": "tnd:echo_reaper",
+    "count": 1
+  }
+}

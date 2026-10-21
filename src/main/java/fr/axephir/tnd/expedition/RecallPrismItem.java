@@ -50,7 +50,7 @@ public final class RecallPrismItem extends Item {
         if(p.hurtTime>0){say(p,"recall_interrupted");return InteractionResult.FAIL;}
         long now=p.level().getServer().overworld().getGameTime();CHANNELS.values().removeIf(c->now-c.tick()>200);
         if(CHANNELS.size()>=4096&&!CHANNELS.containsKey(p.getUUID()))return InteractionResult.FAIL;
-        CHANNELS.put(p.getUUID(),new Channel(p.position(),now,hand,binding.get(),0));p.startUsingItem(hand);say(p,"recall_channel");ExpeditionService.sound(p,SoundEvents.BEACON_AMBIENT,SoundSource.PLAYERS,.35f,1.4f);return InteractionResult.CONSUME;
+        CHANNELS.put(p.getUUID(),new Channel(p.position(),now,hand,binding.get(),0));p.startUsingItem(hand);say(p,"recall_channel");ExpeditionService.sound(p,ModContent.atmosphereSound("anchor_depart"),SoundSource.PLAYERS,.35f,1.4f);return InteractionResult.CONSUME;
     }
     public static void cancel(ServerPlayer p){CHANNELS.remove(p.getUUID());}
     @Override public void onUseTick(Level level,LivingEntity entity,ItemStack stack,int remaining){

@@ -1,6 +1,7 @@
 {
-  "replace": false,
   "values": [
+    "tnd:auralite_ore",
+    "tnd:noctilite_ore",
     "tnd:blue_ore",
     "tnd:red_ore",
     "tnd:green_ore",

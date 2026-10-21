@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:conservatory_tiles",
+  "result": {
+    "id": "tnd:conservatory_tiles_stairs",
+    "count": 1
+  }
+}

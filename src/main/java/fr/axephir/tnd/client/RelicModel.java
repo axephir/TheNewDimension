@@ -45,6 +45,10 @@ public final class RelicModel extends EntityModel<RelicRenderState> {
         }
         head.yRot=state.yRot*Mth.DEG_TO_RAD*.5f;head.xRot=state.xRot*Mth.DEG_TO_RAD*.4f;
         if(sentinel) {
+            float wind=state.charge>0?1-state.charge/32f:0;wind=wind*wind*(3-2*wind);
+            body.y+=wind*1.6f;head.xRot-=wind*.25f;head.z-=wind*.6f;
+            for(int i=0;i<4;i++){legs[i].zRot+=(i%2==0?1:-1)*wind*.18f;legs[i].y-=wind*.4f;}
+            core.xScale*=1+wind*.16f;core.yScale*=1+wind*.16f;core.zScale*=1+wind*.16f;
             core.yRot=state.ageInTicks*(state.charge>0?.18f:.025f);
             core.y+=Mth.sin(state.ageInTicks*.08f)*.4f;
             body.zRot=state.charge>0?Mth.sin(state.ageInTicks*1.8f)*.035f:0;
@@ -52,6 +56,8 @@ public final class RelicModel extends EntityModel<RelicRenderState> {
             body.y+=state.sitting?3:Mth.sin(state.ageInTicks*.12f)*.18f;
             head.y+=state.sitting?3:0;core.y+=state.sitting?3:Mth.sin(state.ageInTicks*.12f)*.18f;
             core.yRot=state.ageInTicks*(state.bonded?.06f:.015f);
+            for(int i=0;i<2;i++){var feeler=head.getChild("feelers"+i);feeler.zRot+=Mth.sin(state.ageInTicks*.09f+i)*.10f;}
+            head.z+=Mth.sin(state.ageInTicks*.12f)*.15f;
         }
     }
 }

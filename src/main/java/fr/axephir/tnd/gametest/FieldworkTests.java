@@ -34,7 +34,7 @@ final class FieldworkTests {
     private static void check(GameTestHelper h,boolean b,String message){h.assertTrue(b,Component.literal(message));}
     /** GameTestServer omits datapack dimensions. Install a real Vestige ServerLevel with a flat fixture generator, only in this disposable runner. */
     @SuppressWarnings("deprecation")
-    private static ServerLevel vestige(GameTestHelper h){
+    static ServerLevel vestige(GameTestHelper h){
         var server=h.getLevel().getServer();var existing=server.getLevel(DevelopmentCommands.DIMENSION);if(existing!=null)return existing;
         try{
             LevelStem authored;
@@ -49,13 +49,13 @@ final class FieldworkTests {
             return world;
         }catch(Exception e){throw new IllegalStateException("Cannot create isolated native Vestige test level",e);}
     }
-    private static BlockPos center(GameTestHelper h,int lane){return new BlockPos(128+lane*48,120,128);}
-    private static void platform(ServerLevel world,BlockPos at){
+    static BlockPos center(GameTestHelper h,int lane){return new BlockPos(128+lane*48,120,128);}
+    static void platform(ServerLevel world,BlockPos at){
         for(int cx=(at.getX()-12)>>4;cx<=(at.getX()+12)>>4;cx++)for(int cz=(at.getZ()-12)>>4;cz<=(at.getZ()+12)>>4;cz++)world.setChunkForced(cx,cz,true);
         for(var p:BlockPos.betweenClosed(at.offset(-12,-1,-12),at.offset(12,4,12)))world.setBlock(p,p.getY()==at.getY()-1?Blocks.STONE.defaultBlockState():Blocks.AIR.defaultBlockState(),2);
     }
-    private static void release(ServerLevel world,BlockPos at){for(int cx=(at.getX()-12)>>4;cx<=(at.getX()+12)>>4;cx++)for(int cz=(at.getZ()-12)>>4;cz<=(at.getZ()+12)>>4;cz++)world.setChunkForced(cx,cz,false);}
-    private static ServerPlayer player(GameTestHelper h,ServerLevel world,BlockPos at){
+    static void release(ServerLevel world,BlockPos at){for(int cx=(at.getX()-12)>>4;cx<=(at.getX()+12)>>4;cx++)for(int cz=(at.getZ()-12)>>4;cz<=(at.getZ()+12)>>4;cz++)world.setChunkForced(cx,cz,false);}
+    static ServerPlayer player(GameTestHelper h,ServerLevel world,BlockPos at){
         var p=GameplayTests.player(h);p.teleport(new net.minecraft.world.level.portal.TeleportTransition(world,Vec3.atBottomCenterOf(at),Vec3.ZERO,0,0,net.minecraft.world.level.portal.TeleportTransition.DO_NOTHING));p.connection.markClientLoaded();p.hasChangedDimension();return p;
     }
     static void objectives(GameTestHelper h){

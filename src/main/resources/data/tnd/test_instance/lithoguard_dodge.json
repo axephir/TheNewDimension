@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:lithoguard_dodge",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 400,
+  "required": true
+}

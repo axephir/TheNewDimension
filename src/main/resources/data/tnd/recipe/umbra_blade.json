@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    " A ",
+    " S "
+  ],
+  "key": {
+    "A": "tnd:umbra_alloy",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "tnd:umbra_blade",
+    "count": 1
+  }
+}

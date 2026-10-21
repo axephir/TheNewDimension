@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:gravitas_wave",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 400,
+  "required": true
+}

@@ -11,6 +11,11 @@ final class StonePanel {
         g.fill(x+3,y+3,x+w-3,y+h-3,0xff999e8c);
         g.fill(x+4,y+4,x+w-4,y+h-4,0xffb4b7a3);
         g.fill(x+4,y+h-5,x+w-4,y+h-4,0xff737b68);
+        if(w>100&&AtmosphereOptions.ANIMATIONS.get()){
+            int phase=(int)(net.minecraft.util.Util.getMillis()/45%(w-18));
+            g.fill(x+9,y+3,x+w-9,y+4,0xff71837b);
+            g.fill(x+9+phase,y+3,x+Math.min(w-9,phase+20),y+4,0xffdfc991);
+        }
         for(int dx:new int[]{5,w-7}) for(int dy:new int[]{5,h-7}) {
             g.fill(x+dx,y+dy,x+dx+2,y+dy+2,0xff69715e);
             g.fill(x+dx,y+dy,x+dx+1,y+dy+1,0xffe4d9aa);

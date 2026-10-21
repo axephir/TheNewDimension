@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "tnd:block/conservatory_tiles_slab"
+    },
+    "type=top": {
+      "model": "tnd:block/conservatory_tiles_slab_top"
+    },
+    "type=double": {
+      "model": "tnd:block/conservatory_tiles"
+    }
+  }
+}

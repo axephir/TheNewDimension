@@ -4,7 +4,7 @@ Every interior is cleared, roofed, lit and furnished; corridors connect all wing
 from collections import Counter, deque
 
 SIZES={'outpost':(49,35,49),'portal_site':(57,43,57),'relay':(41,41,41),
-       'archive':(55,39,49),'foundry':(57,41,49),'resonance_vault':(63,43,63),'observatory':(63,43,63)}
+       'archive':(55,39,49),'foundry':(57,41,49),'resonance_vault':(63,43,63),'observatory':(63,43,63),'aureate_citadel':(95,47,95),'echo_conservatory':(79,45,79)}
 class Building:
     def __init__(self,name):self.name=name;self.size=SIZES[name];self.grid={};self.rooms=[]
     def put(self,x,y,z,block,props=None,loot=None):
@@ -134,6 +134,9 @@ class Building:
 
 def build(name):
     b=Building(name)
+    if name in ('aureate_citadel','echo_conservatory'):
+        from awakening_architecture import build_citadel,build_conservatory
+        return (build_citadel if name=='aureate_citadel' else build_conservatory)(b)
     if name=='observatory':
         b.plaza(20,2,42,59)
         b.room(20,3,42,16,h=10).room(19,17,43,46,h=20,kind='charted_stone')
@@ -270,4 +273,5 @@ def build(name):
         b.workshop(5,21);b.workshop(46,21)
         b.chest(29,39,'foundry');b.put(26,1,39,'tnd:ancient_console')
         for x in [14,42]:b.spire(x,40,height=25)
-    return b
+    from awakening_architecture import refine_legacy
+    return refine_legacy(b)

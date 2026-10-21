@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": "tnd:auralite_ingot"
+  },
+  "result": {
+    "id": "tnd:auralite_block",
+    "count": 1
+  }
+}

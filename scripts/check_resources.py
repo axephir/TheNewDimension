@@ -45,6 +45,38 @@ class Nbt:
 
 
 class Resources(unittest.TestCase):
+    def test_awakening_progression_and_equipment_assets(self):
+        self.assertEqual(generator.SIZES['aureate_citadel'],(95,47,95))
+        self.assertEqual(generator.SIZES['echo_conservatory'],(79,45,79))
+        repairs=json.loads((DATA/'tags/item/umbra_repairs.json').read_text())
+        self.assertEqual(repairs['values'],['tnd:umbra_alloy'])
+        for ore in ['auralite_ore','noctilite_ore']:
+            loot=json.loads((DATA/f'loot_table/blocks/{ore}.json').read_text())
+            self.assertIn('minecraft:fortune',json.dumps(loot));self.assertIn('minecraft:silk_touch',json.dumps(loot))
+        for name in ['ore_separator','echo_reaper']:
+            self.assertEqual(len(json.loads((ASSETS/f'blockstates/{name}.json').read_text())['variants']),8)
+        asset=json.loads((ASSETS/'equipment/umbra.json').read_text())
+        for kind,layers in asset['layers'].items():
+            for layer in layers:self.assertTrue((ASSETS/f"textures/entity/equipment/{kind}/{layer['texture'][4:]}.png").is_file())
+        for path in (DATA/'advancement').rglob('*.json'):
+            item=json.loads(path.read_text())
+            if item.get('parent','').startswith('tnd:'):self.assertTrue((DATA/f"advancement/{item['parent'][4:]}.json").is_file(),path)
+        for name in ['lithic_heart','glass_filament']:self.assertFalse((DATA/f'recipe/{name}.json').exists())
+
+    def test_awakening_guide_and_structure_identity(self):
+        for locale in ['fr_fr','en_us']:
+            text=json.loads((ASSETS/f'lang/{locale}.json').read_text())
+            for page in range(6):
+                self.assertIn(f'guide.tnd.tab.{page}',text)
+                for row in range(3):self.assertGreater(len(text[f'guide.tnd.page.{page}.{row}']),30)
+        greenhouse=generator.build('echo_conservatory')
+        self.assertGreater(sum(v[0]=='minecraft:light_blue_stained_glass' for (x,y,z),v in greenhouse.grid.items() if y in [16,25]),500)
+        for name in ['aureate_citadel','echo_conservatory']:
+            parser=Nbt(gzip.decompress((DATA/f'structure/{name}.nbt').read_bytes()));parser.take(1);parser.string();root=parser.read(10)
+            desks=[b for b in root['blocks'] if root['palette'][b['state']]['Name']=='tnd:survey_terminal']
+            self.assertEqual(len(desks),1);self.assertEqual(desks[0]['nbt']['SurveySite'],0)
+            self.assertGreaterEqual(sum(root['palette'][b['state']]['Name']=='tnd:return_anchor' for b in root['blocks']),1)
+
     def test_json_and_namespaces(self):
         paths = list(RES.rglob('*.json'))
         self.assertGreater(len(paths), 100)
@@ -65,6 +97,10 @@ class Resources(unittest.TestCase):
             model = json.loads(path.read_text())
             if model.get('parent', '').startswith('tnd:'):
                 self.assertTrue((ASSETS / ('models/' + model['parent'][4:] + '.json')).is_file(), path)
+            for element in model.get('elements',[]):
+                for face in element.get('faces',{}).values():
+                    self.assertTrue(face['texture'].startswith('#'),(path,'element faces must reference declared texture slots'))
+                    self.assertIn(face['texture'][1:],model.get('textures',{}),path)
             for texture in model.get('textures', {}).values():
                 if texture.startswith('tnd:'):
                     self.assertTrue((ASSETS / ('textures/' + texture[4:] + '.png')).is_file(), path)
@@ -160,7 +196,7 @@ class Resources(unittest.TestCase):
         biomes={'silent_expanse','fractured_fields','hollow_shelves','glass_woodland','ashen_basin','obsidian_dunes'}
         stem=json.loads((DATA/'dimension/vestige.json').read_text())
         self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['biomes']},biomes)
-        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),24)
+        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),40)
         loops=set()
         for biome in biomes:
             data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())
@@ -221,7 +257,7 @@ class Resources(unittest.TestCase):
             self.assertTrue((ASSETS/f'textures/entity/{name}.png').is_file())
         for biome in ['silent_expanse','fractured_fields','hollow_shelves']:
             data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())
-            self.assertEqual([e['type'] for e in data['spawners']['monster']],['tnd:rift_sentinel'])
+            self.assertEqual({e['type'] for e in data['spawners']['monster']},{'tnd:rift_sentinel','tnd:lithoguard'}|({'tnd:glass_stalker'} if biome in ['fractured_fields','hollow_shelves'] else set()))
             self.assertEqual([e['type'] for e in data['spawners']['creature']],['tnd:shardling'])
             self.assertIn('tnd:echo_bloom',sum(data['features'],[]))
             self.assertLessEqual(data['creature_spawn_probability'],.02)
@@ -278,12 +314,12 @@ class Resources(unittest.TestCase):
         self.assertGreaterEqual(portal['separation'] * 16, 10000)
         self.assertLessEqual(portal['spacing'] * 16, 15000)
         sites=json.loads((DATA/'worldgen/structure_set/vestige_sites.json').read_text())
-        self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry','tnd:resonance_vault','tnd:observatory'})
+        self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry','tnd:resonance_vault','tnd:observatory','tnd:aureate_citadel','tnd:echo_conservatory'})
         self.assertGreater(sites['placement']['separation']*16,2*max(max(size[0],size[2]) for size in generator.SIZES.values()))
         for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'})
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS))
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

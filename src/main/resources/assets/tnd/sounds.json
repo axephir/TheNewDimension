@@ -246,5 +246,165 @@
         "attenuation_distance": 32
       }
     ]
+  },
+  "lithoguard_wake": {
+    "subtitle": "subtitles.tnd.lithoguard_wake",
+    "sounds": [
+      {
+        "name": "tnd:ambient/lithoguard_wake",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "lithoguard_charge": {
+    "subtitle": "subtitles.tnd.lithoguard_charge",
+    "sounds": [
+      {
+        "name": "tnd:ambient/lithoguard_charge",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "lithoguard_impact": {
+    "subtitle": "subtitles.tnd.lithoguard_impact",
+    "sounds": [
+      {
+        "name": "tnd:ambient/lithoguard_impact",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "lithoguard_step": {
+    "subtitle": "subtitles.tnd.lithoguard_step",
+    "sounds": [
+      {
+        "name": "tnd:ambient/lithoguard_step",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "lithoguard_fall": {
+    "subtitle": "subtitles.tnd.lithoguard_fall",
+    "sounds": [
+      {
+        "name": "tnd:ambient/lithoguard_fall",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "stalker_charge": {
+    "subtitle": "subtitles.tnd.stalker_charge",
+    "sounds": [
+      {
+        "name": "tnd:ambient/stalker_charge",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "stalker_shot": {
+    "subtitle": "subtitles.tnd.stalker_shot",
+    "sounds": [
+      {
+        "name": "tnd:ambient/stalker_shot",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "stalker_hurt": {
+    "subtitle": "subtitles.tnd.stalker_hurt",
+    "sounds": [
+      {
+        "name": "tnd:ambient/stalker_hurt",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "stalker_fall": {
+    "subtitle": "subtitles.tnd.stalker_fall",
+    "sounds": [
+      {
+        "name": "tnd:ambient/stalker_fall",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "separator_complete": {
+    "subtitle": "subtitles.tnd.separator_complete",
+    "sounds": [
+      {
+        "name": "tnd:ambient/separator_complete",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "reaper_harvest": {
+    "subtitle": "subtitles.tnd.reaper_harvest",
+    "sounds": [
+      {
+        "name": "tnd:ambient/reaper_harvest",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "hammer_charge": {
+    "subtitle": "subtitles.tnd.hammer_charge",
+    "sounds": [
+      {
+        "name": "tnd:ambient/hammer_charge",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "hammer_impact": {
+    "subtitle": "subtitles.tnd.hammer_impact",
+    "sounds": [
+      {
+        "name": "tnd:ambient/hammer_impact",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "ruin_chime": {
+    "subtitle": "subtitles.tnd.ruin_chime",
+    "sounds": [
+      {
+        "name": "tnd:ambient/ruin_chime",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "expedition_complete": {
+    "subtitle": "subtitles.tnd.expedition_complete",
+    "sounds": [
+      {
+        "name": "tnd:ambient/expedition_complete",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "anchor_depart": {
+    "subtitle": "subtitles.tnd.anchor_depart",
+    "sounds": [
+      {
+        "name": "tnd:ambient/anchor_depart",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
   }
 }

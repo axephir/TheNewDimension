@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "tnd:block/citadel_bricks_slab"
+    },
+    "type=top": {
+      "model": "tnd:block/citadel_bricks_slab_top"
+    },
+    "type=double": {
+      "model": "tnd:block/citadel_bricks"
+    }
+  }
+}

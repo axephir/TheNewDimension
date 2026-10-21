@@ -12,6 +12,9 @@ ACCENTS = {'blue': (48,126,179), 'red': (179,63,45), 'green': (66,132,64),
 
 def shade(c,n):return tuple(max(0,min(255,v+n)) for v in c[:3])
 def pixels(name, item=False):
+    from awakening_art import paint
+    custom=paint(name,item)
+    if custom is not None:return custom
     rng=random.Random(int.from_bytes(hashlib.sha256(name.encode()).digest()[:8],'big'))
     accent=next((c for k,c in ACCENTS.items() if k in name),(72,137,128))
     p=[(0,0,0,0)]*256

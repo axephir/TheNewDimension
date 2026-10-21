@@ -99,6 +99,9 @@ public final class ProgressionEvents {
             fr.axephir.tnd.expedition.RecallPrismItem.binding(item).ifPresent(binding->event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd.recall_target",binding.pos().getX(),binding.pos().getY(),binding.pos().getZ()).withStyle(net.minecraft.ChatFormatting.DARK_AQUA)));
         }
         if(item.is(ModContent.RETURN_ANCHOR.get().asItem())||item.is(ModContent.CARTOGRAPHER_TROPHY.get().asItem()))event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+(item.is(ModContent.RETURN_ANCHOR.get().asItem())?"return_anchor":"cartographer_trophy")).withStyle(net.minecraft.ChatFormatting.GRAY));
+        String id=net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item.getItem()).getPath();
+        if(java.util.Set.of("gravitas_hammer","raw_auralite","raw_noctilite","umbra_alloy","lithic_heart").contains(id))event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+id).withStyle(net.minecraft.ChatFormatting.GRAY));
+        if(id.equals("ore_separator")||id.equals("echo_reaper"))event.getToolTip().add(net.minecraft.network.chat.Component.translatable("gui.tnd.machine.help."+(id.equals("ore_separator")?1:2)).withStyle(net.minecraft.ChatFormatting.GRAY));
         if(key!=null)event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+key).withStyle(net.minecraft.ChatFormatting.GRAY));
     }
     @SubscribeEvent

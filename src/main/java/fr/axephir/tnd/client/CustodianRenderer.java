@@ -46,6 +46,10 @@ public final class CustodianRenderer extends MobRenderer<FracturedCustodian,Cust
             crown.yRot=a*(s.charge>0?.085f:.018f);crown.y+=Mth.sin(a*.055f)*.7f;
             core.yRot=a*(s.exposed>0?.10f:.03f);core.zRot+=Mth.sin(a*.08f)*.15f;
             body.y+=Mth.sin(a*.07f)*.6f;body.zRot=s.charge>0?Mth.sin(a*1.4f)*.025f:0;
+            float tension=s.charge>0?1-Math.min(1,s.charge/48f):0;
+            left.xRot=-tension*1.25f;right.xRot=-tension*1.25f;crown.y+=tension*2;
+            core.xScale*=1+(s.exposed>0?.08f:0)+Mth.sin(a*.12f)*.025f;
+            core.yScale*=1+(s.exposed>0?.08f:0);core.zScale*=1+(s.exposed>0?.08f:0);
             float spread=s.exposed>0?3:s.charge>0?-1:0;
             left.x-=spread;right.x+=spread;left.zRot+=Mth.sin(a*.06f)*.08f;right.zRot-=Mth.sin(a*.06f)*.08f;
         }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NTN",
+    "TGT",
+    "NTN"
+  ],
+  "key": {
+    "N": "tnd:noctilite_crystal",
+    "T": "tnd:tempered_alloy",
+    "G": "tnd:glass_filament"
+  },
+  "result": {
+    "id": "tnd:umbra_alloy",
+    "count": 4
+  }
+}
