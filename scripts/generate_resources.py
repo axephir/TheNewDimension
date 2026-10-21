@@ -24,15 +24,16 @@ from progression_resources import expand as expand_progression_languages
 import creature_resources
 import dungeon_resources
 import atmosphere_resources
+import expedition_resources
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
 DATA = ROOT / 'data/tnd'
 ASSETS = ROOT / 'assets/tnd'
 BLOCKS = ['ashstone', 'ancient_alloy', 'resonant_ore', 'conduit',
           'blue_ore', 'red_ore', 'green_ore', 'portal_frame',
-          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault'] + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES)
+          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault','resonance_forge'] + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES)
 ITEMS = ['blue_shard', 'red_shard', 'green_shard', 'resonant_shard',
-         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis']
+         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis','inertial_matrix','tempered_alloy','resonant_pickaxe','resonant_blade']
 
 
 def write(path, data):
@@ -56,7 +57,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Vestige 0.6 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Vestige 0.7 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}
@@ -108,6 +109,8 @@ def content():
         write(ASSETS / f'items/{item}.json', {'model': {'type': 'minecraft:model', 'model': f'tnd:item/{item}'}})
     creature_resources.content(write,png,ASSETS,DATA)
     dungeon_resources.content(write,texture,ASSETS,DATA)
+    expedition_resources.content(write,png,ASSETS,DATA)
+    for n in ['resonance_forge_active','resonance_forge_top']:texture(n)
     for tag, values in {'mineable/pickaxe': BLOCKS, 'needs_iron_tool': ['blue_ore', 'red_ore', 'green_ore', 'resonant_ore']}.items():
         write(ROOT / f'data/minecraft/tags/block/{tag}.json', {'replace': False, 'values': [f'tnd:{v}' for v in values]})
     for shape,tag in [('stairs','stairs'),('slab','slabs')]:
@@ -326,9 +329,9 @@ def structures():
     for name, maximum in [('dimension', 200), ('extractor', 3000), ('portal_resistance', 100),
                           ('portal_terrain', 200), ('portal_arrival', 100),
                           ('portal_no_space', 200), ('portal_round_trip', 400),
-                          ('habitat_ores', 200), ('buildings', 200), ('outpost_terrain',200), ('mastery_actions',100), ('console',100), ('extraction_modes',100), ('talent_menus',100), ('talent_effects',100), ('companion_bond',100), ('companion_follow',150), ('companion_travel',200), ('companion_cold_arrival',150), ('sentinel_dodge',100), ('sentinel_hit',100), ('sentinel_interrupt',100), ('echo_lens',100), ('echo_deposits',100), ('vault_progress',400), ('vault_recovery',400), ('vault_safety',200), ('vault_rotations',200), ('resonant_aegis',100), ('biome_palette',200), ('vestige_landscapes',200), ('mastery_celebration',100)]:
+                          ('habitat_ores', 200), ('buildings', 200), ('outpost_terrain',200), ('mastery_actions',100), ('console',100), ('extraction_modes',100), ('talent_menus',100), ('talent_effects',100), ('companion_bond',100), ('companion_follow',150), ('companion_travel',200), ('companion_cold_arrival',150), ('sentinel_dodge',100), ('sentinel_hit',100), ('sentinel_interrupt',100), ('echo_lens',100), ('echo_deposits',100), ('vault_progress',400), ('vault_recovery',400), ('vault_safety',200), ('vault_rotations',200), ('resonant_aegis',100), ('biome_palette',200), ('vestige_landscapes',200), ('mastery_celebration',100),('custodian_phase',100),('custodian_dodge',100),('custodian_hit',100),('custodian_crown',100),('custodian_stagger',100),('custodian_progress',300),('custodian_recovery',400),('forge_processing',500),('forge_recovery',1400),('forge_hoppers',600)]:
         write(DATA / f'test_instance/{name}.json', {'type': 'minecraft:function', 'environment': 'minecraft:default',
-            'function': f'tnd:{name}', 'structure': 'tnd:'+('test_habitat' if name in ('habitat_ores','outpost_terrain','sentinel_dodge','sentinel_hit','sentinel_interrupt','companion_follow','companion_travel','companion_cold_arrival','echo_deposits','vestige_landscapes') else 'test_buildings' if name in ('buildings','vault_progress','vault_recovery','vault_safety','vault_rotations') else 'test_empty'), 'max_ticks': maximum, 'required': True})
+            'function': f'tnd:{name}', 'structure': 'tnd:'+('test_habitat' if name in ('custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','habitat_ores','outpost_terrain','sentinel_dodge','sentinel_hit','sentinel_interrupt','companion_follow','companion_travel','companion_cold_arrival','echo_deposits','vestige_landscapes') else 'test_buildings' if name in ('custodian_progress','custodian_recovery','buildings','vault_progress','vault_recovery','vault_safety','vault_rotations') else 'test_empty'), 'max_ticks': maximum, 'required': True})
 
 
 def languages():
@@ -457,6 +460,7 @@ def languages():
     expand_progression_languages(fr,en,ids)
     creature_resources.languages(fr,en)
     dungeon_resources.languages(fr,en)
+    expedition_resources.languages(fr,en)
     atmosphere_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)

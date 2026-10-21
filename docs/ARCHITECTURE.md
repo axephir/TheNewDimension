@@ -4,7 +4,7 @@
 
 La demande explicite de NeoForge 26.2 remplace la proposition Forge 1.20.1 du document. Le MDK officiel 26.2 référence Minecraft 26.2, NeoForge 26.2.0.93, Java 25, ModDevGradle 2.0.148 et Gradle 9.2.1. Ces versions sont épinglées. Pas de bibliothèque de gameplay tierce.
 
-Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:vestige`. Les noms des biomes et ressources sont provisoires. Les deux premières espèces sont des propositions documentées dans ENCOUNTERS_0.4.0.md. Les boss, l’énergie industrielle avancée et l’accès quadridimensionnel restent à concevoir.
+Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:vestige`. Les noms des biomes et ressources sont provisoires. Les deux premières espèces sont des propositions documentées dans ENCOUNTERS_0.4.0.md. Le premier boss et la transformation industrielle sont documentés dans EXPEDITION_0.7.0.md. Les autres boss, l’énergie industrielle avancée et l’accès quadridimensionnel restent à concevoir.
 
 ## Séparation des responsabilités
 
@@ -14,9 +14,9 @@ Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:ve
 | `core` | Enregistrements et configuration serveur |
 | `world` | Quête d’accès, détecteur, passages et commandes de développement |
 | `progression` | Événements manuels, attachements persistants, perception et menu autoritaire |
-| `technology` | Bloc, inventaire, calcul différé et menu de l’extracteur |
+| `technology` | Extracteur et forge : inventaires, production différée, menus, entonnoirs et pause redstone |
 | `client` | Écrans et configuration graphique, chargés uniquement sur le client |
-| `entities` | Familiers, sentinelles, apparition rare et transport interdimensionnel |
+| `entities` | Familiers, sentinelles, boss lié au sanctuaire et transport interdimensionnel |
 | `dungeon` | Sceaux, épreuves finies, contrôleur persistant et égide défensive |
 | `gametest` | Tests d’intégration natifs : monde, portails, progression, consoles et machines |
 
@@ -59,3 +59,5 @@ La politique multijoueur demeure ouverte : déclenchement administré, consentem
 Le sanctuaire de résonance utilise un seul contrôleur de données, trois sceaux ordinaires et au plus trois UUID de gardiens actifs. Le marquage naturel provient du modèle NBT ; les objets reposés ne le transportent pas. Les morts confirmées et le jeton de vague font autorité, sans déduire une victoire de l’absence d’une entité. Rotations et miroirs transforment à la fois les positions et le repère des mécanismes.
 
 La 0.6 utilise six cellules climatiques à deux axes et mélange leurs densités aux frontières. Les éléments de paysage travaillent dans le seul chunk décoré et vérifient leur volume avant écriture. Les sons de biome suivent le système natif ; un contrôleur exclusivement client ajoute au plus deux nappes contextuelles et deux événements ponctuels, avec arrêt au changement de dimension. Les célébrations de maîtrise sont émises par le serveur lors du franchissement du seuil, sous forme de paquets natifs adressés au propriétaire.
+
+La 0.7 conserve les trois sceaux et leur trésor lors de la migration. Le boss optionnel dispose d’un UUID et d’un jeton distincts dans le contrôleur ; les anciens champs restent inchangés. Son état d’attaque est serveur, ses tracés sont des particules natives et ses seuls champs visuels sont synchronisés. La récompense globale est marquée récupérée avant le transfert des objets. La forge règle les cycles avant mutation des emplacements, persiste sa pause et bloque les mises à jour de lumière pendant sa suppression. Ses calculs bornent simultanément temps, combustible, matière et sortie.

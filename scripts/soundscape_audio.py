@@ -9,7 +9,7 @@ import hashlib,json,math,random,subprocess,tempfile,wave
 
 RATE=22050
 LOOPS=['vestige_wind','fracture_drone','hollow_resonance','glass_whispers','basin_lament','dune_rumble','night_pressure','enclosed_hum']
-CUES=['low_signal','metal_echo','distant_pulse','glass_tinkle','stone_shift','submerged_groan','dust_scrape','reverse_breath','spatial_chime','mastery_ascend']
+CUES=['low_signal','metal_echo','distant_pulse','glass_tinkle','stone_shift','submerged_groan','dust_scrape','reverse_breath','spatial_chime','mastery_ascend','custodian_awaken','custodian_fracture','custodian_crown','custodian_impact','custodian_fall','forge_complete']
 
 def synth(name,seconds,loop):
     rng=random.Random(int.from_bytes(hashlib.sha256(name.encode()).digest()[:8],'big'))
@@ -28,6 +28,17 @@ def synth(name,seconds,loop):
         elif name=='dune_rumble':v=low*3.6*breath+mid*.25+s(49)*.14+s(98.4)*.06
         elif name=='night_pressure':v=low*1.4*breath+s(55)*.17+s(55.7)*.14+s(82.6)*.1+s(220.3)*.025
         elif name=='enclosed_hum':v=low*1.5+s(79.8)*.12+s(120.4)*.11+s(241.3)*.05*(.5+.5*s(.09))
+        elif name.startswith('custodian_'):
+            if name=='custodian_awaken':
+                env=math.sin(math.pi*min(t/seconds,1))**2;v=env*(s(43)*.28+s(64.8)*.16+s(129.4)*.08+low*1.5)
+            elif name in ['custodian_fracture','custodian_crown']:
+                ramp=min(1,t/1.6);v=math.sin(math.pi*min(t/seconds,1))**.8*(s((148 if name.endswith('crown') else 97)+ramp*24)*.20+s(196.3)*.08+mid*.4)
+            elif name=='custodian_impact':
+                env=(1-math.exp(-t*35))*math.exp(-t*3);v=env*(s(53)*.7+s(106.7)*.3+mid*1.4+low*2)
+            else:
+                env=math.sin(math.pi*min(t/seconds,1))**2;v=env*(s(max(28,95-t*14))*.25+s(142.2)*.12+low*1.5)
+        elif name=='forge_complete':
+            env=(1-math.exp(-t*25))*math.exp(-t*4);v=env*(s(330)*.35+s(497.7)*.18+s(831)*.07+mid*.25)
         elif name=='mastery_ascend':
             v=mid*.13*math.sin(math.pi*min(t/2.4,1))**2
             for delay,freq in [(0,392),(.17,493.88),(.34,587.33),(.52,783.99)]:
@@ -66,7 +77,7 @@ def generate(assets,write):
     sounds={};report={}
     with tempfile.TemporaryDirectory(prefix='tnd-sound-design-') as tmp:
         for name in LOOPS+CUES:
-            loop=name in LOOPS;duration=32 if loop else 2.5 if name=='mastery_ascend' else 7 if name in ['low_signal','reverse_breath','submerged_groan'] else 5
+            loop=name in LOOPS;duration=1.5 if name=='forge_complete' else 3.5 if name.startswith('custodian_') else 32 if loop else 2.5 if name=='mastery_ascend' else 7 if name in ['low_signal','reverse_breath','submerged_groan'] else 5
             pcm,stats=synth(name,duration,loop);report[name]=stats
             source=Path(tmp)/(name+'.wav')
             with wave.open(str(source),'wb') as out:out.setparams((1,2,RATE,len(pcm),'NONE','not compressed'));out.writeframes(pcm.tobytes())

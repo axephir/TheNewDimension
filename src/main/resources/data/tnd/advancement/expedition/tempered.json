@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "tnd:tempered_alloy"
+    },
+    "title": {
+      "translate": "advancement.tnd.tempered"
+    },
+    "description": {
+      "translate": "advancement.tnd.tempered.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:tempered_alloy"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "tnd:expedition/forge"
+}

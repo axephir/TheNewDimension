@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:forge_recovery",
+  "structure": "tnd:test_empty",
+  "max_ticks": 1400,
+  "required": true
+}

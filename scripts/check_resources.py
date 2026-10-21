@@ -160,7 +160,7 @@ class Resources(unittest.TestCase):
         biomes={'silent_expanse','fractured_fields','hollow_shelves','glass_woodland','ashen_basin','obsidian_dunes'}
         stem=json.loads((DATA/'dimension/vestige.json').read_text())
         self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['biomes']},biomes)
-        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),18)
+        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),24)
         loops=set()
         for biome in biomes:
             data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())
@@ -236,6 +236,22 @@ class Resources(unittest.TestCase):
             for entity in ['shardling','rift_sentinel']:self.assertIn('entity.tnd.'+entity,language)
             for item in ['echo_dust','echo_lens']:self.assertIn('tooltip.tnd.'+item,language)
 
+    def test_expedition_processing_and_progression_assets(self):
+        for state in ['', '_open', '_enraged']:
+            self.assertTrue((ASSETS/f'textures/entity/fractured_custodian{state}.png').is_file())
+        self.assertEqual(len(json.loads((ASSETS/'blockstates/resonance_forge.json').read_text())['variants']),8)
+        forge=json.loads((DATA/'recipe/resonance_forge.json').read_text())
+        self.assertEqual(forge['key']['M'],'tnd:inertial_matrix')
+        self.assertFalse((DATA/'recipe/inertial_matrix.json').exists())
+        self.assertEqual(json.loads((DATA/'loot_table/entities/fractured_custodian.json').read_text())['pools'],[])
+        for name in ['vestige','sanctuary','custodian','forge','tempered']:
+            advancement=json.loads((DATA/f'advancement/expedition/{name}.json').read_text())
+            self.assertIn('done',advancement['criteria'])
+            self.assertNotIn('experience',advancement.get('rewards',{}))
+        for name in ['resonant_pickaxe','resonant_blade']:
+            self.assertEqual(json.loads((ASSETS/f'models/item/{name}.json').read_text())['parent'],'minecraft:item/handheld')
+        self.assertEqual(json.loads((DATA/'tags/item/resonant_tool_materials.json').read_text())['values'],['tnd:tempered_alloy'])
+
     def test_clock_portal_spacing_and_runtime_tests(self):
         timeline = json.loads((DATA / 'timeline/vestige_day.json').read_text())
         self.assertEqual(timeline['period_ticks'], 48000)
@@ -249,7 +265,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration'})
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers'})
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

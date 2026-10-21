@@ -25,7 +25,23 @@ def pixels(name, item=False):
         for i in range(steps+1):dot(round(x0+(x1-x0)*i/steps),round(y0+(y1-y0)*i/steps),c)
     if item:
         outline=(34,39,39)
-        if 'shard' in name or 'crystal' in name:
+        if name in ['resonant_pickaxe','resonant_blade']:
+            if name=='resonant_pickaxe':
+                line(3,13,11,5,outline);line(3,14,12,5,outline);line(4,13,11,6,(137,111,74));line(5,12,11,6,(185,155,99))
+                for x,y in [(2,3),(3,2),(4,2),(5,2),(6,2),(7,3),(8,3),(9,4),(10,5),(11,6),(12,7),(12,8),(13,9)]:
+                    dot(x,y,outline);dot(x,y+1,(93,168,165));dot(x,y-1,(176,213,200))
+            else:
+                line(4,12,12,4,outline);line(5,13,13,5,outline);line(5,12,12,5,(92,157,158));line(5,11,11,5,(189,220,204))
+                rect(11,2,13,4,(103,172,169));dot(12,2,(223,234,212));line(3,9,7,13,(156,129,78));line(2,14,4,12,(116,90,60));dot(2,14,(186,159,99))
+        elif name=='tempered_alloy':
+            for y in range(5,12):
+                for x in range(2,14):
+                    if 4<=x+y<=24:dot(x,y,outline if y in [5,11] or x in [2,13] else (80,138,141) if y>8 else (163,197,184))
+            line(4,6,11,6,(213,227,199));line(3,10,12,10,(52,97,104));dot(11,7,(123,167,157))
+        elif name=='inertial_matrix':
+            for x,y in [(3,3),(10,3),(3,10),(10,10)]:rect(x,y,x+2,y+2,outline);rect(x,y,x+1,y+1,(153,137,95))
+            line(4,4,11,11,(87,148,144));line(11,4,4,11,(87,148,144));rect(6,6,9,9,outline);rect(7,6,9,8,(188,174,219));dot(7,6,(234,224,239))
+        elif 'shard' in name or 'crystal' in name:
             for y in range(2,15):
                 for x in range(2,14):
                     if abs(x-8)*1.6+abs(y-8)<9:
@@ -101,7 +117,17 @@ def pixels(name, item=False):
             k=(x//2,(y+(x//5))//2)
             if k not in cluster:cluster[k]=rng.choice([-12,-6,-3,0,3,7,11])
             dot(x,y,shade(base,cluster[k]+rng.choice([-2,0,0,2])))
-    if name=='vitreous_stone':
+    if name.startswith('resonance_forge'):
+        rect(0,0,15,15,(57,69,67));rect(1,1,14,14,(113,106,80));rect(2,2,13,13,(38,51,53))
+        active=name.endswith('_active');top=name.endswith('_top')
+        if top:
+            for x,y in [(4,4),(11,4),(4,11),(11,11)]:rect(x-1,y-1,x+1,y+1,(108,148,135))
+            rect(6,6,9,9,(181,170,204));dot(7,6,(223,223,211))
+        else:
+            for y in [5,8,11]:line(4,y,11,y,(124,203,181) if active else (77,109,104));line(4,y+1,11,y+1,(29,41,43))
+            for x in [3,12]:line(x,3,x,12,(143,131,91))
+        for x,y in [(1,1),(14,1),(1,14),(14,14)]:dot(x,y,(208,184,125))
+    elif name=='vitreous_stone':
         rect(0,0,15,15,(47,64,66))
         for a in [(1,0,6,5),(6,5,4,11),(4,11,9,15),(10,0,13,6),(13,6,10,11),(10,11,15,14)]:line(*a,(76,105,105))
         for x,y in [(5,3),(11,8),(6,13)]:line(x,y,x+2,y,(114,139,133))

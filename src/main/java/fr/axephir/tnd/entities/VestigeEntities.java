@@ -19,13 +19,15 @@ public final class VestigeEntities {
             b->b.sized(.65f,.65f).clientTrackingRange(8));
     public static final DeferredHolder<EntityType<?>,EntityType<RiftSentinel>> SENTINEL=TYPES.registerEntityType("rift_sentinel",RiftSentinel::new,MobCategory.MONSTER,
             b->b.sized(.95f,1.45f).clientTrackingRange(10));
+    public static final DeferredHolder<EntityType<?>,EntityType<FracturedCustodian>> CUSTODIAN=TYPES.registerEntityType("fractured_custodian",FracturedCustodian::new,MobCategory.MONSTER,
+            b->b.sized(1.8f,3.2f).clientTrackingRange(12));
     public static void register(IEventBus bus) {
         TYPES.register(bus);
         bus.addListener(VestigeEntities::attributes);
         bus.addListener(VestigeEntities::placements);
     }
     private static void attributes(EntityAttributeCreationEvent e) {
-        e.put(SHARDLING.get(),Shardling.attributes().build());e.put(SENTINEL.get(),RiftSentinel.attributes().build());
+        e.put(CUSTODIAN.get(),FracturedCustodian.attributes().build());e.put(SHARDLING.get(),Shardling.attributes().build());e.put(SENTINEL.get(),RiftSentinel.attributes().build());
     }
     private static void placements(RegisterSpawnPlacementsEvent e) {
         e.register(SHARDLING.get(),SpawnPlacementTypes.ON_GROUND,Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,

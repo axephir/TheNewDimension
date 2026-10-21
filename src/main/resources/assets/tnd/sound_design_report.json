@@ -124,5 +124,47 @@
     "peak": 0.579986572265625,
     "rms": 0.11305468022979778,
     "splice_delta": 0
+  },
+  "custodian_awaken": {
+    "duration": 3.5,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.14901595573326637,
+    "splice_delta": 0
+  },
+  "custodian_fracture": {
+    "duration": 3.5,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.14598131082746482,
+    "splice_delta": 0
+  },
+  "custodian_crown": {
+    "duration": 3.5,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.15049849708735466,
+    "splice_delta": 0
+  },
+  "custodian_impact": {
+    "duration": 3.5,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.05389976375023148,
+    "splice_delta": 0
+  },
+  "custodian_fall": {
+    "duration": 3.5,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.15679593491393148,
+    "splice_delta": 0
+  },
+  "forge_complete": {
+    "duration": 1.5,
+    "loop": false,
+    "peak": 0.579986572265625,
+    "rms": 0.08836689710694709,
+    "splice_delta": 0
   }
 }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "T": "tnd:tempered_alloy",
+    "S": "tnd:resonant_shard"
+  },
+  "result": {
+    "id": "tnd:resonant_pickaxe",
+    "count": 1
+  }
+}

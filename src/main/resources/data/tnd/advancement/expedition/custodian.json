@@ -1,0 +1,42 @@
+{
+  "display": {
+    "icon": {
+      "id": "tnd:inertial_matrix"
+    },
+    "title": {
+      "translate": "advancement.tnd.custodian"
+    },
+    "description": {
+      "translate": "advancement.tnd.custodian.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:inertial_matrix"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "tnd:expedition/sanctuary",
+  "rewards": {
+    "recipes": [
+      "tnd:resonance_forge",
+      "tnd:resonant_pickaxe",
+      "tnd:resonant_blade"
+    ]
+  }
+}

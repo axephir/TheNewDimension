@@ -42,7 +42,7 @@ public final class ExpandedMasteries {
     }
     @SubscribeEvent(priority=EventPriority.LOWEST)
     public void kill(LivingDeathEvent e) {
-        if(e.isCanceled()||e.getEntity() instanceof fr.axephir.tnd.entities.RiftSentinel sentinel&&sentinel.isTrialGuardian()||!(e.getSource().getEntity() instanceof ServerPlayer p))return;
+        if(e.isCanceled()||e.getEntity() instanceof fr.axephir.tnd.entities.FracturedCustodian||e.getEntity() instanceof fr.axephir.tnd.entities.RiftSentinel sentinel&&sentinel.isTrialGuardian()||!(e.getSource().getEntity() instanceof ServerPlayer p))return;
         if(e.getEntity() instanceof Animal&&!(e.getEntity() instanceof fr.axephir.tnd.entities.Shardling))ProgressionService.award(p,Mastery.HUNTING,25);
         else if(e.getEntity() instanceof Enemy)ProgressionService.award(p,e.getSource().getDirectEntity() instanceof Projectile?Mastery.RANGED:Mastery.MELEE,
                 20+(long)Math.min(100,e.getEntity().getMaxHealth()));

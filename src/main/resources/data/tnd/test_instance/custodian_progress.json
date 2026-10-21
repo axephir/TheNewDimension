@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:custodian_progress",
+  "structure": "tnd:test_buildings",
+  "max_ticks": 300,
+  "required": true
+}

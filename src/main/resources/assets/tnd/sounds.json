@@ -186,5 +186,65 @@
         "attenuation_distance": 32
       }
     ]
+  },
+  "custodian_awaken": {
+    "subtitle": "subtitles.tnd.custodian_awaken",
+    "sounds": [
+      {
+        "name": "tnd:ambient/custodian_awaken",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "custodian_fracture": {
+    "subtitle": "subtitles.tnd.custodian_fracture",
+    "sounds": [
+      {
+        "name": "tnd:ambient/custodian_fracture",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "custodian_crown": {
+    "subtitle": "subtitles.tnd.custodian_crown",
+    "sounds": [
+      {
+        "name": "tnd:ambient/custodian_crown",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "custodian_impact": {
+    "subtitle": "subtitles.tnd.custodian_impact",
+    "sounds": [
+      {
+        "name": "tnd:ambient/custodian_impact",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "custodian_fall": {
+    "subtitle": "subtitles.tnd.custodian_fall",
+    "sounds": [
+      {
+        "name": "tnd:ambient/custodian_fall",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "forge_complete": {
+    "subtitle": "subtitles.tnd.forge_complete",
+    "sounds": [
+      {
+        "name": "tnd:ambient/forge_complete",
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
   }
 }

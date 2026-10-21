@@ -18,12 +18,13 @@ public final class TndClient {
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.CLIENT,AtmosphereOptions.SPEC);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(AtmosphereDirector::tick);
         bus.addListener(TndClient::screens);
-        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions e)->RelicRenderer.layers(e));
-        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers e)->RelicRenderer.renderers(e));
+        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions e)->{RelicRenderer.layers(e);CustodianRenderer.layers(e);});
+        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers e)->{RelicRenderer.renderers(e);CustodianRenderer.renderers(e);});
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(InventoryMasteries::init);
     }
     private static void screens(RegisterMenuScreensEvent event) {
         event.register(ModContent.MASTERY_MENU.get(), MasteryScreen::new);
         event.register(MachineRegistry.EXTRACTOR_MENU.get(), ExtractorScreen::new);
+        event.register(MachineRegistry.FORGE_MENU.get(),ResonanceForgeScreen::new);
     }
 }

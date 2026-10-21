@@ -27,6 +27,16 @@ public final class ReadinessTests {
     public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
             BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
     static {
+        FUNCTIONS.register("custodian_phase",()->ExpeditionTests::phase);
+        FUNCTIONS.register("custodian_dodge",()->ExpeditionTests::dodge);
+        FUNCTIONS.register("custodian_hit",()->ExpeditionTests::hit);
+        FUNCTIONS.register("custodian_crown",()->ExpeditionTests::crown);
+        FUNCTIONS.register("custodian_stagger",()->ExpeditionTests::stagger);
+        FUNCTIONS.register("custodian_progress",()->ExpeditionTests::bossProgress);
+        FUNCTIONS.register("custodian_recovery",()->ExpeditionTests::bossRecovery);
+        FUNCTIONS.register("forge_processing",()->ExpeditionTests::forgeProcessing);
+        FUNCTIONS.register("forge_recovery",()->ExpeditionTests::forgeRecovery);
+        FUNCTIONS.register("forge_hoppers",()->ExpeditionTests::forgeHoppers);
         FUNCTIONS.register("vault_progress",()->DungeonTests::progress);
         FUNCTIONS.register("vault_recovery",()->DungeonTests::recovery);
         FUNCTIONS.register("vault_safety",()->DungeonTests::safety);

@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "id": "tnd:composite_crystal"
+    },
+    "title": {
+      "translate": "advancement.tnd.vestige"
+    },
+    "description": {
+      "translate": "advancement.tnd.vestige.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:gui/advancements/backgrounds/stone"
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "tnd:vestige"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ]
+}

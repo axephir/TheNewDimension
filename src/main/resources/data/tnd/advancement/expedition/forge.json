@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "tnd:resonance_forge"
+    },
+    "title": {
+      "translate": "advancement.tnd.forge"
+    },
+    "description": {
+      "translate": "advancement.tnd.forge.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:resonance_forge"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "done"
+    ]
+  ],
+  "parent": "tnd:expedition/custodian"
+}

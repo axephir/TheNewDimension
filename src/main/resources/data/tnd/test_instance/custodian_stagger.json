@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:custodian_stagger",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 100,
+  "required": true
+}

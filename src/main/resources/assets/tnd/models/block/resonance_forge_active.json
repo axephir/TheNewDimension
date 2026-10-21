@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "tnd:block/resonance_forge",
+    "down": "tnd:block/cut_alloy",
+    "up": "tnd:block/resonance_forge_top",
+    "north": "tnd:block/resonance_forge_active",
+    "south": "tnd:block/riveted_alloy",
+    "west": "tnd:block/alloy_vent",
+    "east": "tnd:block/alloy_vent"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "CMC",
+    "ARA"
+  ],
+  "key": {
+    "A": "tnd:ancient_alloy",
+    "C": "tnd:composite_crystal",
+    "M": "tnd:inertial_matrix",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "tnd:resonance_forge",
+    "count": 1
+  }
+}

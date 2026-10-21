@@ -36,7 +36,7 @@ public final class ModContent {
             () -> SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(TheNewDimension.ID, "metal_echo")));
 
     public static final java.util.Map<String,DeferredHolder<SoundEvent,SoundEvent>> ATMOSPHERE_SOUNDS=new java.util.LinkedHashMap<>();
-    static{for(String name:java.util.List.of("fracture_drone","hollow_resonance","glass_whispers","basin_lament","dune_rumble","night_pressure","enclosed_hum","distant_pulse","glass_tinkle","stone_shift","submerged_groan","dust_scrape","reverse_breath","spatial_chime","mastery_ascend"))
+    static{for(String name:java.util.List.of("fracture_drone","hollow_resonance","glass_whispers","basin_lament","dune_rumble","night_pressure","enclosed_hum","distant_pulse","glass_tinkle","stone_shift","submerged_groan","dust_scrape","reverse_breath","spatial_chime","mastery_ascend","custodian_awaken","custodian_fracture","custodian_crown","custodian_impact","custodian_fall","forge_complete"))
         ATMOSPHERE_SOUNDS.put(name,SOUNDS.register(name,()->SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(TheNewDimension.ID,name))));}
     public static SoundEvent atmosphereSound(String name){
         if(name.equals("low_signal"))return LOW_SIGNAL.get();if(name.equals("metal_echo"))return METAL_ECHO.get();
@@ -97,6 +97,11 @@ public final class ModContent {
     public static final DeferredBlock<fr.axephir.tnd.dungeon.VaultCoreBlock> VAULT_CORE=BLOCKS.registerBlock("vault_core",fr.axephir.tnd.dungeon.VaultCoreBlock::new,p->p.strength(5,12).requiresCorrectToolForDrops().lightLevel(state->6));
     public static final DeferredBlock<fr.axephir.tnd.dungeon.VaultBlock> VAULT_SEAL=BLOCKS.registerBlock("vault_seal",p->new fr.axephir.tnd.dungeon.VaultBlock(p,false),p->p.strength(5,12).requiresCorrectToolForDrops().lightLevel(state->state.getValue(fr.axephir.tnd.dungeon.VaultBlock.LIT)?12:2));
     public static final DeferredBlock<InscriptionBlock> MURAL_VAULT=BLOCKS.registerBlock("mural_vault",p->new InscriptionBlock(p,"vault"),p->p.strength(4,10).lightLevel(state->2));
+    public static final DeferredItem<Item> INERTIAL_MATRIX=ITEMS.registerSimpleItem("inertial_matrix");
+    public static final DeferredItem<Item> TEMPERED_ALLOY=ITEMS.registerSimpleItem("tempered_alloy");
+    public static final net.minecraft.world.item.ToolMaterial RESONANT_TOOLS=new ToolMaterial(net.minecraft.tags.BlockTags.INCORRECT_FOR_DIAMOND_TOOL,1800,8.5f,3.5f,16,net.minecraft.tags.TagKey.create(Registries.ITEM,Identifier.fromNamespaceAndPath("tnd","resonant_tool_materials")));
+    public static final DeferredItem<Item> RESONANT_PICKAXE=ITEMS.registerSimpleItem("resonant_pickaxe",p->p.pickaxe(RESONANT_TOOLS,1,-2.8f));
+    public static final DeferredItem<Item> RESONANT_BLADE=ITEMS.registerSimpleItem("resonant_blade",p->p.sword(RESONANT_TOOLS,3,-2.4f));
     public static final DeferredItem<Item> RESONANCE_HEART=ITEMS.registerSimpleItem("resonance_heart");
     public static final DeferredItem<fr.axephir.tnd.dungeon.ResonantAegisItem> RESONANT_AEGIS=ITEMS.registerItem("resonant_aegis",fr.axephir.tnd.dungeon.ResonantAegisItem::new,p->p.stacksTo(1));
     public static final DeferredItem<Item> RELIC_FRAGMENT = ITEMS.registerSimpleItem("relic_fragment");

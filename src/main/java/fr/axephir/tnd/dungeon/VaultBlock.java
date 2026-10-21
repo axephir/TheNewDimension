@@ -27,7 +27,7 @@ public class VaultBlock extends Block {
         if(player instanceof ServerPlayer p){
             var origin=core?pos:pos.subtract(offset(state,state.getValue(SEAL)));
             if(level.hasChunk(origin.getX()>>4,origin.getZ()>>4)&&level.getBlockEntity(origin) instanceof VaultCoreEntity vault){
-                if(core)vault.claim(p);else vault.start(p,state.getValue(SEAL));
+                if(core)vault.interact(p);else vault.start(p,state.getValue(SEAL));
             }else p.sendOverlayMessage(net.minecraft.network.chat.Component.translatable("message.tnd.vault_unbound"));
         }
         return InteractionResult.SUCCESS;

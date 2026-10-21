@@ -92,7 +92,8 @@ public final class ProgressionEvents {
     @SubscribeEvent
     public void tooltip(net.neoforged.neoforge.event.entity.player.ItemTooltipEvent event) {
         var item=event.getItemStack();
-        String key=item.is(ModContent.RESONANT_AEGIS.get())?"resonant_aegis":item.is(ModContent.RESONANCE_HEART.get())?"resonance_heart":item.is(ModContent.ECHO_DUST.get())?"echo_dust":item.is(ModContent.ECHO_LENS.get())?"echo_lens":item.is(ModContent.ECHO_BLOOM.get().asItem())?"echo_bloom":item.is(ModContent.RELIC_FRAGMENT.get())?"relic":item.is(ModContent.STABILIZER_MODULE.get())?"stabilizer":item.is(ModContent.EFFICIENCY_MODULE.get())?"efficiency":null;
+        String key=item.is(ModContent.RESONANT_AEGIS.get())?"resonant_aegis":item.is(ModContent.RESONANCE_HEART.get())?"resonance_heart":item.is(ModContent.ECHO_DUST.get())?"echo_dust":item.is(ModContent.ECHO_LENS.get())?"echo_lens":item.is(ModContent.ECHO_BLOOM.get().asItem())?"echo_bloom":item.is(ModContent.RELIC_FRAGMENT.get())?"relic":item.is(ModContent.STABILIZER_MODULE.get())?"stabilizer":item.is(ModContent.EFFICIENCY_MODULE.get())?"efficiency":item.is(ModContent.INERTIAL_MATRIX.get())?"inertial_matrix":item.is(ModContent.TEMPERED_ALLOY.get())?"tempered_alloy":item.is(fr.axephir.tnd.technology.MachineRegistry.FORGE.get().asItem())?"resonance_forge":null;
+        if("resonance_forge".equals(key))for(String extra:java.util.List.of("forge_ports","forge_pause"))event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+extra).withStyle(net.minecraft.ChatFormatting.GRAY));
         if(key!=null)event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+key).withStyle(net.minecraft.ChatFormatting.GRAY));
     }
     @SubscribeEvent

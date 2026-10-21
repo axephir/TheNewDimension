@@ -53,10 +53,13 @@ public final class EncounterTests {
         h.succeed();
     }
     public static void follow(GameTestHelper h) {
-        var p=GameplayTests.player(h);var level=h.getLevel();var at=h.absolutePos(new BlockPos(16,1,16));platform(level,at);
-        p.setPos(at.getX()+3.5,at.getY(),at.getZ()+.5);
-        var pet=scout(level,at.west(4));pet.tame(p);
+        var p=GameplayTests.player(h);var level=h.getLevel();var at=h.absolutePos(new BlockPos(16,1,16));for(var cell:BlockPos.betweenClosed(at.offset(-6,-1,-6),at.offset(6,2,6)))level.setBlock(cell,cell.getY()==at.getY()-1?Blocks.STONE.defaultBlockState():Blocks.AIR.defaultBlockState(),3);
+        p.setPos(at.getX()+5.5,at.getY(),at.getZ()+.5);
+        var pet=scout(level,at.west(5));pet.tame(p);
         double before=pet.distanceToSqr(p);
+        // Stay clearly above the 7-block start threshold and below vanilla's
+        // 12-block teleport threshold: random idle motion must not decide the test.
+        check(h,before>49&&before<144,"The fixture requires actual ground navigation");
         h.runAfterDelay(90,()->{
             try{check(h,pet.distanceToSqr(p)<before/2,"The familiar must physically navigate toward its owner");}
             finally{pet.discard();GameplayTests.cleanup(p);}h.succeed();
@@ -71,30 +74,36 @@ public final class EncounterTests {
         platform(source,at);p.setPos(at.getX()+.5,at.getY(),at.getZ()+.5);
         var pet=scout(source,at.east(2));pet.tame(p);var uuid=pet.getUUID();
         var waiting=scout(source,at.west(2));waiting.tame(p);waiting.setOrderedToSit(true);
-        travelStep(h,p,uuid,waiting,at,0);
+        travelStep(h,p,uuid,waiting,at,0,new java.util.HashSet<ServerLevel>());
     }
-    private static void travelStep(GameTestHelper h,ServerPlayer p,java.util.UUID uuid,Shardling waiting,BlockPos at,int step) {
+    private static void travelStep(GameTestHelper h,ServerPlayer p,java.util.UUID uuid,Shardling waiting,BlockPos at,int step,java.util.Set<ServerLevel> tickets) {
         var dimensions=java.util.List.of(Level.END,Level.NETHER,Level.OVERWORLD);
         var source=p.level();var target=source.getServer().getLevel(dimensions.get(step));
         var landing=new BlockPos(at.getX(),80,at.getZ());platform(target,landing);
         check(h,p.teleport(new TeleportTransition(target,Vec3.atBottomCenterOf(landing),Vec3.ZERO,0,0,TeleportTransition.DO_NOTHING))!=null,"Native player transfer succeeds");
         p.connection.markClientLoaded();p.hasChangedDimension();
-        // Entity visibility changes with the destination chunk status after transfer.
-        // Wait for the real server update, just as a normal client must do.
-        h.runAfterDelay(10,()->{
+        // As in coldArrival, the embedded client cannot acknowledge destination
+        // chunk batches. Maintain visibility AFTER the real transfer, without moving
+        // a pet left behind or changing the production transport implementation.
+        if(target.setChunkForced(landing.getX()>>4,landing.getZ()>>4,true))tickets.add(target);
+        h.runAfterDelay(20,()->{
             try {
                 check(h,target.getEntity(uuid) instanceof Shardling moved&&moved.getOwnerReference().matches(p),"Companion actually arrives in "+dimensions.get(step).identifier());
                 var arrived=(Shardling)target.getEntity(uuid);
                 check(h,arrived.distanceToSqr(p)<25,"Companion arrives safely near its owner");
                 check(h,source.getEntity(uuid)==null,"Transfer leaves no duplicate in the source level");
                 check(h,waiting.level()==h.getLevel()&&waiting.isAlive(),"A waiting companion stays at departure");
-                if(step+1<dimensions.size())travelStep(h,p,uuid,waiting,at,step+1);
-                else {arrived.discard();waiting.discard();GameplayTests.cleanup(p);h.succeed();}
+                if(step+1<dimensions.size())travelStep(h,p,uuid,waiting,at,step+1,tickets);
+                else {cleanupTravel(p,uuid,waiting,at,tickets);h.succeed();}
             }catch(Throwable failure) {
-                if(target.getEntity(uuid) instanceof Shardling pet)pet.discard();
-                waiting.discard();GameplayTests.cleanup(p);throw failure;
+                cleanupTravel(p,uuid,waiting,at,tickets);throw failure;
             }
         });
+    }
+    private static void cleanupTravel(ServerPlayer p,java.util.UUID uuid,Shardling waiting,BlockPos at,java.util.Set<ServerLevel> tickets){
+        for(var world:p.level().getServer().getAllLevels())if(world.getEntity(uuid) instanceof Shardling pet)pet.discard();
+        waiting.discard();GameplayTests.cleanup(p);
+        for(var world:tickets)world.setChunkForced(at.getX()>>4,at.getZ()>>4,false);
     }
     public static void coldArrival(GameTestHelper h) {
         var p=GameplayTests.player(h);var source=h.getLevel();var at=h.absolutePos(new BlockPos(16,1,16));platform(source,at);
