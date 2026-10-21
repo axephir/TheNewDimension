@@ -1,0 +1,24 @@
+The New Dimension 0.9.0-dev — validation du 21 octobre 2026 UTC
+
+Minecraft Java 26.2 ; NeoForge 26.2.0.93 ; Java 25.
+Source publiée : 8237e7a38be3b4274e7ecb764a82229c04229fd5 (main).
+GitHub Actions : https://github.com/axephir/TheNewDimension/actions/runs/39620045954
+Résultat : completed / success. Les journaux ZIP de cette exécution ont été téléchargés et vérifiés.
+
+- 51 035 assertions du noyau : PASS.
+- 74 GameTests requis : PASS (73 TND et le scénario fourni par Minecraft).
+- 18 contrôles des ressources : PASS.
+- 40 fichiers Vorbis décodés avec ffmpeg : PASS, signal audible et absence de saturation.
+- Les 24 sons de la 0.8 sont identiques octet par octet.
+- 135 PNG : 122 blocs/icônes 16x16 et 13 atlas créatures/armure 64x64 ; CRC et pixels contrôlés.
+- Les neuf structures naturelles utilisent le codec de massif ; sauvegarde/rechargement, vrais plafonds du terrain de Vestige, placement par chunk, couronne, fondations de l’escalier et navigation native jusqu’à la citadelle sont contrôlés.
+- L’avant-poste initial de l’Overworld utilise la même génération de massif.
+- Espacement des sites et exclusion des avant-postes autour des portails adaptés à la largeur des massifs.
+
+Les tests de la 0.9 couvrent aussi les attributs de l’armure réellement portée, la cuisson native, les hoppers, la production finie, l’utilisation native du marteau et ses dégâts, les attaques, l’esquive, l’interruption, les butins, la récolte nocturne et les mécanismes de sauvegarde. Les tests de galerie immobilisent le sujet pour isoler la recherche de chemin de ses objectifs aléatoires ; le parcours utilise un palier intermédiaire dans la citadelle.
+
+Vérification visuelle dans un client normal : onglets à gauche avec potion active et livre de recettes ouvert, guide, armure en relief, modèles de créatures, structures générées dans de nouveaux territoires et interfaces d’atelier. Captures F2 natives, sans retouche ; caméras spectateur et préparations par commandes dans le monde de validation (dont résistance et résistance au recul pour stabiliser la caméra). La vidéo est une capture native sans piste audio. La sortie audio du client cloud utilise un périphérique nul ; le contrôle audio porte sur le décodage des fichiers distribués, et l’extrait OGG est fourni pour écoute.
+
+Les sauvegardes existantes ne sont pas reconstruites : les massifs et nouveaux minerais demandent de nouveaux chunks ou un nouveau monde de test. Les nouvelles textures et modèles s’appliquent aux anciens objets et créatures. Version de développement 0.9, sans prétendre terminer toute la feuille de route originale ni garantir l’absence de tout défaut sur toutes les seeds ou tous les packs de mods.
+
+La version finale des onglets a aussi été vérifiée dans un nouveau client après un GC explicite : les boutons restent cliquables et le guide s’ouvre. Le JAR et les sources du ZIP ont été comparés octet par octet aux fichiers construits.
