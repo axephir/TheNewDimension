@@ -1,0 +1,12 @@
+The New Dimension 0.11.0-dev — Nacre-9
+Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25
+Source: ff3df110e7e64417cda367cad6b0258fd2162251
+CI: https://github.com/axephir/TheNewDimension/actions/runs/39666790682
+
+Verified exact-head GitHub logs: 102 required native engine tests pass (101 TND + one Minecraft startup test), 51035 core assertions, 20 resource checks. All 52 distributed Ogg files decode with audible signal and no clipping; original previous audio files are retained. Blocks/items use original 16x16 textures; character/equipment atlases use 64x64.
+
+Native checks cover gate costs, incomplete assemblies, remote menu rejection, timed charging, cancellation/refunds, FE rollback, saved inventories, safe return without the source monitor, portal rotation/arrival, real mob damage, dodging/interruption, beam occlusion, urban spawning/caps and physical player-kill loot, archive ownership/persistence/single rewards, all twelve central-tower stair paths, actual urban climate generation, chunk-clipped city tiles and native chest/terminal data under all four rotations. The sixteen tiles reconstruct all 634472 authored district blocks exactly.
+
+Normal Minecraft client QA: monitor screen and real activation, animated membrane/rings, actual portal return landing at [60016.5,101,60014.5], naturally generated crowned district at [35416,115,35736] with CLOCKWISE_180 rotation, glass skyway/interior, three original models, physical plaza-terminal discovery and paginated French codex, four left inventory tabs with potion panels on the right, integrated assembly guide. Screenshots use the native F2 function without retouching. Audio engine initialized with the headless No Output backend; encoded audio was checked by ffmpeg rather than a human listening session.
+
+Controlled creative/spectator scenes and embedded-player tests are not a long survival playthrough or a large multiplayer stress test. New biome/structures require unexplored chunks; existing saved buildings keep their geometry. Local worlds, credentials and caches are excluded from the release ZIP.
