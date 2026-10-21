@@ -1,0 +1,28 @@
+The New Dimension 0.7.0-dev — validation finale
+Source : e0bb2d35f31b966e994746c73703d5c814e1963a
+Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25
+
+Validation locale finale :
+- python3 scripts/cloud_gradle.py build runGameTestServer : SUCCESS
+- Noyau : 50 114 assertions.
+- Minecraft natif : 43 tests requis, tous réussis (42 TND + 1 vanilla).
+- python3 scripts/check_resources.py : 14 tests réussis ; 76 textures PNG, toutes en 16 x 16.
+- python3 scripts/check_audio.py : 24 Vorbis décodés ; durées, signal, marge et boucles vérifiés.
+- Client normal : invocation avec poussière en main, boss, attaques, cœur exposé,
+  deuxième phase, sous-titres, trésor, forge physique, cycle réel, aide et progrès.
+- ZIP : CRC valide ; sources identiques au checkout ; JAR embarqué identique.
+- Modèles et textures du boss vérifiés dans le client après rechargement des ressources.
+- La récupération du trésor en tenant encore la poussière est protégée par un test natif.
+
+GitHub Actions indépendant : SUCCESS sur le commit source exact.
+https://github.com/axephir/TheNewDimension/actions/runs/39563866131
+Comptages confirmés dans les journaux CI : 50 114 assertions, 43 tests Minecraft, 14 contrôles de ressources.
+
+Captures F2 originales : GALLERY_0.7.0.md.
+Les commandes préparent le monde de validation ; les captures ne représentent pas une survie sans assistance.
+Audio cloud : sortie nulle ; fichiers décodés et sous-titres contrôlés, sans écoute subjective sur ce serveur.
+Montage réel des six nouveaux sons : Vestige-0.7-gameplay-preview.ogg (20,5 s).
+
+Installation : remplacer l’ancien JAR TND dans mods/.
+Après les trois sceaux : récupérer le cœur, tenir de la poussière et cliquer le noyau (coût : 2).
+Les anciens sanctuaires terminés restent compatibles. Le scénario final et les autres filières restent à développer.
