@@ -13,6 +13,7 @@ public final class FieldGuideScreen extends Screen {
     public FieldGuideScreen(Screen parent){super(Component.translatable("gui.tnd.guide"));this.parent=parent;}
     @Override protected void init(){x=(width-300)/2;y=(height-216)/2;
         for(int i=0;i<6;i++){final int p=i;var b=Button.builder(Component.translatable("guide.tnd.tab."+i),v->page=p).bounds(x+9,y+31+i*28,83,24).build();b.setOverrideRenderHighlightedSprite(()->page==p);addRenderableWidget(b);}
+        addRenderableWidget(Button.builder(Component.translatable("gate.tnd.guide"),b->minecraft.gui.setScreen(new GateGuideScreen(this))).bounds(x+99,y+5,50,20).build());
         addRenderableWidget(Button.builder(Component.translatable("industry.tnd.open"),b->minecraft.gui.setScreen(new IndustrialGuideScreen(this,fr.axephir.tnd.technology.Industry.Kind.DYNAMO))).bounds(x+155,y+5,110,20).build());
         addRenderableWidget(Button.builder(Component.literal("×"),b->onClose()).bounds(x+274,y+6,17,17).build());
     }

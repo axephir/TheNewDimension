@@ -26,7 +26,7 @@ public final class CrownedSitePiece extends StructurePiece {
     private final Rotation facing;
     private Rotation inverse(){return switch(facing){case CLOCKWISE_90->Rotation.COUNTERCLOCKWISE_90;case COUNTERCLOCKWISE_90->Rotation.CLOCKWISE_90;default->facing;};}
     private final Map<Long,Integer> path;
-    public static int radius(int width,int depth){return (int)Math.ceil(Math.hypot(width/2.,depth/2.))+39;}
+    public static int radius(int width,int depth){return Math.min(128,(int)Math.ceil(Math.hypot(width/2.,depth/2.))+39);}
     public CrownedSitePiece(StructureTemplateManager manager,Identifier template,BlockPos summit,int base,int minY,Rotation rotation){
         super(CrownedSiteStructure.PIECE.get(),0,bounds(manager.getOrCreate(template),summit,minY));
         this.template=template;this.building=manager.getOrCreate(template);this.summit=summit;this.base=base;this.facing=rotation;
@@ -133,7 +133,8 @@ public final class CrownedSitePiece extends StructurePiece {
         }
         var settings=new StructurePlaceSettings().setIgnoreEntities(true).setRotation(facing)
                 .setRotationPivot(new BlockPos(building.getSize().getX()/2,0,building.getSize().getZ()/2)).setBoundingBox(clip);
-        building.placeInWorld(world,buildingOrigin(),reference,settings,random,2);
+        if(template.getPath().equals("neon_district"))fr.axephir.tnd.city.TiledCityPlacement.place(world,buildingOrigin(),building.getSize(),facing,reference,clip,random);
+        else building.placeInWorld(world,buildingOrigin(),reference,settings,random,2);
     }
     private void support(WorldGenLevel world,BlockPos top,BoundingBox clip){
         var p=top.below();

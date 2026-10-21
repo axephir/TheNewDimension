@@ -99,6 +99,19 @@
     "tnd:pastoral_station",
     "tnd:industrial_frame",
     "tnd:energy_cable",
-    "tnd:solar_panel"
+    "tnd:solar_panel",
+    "tnd:city_asphalt",
+    "tnd:carbon_panel",
+    "tnd:city_tiles",
+    "tnd:reinforced_panel",
+    "tnd:circuit_panel",
+    "tnd:vent_panel",
+    "tnd:neon_cyan",
+    "tnd:neon_magenta",
+    "tnd:neon_amber",
+    "tnd:relay_coil",
+    "tnd:nacre_memorial",
+    "tnd:portal_monitor",
+    "tnd:memory_terminal"
   ]
 }

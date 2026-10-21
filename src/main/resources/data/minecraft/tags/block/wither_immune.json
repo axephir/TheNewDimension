@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "tnd:portal_frame",
-    "tnd:portal_controller"
+    "tnd:portal_controller",
+    "tnd:memory_terminal"
   ]
 }

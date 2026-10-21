@@ -51,7 +51,7 @@ class Resources(unittest.TestCase):
             self.assertEqual(site['type'],'tnd:crowned_site')
             self.assertEqual(site['template'],'tnd:'+name)
             self.assertEqual(site['terrain_adaptation'],'none')
-            expected='#minecraft:is_overworld' if name in ['outpost','portal_site'] else '#tnd:is_vestige'
+            expected='#minecraft:is_overworld' if name in ['outpost','portal_site'] else '#tnd:ancient_vestige'
             self.assertEqual(site['biomes'],expected)
         for name in ['nightslag','veined_nightslag']:
             self.assertTrue((DATA/f'loot_table/blocks/{name}.json').is_file())
@@ -93,6 +93,44 @@ class Resources(unittest.TestCase):
             desks=[b for b in root['blocks'] if root['palette'][b['state']]['Name']=='tnd:survey_terminal']
             self.assertEqual(len(desks),1);self.assertEqual(desks[0]['nbt']['SurveySite'],0)
             self.assertGreaterEqual(sum(root['palette'][b['state']]['Name']=='tnd:return_anchor' for b in root['blocks']),1)
+
+    def test_city_content_and_progression(self):
+        from city_resources import MOBS,BLOCKS,TOWERS
+        city=json.loads((DATA/'worldgen/structure/neon_district.json').read_text())
+        self.assertEqual(city['type'],'tnd:crowned_site');self.assertEqual(city['biomes'],'tnd:neon_city')
+        placement=json.loads((DATA/'worldgen/structure_set/vestige_sites.json').read_text())['placement']
+        radius=__import__('math').ceil(__import__('math').hypot(63.5,63.5))+39
+        self.assertGreater((placement['separation']+1)*16,radius*2+1)
+        self.assertNotIn('exclusion_zone',placement)
+        self.assertFalse((DATA/'worldgen/structure_set/neon_district.json').exists())
+        for name in ['portal_monitor','relay_coil']:
+            recipe=json.loads((DATA/f'recipe/{name}.json').read_text())
+            for item in recipe['key'].values():self.assertNotIn(item,['tnd:ancient_alloy','tnd:resonant_shard','tnd:tempered_alloy','tnd:umbra_alloy'])
+        self.assertFalse((DATA/'recipe/nacre_memorial.json').exists());self.assertFalse((DATA/'loot_table/blocks/memory_terminal.json').exists())
+        for name in MOBS:
+            loot=json.loads((DATA/f'loot_table/entities/{name}.json').read_text())
+            self.assertIn('minecraft:killed_by_player',str(loot))
+            for suffix in ['','_charged']:self.assertTrue((ASSETS/f'textures/entity/{name}{suffix}.png').is_file())
+        for locale in ['fr_fr','en_us']:
+            lang=json.loads((ASSETS/f'lang/{locale}.json').read_text())
+            for i in range(8):self.assertGreater(len(lang[f'codex.tnd.text.{i}']),350)
+        building=generator.city_resources.build()
+        entries=[dict(props)['entry'] for block,props,loot in building.grid.values() if block=='tnd:memory_terminal']
+        self.assertEqual(sorted(entries),list('1234567'))
+        for x0,z0,x1,z1,floors,purpose,color in TOWERS:
+            for f in range(floors):
+                grid=[v[0] for (x,y,z),v in building.grid.items() if x0<=x<=x1 and z0<=z<=z1 and f*8<y<(f+1)*8]
+                self.assertGreater(len(set(grid)),8,(purpose,f))
+        self.assertEqual(len(json.loads((ASSETS/'blockstates/portal_controller.json').read_text())['variants']),32)
+        tiles=list((DATA/'structure/neon_district').glob('part_*.nbt'));self.assertEqual(len(tiles),16)
+        rebuilt={}
+        for path in tiles:
+            tx,tz=map(int,path.stem.split('_')[1:]);parser=Nbt(gzip.decompress(path.read_bytes()));parser.take(1);parser.string();root=parser.read(10)
+            for cell in root['blocks']:
+                x,y,z=cell['pos'];state=root['palette'][cell['state']]
+                rebuilt[x+tx*32,y,z+tz*32]=(state['Name'],tuple(sorted(state.get('Properties',{}).items())),cell.get('nbt',{}).get('LootTable'))
+        self.assertEqual(rebuilt,building.grid,'Native generation tiles reconstruct every authored block and chest without gaps')
+
 
     def test_industrial_survival_chain(self):
         from industry_resources import BLOCKS,ITEMS,MACHINES
@@ -159,7 +197,7 @@ class Resources(unittest.TestCase):
             self.assertEqual(len(zlib.decompress(compressed)), size * (1 + size * 4))
 
     def test_nbt_structures(self):
-        for path in (DATA / 'structure').glob('*.nbt'):
+        for path in (DATA / 'structure').rglob('*.nbt'):
             parser = Nbt(gzip.decompress(path.read_bytes()))
             self.assertEqual(parser.take(1), b'\x0a'); parser.string()
             root = parser.read(10)
@@ -224,13 +262,13 @@ class Resources(unittest.TestCase):
         recipe=json.loads((DATA/'recipe/resonant_aegis.json').read_text())
         self.assertIn('tnd:resonance_heart',recipe['ingredients'])
         self.assertFalse((DATA/'recipe/resonance_heart.json').exists())
-        self.assertEqual(json.loads((DATA/'worldgen/structure/resonance_vault.json').read_text())['biomes'],'#tnd:is_vestige')
+        self.assertEqual(json.loads((DATA/'worldgen/structure/resonance_vault.json').read_text())['biomes'],'#tnd:ancient_vestige')
 
     def test_atmosphere_and_biome_content(self):
         biomes={'silent_expanse','fractured_fields','hollow_shelves','glass_woodland','ashen_basin','obsidian_dunes'}
         stem=json.loads((DATA/'dimension/vestige.json').read_text())
-        self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['biomes']},biomes)
-        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),40)
+        self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['biomes']},biomes|{'neon_city'})
+        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),52)
         loops=set()
         for biome in biomes:
             data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())
@@ -331,7 +369,7 @@ class Resources(unittest.TestCase):
         self.assertEqual(len(desks),1);self.assertEqual(desks[0]['nbt']['SurveySite'],1)
         self.assertEqual(len(json.loads((ASSETS/'blockstates/survey_terminal.json').read_text())['variants']),4)
         self.assertFalse((DATA/'recipe/cartographer_trophy.json').exists())
-        self.assertEqual(json.loads((DATA/'worldgen/structure/observatory.json').read_text())['biomes'],'#tnd:is_vestige')
+        self.assertEqual(json.loads((DATA/'worldgen/structure/observatory.json').read_text())['biomes'],'#tnd:ancient_vestige')
         for name in ['return_anchor','recall_prism']:
             recipe=json.loads((DATA/f'recipe/{name}.json').read_text());self.assertIn('tnd:tempered_alloy',recipe['key'].values())
         for lang in ['fr_fr','en_us']:
@@ -348,7 +386,7 @@ class Resources(unittest.TestCase):
         self.assertGreaterEqual(portal['separation'] * 16, 10000)
         self.assertLessEqual(portal['spacing'] * 16, 15000)
         sites=json.loads((DATA/'worldgen/structure_set/vestige_sites.json').read_text())
-        self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry','tnd:resonance_vault','tnd:observatory','tnd:aureate_citadel','tnd:echo_conservatory'})
+        self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry','tnd:resonance_vault','tnd:observatory','tnd:aureate_citadel','tnd:echo_conservatory','tnd:neon_district'})
         from math import ceil,hypot
         largest_radius=max(ceil(hypot(size[0]/2,size[2]/2))+39 for size in generator.SIZES.values())
         self.assertGreater((sites['placement']['separation']+1)*16,2*largest_radius+1)
@@ -356,7 +394,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS))
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS))
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

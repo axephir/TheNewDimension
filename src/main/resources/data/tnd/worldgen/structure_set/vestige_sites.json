@@ -2,8 +2,8 @@
   "placement": {
     "type": "minecraft:random_spread",
     "salt": 129811,
-    "spacing": 20,
-    "separation": 13
+    "spacing": 24,
+    "separation": 17
   },
   "structures": [
     {
@@ -33,6 +33,10 @@
     {
       "structure": "tnd:echo_conservatory",
       "weight": 1
+    },
+    {
+      "structure": "tnd:neon_district",
+      "weight": 3
     }
   ]
 }

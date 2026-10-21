@@ -42,9 +42,10 @@ final class InventoryMasteries {
             @Override protected void extractContents(GuiGraphicsExtractor g,int mx,int my,float partial){StonePanel.frame(g,getX(),getY(),22,22);if(isHoveredOrFocused())g.fill(getX()+3,getY()+3,getX()+19,getY()+19,0xffd8d3a3);g.item(ModContent.STAR_CHART.get().asItem().getDefaultInstance(),getX()+3,getY()+3);}
         };expeditions.setTooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_expeditions")));event.addListener(expeditions);
         var guide=Button.builder(Component.literal("?"),b->Minecraft.getInstance().gui.setScreen(new FieldGuideScreen(event.getScreen()))).bounds(x,y+50,22,22).tooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_guide"))).build();event.addListener(guide);
+        var archives=Button.builder(Component.literal("≡"),b->{var p=Minecraft.getInstance().player;if(p!=null)p.connection.sendCommand("tnd archives");}).bounds(x,y+75,22,22).tooltip(Tooltip.create(Component.translatable("gui.tnd.archives"))).build();event.addListener(archives);
         // Click callbacks retain their parent screen; weak values avoid keeping old
         // inventories and worlds alive through the otherwise weak screen keys.
-        TABS.put(event.getScreen(),java.util.List.of(new java.lang.ref.WeakReference<>(button),new java.lang.ref.WeakReference<>(expeditions),new java.lang.ref.WeakReference<>(guide)));
+        TABS.put(event.getScreen(),java.util.List.of(new java.lang.ref.WeakReference<>(button),new java.lang.ref.WeakReference<>(expeditions),new java.lang.ref.WeakReference<>(guide),new java.lang.ref.WeakReference<>(archives)));
     }
     private InventoryMasteries() {}
 }

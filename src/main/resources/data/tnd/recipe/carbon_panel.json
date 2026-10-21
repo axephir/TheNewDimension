@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:tempered_alloy",
+  "result": {
+    "id": "tnd:carbon_panel",
+    "count": 8
+  }
+}

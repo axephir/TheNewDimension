@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:city_template",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 750,
+  "required": true
+}

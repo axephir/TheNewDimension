@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "tnd:carbon_panel",
+    "minecraft:glowstone_dust",
+    "minecraft:orange_dye"
+  ],
+  "result": {
+    "id": "tnd:neon_amber",
+    "count": 4
+  }
+}

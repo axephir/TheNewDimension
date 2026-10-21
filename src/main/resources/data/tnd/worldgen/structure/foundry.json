@@ -1,7 +1,7 @@
 {
   "type": "tnd:crowned_site",
   "template": "tnd:foundry",
-  "biomes": "#tnd:is_vestige",
+  "biomes": "#tnd:ancient_vestige",
   "spawn_overrides": {},
   "step": "surface_structures",
   "terrain_adaptation": "none"

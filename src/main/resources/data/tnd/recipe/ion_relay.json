@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "tnd:ion_filament",
+    "tnd:copper_coil",
+    "minecraft:quartz"
+  ],
+  "result": {
+    "id": "tnd:relay_coil",
+    "count": 2
+  }
+}

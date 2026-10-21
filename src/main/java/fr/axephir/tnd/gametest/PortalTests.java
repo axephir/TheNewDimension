@@ -50,6 +50,9 @@ public final class PortalTests {
         var player = helper.makeMockServerPlayer(GameType.SURVIVAL);
         var result = PortalLanding.findArrival(level, controller, player);
         helper.assertTrue(result.isPresent(), Component.literal("Use a clear adjacent landing cell when the controller headroom is obstructed"));
+        helper.assertTrue(result.get().equals(controller.north(2)), Component.literal("Arrive in front of the aperture with a clear view, rather than inside its membrane"));
+        level.setBlock(controller,level.getBlockState(controller).setValue(PortalControllerBlock.FACING,net.minecraft.core.Direction.EAST),3);
+        helper.assertTrue(PortalLanding.findArrival(level,controller,player).orElseThrow().equals(controller.east(2)),Component.literal("Safe arrival respects a rotated gate orientation"));
         helper.assertTrue(!result.get().equals(controller.above()), Component.literal("Never place the player inside the obstruction"));
         helper.assertTrue(level.getBlockState(controller.above(2)).is(Blocks.STONE), Component.literal("Do not delete the player's obstruction"));
         for (BlockPos pos : BlockPos.betweenClosed(controller.offset(-3, 0, -3), controller.offset(3, 3, 3)))
@@ -69,6 +72,7 @@ public final class PortalTests {
         BlockPos pos = helper.absolutePos(new BlockPos(2, 1, 2));
         helper.setBlock(new BlockPos(2, 1, 2), ModContent.PORTAL_CONTROLLER.get());
         var portal = (PortalControllerEntity) source.getBlockEntity(pos);
+        CityTests.monitor(source,pos.west(5),true).energy.set(16000);
         BlockPos obstruction = new BlockPos(pos.getX() + 3, target.getMaxY(), pos.getZ());
         target.setBlock(obstruction, Blocks.GOLD_BLOCK.defaultBlockState(), 3);
         var crystals = new ItemStack(ModContent.COMPOSITE_CRYSTAL.get(), 2);
@@ -89,6 +93,7 @@ public final class PortalTests {
             source.setBlock(floor, ModContent.ANCIENT_ALLOY.get().defaultBlockState(), 3);
         helper.setBlock(new BlockPos(2, 1, 2), ModContent.PORTAL_CONTROLLER.get());
         var portal = (PortalControllerEntity) source.getBlockEntity(pos);
+        CityTests.monitor(source,pos.west(5),true).energy.set(16000);
         var crystals = new ItemStack(ModContent.COMPOSITE_CRYSTAL.get(), 2);
         helper.assertTrue(portal.activateTo(target, crystals), Component.literal("An unvisited destination must activate on the first attempt"));
         helper.assertTrue(crystals.getCount() == 1, Component.literal("Successful activation consumes exactly one crystal"));

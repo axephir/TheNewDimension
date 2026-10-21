@@ -278,5 +278,89 @@
     "peak": 0.55999755859375,
     "rms": 0.1627156863212671,
     "splice_delta": 0
+  },
+  "gate_charge": {
+    "duration": 6,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.1583340396040061,
+    "splice_delta": 0.0
+  },
+  "gate_open": {
+    "duration": 3.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.14949208838552944,
+    "splice_delta": 0.0
+  },
+  "gate_transit": {
+    "duration": 3.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.15739189696825742,
+    "splice_delta": 0.0
+  },
+  "gate_hum": {
+    "duration": 3.2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.14995943318993826,
+    "splice_delta": 0.0
+  },
+  "city_drone": {
+    "duration": 2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.19673997721579073,
+    "splice_delta": 0.0
+  },
+  "city_alarm": {
+    "duration": 2,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.2491987596216489,
+    "splice_delta": 0.0
+  },
+  "city_footstep": {
+    "duration": 0.7,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.06915562947626182,
+    "splice_delta": 0.0
+  },
+  "city_laser": {
+    "duration": 0.7,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.09732834995743103,
+    "splice_delta": 0.0
+  },
+  "city_dash": {
+    "duration": 0.7,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.09853871069214529,
+    "splice_delta": 0.0
+  },
+  "city_impact": {
+    "duration": 0.7,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.09455659034414995,
+    "splice_delta": 0.0
+  },
+  "archive_read": {
+    "duration": 1.5,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.12912673708300426,
+    "splice_delta": 0.0
+  },
+  "nacre_ambience": {
+    "duration": 24,
+    "loop": true,
+    "peak": 0.55999755859375,
+    "rms": 0.2079515289077447,
+    "splice_delta": 0.010223388671875
   }
 }

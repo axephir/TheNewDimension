@@ -19,7 +19,7 @@
             ],
             "continentalness": [
               -1,
-              1
+              0.22
             ],
             "erosion": [
               -1,
@@ -49,7 +49,7 @@
             ],
             "continentalness": [
               -1,
-              1
+              0.22
             ],
             "erosion": [
               -1,
@@ -79,7 +79,7 @@
             ],
             "continentalness": [
               -1,
-              1
+              0.22
             ],
             "erosion": [
               -1,
@@ -109,7 +109,7 @@
             ],
             "continentalness": [
               -1,
-              1
+              0.22
             ],
             "erosion": [
               -1,
@@ -139,7 +139,7 @@
             ],
             "continentalness": [
               -1,
-              1
+              0.22
             ],
             "erosion": [
               -1,
@@ -169,6 +169,36 @@
             ],
             "continentalness": [
               -1,
+              0.22
+            ],
+            "erosion": [
+              -1,
+              1
+            ],
+            "depth": [
+              -1,
+              1
+            ],
+            "weirdness": [
+              -1,
+              1
+            ],
+            "offset": 0.0
+          }
+        },
+        {
+          "biome": "tnd:neon_city",
+          "parameters": {
+            "temperature": [
+              -1,
+              1
+            ],
+            "humidity": [
+              -1,
+              1
+            ],
+            "continentalness": [
+              0.22,
               1
             ],
             "erosion": [

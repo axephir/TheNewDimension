@@ -35,6 +35,11 @@ public final class PortalLanding {
     public static Optional<BlockPos> findArrival(ServerLevel level, BlockPos controller, Entity entity) {
         if (!withinBorder(level, controller.getX(), controller.getZ())) return Optional.empty();
         loadFootprint(level, controller.getX(), controller.getZ());
+        var state=level.getBlockState(controller);
+        if(state.hasProperty(PortalControllerBlock.FACING)){
+            var approach=controller.relative(state.getValue(PortalControllerBlock.FACING),2);
+            if(isSafe(level,approach,entity))return Optional.of(approach);
+        }
         if (isSafe(level, controller.above(), entity)) return Optional.of(controller.above());
         // The generated platform is one block below the controller. Search it
         // before refusing transport; never clear a player's blocks on arrival.

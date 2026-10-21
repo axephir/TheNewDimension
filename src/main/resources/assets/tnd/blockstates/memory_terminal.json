@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "entry=0": {
+      "model": "tnd:block/memory_terminal"
+    },
+    "entry=1": {
+      "model": "tnd:block/memory_terminal"
+    },
+    "entry=2": {
+      "model": "tnd:block/memory_terminal"
+    },
+    "entry=3": {
+      "model": "tnd:block/memory_terminal"
+    },
+    "entry=4": {
+      "model": "tnd:block/memory_terminal"
+    },
+    "entry=5": {
+      "model": "tnd:block/memory_terminal"
+    },
+    "entry=6": {
+      "model": "tnd:block/memory_terminal"
+    },
+    "entry=7": {
+      "model": "tnd:block/memory_terminal"
+    }
+  }
+}

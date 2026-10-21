@@ -1,0 +1,32 @@
+{
+  "type": "tnd:crowned_site",
+  "template": "tnd:neon_district",
+  "biomes": "tnd:neon_city",
+  "step": "surface_structures",
+  "terrain_adaptation": "none",
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "tnd:neon_enforcer",
+          "weight": 18,
+          "minCount": 1,
+          "maxCount": 2
+        },
+        {
+          "type": "tnd:suture_drone",
+          "weight": 12,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "type": "tnd:signal_reaver",
+          "weight": 10,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    }
+  }
+}

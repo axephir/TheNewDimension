@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OCO",
+    "IQI",
+    "OCO"
+  ],
+  "key": {
+    "O": "minecraft:copper_ingot",
+    "C": "tnd:copper_coil",
+    "I": "minecraft:iron_ingot",
+    "Q": "minecraft:quartz"
+  },
+  "result": {
+    "id": "tnd:relay_coil",
+    "count": 2
+  }
+}

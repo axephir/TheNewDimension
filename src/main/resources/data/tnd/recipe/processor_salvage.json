@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "tnd:security_processor"
+  ],
+  "result": {
+    "id": "tnd:control_circuit",
+    "count": 2
+  }
+}

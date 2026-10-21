@@ -406,5 +406,125 @@
         "attenuation_distance": 24
       }
     ]
+  },
+  "gate_charge": {
+    "subtitle": "subtitles.tnd.gate_charge",
+    "sounds": [
+      {
+        "name": "tnd:ambient/gate_charge",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "gate_open": {
+    "subtitle": "subtitles.tnd.gate_open",
+    "sounds": [
+      {
+        "name": "tnd:ambient/gate_open",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "gate_transit": {
+    "subtitle": "subtitles.tnd.gate_transit",
+    "sounds": [
+      {
+        "name": "tnd:ambient/gate_transit",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "gate_hum": {
+    "subtitle": "subtitles.tnd.gate_hum",
+    "sounds": [
+      {
+        "name": "tnd:ambient/gate_hum",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "city_drone": {
+    "subtitle": "subtitles.tnd.city_drone",
+    "sounds": [
+      {
+        "name": "tnd:ambient/city_drone",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "city_alarm": {
+    "subtitle": "subtitles.tnd.city_alarm",
+    "sounds": [
+      {
+        "name": "tnd:ambient/city_alarm",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "city_footstep": {
+    "subtitle": "subtitles.tnd.city_footstep",
+    "sounds": [
+      {
+        "name": "tnd:ambient/city_footstep",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "city_laser": {
+    "subtitle": "subtitles.tnd.city_laser",
+    "sounds": [
+      {
+        "name": "tnd:ambient/city_laser",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "city_dash": {
+    "subtitle": "subtitles.tnd.city_dash",
+    "sounds": [
+      {
+        "name": "tnd:ambient/city_dash",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "city_impact": {
+    "subtitle": "subtitles.tnd.city_impact",
+    "sounds": [
+      {
+        "name": "tnd:ambient/city_impact",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "archive_read": {
+    "subtitle": "subtitles.tnd.archive_read",
+    "sounds": [
+      {
+        "name": "tnd:ambient/archive_read",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "nacre_ambience": {
+    "subtitle": "subtitles.tnd.nacre_ambience",
+    "sounds": [
+      {
+        "name": "tnd:ambient/nacre_ambience",
+        "volume": 0.38,
+        "attenuation_distance": 24
+      }
+    ]
   }
 }

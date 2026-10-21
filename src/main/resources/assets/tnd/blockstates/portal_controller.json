@@ -1,10 +1,100 @@
 {
   "variants": {
-    "active=false": {
+    "active=false,charging=false,online=false,facing=north": {
       "model": "tnd:block/portal_controller"
     },
-    "active=true": {
-      "model": "tnd:block/conduit"
+    "active=false,charging=false,online=false,facing=south": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=false,online=false,facing=east": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=false,online=false,facing=west": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=false,online=true,facing=north": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=false,online=true,facing=south": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=false,online=true,facing=east": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=false,online=true,facing=west": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=true,online=false,facing=north": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=true,online=false,facing=south": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=true,online=false,facing=east": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=true,online=false,facing=west": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=true,online=true,facing=north": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=true,online=true,facing=south": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=true,online=true,facing=east": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=false,charging=true,online=true,facing=west": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=false,online=false,facing=north": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=false,online=false,facing=south": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=false,online=false,facing=east": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=false,online=false,facing=west": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=false,online=true,facing=north": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=false,online=true,facing=south": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=false,online=true,facing=east": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=false,online=true,facing=west": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=true,online=false,facing=north": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=true,online=false,facing=south": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=true,online=false,facing=east": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=true,online=false,facing=west": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=true,online=true,facing=north": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=true,online=true,facing=south": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=true,online=true,facing=east": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true,charging=true,online=true,facing=west": {
+      "model": "tnd:block/portal_controller"
     }
   }
 }

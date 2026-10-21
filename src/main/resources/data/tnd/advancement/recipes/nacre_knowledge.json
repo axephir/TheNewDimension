@@ -1,0 +1,37 @@
+{
+  "criteria": {
+    "circuit": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:control_circuit"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "circuit"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:portal_monitor",
+      "tnd:relay_coil",
+      "tnd:city_asphalt",
+      "tnd:carbon_panel",
+      "tnd:city_tiles",
+      "tnd:reinforced_panel",
+      "tnd:circuit_panel",
+      "tnd:vent_panel",
+      "tnd:neon_cyan",
+      "tnd:neon_magenta",
+      "tnd:neon_amber",
+      "tnd:processor_salvage",
+      "tnd:ion_lighting",
+      "tnd:ion_relay"
+    ]
+  }
+}

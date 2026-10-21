@@ -29,9 +29,9 @@ final class AtmosphereTests {
         }catch(java.io.IOException e){throw new IllegalStateException(e);}
         var random=RandomState.create(registries,ResourceKey.create(Registries.NOISE_SETTINGS,Identifier.fromNamespaceAndPath("tnd","vestige")),987654L);
         Set<String> found=new HashSet<>();
-        for(int x=-8192;x<=8192&&found.size()<6;x+=256)for(int z=-8192;z<=8192&&found.size()<6;z+=256)
+        for(int x=-8192;x<=8192&&found.size()<7;x+=256)for(int z=-8192;z<=8192&&found.size()<7;z+=256)
             found.add(stem.generator().getBiomeSource().getNoiseBiome(x>>2,24,z>>2,random.sampler()).unwrapKey().orElseThrow().identifier().getPath());
-        check(h,found.equals(Set.of("silent_expanse","fractured_fields","hollow_shelves","glass_woodland","ashen_basin","obsidian_dunes")),"All six biomes must actually be reachable through the real climate sampler: "+found);
+        check(h,found.equals(Set.of("silent_expanse","fractured_fields","hollow_shelves","glass_woodland","ashen_basin","obsidian_dunes","neon_city")),"All seven biomes must actually be reachable through the real climate sampler: "+found);
         for(int x=-2048;x<=2048;x+=128){
             int height=stem.generator().getBaseHeight(x,-x,Heightmap.Types.WORLD_SURFACE,net.minecraft.world.level.LevelHeightAccessor.create(0,256),random);
             check(h,height>5&&height<=208,"New terrain must retain safe headroom for structures and crystals");

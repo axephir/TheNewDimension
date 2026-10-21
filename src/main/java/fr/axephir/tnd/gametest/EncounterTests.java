@@ -117,6 +117,9 @@ public final class EncounterTests {
         // destination ticking only AFTER the cold transfer has happened. This cannot
         // rescue a failed transfer: a pet left at the source will still fail below.
         target.setChunkForced(landing.getX()>>4,landing.getZ()>>4,true);
+        // Resolve asynchronous entity storage after the cold transfer. A fast test
+        // tick counter alone does not guarantee that the native entity IO completed.
+        target.waitForEntities(new ChunkPos(landing.getX()>>4,landing.getZ()>>4),0);
         h.runAfterDelay(20,()->{
             try {
                 check(h,target.getEntity(uuid) instanceof Shardling moved&&moved.getOwnerReference().matches(p),"Companion must reach an initially unloaded destination; source alive="+pet.isAlive()+", loaded="+target.hasChunk(landing.getX()>>4,landing.getZ()>>4)+", floor="+target.getBlockState(landing.below())+", landing="+CompanionTravel.findLanding(target,landing,pet));

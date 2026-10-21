@@ -21,6 +21,7 @@ public final class TheNewDimension {
     public TheNewDimension(IEventBus bus, ModContainer container) {
         fr.axephir.tnd.core.AwakeningContent.bootstrap();
         fr.axephir.tnd.technology.Industry.register(bus);
+        fr.axephir.tnd.city.CityContent.register(bus);
         MachineRegistry.register(bus);
         fr.axephir.tnd.entities.VestigeEntities.register(bus);
         ReadinessTests.FUNCTIONS.register(bus);

@@ -96,7 +96,7 @@ public final class ReadinessTests {
         FUNCTIONS.register("dimension", () -> ReadinessTests::dimension);
         FUNCTIONS.register("extractor", () -> ReadinessTests::extractor);
         FUNCTIONS.register("portal_resistance", () -> ReadinessTests::portalResistance);
-        PortalTests.register(FUNCTIONS);
+        PortalTests.register(FUNCTIONS);CityTests.register(FUNCTIONS);
         FUNCTIONS.register("companion_bond",()->EncounterTests::bond);
         FUNCTIONS.register("companion_follow",()->EncounterTests::follow);
         FUNCTIONS.register("companion_travel",()->EncounterTests::travel);

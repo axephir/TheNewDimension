@@ -29,6 +29,7 @@ import fieldwork_resources
 import awakening_resources
 import character_art
 import industry_resources
+import city_resources
 SHAPES.update(awakening_resources.SHAPES)
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
@@ -36,9 +37,9 @@ DATA = ROOT / 'data/tnd'
 ASSETS = ROOT / 'assets/tnd'
 BLOCKS = ['ashstone', 'ancient_alloy', 'resonant_ore', 'conduit',
           'blue_ore', 'red_ore', 'green_ore', 'portal_frame',
-          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault','resonance_forge'] + awakening_resources.BLOCKS + fieldwork_resources.BLOCKS + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES) + industry_resources.BLOCKS
+          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault','resonance_forge'] + awakening_resources.BLOCKS + fieldwork_resources.BLOCKS + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES) + industry_resources.BLOCKS + city_resources.BLOCKS
 ITEMS = ['blue_shard', 'red_shard', 'green_shard', 'resonant_shard',
-         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis','inertial_matrix','tempered_alloy','resonant_pickaxe','resonant_blade','recall_prism'] + awakening_resources.ITEMS + industry_resources.ITEMS
+         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis','inertial_matrix','tempered_alloy','resonant_pickaxe','resonant_blade','recall_prism'] + awakening_resources.ITEMS + industry_resources.ITEMS + city_resources.ITEMS
 
 
 def write(path, data):
@@ -62,7 +63,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Industrie 0.10 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Nacre-9 0.11 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}
@@ -477,6 +478,7 @@ def languages():
     atmosphere_resources.languages(fr,en)
     awakening_resources.languages(fr,en)
     industry_resources.languages(fr,en)
+    city_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 
@@ -490,9 +492,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--audio', action='store_true')
     options = parser.parse_args()
-    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); languages()
+    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); languages()
     if options.audio:
         audio()
         import awakening_audio
         awakening_audio.generate(ASSETS,write)
-    print('Generated 16px blocks/items, 64px character atlases and nine furnished crowned sites.')
+        import city_audio
+        city_audio.generate(ASSETS,write)
+    print('Generated 16px blocks/items, 64px character atlases, nine ancient sites and Nacre-9.')
