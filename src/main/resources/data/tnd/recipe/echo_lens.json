@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "tnd:echo_dust",
+    "tnd:echo_dust",
+    "tnd:echo_dust",
+    "tnd:composite_crystal",
+    "minecraft:amethyst_shard"
+  ],
+  "result": {
+    "id": "tnd:echo_lens"
+  }
+}

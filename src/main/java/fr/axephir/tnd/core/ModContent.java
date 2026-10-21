@@ -76,6 +76,12 @@ public final class ModContent {
     public static final DeferredBlock<SlabBlock> POLISHED_ASHSTONE_SLAB = BLOCKS.registerBlock("polished_ashstone_slab", SlabBlock::new, p -> p.strength(3.5f, 8).requiresCorrectToolForDrops());
     public static final DeferredBlock<StairBlock> CUT_ALLOY_STAIRS = BLOCKS.registerBlock("cut_alloy_stairs", p -> new StairBlock(CUT_ALLOY.get().defaultBlockState(), p), p -> p.strength(3.5f, 8).requiresCorrectToolForDrops());
     public static final DeferredBlock<SlabBlock> CUT_ALLOY_SLAB = BLOCKS.registerBlock("cut_alloy_slab", SlabBlock::new, p -> p.strength(3.5f, 8).requiresCorrectToolForDrops());
+    public static final DeferredBlock<fr.axephir.tnd.world.EchoBloomBlock> ECHO_BLOOM=BLOCKS.registerBlock("echo_bloom",fr.axephir.tnd.world.EchoBloomBlock::new,
+            p->p.strength(2.5f,6).requiresCorrectToolForDrops().noOcclusion().randomTicks().lightLevel(state->2+state.getValue(fr.axephir.tnd.world.EchoBloomBlock.CHARGE)*3).sound(net.minecraft.world.level.block.SoundType.AMETHYST));
+    public static final DeferredItem<Item> ECHO_DUST=ITEMS.registerSimpleItem("echo_dust");
+    public static final DeferredItem<fr.axephir.tnd.world.EchoLensItem> ECHO_LENS=ITEMS.registerItem("echo_lens",fr.axephir.tnd.world.EchoLensItem::new,p->p.stacksTo(1));
+    public static final DeferredItem<SpawnEggItem> SHARDLING_EGG=ITEMS.registerItem("shardling_spawn_egg",SpawnEggItem::new,p->p.spawnEgg(fr.axephir.tnd.entities.VestigeEntities.SHARDLING.get()));
+    public static final DeferredItem<SpawnEggItem> SENTINEL_EGG=ITEMS.registerItem("rift_sentinel_spawn_egg",SpawnEggItem::new,p->p.spawnEgg(fr.axephir.tnd.entities.VestigeEntities.SENTINEL.get()));
     public static final DeferredItem<Item> RELIC_FRAGMENT = ITEMS.registerSimpleItem("relic_fragment");
     public static final DeferredItem<Item> STABILIZER_MODULE = ITEMS.registerSimpleItem("stabilizer_module", p -> p.stacksTo(1));
     public static final DeferredItem<Item> BLUE_SHARD = ITEMS.registerSimpleItem("blue_shard");

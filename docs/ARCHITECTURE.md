@@ -4,7 +4,7 @@
 
 La demande explicite de NeoForge 26.2 remplace la proposition Forge 1.20.1 du document. Le MDK officiel 26.2 référence Minecraft 26.2, NeoForge 26.2.0.93, Java 25, ModDevGradle 2.0.148 et Gradle 9.2.1. Ces versions sont épinglées. Pas de bibliothèque de gameplay tierce.
 
-Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:vestige`. Les noms des biomes et ressources sont provisoires. Les créatures, boss, énergie industrielle avancée et accès quadridimensionnel n’ont pas été décidés silencieusement.
+Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:vestige`. Les noms des biomes et ressources sont provisoires. Les deux premières espèces sont des propositions documentées dans ENCOUNTERS_0.4.0.md. Les boss, l’énergie industrielle avancée et l’accès quadridimensionnel restent à concevoir.
 
 ## Séparation des responsabilités
 
@@ -16,6 +16,7 @@ Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:ve
 | `progression` | Événements manuels, attachements persistants, perception et menu autoritaire |
 | `technology` | Bloc, inventaire, calcul différé et menu de l’extracteur |
 | `client` | Écrans et configuration graphique, chargés uniquement sur le client |
+| `entities` | Familiers, sentinelles, apparition rare et transport interdimensionnel |
 | `gametest` | Tests d’intégration natifs : monde, portails, progression, consoles et machines |
 
 Les modules narratifs, entités et anomalies ne sont pas représentés par des classes vides : ils seront ajoutés avec leur première fonctionnalité réelle.
@@ -44,7 +45,7 @@ La génération repose sur des registres de données natifs : densité 3D origin
 
 Le détecteur appelle la recherche native de structure. Il ne calcule pas de coordonnées fictives. Les cinq modèles de ruines sont originaux, fermés et aménagés. L’avant-poste de départ est demandé uniquement lors de la création du spawn d’un nouveau monde et placé à la première connexion ; les mondes existants ne sont pas automatiquement modifiés par ce mécanisme.
 
-Le passage du prototype s’utilise en cliquant son mécanisme. L’animation et la traversée automatique d’une surface de portail restent à compléter. Les couples sont sauvegardés en `GlobalPos`. L’arrivée doit être dégagée ; le code refuse de supprimer des constructions pour placer un passage retour. Les déplacements de familiers concernent actuellement les animaux vanilla apprivoisés compatibles ; il n’y a pas encore de créature originale.
+Le passage du prototype s’utilise en cliquant son mécanisme. L’animation et la traversée automatique d’une surface de portail restent à compléter. Les couples sont sauvegardés en `GlobalPos`. L’arrivée doit être dégagée ; le code refuse de supprimer des constructions pour placer un passage retour. Les déplacements de familiers concernent actuellement les animaux vanilla apprivoisés compatibles ; les Éclats errants utilisent aussi les changements de dimension vanilla, avec capture avant transfert puis recherche d’un sol sûr après réussite. Aucun déplacement n’a lieu sur un transfert annulé.
 
 ## Conclusion et récupération — conception, pas fonctionnalité livrée
 

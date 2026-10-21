@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "charge=0": {
+      "model": "tnd:block/echo_bloom_0"
+    },
+    "charge=1": {
+      "model": "tnd:block/echo_bloom_1"
+    },
+    "charge=2": {
+      "model": "tnd:block/echo_bloom_2"
+    },
+    "charge=3": {
+      "model": "tnd:block/echo_bloom_3"
+    }
+  }
+}

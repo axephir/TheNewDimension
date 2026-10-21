@@ -34,6 +34,22 @@ def pixels(name, item=False):
             line(7,5,5,9,shade(accent,90));dot(7,4,(219,238,211));line(9,9,8,12,shade(accent,45))
             if 'composite' in name:
                 for x,y,c in [(5,9,ACCENTS['blue']),(8,4,ACCENTS['red']),(10,9,ACCENTS['green'])]:dot(x,y,shade(c,55))
+        elif name.endswith('_spawn_egg'):
+            for y in range(2,15):
+                for x in range(3,13):
+                    if ((x-7.5)/4.6)**2+((y-8)/6.5)**2<1:
+                        c=(89,103,89) if 'shardling' in name else (62,71,67)
+                        if (x*3+y*7)%11<3:c=(105,180,145) if 'shardling' in name else (177,125,84)
+                        dot(x,y,c)
+        elif name=='echo_dust':
+            for x,y in [(4,9),(8,5),(11,10),(7,12),(4,13),(11,4)]:
+                dot(x,y,(46,62,58));dot(x+1,y,(110,199,180));dot(x,y-1,(189,229,202))
+        elif name=='echo_lens':
+            for y in range(2,13):
+                for x in range(2,14):
+                    d=abs(x-7.5)+abs(y-7)
+                    if d<8:dot(x,y,(128,115,74) if d>5 else (62,148,142) if d>2 else (188,225,194))
+            rect(7,12,8,14,(124,103,62));dot(5,5,(205,229,190))
         elif name=='relic_fragment':
             for y in range(3,13):
                 for x in range(3,13):
@@ -75,7 +91,11 @@ def pixels(name, item=False):
             k=(x//2,(y+(x//5))//2)
             if k not in cluster:cluster[k]=rng.choice([-12,-6,-3,0,3,7,11])
             dot(x,y,shade(base,cluster[k]+rng.choice([-2,0,0,2])))
-    if name.endswith('_ore'):
+    if name=='echo_bloom':
+        rect(0,0,15,15,(48,93,91));
+        for x in [2,6,10,14]:line(x,0,x,15,(119,199,173));line(x+1,0,x+1,15,(76,145,137))
+        for x,y in [(3,4),(9,11),(13,2),(7,7)]:dot(x,y,(203,230,192))
+    elif name.endswith('_ore'):
         for cx,cy in [(3,4),(11,3),(8,9),(3,12),(13,12)]:
             for dx,dy in [(0,-1),(-1,0),(0,0),(1,0),(0,1),(1,1)]:dot(cx+dx,cy+dy,shade(accent,-15 if dx==1 or dy==1 else 30))
             dot(cx-1,cy-1,shade(base,-25));dot(cx,cy-1,shade(accent,75))

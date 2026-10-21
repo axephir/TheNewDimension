@@ -27,6 +27,7 @@ public final class HabitatOreFeature extends Feature<NoneFeatureConfiguration> {
         return TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(TheNewDimension.ID, color + "_ore"));
     }
     static {
+        FEATURES.register("echo_bloom",EchoBloomFeature::new);
         FEATURES.register("red_habitat_ore", () -> new HabitatOreFeature(Habitat.LAVA));
         FEATURES.register("blue_habitat_ore", () -> new HabitatOreFeature(Habitat.OCEAN));
         FEATURES.register("green_habitat_ore", () -> new HabitatOreFeature(Habitat.ROOTS));

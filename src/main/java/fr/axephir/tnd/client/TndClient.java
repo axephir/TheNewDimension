@@ -16,6 +16,8 @@ public final class TndClient {
     public TndClient(IEventBus bus, ModContainer container) {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
         bus.addListener(TndClient::screens);
+        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions e)->RelicRenderer.layers(e));
+        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers e)->RelicRenderer.renderers(e));
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(InventoryMasteries::init);
     }
     private static void screens(RegisterMenuScreensEvent event) {

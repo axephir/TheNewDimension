@@ -20,6 +20,7 @@ public final class TheNewDimension {
 
     public TheNewDimension(IEventBus bus, ModContainer container) {
         MachineRegistry.register(bus);
+        fr.axephir.tnd.entities.VestigeEntities.register(bus);
         ReadinessTests.FUNCTIONS.register(bus);
         ModContent.register(bus);
         fr.axephir.tnd.world.HabitatOreFeature.FEATURES.register(bus);
@@ -28,6 +29,7 @@ public final class TheNewDimension {
         NeoForge.EVENT_BUS.register(new ProgressionEvents());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.progression.ExpandedMasteries());
         NeoForge.EVENT_BUS.register(new StarterOutpost());
+        NeoForge.EVENT_BUS.register(new fr.axephir.tnd.entities.CompanionTravel());
         NeoForge.EVENT_BUS.addListener(DevelopmentCommands::register);
     }
 }

@@ -31,7 +31,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 @SuppressWarnings("removal")
 public final class GameplayTests {
     private static void check(GameTestHelper h,boolean ok,String reason){h.assertTrue(ok,Component.literal(reason));}
-    private static ServerPlayer player(GameTestHelper h) {
+    static ServerPlayer player(GameTestHelper h) {
         // Vanilla's helper hardcodes gameMode() to CREATIVE even after setGameMode.
         // Use the same embedded connection with an ordinary survival ServerPlayer.
         var cookie=net.minecraft.server.network.CommonListenerCookie.createInitial(
@@ -40,9 +40,9 @@ public final class GameplayTests {
         var connection=new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND);
         new io.netty.channel.embedded.EmbeddedChannel(connection);
         h.getLevel().getServer().getPlayerList().placeNewPlayer(connection,p,cookie);
-        p.setGameMode(GameType.SURVIVAL);return p;
+        p.setGameMode(GameType.SURVIVAL);p.connection.markClientLoaded();return p;
     }
-    private static void cleanup(ServerPlayer p){p.level().getServer().getPlayerList().remove(p);}
+    static void cleanup(ServerPlayer p){p.level().getServer().getPlayerList().remove(p);}
     public static void masteries(GameTestHelper h) {
         var p=player(h);var level=h.getLevel();var pos=h.absolutePos(new BlockPos(2,1,2));
         try {

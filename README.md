@@ -3,9 +3,9 @@
 Mod RPG, exploration et automatisation pour **Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25**.
 Nom du mod, de la dimension « Vestige » et des ressources : propositions de travail, modifiables avant une première publication.
 
-**Version actuelle : 0.3.0-dev — quinze maîtrises jouables et ruines interactives.**
+**Version actuelle : 0.4.0-dev — familiers, sentinelles et ressources nocturnes.**
 
-[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.3.0-dev.jar).
+[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.4.0-dev.jar).
 Placer ce fichier dans `mods/` avec **Minecraft Java 26.2 et NeoForge 26.2.0.93**, en remplaçant l’ancien JAR TND.
 
 Les cinq bâtiments sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive et fonderie. Toutes les textures du mod sont en **16 × 16**. Vingt-cinq blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
@@ -14,7 +14,9 @@ Dans l’inventaire, cliquer sur le petit onglet à droite pour ouvrir les maît
 
 **Créer un monde de test ou explorer de nouveaux chunks** pour découvrir les nouvelles structures et les nouveaux minerais. Les bâtiments déjà enregistrés dans une sauvegarde conservent leur géométrie ; leurs textures sont actualisées. Le mod ne détruit pas les constructions existantes.
 
-Le [compte rendu de cette version](docs/PROGRESSION_0.3.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour les créatures originales, les machines avancées et le scénario final.
+Le [compte rendu de cette version](docs/ENCOUNTERS_0.4.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour étoffer les créatures, les donjons, l’industrie et le scénario final.
+
+L’**Éclat errant** est un familier rare, apprivoisable avec un cristal composite : suivi, attente, soin, aide au combat et repérage du minerai résonant. La **sentinelle de faille** annonce sa zone d’attaque avant de frapper ; il est possible d’esquiver ou d’interrompre sa charge. Les agrégats d’écho produisent uniquement la nuit de Vestige. Leur poussière alimente un prisme révélant temporairement les ennemis proches. Voir les [captures en jeu](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.4.0.md).
 
 ## Développement
 
@@ -55,9 +57,11 @@ Le script installe/réutilise un JDK Temurin épinglé avec vérification SHA-25
 - Trois minerais exposés associés aux fonds marins, aux fonds de lave et aux racines des arbres ; cristal composite, détecteur et recherche native des vraies structures de portail.
 - Détecteur démontable par utilisation accroupie ; mécanisme consommant un cristal pour établir un passage partagé et permanent, avec destination de retour persistante.
 - Quinze maîtrises indépendantes : récolte, pêche, élevage, combat, construction, exploration, alchimie, artisanat et technologie. Talents, perception active, synergies, notifications de niveau et interface depuis l’inventaire.
+- Deux espèces originales rares : familier lié au joueur et sentinelle à attaque annoncée ; transferts sûrs du familier entre dimensions, modèles et animations propres.
+- Agrégats à croissance nocturne, poussière et prisme d’écho pour repérer les dangers proches.
 - Extracteur avec cinq productions (fer, cuivre, or, redstone, diamant), charbon, modules d’efficacité ou de stabilisation, calibrage par les consoles et les talents. Production différée bornée, sans XP automatique.
 
-La validation de cette version est détaillée dans [PROGRESSION_0.3.0.md](docs/PROGRESSION_0.3.0.md). La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
+La validation de cette version est détaillée dans [ENCOUNTERS_0.4.0.md](docs/ENCOUNTERS_0.4.0.md). La [progression 0.3](docs/PROGRESSION_0.3.0.md) reste incluse. La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
 
 ## Commandes
 
@@ -76,6 +80,6 @@ La perception accepte les quinze identifiants de maîtrises (par exemple `/tnd s
 
 Les options serveur `experienceMultiplier`, `extractorTicksPerItem`, `maxCatchupTicks` et `developmentCommands` sont définies dans `TndConfig`. Les taux de génération et recettes sont des données remplaçables par datapack. Les identifiants `tnd:*` et ceux des maîtrises constituent des clés de sauvegarde : les renommer nécessite une migration.
 
-Le mod préserve les capacités vanilla des débutants. Les créatures originales, les donjons complets, les machines avancées et le scénario final restent à développer. Aucune catastrophe n’est déclenchable dans ce code.
+Le mod préserve les capacités vanilla des débutants. Les donjons complets, les boss, les machines avancées et le scénario final restent à développer. Aucune catastrophe n’est déclenchable dans ce code.
 
 Les textures 16 × 16, modèles, données et structures NBT sont générés par `scripts/generate_resources.py`, `scripts/pixel_art.py` et `scripts/architecture.py`. L’option `--audio` régénère les trois ambiances originales avec `ffmpeg`. Voir [ARCHITECTURE.md](docs/ARCHITECTURE.md) et [THIRD_PARTY.md](docs/THIRD_PARTY.md).

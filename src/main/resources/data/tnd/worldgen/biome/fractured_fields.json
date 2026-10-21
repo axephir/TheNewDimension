@@ -22,15 +22,37 @@
     [],
     [],
     [],
-    []
+    [
+      "tnd:echo_bloom"
+    ]
   ],
-  "spawn_costs": {},
+  "creature_spawn_probability": 0.02,
+  "spawn_costs": {
+    "tnd:rift_sentinel": {
+      "energy_budget": 0.1,
+      "charge": 1.0
+    }
+  },
   "spawners": {
     "ambient": [],
     "axolotls": [],
-    "creature": [],
+    "creature": [
+      {
+        "type": "tnd:shardling",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
     "misc": [],
-    "monster": [],
+    "monster": [
+      {
+        "type": "tnd:rift_sentinel",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
     "underground_water_creature": [],
     "water_ambient": [],
     "water_creature": []

@@ -43,13 +43,13 @@ public final class ExpandedMasteries {
     @SubscribeEvent(priority=EventPriority.LOWEST)
     public void kill(LivingDeathEvent e) {
         if(e.isCanceled()||!(e.getSource().getEntity() instanceof ServerPlayer p))return;
-        if(e.getEntity() instanceof Animal)ProgressionService.award(p,Mastery.HUNTING,25);
+        if(e.getEntity() instanceof Animal&&!(e.getEntity() instanceof fr.axephir.tnd.entities.Shardling))ProgressionService.award(p,Mastery.HUNTING,25);
         else if(e.getEntity() instanceof Enemy)ProgressionService.award(p,e.getSource().getDirectEntity() instanceof Projectile?Mastery.RANGED:Mastery.MELEE,
                 20+(long)Math.min(100,e.getEntity().getMaxHealth()));
     }
     @SubscribeEvent(priority=EventPriority.LOWEST)
     public void huntDrops(LivingDropsEvent e) {
-        if(e.isCanceled()||e.getDrops().isEmpty()||!(e.getEntity() instanceof Animal)||!(e.getSource().getEntity() instanceof ServerPlayer p)||p.isCreative())return;
+        if(e.isCanceled()||e.getDrops().isEmpty()||!(e.getEntity() instanceof Animal)||e.getEntity() instanceof fr.axephir.tnd.entities.Shardling||!(e.getSource().getEntity() instanceof ServerPlayer p)||p.isCreative())return;
         if(p.getRandom().nextDouble()<rank(p,Mastery.HUNTING,Talent.YIELD)*0.02) {
             var first=e.getDrops().iterator().next();
             e.getDrops().add(new net.minecraft.world.entity.item.ItemEntity(p.level(),first.getX(),first.getY(),first.getZ(),first.getItem().copyWithCount(1)));

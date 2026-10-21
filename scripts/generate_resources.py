@@ -21,15 +21,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pixel_art import EXTRA_BLOCKS, SHAPES, pixels
 from architecture import SIZES, build
 from progression_resources import expand as expand_progression_languages
+import creature_resources
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
 DATA = ROOT / 'data/tnd'
 ASSETS = ROOT / 'assets/tnd'
 BLOCKS = ['ashstone', 'ancient_alloy', 'resonant_ore', 'conduit',
           'blue_ore', 'red_ore', 'green_ore', 'portal_frame',
-          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller'] + EXTRA_BLOCKS + list(SHAPES)
+          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom'] + EXTRA_BLOCKS + list(SHAPES)
 ITEMS = ['blue_shard', 'red_shard', 'green_shard', 'resonant_shard',
-         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module']
+         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg']
 
 
 def write(path, data):
@@ -53,7 +54,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Vestige 0.3 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Vestige 0.4 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}
@@ -103,6 +104,7 @@ def content():
         texture(item, item=True)
         write(ASSETS / f'models/item/{item}.json', {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'tnd:item/{item}'}})
         write(ASSETS / f'items/{item}.json', {'model': {'type': 'minecraft:model', 'model': f'tnd:item/{item}'}})
+    creature_resources.content(write,png,ASSETS,DATA)
     for tag, values in {'mineable/pickaxe': BLOCKS, 'needs_iron_tool': ['blue_ore', 'red_ore', 'green_ore', 'resonant_ore']}.items():
         write(ROOT / f'data/minecraft/tags/block/{tag}.json', {'replace': False, 'values': [f'tnd:{v}' for v in values]})
     for shape,tag in [('stairs','stairs'),('slab','slabs')]:
@@ -116,6 +118,7 @@ def content():
         'ancient_alloy': (['resonant_shard', 'minecraft:iron_ingot'], 'ancient_alloy'),
         'extractor': (['ancient_alloy', 'resonant_shard', 'minecraft:iron_pickaxe', 'minecraft:redstone'], 'extractor'),
         'detector': (['locator_core', 'composite_crystal'], 'detector'),
+        'echo_lens': (['echo_dust','echo_dust','echo_dust','composite_crystal','minecraft:amethyst_shard'], 'echo_lens'),
         'stabilizer_module': (['relic_fragment','relic_fragment','relic_fragment','composite_crystal','minecraft:diamond','minecraft:copper_ingot'], 'stabilizer_module')}
     for name, (ingredients, result) in recipes.items():
         write(DATA / f'recipe/{name}.json', {'type': 'minecraft:crafting_shapeless', 'category': 'misc',
@@ -185,7 +188,7 @@ def world():
                      'from_value':0.0,'to_value':-8.0}}
     write(DATA / 'worldgen/noise_settings/vestige.json', {
         'aquifers_enabled': False, 'default_block': {'Name': 'tnd:ashstone'},
-        'default_fluid': {'Name': 'minecraft:air'}, 'disable_mob_generation': True,
+        'default_fluid': {'Name': 'minecraft:air'}, 'disable_mob_generation': False,
         'legacy_random_source': False, 'noise': {'height': 256, 'min_y': 0, 'size_horizontal': 1, 'size_vertical': 2},
         'noise_router': router, 'ore_veins_enabled': False, 'sea_level': 0, 'spawn_target': [],
         'surface_rule': {'type': 'minecraft:sequence', 'sequence': [
@@ -198,8 +201,9 @@ def world():
         write(DATA / f'worldgen/biome/{name}.json', {
             'has_precipitation': False, 'temperature': 0.3, 'downfall': 0.0,
             'effects': {'water_color': '#284753'}, 'attributes': {'minecraft:visual/fog_color': color},
-            'carvers': [], 'features': [[], [], [], [], [], [], ['tnd:resonant_ore'], [], [], [], []],
-            'spawn_costs': {}, 'spawners': {group: [] for group in ['ambient', 'axolotls', 'creature',
+            'carvers': [], 'features': [[], [], [], [], [], [], ['tnd:resonant_ore'], [], [], [], ['tnd:echo_bloom']],
+            'creature_spawn_probability':0.02,
+            'spawn_costs': {'tnd:rift_sentinel':{'energy_budget':0.1,'charge':1.0}}, 'spawners': {group: ([{'type':'tnd:shardling','weight':3,'minCount':1,'maxCount':1}] if group=='creature' else [{'type':'tnd:rift_sentinel','weight':3,'minCount':1,'maxCount':1}] if group=='monster' else []) for group in ['ambient', 'axolotls', 'creature',
                 'misc', 'monster', 'underground_water_creature', 'water_ambient', 'water_creature']}})
     entries = []
     for index, (name, _) in enumerate(biomes):
@@ -317,9 +321,9 @@ def structures():
     for name, maximum in [('dimension', 200), ('extractor', 3000), ('portal_resistance', 100),
                           ('portal_terrain', 200), ('portal_arrival', 100),
                           ('portal_no_space', 200), ('portal_round_trip', 400),
-                          ('habitat_ores', 200), ('buildings', 200), ('outpost_terrain',200), ('mastery_actions',100), ('console',100), ('extraction_modes',100), ('talent_menus',100), ('talent_effects',100)]:
+                          ('habitat_ores', 200), ('buildings', 200), ('outpost_terrain',200), ('mastery_actions',100), ('console',100), ('extraction_modes',100), ('talent_menus',100), ('talent_effects',100), ('companion_bond',100), ('companion_follow',150), ('companion_travel',200), ('companion_cold_arrival',150), ('sentinel_dodge',100), ('sentinel_hit',100), ('sentinel_interrupt',100), ('echo_lens',100), ('echo_deposits',100)]:
         write(DATA / f'test_instance/{name}.json', {'type': 'minecraft:function', 'environment': 'minecraft:default',
-            'function': f'tnd:{name}', 'structure': 'tnd:'+('test_habitat' if name in ('habitat_ores','outpost_terrain') else 'test_buildings' if name=='buildings' else 'test_empty'), 'max_ticks': maximum, 'required': True})
+            'function': f'tnd:{name}', 'structure': 'tnd:'+('test_habitat' if name in ('habitat_ores','outpost_terrain','sentinel_dodge','sentinel_hit','sentinel_interrupt','companion_follow','companion_travel','companion_cold_arrival','echo_deposits') else 'test_buildings' if name=='buildings' else 'test_empty'), 'max_ticks': maximum, 'required': True})
 
 
 def languages():
@@ -446,6 +450,7 @@ def languages():
         'gui.tnd.extractor.fuel':'Coal','gui.tnd.extractor.module':'Module','gui.tnd.extractor.output':'Raw iron',
         'subtitles.tnd.vestige_wind':'Wind passes through the ruins','subtitles.tnd.metal_echo':'Metal echoes in the distance'})
     expand_progression_languages(fr,en,ids)
+    creature_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 

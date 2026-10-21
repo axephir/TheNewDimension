@@ -180,6 +180,26 @@ class Resources(unittest.TestCase):
         for name in generator.SIZES:
             self.assertTrue(any(v[0]=='tnd:ancient_console' for v in generator.build(name).grid.values()),name)
 
+    def test_encounter_assets_and_spawn_scope(self):
+        for name in ['shardling','shardling_bonded','rift_sentinel','rift_sentinel_charged']:
+            self.assertTrue((ASSETS/f'textures/entity/{name}.png').is_file())
+        for biome in ['silent_expanse','fractured_fields','hollow_shelves']:
+            data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())
+            self.assertEqual([e['type'] for e in data['spawners']['monster']],['tnd:rift_sentinel'])
+            self.assertEqual([e['type'] for e in data['spawners']['creature']],['tnd:shardling'])
+            self.assertIn('tnd:echo_bloom',sum(data['features'],[]))
+            self.assertLessEqual(data['creature_spawn_probability'],.02)
+        variants=json.loads((ASSETS/'blockstates/echo_bloom.json').read_text())['variants']
+        self.assertEqual(set(variants),{f'charge={i}' for i in range(4)})
+        for entry in variants.values():self.assertTrue((ASSETS/f"models/{entry['model'][4:]}.json").is_file())
+        for path in (DATA/'neoforge/biome_modifier').glob('*.json'):
+            self.assertNotIn('tnd:rift_sentinel',path.read_text())
+            self.assertNotIn('tnd:shardling',path.read_text())
+        for locale in ['fr_fr','en_us']:
+            language=json.loads((ASSETS/f'lang/{locale}.json').read_text())
+            for entity in ['shardling','rift_sentinel']:self.assertIn('entity.tnd.'+entity,language)
+            for item in ['echo_dust','echo_lens']:self.assertIn('tooltip.tnd.'+item,language)
+
     def test_clock_portal_spacing_and_runtime_tests(self):
         timeline = json.loads((DATA / 'timeline/vestige_day.json').read_text())
         self.assertEqual(timeline['period_ticks'], 48000)
@@ -193,7 +213,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects'})
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits'})
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

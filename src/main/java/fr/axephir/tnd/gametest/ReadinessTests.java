@@ -31,6 +31,15 @@ public final class ReadinessTests {
         FUNCTIONS.register("extractor", () -> ReadinessTests::extractor);
         FUNCTIONS.register("portal_resistance", () -> ReadinessTests::portalResistance);
         PortalTests.register(FUNCTIONS);
+        FUNCTIONS.register("companion_bond",()->EncounterTests::bond);
+        FUNCTIONS.register("companion_follow",()->EncounterTests::follow);
+        FUNCTIONS.register("companion_travel",()->EncounterTests::travel);
+        FUNCTIONS.register("companion_cold_arrival",()->EncounterTests::coldArrival);
+        FUNCTIONS.register("sentinel_dodge",()->EncounterTests::pulseDodge);
+        FUNCTIONS.register("sentinel_hit",()->EncounterTests::pulseHit);
+        FUNCTIONS.register("sentinel_interrupt",()->EncounterTests::pulseInterrupt);
+        FUNCTIONS.register("echo_lens",()->EncounterTests::lens);
+        FUNCTIONS.register("echo_deposits",()->EncounterTests::deposits);
         FUNCTIONS.register("mastery_actions", () -> GameplayTests::masteries);
         FUNCTIONS.register("console", () -> GameplayTests::console);
         FUNCTIONS.register("extraction_modes", () -> GameplayTests::extractionModes);

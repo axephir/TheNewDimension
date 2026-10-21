@@ -17,7 +17,7 @@ files=[]
 for name in ['src','scripts','docs','gradle','.github']:
     directory=ROOT/name
     if directory.exists():files.extend(p for p in directory.rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc')
-for name in ['README.md','LICENSE','build.gradle','settings.gradle','gradle.properties','gradlew','gradlew.bat','.gitignore']:
+for name in ['README.md','LICENSE','TEMPLATE_LICENSE.txt','build.gradle','settings.gradle','gradle.properties','gradlew','gradlew.bat','.gitignore']:
     if (ROOT/name).is_file():files.append(ROOT/name)
 zip_path=out/f'TheNewDimension-{version}.zip'
 with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as archive:

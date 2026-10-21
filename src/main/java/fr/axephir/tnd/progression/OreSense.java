@@ -31,8 +31,8 @@ public final class OreSense {
         boolean creatures=switch(mastery){case HUNTING,BREEDING,MELEE,RANGED,DEFENSE->true;default->false;};
         if(creatures) {
             for(var entity:player.level().getEntities(player,new AABB(origin).inflate(radius),e->switch(mastery){
-                case HUNTING->e instanceof Animal a&&a.isAlive();
-                case BREEDING->e instanceof Animal a&&a.isAlive()&&!a.isBaby();
+                case HUNTING->e instanceof Animal a&&a.isAlive()&&!(a instanceof fr.axephir.tnd.entities.Shardling)&&!(a instanceof net.minecraft.world.entity.TamableAnimal pet&&pet.isTame());
+                case BREEDING->e instanceof Animal a&&a.isAlive()&&!a.isBaby()&&!(a instanceof fr.axephir.tnd.entities.Shardling);
                 default->e instanceof Enemy&&e.isAlive();
             })) {
                 double d=entity.blockPosition().distSqr(origin);
@@ -69,7 +69,7 @@ public final class OreSense {
             case EXPLORATION->s.getBlock() instanceof ChestBlock||s.is(ModContent.ANCIENT_CONSOLE.get());
             case ALCHEMY->s.is(Blocks.BREWING_STAND)||s.is(Blocks.NETHER_WART);
             case ENGINEERING->p.level().getBlockEntity(pos) instanceof ExtractorBlockEntity;
-            case ANCIENT_TECH->s.getBlock() instanceof AncientConsoleBlock||s.getBlock() instanceof InscriptionBlock;
+            case ANCIENT_TECH->s.getBlock() instanceof AncientConsoleBlock||s.getBlock() instanceof InscriptionBlock||s.is(ModContent.ECHO_BLOOM.get());
             default->false;
         };
     }

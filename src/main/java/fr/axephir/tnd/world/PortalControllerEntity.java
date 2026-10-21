@@ -78,7 +78,7 @@ public final class PortalControllerEntity extends BlockEntity {
         }
         BlockPos arrival = landing.get();
         var pets = source.getEntitiesOfClass(TamableAnimal.class, player.getBoundingBox().inflate(6),
-                pet -> pet.isOwnedBy(player) && !pet.isInSittingPose());
+                pet -> !(pet instanceof fr.axephir.tnd.entities.Shardling) && pet.isOwnedBy(player) && !pet.isInSittingPose());
         var transition = new TeleportTransition(target, Vec3.atBottomCenterOf(arrival), Vec3.ZERO,
                 player.getYRot(), player.getXRot(), TeleportTransition.DO_NOTHING);
         if (player.teleport(transition) == null) return false;
