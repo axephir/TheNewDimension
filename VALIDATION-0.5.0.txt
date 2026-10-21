@@ -1,0 +1,34 @@
+The New Dimension 0.5.0-dev — 21 octobre 2026
+Source main : f121be6705ebee54ad2b3f66d010e44774478960
+Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25
+
+Validation locale et CI GitHub indépendante réussies :
+- build : compilation Java et JAR réussis.
+- 50 114 assertions du domaine exécutées et réussies.
+- 30 tests Minecraft requis exécutés et réussis (29 TND + contrôle vanilla).
+- 12 contrôles de ressources réussis ; 61 textures PNG, toutes en 16 x 16.
+- git diff --check réussi avant commit.
+
+Les cinq nouveaux tests placent le véritable modèle de sanctuaire et vérifient :
+- trois épreuves dans l'ordre avec de vrais gardiens, vrais dégâts et morts acceptées par le moteur ; nombre fini de gardiens et coût exact en poussière ;
+- trésor commun unique, deuxième joueur sans duplication et sauvegarde du drapeau de récupération ;
+- sauvegarde native de la progression, UUID et liaison des gardiens ; absence d'entité ne comptant jamais comme victoire, réinitialisation et nouvelle tentative ;
+- apparition obstruée sans destruction ni coût, nettoyage après destruction du contrôleur, noyau reposé sans autorité d'épreuve ;
+- douze transformations du modèle (quatre rotations, trois miroirs), orientation des sceaux, absence de fausse entité de bloc sur les sceaux ;
+- égide avec absorption native effective de dégâts, coût, recharge et préservation d'une absorption préexistante plus forte.
+
+Client normal :
+- Sanctuaire trouvé par /locate structure tnd:resonance_vault à [464, ~, -992], puis généré naturellement par le moteur ; noyau naturel vérifié par /data.
+- Rendu extérieur et nef fermée, éclairage et mécanisme suspendu vérifiés. Captures F2 natives.
+- Redémarrage du client et de la partie : disparition de l'avertissement initial de chargement des sceaux après correction de leur déclaration.
+- Activation du premier sceau par clic droit en survie : poussière passée de 13 à 12, sentinelle réelle et barre d'épreuve visibles. Déplacement de validation utilisé pour cadrer le gardien.
+- Égide fournie par commande pour le contrôle visuel, puis activée en survie avec absorption native et consommation d'une poussière.
+
+CI : https://github.com/axephir/TheNewDimension/actions/runs/39551143247
+L'exécution GitHub confirme les mêmes 50 114 assertions, 12 contrôles de ressources et 30 tests Minecraft requis.
+
+Le moteur peut signaler un retard ponctuel pendant le placement répété de douze grandes variantes dans les tests. Le client cloud emploie un affichage X11 virtuel et une sortie audio nulle ; l'écoute physique du son n'est pas vérifiée. Aucun échec de chargement des ressources TND ni avertissement de chargement des sceaux dans le client final.
+
+La génération naturelle des sanctuaires demande de nouveaux chunks de Vestige. Pas de nouveau monde obligatoire. Les boss, grands donjons à étages, industrie avancée et scénario final restent à développer. Aucune catastrophe ajoutée.
+
+Les empreintes des fichiers distribués sont dans SHA256SUMS-0.5.0-dev.
