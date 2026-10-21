@@ -1,0 +1,26 @@
+The New Dimension 0.3.0-dev — 2026-10-21
+Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25
+Source commit: 849fee11ff9ec55dd9109089abcbc14d6a02ebf0
+
+bash scripts/setup-cloud.sh: PASS (repeatable)
+python3 scripts/cloud_gradle.py build runGameTestServer: PASS
+Core regression runner: 50,114 assertions passed.
+Resource validation: 10 tests passed; 45 original textures, all 16x16.
+Native Minecraft GameTest server: all 16 required tests passed (15 TND + 1 native).
+Actual Minecraft client: existing 0.2 world upgraded to 0.3, console repaired in survival,
+1 resonant shard consumed, relic fragment received, nearby extractor calibrated +17%,
+recipe book unlocked, Farming talent purchased and points synchronized, copper profile
+selected after emptying iron output, Ancient Technology Insight launched from its menu.
+Client exited normally (Gradle BUILD SUCCESSFUL); test server exited normally.
+Screenshots are native Minecraft F2 captures. The level-20 player profile is a QA-only
+demonstration profile, not included in the mod. The pictured console was placed in the
+QA world for interaction testing. Natural template placement is covered by GameTests.
+OpenGL software rendering, OpenAL null output; physical audio listening was not tested.
+A nonfatal X11 standard cursor warning belongs to the cloud dummy display.
+
+JAR SHA-256: abeeba48d10534e06da7f05ae2e0ff0ef87421ee74914c3ee629c7b2fdc8ccb0
+Public binaries must be re-downloaded and compared byte-for-byte before delivery.
+
+Not yet implemented: original creatures/bosses, full combat dungeons, industrial energy
+network and additional machines, major narrative events and the final scenario.
+Piston movements and third-party mod interactions are not exhaustively hardened.
