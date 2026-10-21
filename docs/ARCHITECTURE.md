@@ -1,0 +1,55 @@
+# Architecture et décisions
+
+## Choix retenus
+
+La demande explicite de NeoForge 26.2 remplace la proposition Forge 1.20.1 du document. Le MDK officiel 26.2 référence Minecraft 26.2, NeoForge 26.2.0.93, Java 25, ModDevGradle 2.0.148 et Gradle 9.2.1. Ces versions sont épinglées. Pas de bibliothèque de gameplay tierce.
+
+Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:vestige`. Les noms des biomes et ressources sont provisoires. Les créatures, boss, énergie industrielle avancée et accès quadridimensionnel n’ont pas été décidés silencieusement.
+
+## Séparation des responsabilités
+
+| Package | Responsabilité |
+|---|---|
+| `domain` | XP, talents, profils immuables, cycle, calcul de production ; aucune dépendance Minecraft |
+| `core` | Enregistrements et configuration serveur |
+| `world` | Quête d’accès, détecteur, passages et commandes de développement |
+| `progression` | Événements manuels, attachements persistants, perception et menu autoritaire |
+| `technology` | Bloc, inventaire, calcul différé et menu de l’extracteur |
+| `client` | Écrans et configuration graphique, chargés uniquement sur le client |
+| `gametest` | Tests d’intégration natifs : monde, portails, progression, consoles et machines |
+
+Les modules narratifs, entités et anomalies ne sont pas représentés par des classes vides : ils seront ajoutés avec leur première fonctionnalité réelle.
+
+## Autorité et persistance
+
+Le serveur attribue l’expérience et achète les talents. Un client envoie seulement un index de bouton via le protocole de menu vanilla ; le serveur vérifie le menu, la maîtrise, les points, le rang et les prérequis. Les profils sont immuables et synchronisés uniquement à leur propriétaire avec les attachements NeoForge. `copyOnDeath` conserve la progression après un décès.
+
+Le codec de profil possède un numéro de schéma, limite la taille, rejette les doublons et les points incohérents. Une donnée invalide n’est pas réinitialisée silencieusement. Une migration explicite sera nécessaire si le schéma change. Les XP utilisent des entiers longs avec saturation protégée contre le débordement ; la progression dépasse largement le niveau 100, mais ne prétend pas offrir une capacité arithmétique infinie.
+
+Les ressources placées par les joueurs sont mémorisées par chunk pour ne pas redonner d’XP lors de leur récolte répétée. Les actions mécaniques ne déclenchent pas les récompenses manuelles. La résistance aux déplacements par pistons et aux interactions avec d’autres mods doit encore être testée et renforcée ; elle n’est pas annoncée comme étanche.
+
+Un historique immuable limité à 2 048 entrées conserve les budgets d’activité et les territoires récents. Il est sauvegardé côté serveur sans être synchronisé au client. Les nouveaux identifiants de maîtrise réutilisent le codec existant : aucune remise à zéro des XP ou des talents.
+
+## Industrie
+
+Le moteur `Production` transforme une quantité finie de carburant en une quantité bornée de ressources. Il est déterministe, idempotent à temps constant et ne remplit pas rétroactivement un inventaire bloqué. Le temps pris en compte est celui du serveur, avec un maximum configurable par rattrapage ; un serveur arrêté ne produit rien.
+
+L’extracteur règle son compte avant une mutation d’inventaire ou un recalibrage, et sauvegarde son horloge, son travail partiel et ses objets. Les bonus d’ingénierie sont copiés lors de l’interaction manuelle, afin de continuer à fonctionner quand le joueur se déconnecte. Le rattrapage se fait au retour du chunk, sans forcer son chargement pendant l’expédition.
+
+L’extracteur possède cinq profils persistants : fer brut, cuivre brut, or brut, redstone et diamant. Les durées relatives sont 1, 1, 3, 2 et 8. Le diamant exige un module de stabilisation. Chaque objet consomme un charbon. La sortie doit être vide pour changer de profil ; la progression partielle est alors remise à zéro. La calibration de relique est distincte de celle de l’ingénieur, ne diminue pas lors d’une visite et survit au rechargement. Les valeurs sont ajustables. Un réseau d’énergie et les autres machines ne sont pas simulés par des objets décoratifs.
+
+## Monde et accès
+
+La génération repose sur des registres de données natifs : densité 3D originale, biomes, minerais, pools de structures et placement `random_spread`. Pour les portails, l’espacement de 768 chunks et la séparation de 640 chunks sont des réglages provisoires visant l’ordre de grandeur du document ; la distribution réelle doit être mesurée sur plusieurs seeds.
+
+Le détecteur appelle la recherche native de structure. Il ne calcule pas de coordonnées fictives. Les cinq modèles de ruines sont originaux, fermés et aménagés. L’avant-poste de départ est demandé uniquement lors de la création du spawn d’un nouveau monde et placé à la première connexion ; les mondes existants ne sont pas automatiquement modifiés par ce mécanisme.
+
+Le passage du prototype s’utilise en cliquant son mécanisme. L’animation et la traversée automatique d’une surface de portail restent à compléter. Les couples sont sauvegardés en `GlobalPos`. L’arrivée doit être dégagée ; le code refuse de supprimer des constructions pour placer un passage retour. Les déplacements de familiers concernent actuellement les animaux vanilla apprivoisés compatibles ; il n’y a pas encore de créature originale.
+
+## Conclusion et récupération — conception, pas fonctionnalité livrée
+
+Le document exige de développer la catastrophe tardivement. Aucun appel d’explosion scénaristique n’est présent dans le gameplay. Le seul appel d’explosion est contenu dans le GameTest de résistance, exécuté dans le monde de test séparé.
+
+Avant une implémentation, la solution devra préserver les données sources, créer une représentation isolée des destructions et séparer les inventaires temporaires. La copie ne devra jamais s’exécuter dans les chemins du monde d’origine. Un journal transactionnel durable devra distinguer préparation, vérification, exploration et retour. Le retour restera accessible indépendamment de l’interface. Aucune copie de récupération ne sera supprimée automatiquement tant que la validation finale n’aura pas réussi.
+
+La politique multijoueur demeure ouverte : déclenchement administré, consentement des joueurs concernés et isolation d’une session sont à décider. Un test de disque plein, corruption, arrêt brutal à chaque transition, déconnexion et redémarrage sera indispensable. Cette description ne constitue ni une preuve de sûreté ni une sauvegarde implémentée.

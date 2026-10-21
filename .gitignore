@@ -1,0 +1,14 @@
+.gradle/
+build/
+run/
+run-data/
+run-gametest/
+run-server/
+logs/
+*.log
+.idea/
+*.iml
+.vscode/
+local.properties
+__pycache__/
+*.pyc

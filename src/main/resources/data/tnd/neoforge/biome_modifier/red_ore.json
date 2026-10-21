@@ -1,0 +1,8 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#tnd:red_ore",
+  "features": [
+    "tnd:red_ore"
+  ],
+  "step": "top_layer_modification"
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "tnd:blue_ore",
+    "tnd:red_ore",
+    "tnd:green_ore",
+    "tnd:resonant_ore"
+  ]
+}

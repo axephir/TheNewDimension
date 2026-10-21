@@ -1,0 +1,22 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 129811,
+    "spacing": 22,
+    "separation": 9
+  },
+  "structures": [
+    {
+      "structure": "tnd:relay",
+      "weight": 1
+    },
+    {
+      "structure": "tnd:archive",
+      "weight": 1
+    },
+    {
+      "structure": "tnd:foundry",
+      "weight": 1
+    }
+  ]
+}

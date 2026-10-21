@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "tnd:ashstone_bricks_stairs",
+    "tnd:polished_ashstone_stairs",
+    "tnd:cut_alloy_stairs"
+  ]
+}

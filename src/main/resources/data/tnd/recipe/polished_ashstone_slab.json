@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:polished_ashstone",
+  "result": {
+    "id": "tnd:polished_ashstone_slab",
+    "count": 2
+  }
+}

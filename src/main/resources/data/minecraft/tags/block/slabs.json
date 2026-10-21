@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "tnd:ashstone_bricks_slab",
+    "tnd:polished_ashstone_slab",
+    "tnd:cut_alloy_slab"
+  ]
+}

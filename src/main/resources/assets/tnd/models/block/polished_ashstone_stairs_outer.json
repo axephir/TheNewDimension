@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "top": "tnd:block/polished_ashstone",
+    "bottom": "tnd:block/polished_ashstone",
+    "side": "tnd:block/polished_ashstone"
+  }
+}

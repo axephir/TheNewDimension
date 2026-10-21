@@ -1,0 +1,34 @@
+package fr.axephir.tnd.client;
+
+import fr.axephir.tnd.core.ModContent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.client.event.ScreenEvent;
+
+final class InventoryMasteries {
+    static void init(ScreenEvent.Init.Post event) {
+        if (!(event.getScreen() instanceof InventoryScreen || event.getScreen() instanceof CreativeModeInventoryScreen)) return;
+        var screen = (AbstractContainerScreen<?>) event.getScreen();
+        // A tab attached to the right edge leaves recipe book and inventory slots free.
+        int x = screen.getLeftPos()+screen.getImageWidth()-2, y = screen.getTopPos()+6;
+        Button button = new Button(x,y,22,22,Component.translatable("gui.tnd.masteries"), b -> {
+            var player = Minecraft.getInstance().player;
+            if (player != null) player.connection.sendCommand("tnd masteries");
+        }, narration -> narration.get()) {
+            @Override protected void extractContents(GuiGraphicsExtractor g,int mouseX,int mouseY,float partial) {
+                StonePanel.frame(g,getX(),getY(),getWidth(),getHeight());
+                if(isHoveredOrFocused()) g.fill(getX()+3,getY()+3,getX()+19,getY()+19,0xffd8d3a3);
+                g.item(ModContent.LOCATOR_CORE.get().getDefaultInstance(),getX()+3,getY()+3);
+            }
+        };
+        button.setTooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_masteries")));
+        event.addListener(button);
+    }
+    private InventoryMasteries() {}
+}

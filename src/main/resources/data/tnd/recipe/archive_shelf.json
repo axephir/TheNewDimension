@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:ancient_alloy",
+  "result": {
+    "id": "tnd:archive_shelf",
+    "count": 1
+  }
+}

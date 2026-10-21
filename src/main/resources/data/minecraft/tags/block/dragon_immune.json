@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "tnd:portal_frame",
+    "tnd:portal_controller"
+  ]
+}

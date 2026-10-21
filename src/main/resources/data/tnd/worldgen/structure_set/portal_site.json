@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 934281,
+    "spacing": 768,
+    "separation": 640
+  },
+  "structures": [
+    {
+      "structure": "tnd:portal_site",
+      "weight": 1
+    }
+  ]
+}

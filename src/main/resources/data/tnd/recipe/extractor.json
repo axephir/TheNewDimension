@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "tnd:ancient_alloy",
+    "tnd:resonant_shard",
+    "minecraft:iron_pickaxe",
+    "minecraft:redstone"
+  ],
+  "result": {
+    "id": "tnd:extractor"
+  }
+}

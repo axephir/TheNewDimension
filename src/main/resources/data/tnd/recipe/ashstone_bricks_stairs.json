@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:ashstone_bricks",
+  "result": {
+    "id": "tnd:ashstone_bricks_stairs",
+    "count": 1
+  }
+}

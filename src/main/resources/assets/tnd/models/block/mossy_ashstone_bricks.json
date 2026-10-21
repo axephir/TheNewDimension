@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "tnd:block/mossy_ashstone_bricks"
+  }
+}

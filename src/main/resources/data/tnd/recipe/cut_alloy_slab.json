@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:cut_alloy",
+  "result": {
+    "id": "tnd:cut_alloy_slab",
+    "count": 2
+  }
+}

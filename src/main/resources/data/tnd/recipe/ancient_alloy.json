@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "tnd:resonant_shard",
+    "minecraft:iron_ingot"
+  ],
+  "result": {
+    "id": "tnd:ancient_alloy"
+  }
+}

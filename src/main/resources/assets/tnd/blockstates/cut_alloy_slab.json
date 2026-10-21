@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "tnd:block/cut_alloy_slab"
+    },
+    "type=top": {
+      "model": "tnd:block/cut_alloy_slab_top"
+    },
+    "type=double": {
+      "model": "tnd:block/cut_alloy"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "tnd:block/portal_controller"
+    },
+    "active=true": {
+      "model": "tnd:block/conduit"
+    }
+  }
+}

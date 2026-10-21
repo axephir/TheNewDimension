@@ -1,0 +1,55 @@
+{
+  "criteria": {
+    "shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:resonant_shard"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "shard"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:alloy_vent",
+      "tnd:ancient_alloy",
+      "tnd:ancient_console",
+      "tnd:ancient_grate",
+      "tnd:ancient_pillar",
+      "tnd:archive_shelf",
+      "tnd:ashstone_bricks",
+      "tnd:ashstone_bricks_slab",
+      "tnd:ashstone_bricks_stairs",
+      "tnd:ashstone_tiles",
+      "tnd:blue_lamp",
+      "tnd:chiseled_ashstone",
+      "tnd:composite_crystal",
+      "tnd:cracked_ashstone_bricks",
+      "tnd:cut_alloy",
+      "tnd:cut_alloy_slab",
+      "tnd:cut_alloy_stairs",
+      "tnd:detector",
+      "tnd:dormant_conduit",
+      "tnd:efficiency_module",
+      "tnd:extractor",
+      "tnd:field_journal",
+      "tnd:green_lamp",
+      "tnd:mossy_ashstone_bricks",
+      "tnd:oxidized_alloy",
+      "tnd:polished_ashstone",
+      "tnd:polished_ashstone_slab",
+      "tnd:polished_ashstone_stairs",
+      "tnd:red_lamp",
+      "tnd:resonant_lamp",
+      "tnd:riveted_alloy",
+      "tnd:stabilizer_module"
+    ]
+  }
+}

@@ -1,0 +1,102 @@
+package fr.axephir.tnd.gametest;
+
+import fr.axephir.tnd.TheNewDimension;
+import fr.axephir.tnd.core.ModContent;
+import fr.axephir.tnd.technology.*;
+import fr.axephir.tnd.world.DevelopmentCommands;
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
+import java.util.function.Consumer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.*;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelHeightAccessor;
+import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+/** Run with runGameTestServer in a disposable run-gametest directory. */
+public final class ReadinessTests {
+    public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
+            BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
+    static {
+        FUNCTIONS.register("dimension", () -> ReadinessTests::dimension);
+        FUNCTIONS.register("extractor", () -> ReadinessTests::extractor);
+        FUNCTIONS.register("portal_resistance", () -> ReadinessTests::portalResistance);
+        PortalTests.register(FUNCTIONS);
+        FUNCTIONS.register("mastery_actions", () -> GameplayTests::masteries);
+        FUNCTIONS.register("console", () -> GameplayTests::console);
+        FUNCTIONS.register("extraction_modes", () -> GameplayTests::extractionModes);
+        FUNCTIONS.register("talent_menus", () -> GameplayTests::talentMenus);
+        FUNCTIONS.register("talent_effects", () -> GameplayTests::talentEffects);
+        FUNCTIONS.register("habitat_ores", () -> WorldExperienceTests::habitatOres);
+        FUNCTIONS.register("buildings", () -> WorldExperienceTests::buildings);
+        FUNCTIONS.register("outpost_terrain", () -> WorldExperienceTests::outpostTerrain);
+    }
+    private static void dimension(GameTestHelper helper) {
+        // GameTestServer intentionally bakes only its flat preset, excluding datapack
+        // dimensions. Parse our real LevelStem with runtime registries and exercise
+        // its actual generator. A normal dedicated server separately checks level creation.
+        var registries = helper.getLevel().registryAccess();
+        LevelStem stem;
+        try (var reader = helper.getLevel().getServer().getResourceManager().getResourceOrThrow(
+                Identifier.fromNamespaceAndPath("tnd", "dimension/vestige.json")).openAsReader()) {
+            stem = LevelStem.CODEC.parse(RegistryOps.create(JsonOps.INSTANCE, registries), JsonParser.parseReader(reader)).getOrThrow();
+        } catch (java.io.IOException e) { throw new IllegalStateException("Cannot read dimension definition", e); }
+        helper.assertTrue(stem.type().value().defaultClock().isPresent(), Component.literal("Dimension needs its own clock"));
+        var random = RandomState.create(registries, ResourceKey.create(Registries.NOISE_SETTINGS,
+                Identifier.fromNamespaceAndPath("tnd", "vestige")), 987654L);
+        var bounds = LevelHeightAccessor.create(0, 256);
+        int height = stem.generator().getBaseHeight(48, 48, Heightmap.Types.WORLD_SURFACE, bounds, random);
+        helper.assertTrue(height > 0 && height <= 256, Component.literal("Terrain must generate within dimension bounds"));
+        boolean ashstone = false;
+        var column = stem.generator().getBaseColumn(48, 48, bounds, random);
+        for (int y = 1; y < height; y++) if (column.getBlock(y).is(ModContent.ASHSTONE.get())) ashstone = true;
+        helper.assertTrue(ashstone, Component.literal("Dimension terrain must use original ashstone"));
+        for(int x:new int[]{0,16,96,192}) {
+            int peak=stem.generator().getBaseHeight(x,-x,Heightmap.Types.WORLD_SURFACE,bounds,random);
+            helper.assertTrue(peak<=208,Component.literal("Terrain must leave enough headroom for the largest structures"));
+        }
+        helper.succeed();
+    }
+    private static void extractor(GameTestHelper helper) {
+        BlockPos relative = new BlockPos(2, 1, 2);
+        helper.setBlock(relative, MachineRegistry.EXTRACTOR.get());
+        var machine = (ExtractorBlockEntity) helper.getLevel().getBlockEntity(helper.absolutePos(relative));
+        helper.runAfterDelay(21, () -> {
+            helper.assertTrue(machine.getItem(2).isEmpty(), Component.literal("No fuel must produce no output"));
+            machine.setItem(0, new ItemStack(Items.COAL, 4));
+            machine.setItem(1, new ItemStack(ModContent.EFFICIENCY_MODULE.get()));
+            int period = machine.periodTicks();
+            helper.runAfterDelay(period + 40, () -> {
+                helper.assertTrue(machine.getItem(2).is(Items.RAW_IRON), Component.literal("Loaded extractor must produce raw iron"));
+                helper.assertTrue(machine.getItem(2).getCount() == 1, Component.literal("Exactly one cycle must finish"));
+                helper.assertTrue(machine.getItem(0).getCount() == 3, Component.literal("One cycle consumes one coal"));
+                var saved = machine.saveWithFullMetadata(helper.getLevel().registryAccess());
+                helper.assertTrue(saved.contains("items") && saved.contains("lastTick"), Component.literal("Inventory and production clock must be serialized"));
+                helper.succeed();
+            });
+        });
+    }
+    private static void portalResistance(GameTestHelper helper) {
+        BlockPos relative = new BlockPos(2, 1, 2);
+        helper.setBlock(relative, ModContent.PORTAL_FRAME.get());
+        var absolute = helper.absolutePos(relative);
+        helper.assertTrue(helper.getLevel().getBlockState(absolute).getDestroySpeed(helper.getLevel(), absolute) < 0,
+                Component.literal("Portal frame must be unbreakable by survival mining"));
+        helper.getLevel().explode(null, null, null, Vec3.atCenterOf(absolute), 4, false, Level.ExplosionInteraction.BLOCK);
+        helper.runAfterDelay(5, () -> {
+            helper.assertTrue(helper.getLevel().getBlockState(absolute).is(ModContent.PORTAL_FRAME.get()),
+                    Component.literal("Portal frame must survive explosions"));
+            helper.succeed();
+        });
+    }
+    private ReadinessTests() {}
+}

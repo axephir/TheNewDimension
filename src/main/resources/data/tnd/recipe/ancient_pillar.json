@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:ashstone",
+  "result": {
+    "id": "tnd:ancient_pillar",
+    "count": 1
+  }
+}

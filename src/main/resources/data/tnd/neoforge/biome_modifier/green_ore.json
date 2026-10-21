@@ -1,0 +1,8 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#tnd:green_ore",
+  "features": [
+    "tnd:green_ore"
+  ],
+  "step": "top_layer_modification"
+}

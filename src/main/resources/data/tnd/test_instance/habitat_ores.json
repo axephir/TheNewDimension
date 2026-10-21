@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:habitat_ores",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 200,
+  "required": true
+}

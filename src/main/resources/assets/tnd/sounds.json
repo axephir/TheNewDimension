@@ -1,0 +1,29 @@
+{
+  "low_signal": {
+    "subtitle": "subtitles.tnd.low_signal",
+    "sounds": [
+      {
+        "name": "tnd:ambient/low_signal",
+        "volume": 0.3
+      }
+    ]
+  },
+  "vestige_wind": {
+    "subtitle": "subtitles.tnd.vestige_wind",
+    "sounds": [
+      {
+        "name": "tnd:ambient/vestige_wind",
+        "volume": 0.22
+      }
+    ]
+  },
+  "metal_echo": {
+    "subtitle": "subtitles.tnd.metal_echo",
+    "sounds": [
+      {
+        "name": "tnd:ambient/metal_echo",
+        "volume": 0.23
+      }
+    ]
+  }
+}

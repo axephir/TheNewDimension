@@ -1,0 +1,59 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+version = mod_version
+group = mod_group_id
+base { archivesName = mod_id }
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+sourceSets {
+    coreTest {
+        java.srcDir 'src/coreTest/java'
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+repositories { mavenCentral() }
+neoForge {
+    version = project.neo_version
+    runs {
+        client {
+            client()
+            if (project.hasProperty('quickPlayWorld')) {
+                programArgument '--quickPlaySingleplayer'
+                programArgument project.property('quickPlayWorld').toString()
+            }
+        }
+        server { server(); gameDirectory = project.file('run-server'); programArgument '--nogui' }
+        gameTestServer {
+            type = 'gameTestServer'
+            gameDirectory = project.file('run-gametest')
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        configureEach { logLevel = org.slf4j.event.Level.INFO }
+    }
+    mods { "${mod_id}" { sourceSet(sourceSets.main) } }
+}
+var metadata = tasks.register('generateModMetadata', ProcessResources) {
+    var values = [mod_id: mod_id, mod_name: mod_name, mod_license: mod_license,
+                  mod_version: mod_version, neo_version: neo_version,
+                  minecraft_version_range: minecraft_version_range]
+    inputs.properties values
+    expand values
+    from 'src/main/templates'
+    into 'build/generated/modMetadata'
+}
+sourceSets.main.resources.srcDir metadata
+neoForge.ideSyncTask metadata
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+tasks.register('coreTest', JavaExec) {
+    dependsOn coreTestClasses
+    classpath = sourceSets.coreTest.runtimeClasspath
+    mainClass = 'fr.axephir.tnd.domain.CoreTests'
+    enableAssertions = true
+}
+tasks.named('check') { dependsOn 'coreTest' }

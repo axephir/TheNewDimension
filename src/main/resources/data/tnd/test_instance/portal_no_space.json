@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:portal_no_space",
+  "structure": "tnd:test_empty",
+  "max_ticks": 200,
+  "required": true
+}

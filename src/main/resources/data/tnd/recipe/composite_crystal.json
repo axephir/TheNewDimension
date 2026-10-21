@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "tnd:blue_shard",
+    "tnd:red_shard",
+    "tnd:green_shard"
+  ],
+  "result": {
+    "id": "tnd:composite_crystal"
+  }
+}

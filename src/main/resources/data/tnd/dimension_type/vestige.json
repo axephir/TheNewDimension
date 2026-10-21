@@ -1,0 +1,53 @@
+{
+  "ambient_light": 0.08,
+  "coordinate_scale": 1.0,
+  "default_clock": "tnd:vestige",
+  "has_ceiling": false,
+  "has_ender_dragon_fight": false,
+  "has_skylight": true,
+  "height": 256,
+  "logical_height": 256,
+  "min_y": 0,
+  "infiniburn": "#minecraft:infiniburn_overworld",
+  "monster_spawn_block_light_limit": 0,
+  "monster_spawn_light_level": 0,
+  "timelines": "#tnd:in_vestige",
+  "attributes": {
+    "minecraft:visual/sky_color": "#657275",
+    "minecraft:visual/fog_color": "#747f7f",
+    "minecraft:visual/fog_start_distance": 24.0,
+    "minecraft:visual/fog_end_distance": 150.0,
+    "minecraft:visual/sky_fog_end_distance": 180.0,
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "minecraft:white_ash"
+        },
+        "probability": 0.012
+      }
+    ],
+    "minecraft:visual/cloud_color": "#503c5668",
+    "minecraft:visual/cloud_height": 196.0,
+    "minecraft:visual/ambient_light_color": "#131c29",
+    "minecraft:gameplay/bed_rule": {
+      "can_set_spawn": "always",
+      "can_sleep": "never",
+      "error_message": {
+        "translate": "message.tnd.no_sleep"
+      }
+    },
+    "minecraft:audio/ambient_sounds": {
+      "mood": {
+        "block_search_extent": 8,
+        "offset": 2.0,
+        "sound": "tnd:low_signal",
+        "tick_delay": 6000
+      },
+      "loop": "tnd:vestige_wind",
+      "additions": {
+        "sound": "tnd:metal_echo",
+        "tick_chance": 0.00035
+      }
+    }
+  }
+}

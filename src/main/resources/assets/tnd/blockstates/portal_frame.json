@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "tnd:block/portal_frame"
+    }
+  }
+}

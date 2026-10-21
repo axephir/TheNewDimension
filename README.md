@@ -1,0 +1,81 @@
+# The New Dimension
+
+Mod RPG, exploration et automatisation pour **Minecraft Java 26.2 / NeoForge 26.2.0.93 / Java 25**.
+Nom du mod, de la dimension « Vestige » et des ressources : propositions de travail, modifiables avant une première publication.
+
+**Version actuelle : 0.3.0-dev — quinze maîtrises jouables et ruines interactives.**
+
+[Télécharger le JAR NeoForge 26.2](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.3.0-dev.jar).
+Placer ce fichier dans `mods/` avec **Minecraft Java 26.2 et NeoForge 26.2.0.93**, en remplaçant l’ancien JAR TND.
+
+Les cinq bâtiments sont fermés, éclairés et aménagés : avant-poste, sanctuaire du portail, relais, archive et fonderie. Toutes les textures du mod sont en **16 × 16**. Vingt-cinq blocs supplémentaires, dont six variantes d’escaliers et de dalles, sont disponibles en survie au tailleur de pierre.
+
+Dans l’inventaire, cliquer sur le petit onglet à droite pour ouvrir les maîtrises, sans transporter de livre. Les minerais bleus affleurent sous l’eau dans tous les océans d’au moins huit blocs de profondeur ; les rouges occupent la première couche solide sous la lave de l’Overworld ; les verts apparaissent, plus rarement, contre les troncs des forêts, taïgas et jungles.
+
+**Créer un monde de test ou explorer de nouveaux chunks** pour découvrir les nouvelles structures et les nouveaux minerais. Les bâtiments déjà enregistrés dans une sauvegarde conservent leur géométrie ; leurs textures sont actualisées. Le mod ne détruit pas les constructions existantes.
+
+Le [compte rendu de cette version](docs/PROGRESSION_0.3.0.md) décrit les fonctionnalités et leur validation. Les quinze maîtrises ont des gains d’XP, des talents et une perception active. Réparer les consoles naturelles avec un éclat résonant donne des fragments de relique et améliore la cadence des extracteurs voisins. Les fresques révèlent des indices en cliquant dessus. Les recettes se débloquent dans le livre de recettes dès la découverte d’un éclat résonant. Le [cahier des charges original](docs/CAHIER_DES_CHARGES.md) reste la feuille de route pour les créatures originales, les machines avancées et le scénario final.
+
+## Développement
+
+Installer un **JDK 25** et définir `JAVA_HOME`. Aucun autre mod n’est nécessaire.
+
+```sh
+./gradlew build
+./gradlew runGameTestServer
+./gradlew runClient
+./gradlew runServer
+```
+
+Les GameTests utilisent exclusivement `run-gametest/`, séparé des parties client dans `run/` et du serveur normal dans `run-server/`. Le premier lancement d’un serveur normal demande de lire et accepter l’EULA Minecraft dans son répertoire d’exécution. Les processus doivent être redémarrés après restauration d’un environnement cloud.
+
+Vérifications indépendantes du téléchargement de Minecraft :
+
+```sh
+bash scripts/test-core.sh
+python3 scripts/check_resources.py
+java scripts/CheckJavaSyntax.java
+```
+
+La dernière commande ne vérifie que la syntaxe Java. Elle ne remplace ni la compilation ni les GameTests. `build` exécute aussi les régressions du noyau via la tâche `coreTest`.
+
+Dans l’environnement Codex actuel :
+
+```sh
+bash scripts/setup-cloud.sh
+python3 scripts/cloud_gradle.py runGameTestServer
+```
+
+Le script installe/réutilise un JDK Temurin épinglé avec vérification SHA-256, conserve les racines de confiance TLS et configure le proxy fourni par la plateforme. Il ne modifie pas les sources ni les fichiers de dépendances. Les domaines supplémentaires nécessaires sont décrits dans [CLOUD.md](docs/CLOUD.md).
+
+## Contenu jouable
+
+- Dimension procédurale distincte de l’Overworld, trois biomes silencieux, matériaux propres, horloge indépendante de 48 000 ticks et ambiance sonore originale.
+- Avant-poste initial à environ 1 000 blocs du premier point d’arrivée d’un nouveau monde ; fresques, coffre et noyau de localisation.
+- Trois minerais exposés associés aux fonds marins, aux fonds de lave et aux racines des arbres ; cristal composite, détecteur et recherche native des vraies structures de portail.
+- Détecteur démontable par utilisation accroupie ; mécanisme consommant un cristal pour établir un passage partagé et permanent, avec destination de retour persistante.
+- Quinze maîtrises indépendantes : récolte, pêche, élevage, combat, construction, exploration, alchimie, artisanat et technologie. Talents, perception active, synergies, notifications de niveau et interface depuis l’inventaire.
+- Extracteur avec cinq productions (fer, cuivre, or, redstone, diamant), charbon, modules d’efficacité ou de stabilisation, calibrage par les consoles et les talents. Production différée bornée, sans XP automatique.
+
+La validation de cette version est détaillée dans [PROGRESSION_0.3.0.md](docs/PROGRESSION_0.3.0.md). La [refonte 0.2](docs/OVERHAUL_0.2.0.md) reste incluse.
+
+## Commandes
+
+```text
+/tnd masteries
+/tnd sense mining
+/tnd sense logging
+/tnd sense engineering
+/tnd enter
+/tnd leave
+```
+
+La perception accepte les quinze identifiants de maîtrises (par exemple `/tnd sense farming` ou `/tnd sense ancient_tech`) et nécessite le talent correspondant. Le bouton « Percevoir » de l’interface fait la même chose. `enter` et `leave` sont réservées aux opérateurs et désactivables dans la configuration serveur. Elles servent au développement ; `leave` cherche actuellement une surface à X=0, Z=0 et refuse un retour aquatique. La quête doit utiliser les passages appariés.
+
+## Configuration et données
+
+Les options serveur `experienceMultiplier`, `extractorTicksPerItem`, `maxCatchupTicks` et `developmentCommands` sont définies dans `TndConfig`. Les taux de génération et recettes sont des données remplaçables par datapack. Les identifiants `tnd:*` et ceux des maîtrises constituent des clés de sauvegarde : les renommer nécessite une migration.
+
+Le mod préserve les capacités vanilla des débutants. Les créatures originales, les donjons complets, les machines avancées et le scénario final restent à développer. Aucune catastrophe n’est déclenchable dans ce code.
+
+Les textures 16 × 16, modèles, données et structures NBT sont générés par `scripts/generate_resources.py`, `scripts/pixel_art.py` et `scripts/architecture.py`. L’option `--audio` régénère les trois ambiances originales avec `ffmpeg`. Voir [ARCHITECTURE.md](docs/ARCHITECTURE.md) et [THIRD_PARTY.md](docs/THIRD_PARTY.md).

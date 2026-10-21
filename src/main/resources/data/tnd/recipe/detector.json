@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "tnd:locator_core",
+    "tnd:composite_crystal"
+  ],
+  "result": {
+    "id": "tnd:detector"
+  }
+}
