@@ -24,6 +24,7 @@ public final class TndClient {
     }
     private static void screens(RegisterMenuScreensEvent event) {
         event.register(ModContent.MASTERY_MENU.get(), MasteryScreen::new);
+        event.register(ModContent.EXPEDITION_MENU.get(),ExpeditionScreen::new);
         event.register(MachineRegistry.EXTRACTOR_MENU.get(), ExtractorScreen::new);
         event.register(MachineRegistry.FORGE_MENU.get(),ResonanceForgeScreen::new);
     }

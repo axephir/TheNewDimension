@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    " A ",
+    "AAA"
+  ],
+  "key": {
+    "P": "minecraft:paper",
+    "A": "tnd:ancient_alloy"
+  },
+  "result": {
+    "id": "tnd:survey_terminal",
+    "count": 1
+  }
+}

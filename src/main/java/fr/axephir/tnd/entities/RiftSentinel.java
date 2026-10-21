@@ -27,6 +27,7 @@ public final class RiftSentinel extends Monster {
     @Override protected int getBaseExperienceReward(ServerLevel level){return isTrialGuardian()?0:super.getBaseExperienceReward(level);}
     @Override public void die(DamageSource source){
         boolean wasDead=dead;super.die(source);
+        if(!wasDead&&dead&&!isTrialGuardian()&&source.getEntity() instanceof net.minecraft.server.level.ServerPlayer player&&player.level()==level())fr.axephir.tnd.expedition.ExpeditionService.sentinelKilled(player);
         if(!wasDead&&dead&&trialHome!=null&&level() instanceof ServerLevel world&&world.hasChunk(trialHome.getX()>>4,trialHome.getZ()>>4)
                 &&world.getBlockEntity(trialHome) instanceof fr.axephir.tnd.dungeon.VaultCoreEntity vault)vault.defeated(getUUID(),trialToken);
     }

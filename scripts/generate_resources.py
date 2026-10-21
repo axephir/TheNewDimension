@@ -25,15 +25,16 @@ import creature_resources
 import dungeon_resources
 import atmosphere_resources
 import expedition_resources
+import fieldwork_resources
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
 DATA = ROOT / 'data/tnd'
 ASSETS = ROOT / 'assets/tnd'
 BLOCKS = ['ashstone', 'ancient_alloy', 'resonant_ore', 'conduit',
           'blue_ore', 'red_ore', 'green_ore', 'portal_frame',
-          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault','resonance_forge'] + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES)
+          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault','resonance_forge'] + fieldwork_resources.BLOCKS + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES)
 ITEMS = ['blue_shard', 'red_shard', 'green_shard', 'resonant_shard',
-         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis','inertial_matrix','tempered_alloy','resonant_pickaxe','resonant_blade']
+         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis','inertial_matrix','tempered_alloy','resonant_pickaxe','resonant_blade','recall_prism']
 
 
 def write(path, data):
@@ -57,7 +58,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Vestige 0.7 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Vestige 0.8 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}
@@ -110,6 +111,7 @@ def content():
     creature_resources.content(write,png,ASSETS,DATA)
     dungeon_resources.content(write,texture,ASSETS,DATA)
     expedition_resources.content(write,png,ASSETS,DATA)
+    fieldwork_resources.content(write,png,ASSETS,DATA)
     for n in ['resonance_forge_active','resonance_forge_top']:texture(n)
     for tag, values in {'mineable/pickaxe': BLOCKS, 'needs_iron_tool': ['blue_ore', 'red_ore', 'green_ore', 'resonant_ore']}.items():
         write(ROOT / f'data/minecraft/tags/block/{tag}.json', {'replace': False, 'values': [f'tnd:{v}' for v in values]})
@@ -276,6 +278,7 @@ def structure(name, size):
         entry={'pos':(9,(3,[x,y,z])),'state':(3,indices[key])}
         if loot:entry['nbt']=(10,{'id':(8,'minecraft:chest'),'LootTable':(8,loot)})
         if block=='tnd:vault_core':entry['nbt']=(10,{'id':(8,'tnd:vault_core'),'TrialSite':(3,1)})
+        if block=='tnd:survey_terminal':entry['nbt']=(10,{'id':(8,'tnd:survey_terminal'),'SurveySite':(3,1)})
         blocks.append(entry)
     root={'DataVersion':(3,4903),'size':(9,(3,list(size))),'palette':(9,(10,palette)),
           'blocks':(9,(10,blocks)),'entities':(9,(10,[]))}
@@ -289,9 +292,9 @@ def structure(name, size):
         'max_distance_from_center':80,'project_start_to_heightmap':'WORLD_SURFACE_WG','size':1,
         'spawn_overrides':{},'start_height':{'absolute':-1},'start_pool':f'tnd:{name}',
         'step':'surface_structures','terrain_adaptation':'beard_box','use_expansion_hack':False})
-    spacing={'outpost':(64,40),'portal_site':(768,640),'relay':(26,14),'archive':(32,18),'foundry':(30,16),'resonance_vault':(30,16)}[name]
+    spacing={'outpost':(64,40),'portal_site':(768,640),'relay':(26,14),'archive':(32,18),'foundry':(30,16),'resonance_vault':(30,16),'observatory':(30,16)}[name]
     write(DATA/f'worldgen/structure_set/{name}.json',{'placement':{'type':'minecraft:random_spread',
-        'salt':{'outpost':845331,'portal_site':934281,'relay':129811,'archive':129812,'foundry':129813,'resonance_vault':129814}[name],
+        'salt':{'outpost':845331,'portal_site':934281,'relay':129811,'archive':129812,'foundry':129813,'resonance_vault':129814,'observatory':129815}[name],
         'spacing':spacing[0],'separation':spacing[1]},'structures':[{'structure':f'tnd:{name}','weight':1}]})
 
 
@@ -300,11 +303,11 @@ def structures():
         structure(name, size)
     # A shared grid prevents different building types from intersecting each other.
     # Separate independent sets can pick neighboring chunks even with large spacing.
-    for name in ['relay','archive','foundry','resonance_vault']:
+    for name in ['relay','archive','foundry','resonance_vault','observatory']:
         (DATA/f'worldgen/structure_set/{name}.json').unlink(missing_ok=True)
     write(DATA/'worldgen/structure_set/vestige_sites.json',{'placement':{
         'type':'minecraft:random_spread','salt':129811,'spacing':22,'separation':9},
-        'structures':[{'structure':f'tnd:{name}','weight':1} for name in ['relay','archive','foundry','resonance_vault']]})
+        'structures':[{'structure':f'tnd:{name}','weight':1} for name in ['relay','archive','foundry','resonance_vault','observatory']]})
     path=DATA/'worldgen/structure_set/outpost.json';outpost=json.loads(path.read_text())
     outpost['placement']['exclusion_zone']={'other_set':'tnd:portal_site','chunk_count':8}
     write(path,outpost)
@@ -314,6 +317,7 @@ def structures():
     for loot, entries in {'salvage':['minecraft:iron_ingot','minecraft:coal','tnd:ashstone_bricks','tnd:ancient_alloy'],
         'relics':['tnd:resonant_shard','tnd:blue_shard','tnd:efficiency_module','minecraft:amethyst_shard'],
         'archive':['minecraft:paper','minecraft:book','tnd:resonant_shard','tnd:archive_shelf'],
+        'observatory':['minecraft:paper','minecraft:amethyst_shard','tnd:relic_fragment','tnd:star_chart','tnd:echo_dust'],
         'foundry':['minecraft:raw_iron','minecraft:copper_ingot','tnd:ancient_alloy','tnd:efficiency_module']}.items():
         write(DATA / f'loot_table/chests/{loot}.json', {'type':'minecraft:chest','pools':[{'rolls':{'type':'minecraft:uniform','min':3,'max':6},
             'entries':[{'type':'minecraft:item','name':item,'functions':[{'function':'minecraft:set_count','count':{'type':'minecraft:uniform','min':1,'max':4}}]} for item in entries]}]})
@@ -329,9 +333,9 @@ def structures():
     for name, maximum in [('dimension', 200), ('extractor', 3000), ('portal_resistance', 100),
                           ('portal_terrain', 200), ('portal_arrival', 100),
                           ('portal_no_space', 200), ('portal_round_trip', 400),
-                          ('habitat_ores', 200), ('buildings', 200), ('outpost_terrain',200), ('mastery_actions',100), ('console',100), ('extraction_modes',100), ('talent_menus',100), ('talent_effects',100), ('companion_bond',100), ('companion_follow',150), ('companion_travel',200), ('companion_cold_arrival',150), ('sentinel_dodge',100), ('sentinel_hit',100), ('sentinel_interrupt',100), ('echo_lens',100), ('echo_deposits',100), ('vault_progress',400), ('vault_recovery',400), ('vault_safety',200), ('vault_rotations',200), ('resonant_aegis',100), ('biome_palette',200), ('vestige_landscapes',200), ('mastery_celebration',100),('custodian_phase',100),('custodian_dodge',100),('custodian_hit',100),('custodian_crown',100),('custodian_stagger',100),('custodian_progress',300),('custodian_recovery',400),('forge_processing',500),('forge_recovery',1400),('forge_hoppers',600)]:
+                          ('habitat_ores', 200), ('buildings', 200), ('outpost_terrain',200), ('mastery_actions',100), ('console',100), ('extraction_modes',100), ('talent_menus',100), ('talent_effects',100), ('companion_bond',100), ('companion_follow',150), ('companion_travel',200), ('companion_cold_arrival',150), ('sentinel_dodge',100), ('sentinel_hit',100), ('sentinel_interrupt',100), ('echo_lens',100), ('echo_deposits',100), ('vault_progress',400), ('vault_recovery',400), ('vault_safety',200), ('vault_rotations',200), ('resonant_aegis',100), ('biome_palette',200), ('vestige_landscapes',200), ('mastery_celebration',100),('custodian_phase',100),('custodian_dodge',100),('custodian_hit',100),('custodian_crown',100),('custodian_stagger',100),('custodian_progress',300),('custodian_recovery',400),('forge_processing',500),('forge_recovery',1400),('forge_hoppers',600),('field_objectives',200),('field_actions',200),('field_completion',100),('recall_success',200),('recall_movement',200),('recall_damage',200),('recall_blocked',200),('recall_replaced',200),('recall_guards',100),('observatory',200),('survey_authority',200)]:
         write(DATA / f'test_instance/{name}.json', {'type': 'minecraft:function', 'environment': 'minecraft:default',
-            'function': f'tnd:{name}', 'structure': 'tnd:'+('test_habitat' if name in ('custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','habitat_ores','outpost_terrain','sentinel_dodge','sentinel_hit','sentinel_interrupt','companion_follow','companion_travel','companion_cold_arrival','echo_deposits','vestige_landscapes') else 'test_buildings' if name in ('custodian_progress','custodian_recovery','buildings','vault_progress','vault_recovery','vault_safety','vault_rotations') else 'test_empty'), 'max_ticks': maximum, 'required': True})
+            'function': f'tnd:{name}', 'structure': 'tnd:'+('test_habitat' if name in ('custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','habitat_ores','outpost_terrain','sentinel_dodge','sentinel_hit','sentinel_interrupt','companion_follow','companion_travel','companion_cold_arrival','echo_deposits','vestige_landscapes') else 'test_buildings' if name in ('observatory','custodian_progress','custodian_recovery','buildings','vault_progress','vault_recovery','vault_safety','vault_rotations') else 'test_empty'), 'max_ticks': maximum, 'required': True})
 
 
 def languages():
@@ -461,6 +465,7 @@ def languages():
     creature_resources.languages(fr,en)
     dungeon_resources.languages(fr,en)
     expedition_resources.languages(fr,en)
+    fieldwork_resources.languages(fr,en)
     atmosphere_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
@@ -477,4 +482,4 @@ if __name__ == '__main__':
     options = parser.parse_args()
     content(); world(); structures(); languages()
     if options.audio: audio()
-    print('Generated 16×16 textures, building materials, habitat ores and six furnished structures.')
+    print('Generated 16×16 textures, building materials, habitat ores and seven furnished structures.')

@@ -28,6 +28,8 @@ public final class MachineRegistry {
             p->p.mapColor(MapColor.COLOR_GRAY).sound(net.minecraft.world.level.block.SoundType.METAL).strength(5,12).requiresCorrectToolForDrops().lightLevel(s->s.getValue(ResonanceForgeBlock.LIT)?10:0));
     public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<ResonanceForgeEntity>> FORGE_ENTITY=ENTITIES.register("resonance_forge",()->new BlockEntityType<>(ResonanceForgeEntity::new,FORGE.get()));
     public static final DeferredHolder<MenuType<?>,MenuType<ResonanceForgeMenu>> FORGE_MENU=ModContent.MENUS.register("resonance_forge",()->new MenuType<>(ResonanceForgeMenu::new,FeatureFlags.DEFAULT_FLAGS));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<fr.axephir.tnd.expedition.ReturnAnchorEntity>> ANCHOR_ENTITY=ENTITIES.register("return_anchor",()->new BlockEntityType<>(fr.axephir.tnd.expedition.ReturnAnchorEntity::new,ModContent.RETURN_ANCHOR.get()));
+    public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<fr.axephir.tnd.expedition.SurveyTerminalEntity>> SURVEY_ENTITY=ENTITIES.register("survey_terminal",()->new BlockEntityType<>(fr.axephir.tnd.expedition.SurveyTerminalEntity::new,ModContent.SURVEY_TERMINAL.get()));
     public static void register(IEventBus bus) {
         ModContent.ITEMS.registerSimpleBlockItem("extractor", EXTRACTOR);
         ModContent.ITEMS.registerSimpleBlockItem("resonance_forge",FORGE);

@@ -38,6 +38,7 @@ public final class AncientConsoleBlock extends Block {
             if(!p.isCreative())shard.shrink(1);
             level.setBlock(pos,state.setValue(LIT,true),3);
             if(natural&&!p.isCreative()) {
+                fr.axephir.tnd.expedition.ExpeditionService.console(p,pos);
                 ItemStack reward=new ItemStack(ModContent.RELIC_FRAGMENT.get(),1+level.getRandom().nextInt(2));
                 if(!p.getInventory().add(reward))p.drop(reward,false);
             }

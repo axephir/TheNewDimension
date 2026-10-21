@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " T ",
+    "ECE",
+    " T "
+  ],
+  "key": {
+    "T": "tnd:tempered_alloy",
+    "E": "tnd:echo_dust",
+    "C": "minecraft:compass"
+  },
+  "result": {
+    "id": "tnd:recall_prism",
+    "count": 1
+  }
+}

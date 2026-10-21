@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TCT",
+    "RAR",
+    "TCT"
+  ],
+  "key": {
+    "T": "tnd:tempered_alloy",
+    "C": "tnd:composite_crystal",
+    "R": "tnd:resonant_shard",
+    "A": "tnd:ancient_alloy"
+  },
+  "result": {
+    "id": "tnd:return_anchor",
+    "count": 1
+  }
+}

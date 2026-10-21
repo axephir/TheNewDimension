@@ -35,5 +35,8 @@ public final class PlayerProgression {
                 catch(IllegalArgumentException e) { return DataResult.error(e::getMessage); }
             },ActivityLedger::encode).fieldOf("activities")).copyOnDeath().build());
 
+    public static final DeferredHolder<AttachmentType<?>,AttachmentType<fr.axephir.tnd.domain.ExpeditionProgress>> EXPEDITIONS=TYPES.register("expeditions",()->AttachmentType.builder(fr.axephir.tnd.domain.ExpeditionProgress::empty)
+            .serialize(Codec.STRING.comapFlatMap(value->{try{return DataResult.success(fr.axephir.tnd.domain.ExpeditionProgress.decode(value));}catch(IllegalArgumentException e){return DataResult.error(e::getMessage);}},fr.axephir.tnd.domain.ExpeditionProgress::encode).fieldOf("field_notes"))
+            .copyOnDeath().sync((holder,receiver)->holder==receiver,ByteBufCodecs.STRING_UTF8.map(fr.axephir.tnd.domain.ExpeditionProgress::decode,fr.axephir.tnd.domain.ExpeditionProgress::encode)).build());
     private PlayerProgression() {}
 }

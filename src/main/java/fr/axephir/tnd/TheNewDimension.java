@@ -27,6 +27,7 @@ public final class TheNewDimension {
         PlayerProgression.TYPES.register(bus);
         container.registerConfig(ModConfig.Type.SERVER, TndConfig.SERVER);
         NeoForge.EVENT_BUS.register(new ProgressionEvents());
+        NeoForge.EVENT_BUS.register(new fr.axephir.tnd.expedition.ExpeditionService());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.progression.ExpandedMasteries());
         NeoForge.EVENT_BUS.register(new StarterOutpost());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.entities.CompanionTravel());

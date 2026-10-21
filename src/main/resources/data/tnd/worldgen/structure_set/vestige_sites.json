@@ -21,6 +21,10 @@
     {
       "structure": "tnd:resonance_vault",
       "weight": 1
+    },
+    {
+      "structure": "tnd:observatory",
+      "weight": 1
     }
   ]
 }

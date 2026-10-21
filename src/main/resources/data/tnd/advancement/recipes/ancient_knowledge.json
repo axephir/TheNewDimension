@@ -29,6 +29,9 @@
       "tnd:ashstone_bricks_stairs",
       "tnd:ashstone_tiles",
       "tnd:blue_lamp",
+      "tnd:brass_lattice",
+      "tnd:celestial_tiles",
+      "tnd:charted_stone",
       "tnd:chiseled_ashstone",
       "tnd:composite_crystal",
       "tnd:cracked_ashstone_bricks",
@@ -43,18 +46,23 @@
       "tnd:field_journal",
       "tnd:green_lamp",
       "tnd:mossy_ashstone_bricks",
+      "tnd:observatory_lamp",
       "tnd:oxidized_alloy",
       "tnd:polished_ashstone",
       "tnd:polished_ashstone_slab",
       "tnd:polished_ashstone_stairs",
+      "tnd:recall_prism",
       "tnd:red_lamp",
       "tnd:resonance_forge",
       "tnd:resonant_aegis",
       "tnd:resonant_blade",
       "tnd:resonant_lamp",
       "tnd:resonant_pickaxe",
+      "tnd:return_anchor",
       "tnd:riveted_alloy",
-      "tnd:stabilizer_module"
+      "tnd:stabilizer_module",
+      "tnd:star_chart",
+      "tnd:survey_terminal"
     ]
   }
 }

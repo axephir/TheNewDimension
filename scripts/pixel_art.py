@@ -25,7 +25,13 @@ def pixels(name, item=False):
         for i in range(steps+1):dot(round(x0+(x1-x0)*i/steps),round(y0+(y1-y0)*i/steps),c)
     if item:
         outline=(34,39,39)
-        if name in ['resonant_pickaxe','resonant_blade']:
+        if name=='recall_prism':
+            for y in range(2,14):
+                for x in range(2,14):
+                    d=abs(x-7.5)+abs(y-7.5)
+                    if d<8:dot(x,y,(39,49,56) if d>6 else (166,143,88) if d>4 else (70,135,159) if x>7 else (137,198,192))
+            line(5,7,8,4,(219,229,192));line(7,10,10,7,(73,102,138));dot(8,7,(215,220,162))
+        elif name in ['resonant_pickaxe','resonant_blade']:
             if name=='resonant_pickaxe':
                 line(3,13,11,5,outline);line(3,14,12,5,outline);line(4,13,11,6,(137,111,74));line(5,12,11,6,(185,155,99))
                 for x,y in [(2,3),(3,2),(4,2),(5,2),(6,2),(7,3),(8,3),(9,4),(10,5),(11,6),(12,7),(12,8),(13,9)]:
@@ -117,7 +123,31 @@ def pixels(name, item=False):
             k=(x//2,(y+(x//5))//2)
             if k not in cluster:cluster[k]=rng.choice([-12,-6,-3,0,3,7,11])
             dot(x,y,shade(base,cluster[k]+rng.choice([-2,0,0,2])))
-    if name.startswith('resonance_forge'):
+    if name in ['celestial_tiles','charted_stone','star_chart','brass_lattice','observatory_lamp','return_anchor','cartographer_trophy','survey_terminal']:
+        rect(0,0,15,15,(73,88,95))
+        if name=='celestial_tiles':
+            for y in range(16):
+                for x in range(16):
+                    if x%8==0 or y%8==0:dot(x,y,(39,54,62))
+                    elif x%8==1 or y%8==1:dot(x,y,(116,132,129))
+            for x,y in [(4,4),(12,12)]:dot(x,y,(181,157,100));dot(x-1,y,(132,146,131));dot(x,y-1,(132,146,131))
+        elif name=='charted_stone':
+            for y in [0,8]:line(0,y,15,y,(40,56,63));line(0,y+1,15,y+1,(119,133,129))
+            for x,y in [(4,0),(12,8)]:line(x,y,x,y+7,(40,56,63))
+            line(1,5,6,3,(153,145,105));line(6,3,10,6,(153,145,105));line(10,6,14,2,(153,145,105))
+        elif name=='brass_lattice':
+            rect(0,0,15,15,(43,59,65))
+            for i in range(-12,20,4):line(i,0,i+15,15,(154,136,88));line(i+1,0,i+16,15,(104,107,89));line(i,15,i+15,0,(154,136,88))
+            rect(0,0,15,0,(182,157,104));rect(0,15,15,15,(75,86,82))
+        else:
+            rect(1,1,14,14,(163,144,97));rect(2,2,13,13,(34,53,67))
+            for x,y in [(4,4),(10,3),(7,8),(12,11),(4,12)]:dot(x,y,(211,219,176));dot(x+1,y,(116,168,168))
+            for a in [(4,4,7,8),(7,8,10,3),(7,8,12,11),(7,8,4,12)]:line(*a,(95,135,146))
+            if name=='observatory_lamp':rect(4,4,11,11,(146,199,194));rect(6,6,9,9,(221,232,187));line(3,7,12,7,(106,130,113))
+            if name=='return_anchor':rect(5,5,10,10,(75,136,151));line(7,3,7,12,(222,219,161));line(4,10,7,13,(187,188,133));line(7,13,11,9,(187,188,133))
+            if name=='cartographer_trophy':rect(5,5,10,10,(116,185,168));line(7,3,7,12,(235,220,141));line(3,7,12,7,(235,220,141));dot(7,7,(245,239,191))
+        for x,y in [(1,1),(14,1),(1,14),(14,14)]:dot(x,y,(188,167,112))
+    elif name.startswith('resonance_forge'):
         rect(0,0,15,15,(57,69,67));rect(1,1,14,14,(113,106,80));rect(2,2,13,13,(38,51,53))
         active=name.endswith('_active');top=name.endswith('_top')
         if top:

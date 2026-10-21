@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:ashstone",
+  "result": {
+    "id": "tnd:celestial_tiles",
+    "count": 1
+  }
+}

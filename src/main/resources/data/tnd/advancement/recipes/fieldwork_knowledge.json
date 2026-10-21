@@ -1,0 +1,25 @@
+{
+  "criteria": {
+    "alloy": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:tempered_alloy"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "alloy"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:return_anchor",
+      "tnd:recall_prism"
+    ]
+  }
+}

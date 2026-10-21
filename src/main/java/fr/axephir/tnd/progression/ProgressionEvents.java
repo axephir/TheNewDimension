@@ -94,6 +94,11 @@ public final class ProgressionEvents {
         var item=event.getItemStack();
         String key=item.is(ModContent.RESONANT_AEGIS.get())?"resonant_aegis":item.is(ModContent.RESONANCE_HEART.get())?"resonance_heart":item.is(ModContent.ECHO_DUST.get())?"echo_dust":item.is(ModContent.ECHO_LENS.get())?"echo_lens":item.is(ModContent.ECHO_BLOOM.get().asItem())?"echo_bloom":item.is(ModContent.RELIC_FRAGMENT.get())?"relic":item.is(ModContent.STABILIZER_MODULE.get())?"stabilizer":item.is(ModContent.EFFICIENCY_MODULE.get())?"efficiency":item.is(ModContent.INERTIAL_MATRIX.get())?"inertial_matrix":item.is(ModContent.TEMPERED_ALLOY.get())?"tempered_alloy":item.is(fr.axephir.tnd.technology.MachineRegistry.FORGE.get().asItem())?"resonance_forge":null;
         if("resonance_forge".equals(key))for(String extra:java.util.List.of("forge_ports","forge_pause"))event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+extra).withStyle(net.minecraft.ChatFormatting.GRAY));
+        if(item.is(ModContent.RECALL_PRISM.get())){
+            for(String line:java.util.List.of("recall_prism","recall_cost"))event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+line).withStyle(net.minecraft.ChatFormatting.GRAY));
+            fr.axephir.tnd.expedition.RecallPrismItem.binding(item).ifPresent(binding->event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd.recall_target",binding.pos().getX(),binding.pos().getY(),binding.pos().getZ()).withStyle(net.minecraft.ChatFormatting.DARK_AQUA)));
+        }
+        if(item.is(ModContent.RETURN_ANCHOR.get().asItem())||item.is(ModContent.CARTOGRAPHER_TROPHY.get().asItem()))event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+(item.is(ModContent.RETURN_ANCHOR.get().asItem())?"return_anchor":"cartographer_trophy")).withStyle(net.minecraft.ChatFormatting.GRAY));
         if(key!=null)event.getToolTip().add(net.minecraft.network.chat.Component.translatable("tooltip.tnd."+key).withStyle(net.minecraft.ChatFormatting.GRAY));
     }
     @SubscribeEvent

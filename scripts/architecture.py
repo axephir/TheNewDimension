@@ -4,7 +4,7 @@ Every interior is cleared, roofed, lit and furnished; corridors connect all wing
 from collections import Counter, deque
 
 SIZES={'outpost':(49,35,49),'portal_site':(57,43,57),'relay':(41,41,41),
-       'archive':(55,39,49),'foundry':(57,41,49),'resonance_vault':(63,43,63)}
+       'archive':(55,39,49),'foundry':(57,41,49),'resonance_vault':(63,43,63),'observatory':(63,43,63)}
 class Building:
     def __init__(self,name):self.name=name;self.size=SIZES[name];self.grid={};self.rooms=[]
     def put(self,x,y,z,block,props=None,loot=None):
@@ -134,7 +134,34 @@ class Building:
 
 def build(name):
     b=Building(name)
-    if name=='resonance_vault':
+    if name=='observatory':
+        b.plaza(20,2,42,59)
+        b.room(20,3,42,16,h=10).room(19,17,43,46,h=20,kind='charted_stone')
+        b.room(3,21,19,43,h=12).room(43,21,59,43,h=12).room(20,46,42,59,h=12)
+        b.passage(29,16,33,17);b.passage(18,29,20,33);b.passage(42,29,44,33);b.passage(29,45,33,47)
+        b.entrance(30,3);b.mezzanine(20,19,42,44,y=8)
+        for x in range(21,42):
+            for z in range(19,45):
+                if (x+z)%4==0:b.put(x,0,z,'tnd:celestial_tiles')
+        # A suspended orrery above the central reading floor; open walking lanes below.
+        for dx,dz in [(-4,0),(4,0),(0,-4),(0,4),(-3,-3),(3,3),(-3,3),(3,-3)]:
+            b.put(31+dx,13,31+dz,'tnd:brass_lattice');b.put(31+dx,14,31+dz,'tnd:observatory_lamp')
+        for y in [11,15,18]:b.put(31,y,31,'tnd:pale_crystal')
+        for dx,dz in [(-2,0),(2,0),(0,-2),(0,2)]:b.put(31+dx,17,31+dz,'tnd:conduit')
+        b.put(31,1,30,'tnd:survey_terminal',{'facing':'north'})
+        b.put(26,1,26,'tnd:return_anchor');b.put(41,9,38,'tnd:return_anchor')
+        for x in [21,41]:
+            for z in [22,27,36]:b.put(x,3,z,'tnd:star_chart');b.put(x,4,z,'tnd:observatory_lamp')
+        for z in [23,28,36,40]:
+            b.box(5,1,z,5,3,z+1,'tnd:archive_shelf')
+            b.put(6,4,z,'tnd:observatory_lamp');b.put(57,3,z,'tnd:star_chart')
+        b.table(10,25,9);b.chest(15,37,'observatory');b.put(16,1,24,'tnd:ancient_console')
+        b.bunks(46,25);b.table(54,34,5);b.chest(56,40,'salvage')
+        b.shelf(23,49,7);b.shelf(39,49,7);b.table(29,50,5);b.chest(34,55,'observatory')
+        b.workshop(23,7);b.put(38,3,10,'tnd:star_chart');b.put(37,1,13,'tnd:ancient_console')
+        for x in [21,41]:b.spire(x,46,height=31)
+        for x,z in [(4,22),(58,22)]:b.spire(x,z,height=20)
+    elif name=='resonance_vault':
         # Five interlocking enclosed volumes; the central nave connects every wing.
         b.room(24,2,38,16,h=10).room(24,17,38,43,h=16)
         b.room(3,18,23,42,h=12).room(39,18,59,42,h=12).room(22,44,40,60,h=14)

@@ -1,0 +1,83 @@
+{
+  "textures": {
+    "base": "tnd:block/brass_lattice",
+    "map": "tnd:block/star_chart",
+    "particle": "tnd:block/charted_stone"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        8,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#base"
+        },
+        "east": {
+          "texture": "#base"
+        },
+        "south": {
+          "texture": "#base"
+        },
+        "west": {
+          "texture": "#base"
+        },
+        "up": {
+          "texture": "#base"
+        },
+        "down": {
+          "texture": "#base"
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        8,
+        1
+      ],
+      "to": [
+        15,
+        10,
+        15
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "x",
+        "angle": 22.5,
+        "rescale": false
+      },
+      "faces": {
+        "north": {
+          "texture": "#map"
+        },
+        "east": {
+          "texture": "#map"
+        },
+        "south": {
+          "texture": "#map"
+        },
+        "west": {
+          "texture": "#map"
+        },
+        "up": {
+          "texture": "#map"
+        },
+        "down": {
+          "texture": "#map"
+        }
+      }
+    }
+  ]
+}

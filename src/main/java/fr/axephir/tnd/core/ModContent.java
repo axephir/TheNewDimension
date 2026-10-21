@@ -118,6 +118,16 @@ public final class ModContent {
     public static final DeferredHolder<MenuType<?>, MenuType<MasteryMenu>> MASTERY_MENU = MENUS.register("masteries",
             () -> new MenuType<>(MasteryMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
+    public static final DeferredHolder<MenuType<?>,MenuType<fr.axephir.tnd.expedition.ExpeditionMenu>> EXPEDITION_MENU=MENUS.register("expeditions",()->new MenuType<>(fr.axephir.tnd.expedition.ExpeditionMenu::new,FeatureFlags.DEFAULT_FLAGS));
+    public static final DeferredBlock<fr.axephir.tnd.expedition.ReturnAnchorBlock> RETURN_ANCHOR=BLOCKS.registerBlock("return_anchor",fr.axephir.tnd.expedition.ReturnAnchorBlock::new,p->p.strength(4,10).requiresCorrectToolForDrops().sound(net.minecraft.world.level.block.SoundType.AMETHYST).lightLevel(state->7));
+    public static final DeferredBlock<fr.axephir.tnd.expedition.SurveyTerminalBlock> SURVEY_TERMINAL=BLOCKS.registerBlock("survey_terminal",fr.axephir.tnd.expedition.SurveyTerminalBlock::new,p->p.strength(3,8).requiresCorrectToolForDrops().noOcclusion().lightLevel(state->3));
+    public static final DeferredItem<fr.axephir.tnd.expedition.RecallPrismItem> RECALL_PRISM=ITEMS.registerItem("recall_prism",fr.axephir.tnd.expedition.RecallPrismItem::new,p->p.stacksTo(1));
+    public static final DeferredBlock<Block> CARTOGRAPHER_TROPHY=stone("cartographer_trophy",3,8,8);
+    public static final DeferredBlock<Block> CELESTIAL_TILES=stone("celestial_tiles",3.5f,8,0);
+    public static final DeferredBlock<Block> CHARTED_STONE=stone("charted_stone",3.5f,8,0);
+    public static final DeferredBlock<InscriptionBlock> STAR_CHART=BLOCKS.registerBlock("star_chart",p->new InscriptionBlock(p,"observatory"),p->p.strength(3.5f,8).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> BRASS_LATTICE=stone("brass_lattice",3.5f,8,0);
+    public static final DeferredBlock<Block> OBSERVATORY_LAMP=stone("observatory_lamp",3,8,15);
     static {
         BLOCKS.getEntries().forEach(block -> ITEMS.registerSimpleBlockItem(block.getId().getPath(), block));
     }
@@ -129,7 +139,7 @@ public final class ModContent {
             .build());
 
     private static DeferredBlock<Block> stone(String name, float hardness, float resistance, int light) {
-        boolean metal = name.contains("alloy") || name.contains("conduit") || name.contains("grate")
+        boolean metal = name.contains("brass") || name.contains("alloy") || name.contains("conduit") || name.contains("grate")
                 || name.contains("vent") || name.contains("console");
         return BLOCKS.registerSimpleBlock(name, p -> p.mapColor(MapColor.COLOR_GRAY)
                 .strength(hardness, resistance).requiresCorrectToolForDrops().lightLevel(state -> light)

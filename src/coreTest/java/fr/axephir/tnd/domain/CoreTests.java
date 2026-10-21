@@ -6,8 +6,8 @@ import java.util.*;
 public final class CoreTests {
     private static int assertions;
     public static void main(String[] args) {
-        progression(); profiles(); production(); cycle(); activities(); masteryRules();
-        System.out.println("PASS: " + assertions + " assertions (progression, saves, production, cycle, activity ledger, mastery rules)");
+        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions();
+        System.out.println("PASS: " + assertions + " assertions (progression, saves, production, cycle, activity ledger, mastery rules, expeditions)");
     }
     private static void check(boolean value, String reason) {
         assertions++;
@@ -17,6 +17,27 @@ public final class CoreTests {
         assertions++;
         try { action.run(); } catch (IllegalArgumentException | IllegalStateException expected) { return; }
         throw new AssertionError("expected rejection");
+    }
+    private static void expeditions(){
+        var empty=ExpeditionProgress.empty();rejects(()->empty.claim(Expedition.SURVEY));
+        check(ExpeditionProgress.decode(empty.encode()).equals(empty),"Empty notes round-trip for old players");
+        var s=empty;
+        for(int i=0;i<300;i++){
+            s=s.discover(i%6).console("console"+(i%3)).harvest("bloom"+(i%6)).sentinel().observe().equip();
+            check(ExpeditionProgress.decode(s.encode()).equals(s),"Field notes retain counters and unique locations");
+            check(ExpeditionProgress.decode(s.encode()).encode().equals(s.encode()),"Field notes have stable encoding");
+            check(s.consoles().size()<=3&&s.harvests().size()<=6&&s.sentinels()<=3,"All collected state is bounded");
+        }
+        var ready=s;rejects(()->ready.claim(Expedition.CARTOGRAPHER));
+        for(var mission:Expedition.values())if(mission!=Expedition.CARTOGRAPHER){s=s.claim(mission);var claimed=s;rejects(()->claimed.claim(mission));}
+        check(s.complete(Expedition.CARTOGRAPHER),"Final objective requires the previous seven claims");s=s.claim(Expedition.CARTOGRAPHER);
+        check(s.claimed()==255&&ExpeditionProgress.decode(s.encode()).equals(s),"All claimed rewards persist");
+        rejects(()->new ExpeditionProgress(64,Set.of(),Set.of(),0,false,false,0));
+        rejects(()->new ExpeditionProgress(0,Set.of(),Set.of(),4,false,false,0));
+        rejects(()->new ExpeditionProgress(0,Set.of(),Set.of(),0,false,false,1));
+        rejects(()->ExpeditionProgress.decode("bad encoded notes!"));rejects(()->ExpeditionProgress.decode("a".repeat(4097)));
+        var raw=Base64.getDecoder().decode(s.encode());raw[3]=2;rejects(()->ExpeditionProgress.decode(Base64.getEncoder().encodeToString(raw)));
+        rejects(()->empty.console("x".repeat(97)));rejects(()->empty.discover(-1));rejects(()->empty.discover(6));
     }
     private static void progression() {
         check(Mastery.values().length == 15, "fifteen independent masteries");

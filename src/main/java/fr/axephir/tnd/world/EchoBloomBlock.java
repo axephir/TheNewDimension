@@ -36,6 +36,7 @@ public final class EchoBloomBlock extends Block {
         if(!VestigeTime.isNight(level)){p.sendOverlayMessage(Component.translatable("message.tnd.bloom_day"));return false;}
         if(state.getValue(CHARGE)!=3){p.sendOverlayMessage(Component.translatable("message.tnd.bloom_charging"));return false;}
         level.setBlock(pos,state.setValue(CHARGE,0),3);
+        fr.axephir.tnd.expedition.ExpeditionService.harvest(p,pos);
         var dust=new ItemStack(ModContent.ECHO_DUST.get(),1+level.getRandom().nextInt(2));
         if(!p.getInventory().add(dust))p.drop(dust,false);
         if(ProgressionService.claim(p,"echo_harvest",24000,12))ProgressionService.award(p,Mastery.ANCIENT_TECH,12);

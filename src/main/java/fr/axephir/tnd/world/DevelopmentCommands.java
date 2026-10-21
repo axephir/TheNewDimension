@@ -26,6 +26,7 @@ public final class DevelopmentCommands {
     public static void register(RegisterCommandsEvent event) {
         event.getDispatcher().register(Commands.literal("tnd")
                 .then(senseCommands())
+                .then(Commands.literal("expeditions").executes(ctx->{ctx.getSource().getPlayerOrException().openMenu(new SimpleMenuProvider(fr.axephir.tnd.expedition.ExpeditionMenu::new,Component.translatable("gui.tnd.expeditions")));return 1;}))
                 .then(Commands.literal("masteries").executes(ctx -> {
                     ctx.getSource().getPlayerOrException().openMenu(new SimpleMenuProvider(
                             MasteryMenu::new, Component.translatable("gui.tnd.masteries")));

@@ -252,6 +252,24 @@ class Resources(unittest.TestCase):
             self.assertEqual(json.loads((ASSETS/f'models/item/{name}.json').read_text())['parent'],'minecraft:item/handheld')
         self.assertEqual(json.loads((DATA/'tags/item/resonant_tool_materials.json').read_text())['values'],['tnd:tempered_alloy'])
 
+    def test_fieldwork_structure_and_recall_resources(self):
+        observatory=generator.build('observatory')
+        self.assertEqual(len(observatory.rooms),5)
+        self.assertTrue(any(v[0]=='tnd:return_anchor' for v in observatory.grid.values()))
+        parser=Nbt(gzip.decompress((DATA/'structure/observatory.nbt').read_bytes()));parser.take(1);parser.string();root=parser.read(10)
+        desks=[b for b in root['blocks'] if root['palette'][b['state']]['Name']=='tnd:survey_terminal']
+        self.assertEqual(len(desks),1);self.assertEqual(desks[0]['nbt']['SurveySite'],1)
+        self.assertEqual(len(json.loads((ASSETS/'blockstates/survey_terminal.json').read_text())['variants']),4)
+        self.assertFalse((DATA/'recipe/cartographer_trophy.json').exists())
+        self.assertEqual(json.loads((DATA/'worldgen/structure/observatory.json').read_text())['biomes'],'#tnd:is_vestige')
+        for name in ['return_anchor','recall_prism']:
+            recipe=json.loads((DATA/f'recipe/{name}.json').read_text());self.assertIn('tnd:tempered_alloy',recipe['key'].values())
+        for lang in ['fr_fr','en_us']:
+            text=json.loads((ASSETS/f'lang/{lang}.json').read_text())
+            for mission in ['survey','atlas','restoration','night_harvest','sentinels','observatory','gear','cartographer']:
+                self.assertIn('expedition.tnd.'+mission+'.description',text)
+                self.assertLessEqual(len(text['expedition.tnd.'+mission+'.short']),35)
+
     def test_clock_portal_spacing_and_runtime_tests(self):
         timeline = json.loads((DATA / 'timeline/vestige_day.json').read_text())
         self.assertEqual(timeline['period_ticks'], 48000)
@@ -260,12 +278,12 @@ class Resources(unittest.TestCase):
         self.assertGreaterEqual(portal['separation'] * 16, 10000)
         self.assertLessEqual(portal['spacing'] * 16, 15000)
         sites=json.loads((DATA/'worldgen/structure_set/vestige_sites.json').read_text())
-        self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry','tnd:resonance_vault'})
+        self.assertEqual({e['structure'] for e in sites['structures']},{'tnd:relay','tnd:archive','tnd:foundry','tnd:resonance_vault','tnd:observatory'})
         self.assertGreater(sites['placement']['separation']*16,2*max(max(size[0],size[2]) for size in generator.SIZES.values()))
-        for name in ['relay','archive','foundry']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
+        for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers'})
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'})
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

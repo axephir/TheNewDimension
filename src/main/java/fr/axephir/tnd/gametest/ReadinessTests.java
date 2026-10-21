@@ -27,6 +27,17 @@ public final class ReadinessTests {
     public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
             BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
     static {
+        FUNCTIONS.register("field_objectives",()->FieldworkTests::objectives);
+        FUNCTIONS.register("field_actions",()->FieldworkTests::actions);
+        FUNCTIONS.register("field_completion",()->FieldworkTests::completion);
+        FUNCTIONS.register("recall_success",()->FieldworkTests::recallSuccess);
+        FUNCTIONS.register("recall_movement",()->FieldworkTests::recallMovement);
+        FUNCTIONS.register("recall_damage",()->FieldworkTests::recallDamage);
+        FUNCTIONS.register("recall_blocked",()->FieldworkTests::recallBlocked);
+        FUNCTIONS.register("recall_replaced",()->FieldworkTests::recallReplaced);
+        FUNCTIONS.register("recall_guards",()->FieldworkTests::recallGuards);
+        FUNCTIONS.register("observatory",()->FieldworkTests::observatory);
+        FUNCTIONS.register("survey_authority",()->FieldworkTests::surveyAuthority);
         FUNCTIONS.register("custodian_phase",()->ExpeditionTests::phase);
         FUNCTIONS.register("custodian_dodge",()->ExpeditionTests::dodge);
         FUNCTIONS.register("custodian_hit",()->ExpeditionTests::hit);
