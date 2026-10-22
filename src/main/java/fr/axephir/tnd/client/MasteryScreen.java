@@ -53,7 +53,6 @@ public final class MasteryScreen extends AbstractContainerScreen<MasteryMenu> {
         long base=Experience.threshold(p.level()),next=Experience.threshold(p.level()+1);int fill=motion.value(selected.ordinal(),(int)Math.clamp((p.experience()-base)*1000/Math.max(1,next-base),0,1000))*212/1000;g.fill(x+128,y+57,x+340,y+60,0xff17231c);g.fill(x+128,y+57,x+128+fill,y+60,0xff9fcf89);
         long remaining=Math.max(0,next-p.experience());String xp=remaining<1_000_000?Long.toString(remaining):String.format(Locale.ROOT,"%.1fM",remaining/1e6);g.text(font,xp+" XP →",x+128,y+62,0xffa7b6a3,false);
         if(page==1){for(int i=0;i<2;i++){var t=Talent.available(selected).get(5+i);var lines=font.split(Component.translatable("talent.tnd."+t.id()+".summary"),207);for(int line=0;line<Math.min(2,lines.size());line++)g.text(font,lines.get(line),x+134,y+126+i*43+line*10,p.rank(t)>0?0xff386242:0xff555c4e,false);}}
-        if(page==2)g.text(font,Component.translatable("prestige.tnd.cosmetic"),x+133,y+187,0xff455344,false);
-        g.text(font,Component.translatable("activity.tnd."+selected.id()),x+10,y+219,0xff384132,false);
+        g.text(font,Component.translatable(page==2?"prestige.tnd.cosmetic":"activity.tnd."+selected.id()),x+10,y+219,0xff384132,false);
     }
 }
