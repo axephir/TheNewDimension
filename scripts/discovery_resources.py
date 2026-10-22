@@ -127,3 +127,7 @@ def languages(fr,en):
     for (branch,*_), (a,b) in zip(BRANCHES,summaries):fr['talent.tnd.'+branch+'.summary']=a;en['talent.tnd.'+branch+'.summary']=b
     fr['prestige.tnd.cosmetic']='Titres et sceaux · cosmétiques';en['prestige.tnd.cosmetic']='Titles and seals · cosmetic'
     fr['gui.tnd.talent_cost']='Coût : %s pt par rang';en['gui.tnd.talent_cost']='Cost: %s pt per rank'
+
+    fr['echo.tnd.count']='Échos notés : %s';en['echo.tnd.count']='Recorded echoes: %s'
+    fr['echo.tnd.trace.0']='La carcasse ne vibre plus. Pourtant, sa fréquence demeure dans les relevés.'
+    en['echo.tnd.trace.0']='The wreckage no longer vibrates. Yet its frequency remains in the readings.'

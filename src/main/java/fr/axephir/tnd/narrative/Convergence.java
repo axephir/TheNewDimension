@@ -61,7 +61,7 @@ public final class Convergence {
         var hit=p.pick(6,1,false);if(!(hit instanceof net.minecraft.world.phys.BlockHitResult block)||hit.getType()!=net.minecraft.world.phys.HitResult.Type.BLOCK)return false;
         var at=block.getBlockPos();var center=s.copy.mapped(s.state.machine());int limit=s.copy.radius()*16+15;
         if(Math.abs(at.getX()-center.getX())>limit||Math.abs(at.getZ()-center.getZ())>limit||!p.level().hasChunkAt(at))return false;
-        var state=p.level().getBlockState(at);int type=at.equals(center)?3:state.getBlock() instanceof net.minecraft.world.level.block.EntityBlock?1:net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock()).getNamespace().equals("tnd")?0:2;
+        var state=p.level().getBlockState(at);int type=at.equals(center)?3:state.getBlock() instanceof net.minecraft.world.level.block.EntityBlock?1:state.is(CityContent.DECOR.get("vent_panel").get())||state.is(Industry.FRAME.get())||state.is(CityContent.DECOR.get("relay_coil").get())?0:2;
         INSPECTION_NEXT.put(p.getUUID(),now+30);p.setData(TRACES,p.getData(TRACES)|(1<<type));
         p.sendOverlayMessage(Component.translatable("echo.tnd.trace."+type));fr.axephir.tnd.expedition.ExpeditionService.sound(p,ModContent.atmosphereSound(type==3?"spatial_chime":"hollow_resonance"),SoundSource.AMBIENT,.3f,.65f+type*.12f);
         p.level().sendParticles(p,net.minecraft.core.particles.ParticleTypes.ENCHANT,false,false,at.getX()+.5,at.getY()+.5,at.getZ()+.5,12,.35,.35,.35,0);

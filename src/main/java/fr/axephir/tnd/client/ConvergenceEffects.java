@@ -57,8 +57,9 @@ public final class ConvergenceEffects {
         }
         if(!echo)return;
         if((phase==3||phase==4)&&mc.hitResult instanceof net.minecraft.world.phys.BlockHitResult hit&&hit.getType()==net.minecraft.world.phys.HitResult.Type.BLOCK&&hit.getLocation().distanceToSqr(mc.player.getEyePosition())<=36){
-            center(g,mc,Component.translatable("echo.tnd.examine"),h-65,0xffb2cec9);
-            center(g,mc,Component.translatable("echo.tnd.count",Integer.bitCount(mc.player.getData(Convergence.TRACES))),h-77,0xff819f9e);
+            var hint=Component.translatable("echo.tnd.examine");var count=Component.translatable("echo.tnd.count",Integer.bitCount(mc.player.getData(Convergence.TRACES)));
+            int panel=Math.max(mc.font.width(hint),mc.font.width(count))+16;g.fill(7,24,7+panel,53,0xc2101c22);g.fill(7,24,9,53,0xff779f9b);
+            g.text(mc.font,count,14,29,0xff819f9e,false);g.text(mc.font,hint,14,41,0xffb2cec9,false);
         }
         if(phase==2){g.fill(0,0,w,17,0xc9000000);g.fill(0,h-39,w,h,0xc9000000);center(g,mc,Component.translatable("story.tnd.cinema"),h-30,0xffd0dddd);center(g,mc,Component.translatable("story.tnd.skip"),h-17,0xff8ea8b1);}
         if(phase==4){var at=mc.player.getData(Convergence.SIGNAL);int distance=(int)mc.player.position().distanceTo(net.minecraft.world.phys.Vec3.atCenterOf(at));center(g,mc,Component.translatable("story.tnd.guidance",distance,at.getX(),at.getZ()),h-50,0xffb9e4df);}
