@@ -45,6 +45,19 @@ class Nbt:
 
 
 class Resources(unittest.TestCase):
+    def test_assault_loot_and_equipment_contract(self):
+        from assault_resources import SETS,PARTS,BOSSES
+        for set,boss in zip(SETS,BOSSES):
+            table=json.loads((DATA/f'loot_table/entities/{boss}.json').read_text())
+            pool=table['pools'][-1]
+            self.assertEqual(pool['rolls'],1)
+            self.assertIn({'condition':'minecraft:random_chance','chance':.2},pool['conditions'])
+            self.assertEqual({e['name'] for e in pool['entries']},{'tnd:'+set+'_'+p for p in PARTS})
+            self.assertTrue(all(e.get('weight',1)==1 and 'functions' not in e for e in pool['entries']))
+            for p in PARTS:self.assertFalse((DATA/f'recipe/{set}_{p}.json').exists())
+        self.assertEqual(json.loads((DATA/'tags/item/assault_repairs.json').read_text())['values'],[])
+        self.assertTrue((DATA/'recipe/crystal_restorer.json').is_file())
+
     def test_discovery_specializations_and_mystery(self):
         from discovery_resources import BRANCHES
         self.assertEqual(len(BRANCHES),30)
@@ -411,7 +424,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS)|set(generator.metropolis_resources.TESTS)|set(generator.convergence_resources.TESTS)|set(generator.discovery_resources.TESTS))
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS)|set(generator.metropolis_resources.TESTS)|set(generator.convergence_resources.TESTS)|set(generator.discovery_resources.TESTS)|set(generator.assault_resources.TESTS))
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

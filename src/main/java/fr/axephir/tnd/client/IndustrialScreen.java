@@ -24,13 +24,14 @@ public final class IndustrialScreen extends AbstractContainerScreen<IndustrialMe
         StonePanel.inset(g,x+8,y+40,160,67);
         if(menu.inputVisible(0))StonePanel.slot(g,x+23,y+57);
         if(menu.inputVisible(1))StonePanel.slot(g,x+23,y+86);
-        if(menu.outputsVisible())for(int row=0;row<3;row++)for(int col=0;col<3;col++)StonePanel.slot(g,x+111+col*18,y+48+row*18);
+        if(menu.outputsVisible())for(int row=0;row<3;row++)for(int col=0;col<3;col++){if(menu.outputVisible(2+row*3+col))StonePanel.slot(g,x+111+col*18,y+48+row*18);}
         g.text(font,Component.translatable(menu.inputVisible(0)?"industry.tnd.input":"industry.tnd.area."+menu.kind().id),x+12,y+44,0xffd7ddc8,false);
         if(!menu.kind().source()){g.fill(x+51,y+68,x+100,y+76,0xff192c28);g.fill(x+52,y+69,x+52+motion.value(1,menu.progress())*47/1000,y+75,0xff83b6aa);}
         if(!menu.outputsVisible()){
             var lines=font.split(Component.translatable("industry.tnd.detail."+menu.kind().id),103);
             for(int i=0;i<Math.min(4,lines.size());i++)g.text(font,lines.get(i),x+55,y+(menu.inputVisible(0)?48:61)+i*10,0xffd7ddc8,false);
         }
+        if(menu.kind()==Industry.Kind.REPAIR){g.text(font,Component.translatable("assault.tnd.crystal"),x+47,y+90,0xffd7ddc8,false);g.text(font,Component.translatable("assault.tnd.result"),x+109,y+77,0xffd7ddc8,false);}
         g.text(font,menu.energy()+" / "+menu.kind().capacity+" FE",x+9,y+109,0xff364b40,false);
         var lines=font.split(Component.translatable("industry.tnd.state."+menu.status()),158);for(int i=0;i<(menu.kind()==Industry.Kind.QUARRY?0:Math.min(2,lines.size()));i++)g.text(font,lines.get(i),x+9,y+137+i*9,0xff394b3d,false);
         if(menu.kind()==Industry.Kind.QUARRY){

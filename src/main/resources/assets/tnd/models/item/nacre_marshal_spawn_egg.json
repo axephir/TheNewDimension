@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tnd:item/nacre_marshal_spawn_egg"
+  }
+}

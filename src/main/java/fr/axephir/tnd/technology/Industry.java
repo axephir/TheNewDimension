@@ -18,7 +18,7 @@ public final class Industry {
     public enum Kind {
         DYNAMO("coal_dynamo",64000), SOLAR("solar_controller",64000), BATTERY("industrial_accumulator",1000000),
         CRUSHER("electric_crusher",32000), FURNACE("electric_kiln",32000), QUARRY("industrial_quarry",128000),
-        FARM("cultivator",32000), RANCH("rancher",32000), PASTURE("pastoral_station",32000);
+        FARM("cultivator",32000), RANCH("rancher",32000), PASTURE("pastoral_station",32000), REPAIR("crystal_restorer",32000);
         public final String id; public final int capacity;
         Kind(String id,int capacity){this.id=id;this.capacity=capacity;}
         public boolean source(){return ordinal()<3;}

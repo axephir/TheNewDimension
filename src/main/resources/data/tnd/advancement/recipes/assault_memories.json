@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "memory": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "tnd:ward_memory",
+              "tnd:shade_memory",
+              "tnd:choir_memory"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "memory"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:salvage_ward_memory",
+      "tnd:salvage_shade_memory",
+      "tnd:salvage_choir_memory"
+    ]
+  }
+}

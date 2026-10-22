@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "family=ward,summit=false,lit=false": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=ward,summit=false,lit=true": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=ward,summit=true,lit=false": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=ward,summit=true,lit=true": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=shade,summit=false,lit=false": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=shade,summit=false,lit=true": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=shade,summit=true,lit=false": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=shade,summit=true,lit=true": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=choir,summit=false,lit=false": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=choir,summit=false,lit=true": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=choir,summit=true,lit=false": {
+      "model": "tnd:block/assault_node"
+    },
+    "family=choir,summit=true,lit=true": {
+      "model": "tnd:block/assault_node"
+    }
+  }
+}

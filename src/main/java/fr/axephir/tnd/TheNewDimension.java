@@ -19,6 +19,7 @@ public final class TheNewDimension {
     public static final String ID = "tnd";
 
     public TheNewDimension(IEventBus bus, ModContainer container) {
+        fr.axephir.tnd.assault.AssaultContent.bootstrap();
         fr.axephir.tnd.progression.Prestige.bootstrap();
         fr.axephir.tnd.progression.MasteryAbilities.bootstrap();
         fr.axephir.tnd.narrative.PlayerBase.bootstrap();
@@ -38,6 +39,7 @@ public final class TheNewDimension {
         PlayerProgression.TYPES.register(bus);
         container.registerConfig(ModConfig.Type.SERVER, TndConfig.SERVER);
         NeoForge.EVENT_BUS.register(new ProgressionEvents());
+        NeoForge.EVENT_BUS.register(new fr.axephir.tnd.assault.AssaultEquipment());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.progression.MasteryAbilities());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.progression.PlacedResourceMovement());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.expedition.ExpeditionService());

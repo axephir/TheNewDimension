@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "tnd:shade"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "tnd:shade"
+      }
+    ]
+  }
+}

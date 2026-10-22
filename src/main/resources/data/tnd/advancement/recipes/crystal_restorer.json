@@ -1,0 +1,24 @@
+{
+  "criteria": {
+    "crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:security_processor"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "crystal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:crystal_restorer"
+    ]
+  }
+}

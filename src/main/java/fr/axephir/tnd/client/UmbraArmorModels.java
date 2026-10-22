@@ -15,7 +15,7 @@ import java.util.*;
 /** Slot-specific relief geometry follows the native humanoid pose, including crouching and riding. */
 final class UmbraArmorModels implements IClientItemExtensions {
     private final Map<EquipmentSlot,HumanoidModel<HumanoidRenderState>> models=new EnumMap<>(EquipmentSlot.class);
-    static void register(RegisterClientExtensionsEvent e){e.registerItem(new UmbraArmorModels(),AwakeningContent.UMBRA_HELMET.get(),AwakeningContent.UMBRA_CHESTPLATE.get(),AwakeningContent.UMBRA_LEGGINGS.get(),AwakeningContent.UMBRA_BOOTS.get());}
+    static void register(RegisterClientExtensionsEvent e){for(var set:fr.axephir.tnd.assault.AssaultContent.ARMOR.values())e.registerItem(new UmbraArmorModels(),set.values().stream().map(java.util.function.Supplier::get).toArray(net.minecraft.world.item.Item[]::new));e.registerItem(new UmbraArmorModels(),AwakeningContent.UMBRA_HELMET.get(),AwakeningContent.UMBRA_CHESTPLATE.get(),AwakeningContent.UMBRA_LEGGINGS.get(),AwakeningContent.UMBRA_BOOTS.get());}
     @Override public Model getHumanoidArmorModel(ItemStack stack,EquipmentClientInfo.LayerType type,Model original){
         // Preserve native scaling for equipping baby humanoids.
         if(type==EquipmentClientInfo.LayerType.HUMANOID_BABY)return original;

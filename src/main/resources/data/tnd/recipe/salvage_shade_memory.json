@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "tnd:shade_memory",
+    "minecraft:redstone"
+  ],
+  "result": {
+    "id": "tnd:control_circuit",
+    "count": 4
+  }
+}

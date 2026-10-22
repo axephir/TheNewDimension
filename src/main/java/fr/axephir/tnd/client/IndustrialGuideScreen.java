@@ -10,7 +10,7 @@ public final class IndustrialGuideScreen extends Screen {
     private final Screen parent;private Industry.Kind kind;private int x,y;
     public IndustrialGuideScreen(Screen parent,Industry.Kind kind){super(Component.translatable("industry.tnd.guide"));this.parent=parent;this.kind=kind;}
     @Override protected void init(){x=(width-332)/2;y=(height-232)/2;
-        for(var k:Industry.Kind.values()){var b=Button.builder(Component.translatable("block.tnd."+k.id),v->kind=k).bounds(x+8,y+31+k.ordinal()*22,121,20).build();b.setOverrideRenderHighlightedSprite(()->kind==k);addRenderableWidget(b);}
+        for(var k:Industry.Kind.values()){var b=Button.builder(Component.translatable("block.tnd."+k.id),v->kind=k).bounds(x+8,y+31+k.ordinal()*19,121,18).build();b.setOverrideRenderHighlightedSprite(()->kind==k);addRenderableWidget(b);}
         addRenderableWidget(Button.builder(Component.literal("×"),b->onClose()).bounds(x+305,y+6,18,18).build());
     }
     @Override public void extractRenderState(GuiGraphicsExtractor g,int mx,int my,float partial){

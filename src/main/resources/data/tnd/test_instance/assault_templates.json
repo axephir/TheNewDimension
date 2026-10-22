@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:assault_templates",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 1000,
+  "required": true
+}

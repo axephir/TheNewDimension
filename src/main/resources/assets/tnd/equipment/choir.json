@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "tnd:choir"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "tnd:choir"
+      }
+    ]
+  }
+}

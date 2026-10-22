@@ -122,4 +122,6 @@ def build(max_floors=12):
         else:
             for x in [x0,x1]:q(x,y+1,z0,x,y+3,z1,'minecraft:purple_stained_glass');q(x,y+4,z0,x,y+4,z1,'tnd:neon_magenta')
     bridge(38,20,46,24,24);bridge(79,20,89,24,min(48,(max_floors-1)*8));bridge(20,38,24,48,24);bridge(20,78,24,88,min(48,(max_floors-1)*8));bridge(39,99,48,103,24);bridge(78,99,88,103,min(48,(max_floors-1)*8));bridge(100,41,104,49,24);bridge(100,79,104,89,min(48,(max_floors-1)*8))
+    from assault_architecture import decorate
+    decorate(b,max_floors)
     return b

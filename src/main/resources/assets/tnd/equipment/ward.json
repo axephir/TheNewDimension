@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "tnd:ward"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "tnd:ward"
+      }
+    ]
+  }
+}

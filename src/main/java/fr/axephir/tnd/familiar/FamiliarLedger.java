@@ -40,7 +40,7 @@ public final class FamiliarLedger extends SavedData {
         if(r==null||!r.getStringOr("PetId","").equals(pet.getUUID().toString())||r.getBooleanOr("Stored",false))return;
         var out=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,pet.registryAccess());pet.saveWithoutId(out);
         r.put("Pet",out.buildResult());r.putString("Dimension",pet.level().dimension().identifier().toString());r.putInt("X",pet.getBlockX());r.putInt("Y",pet.getBlockY());r.putInt("Z",pet.getBlockZ());
-        r.putString("Name",pet.getName().getString());r.putInt("Level",pet.familiarLevel());r.putInt("Xp",pet.familiarXp());r.putInt("Health",pet.downed()?0:Math.round(pet.getHealth()*10));r.putInt("MaxHealth",Math.round(pet.getMaxHealth()*10));r.putBoolean("Downed",pet.downed());r.putBoolean("Waiting",pet.isOrderedToSit());setDirty();
+        r.putInt("Protocols",pet.protocols());r.putString("Name",pet.getName().getString());r.putInt("Level",pet.familiarLevel());r.putInt("Xp",pet.familiarXp());r.putInt("Health",pet.downed()?0:Math.round(pet.getHealth()*10));r.putInt("MaxHealth",Math.round(pet.getMaxHealth()*10));r.putBoolean("Downed",pet.downed());r.putBoolean("Waiting",pet.isOrderedToSit());setDirty();
     }
     public ItemStack ticket(UUID owner){
         var r=record(owner);if(r==null||!r.getBooleanOr("Stored",false))return ItemStack.EMPTY;

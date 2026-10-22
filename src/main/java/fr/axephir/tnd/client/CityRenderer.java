@@ -28,7 +28,7 @@ public final class CityRenderer extends MobRenderer<CityMob,CityRenderer.State,C
         Model(ModelPart root,CityMob.Kind k){super(root);kind=k;torso=root.getChild("torso");head=torso.getChild("head");for(int i=0;i<2;i++){arms[i]=torso.getChild("arm"+i);legs[i]=root.getChild("leg"+i);}if(k==CityMob.Kind.DRONE)for(int i=0;i<4;i++)rotors[i]=torso.getChild("rotor"+i);}
         private static CubeListBuilder box(int u,int v,float x,float y,float z,float w,float h,float d){return CubeListBuilder.create().texOffs(u,v).addBox(x,y,z,w,h,d);}
         static LayerDefinition layer(CityMob.Kind k){
-            var mesh=new MeshDefinition();var root=mesh.getRoot();boolean heavy=k==CityMob.Kind.ENFORCER,drone=k==CityMob.Kind.DRONE;
+            var mesh=new MeshDefinition();var root=mesh.getRoot();boolean heavy=(k==CityMob.Kind.ENFORCER||k==CityMob.Kind.MARSHAL),drone=k==CityMob.Kind.DRONE;
             var body=root.addOrReplaceChild("torso",box(0,0,-5,-7,-3,10,12,6),PartPose.offset(0,drone?13:heavy?-3:0,0));
             if(drone){
                 body=root.addOrReplaceChild("torso",box(0,0,-5,-2,-5,10,4,10),PartPose.offset(0,14,0));
@@ -72,15 +72,18 @@ public final class CityRenderer extends MobRenderer<CityMob,CityRenderer.State,C
                     if(!heavy){var cape=body.addOrReplaceChild("cape"+i,box(0,0,-3,0,0,6,10,1),PartPose.offsetAndRotation(side*3,-5,4,.12f,side*.1f,0));cape.addOrReplaceChild("tail",box(0,32,-3,0,0,6,11,1),PartPose.offsetAndRotation(0,9,0,.12f,0,side*.08f));}
                 }
             }
+            if(k==CityMob.Kind.MARSHAL)for(int i=-1;i<=1;i++)body.getChild("head").addOrReplaceChild("crown"+i,box(48,0,-.7f,-4,-.7f,1.4f,5,1.4f),PartPose.offset(i*2.6f,-4,0));
+            if(k==CityMob.Kind.SURGEON){var h=body.getChild("head");h.addOrReplaceChild("halo_top",box(48,0,-6,-1,-1,12,1,1),PartPose.offset(0,-7,2));for(int side:new int[]{-1,1})h.addOrReplaceChild("halo"+side,box(48,0,-.5f,-3,-.5f,1,7,1),PartPose.offset(side*6,-3,2));}
+            if(k==CityMob.Kind.PROWLER)for(int side:new int[]{-1,1})body.getChild("head").addOrReplaceChild("fin"+side,box(48,0,-.5f,-2,0,1,4,7),PartPose.offsetAndRotation(side*3,-1,2,.2f,side*.2f,0));
             return LayerDefinition.create(mesh,64,64);
         }
         @Override public void setupAnim(State s){super.setupAnim(s);float age=AtmosphereOptions.ANIMATIONS.get()?s.ageInTicks:0;float wind=s.charge>0?1-s.charge/(float)kind.windup:0;wind=wind*wind*(3-2*wind);float strike=Math.max(0,(s.recovery-(kind==CityMob.Kind.DRONE?62:45))/(kind==CityMob.Kind.DRONE?13f:10f));
             head.yRot=s.yRot*Mth.DEG_TO_RAD*.65f;head.xRot=s.xRot*Mth.DEG_TO_RAD*.5f;
             if(kind==CityMob.Kind.DRONE){torso.y+=Mth.sin(age*.12f)*.6f;torso.zRot=Mth.sin(age*.08f)*.06f;for(int i=0;i<4;i++)rotors[i].yRot=age*(i%2==0?.9f:-.9f);for(int i=0;i<2;i++)arms[i].xRot=-wind*.85f+Mth.sin(age*.09f+i)*.1f;head.xRot-=wind*.3f;torso.xRot+=strike*.12f;}
-            else {float gait=s.walkAnimationPos*(kind==CityMob.Kind.ENFORCER?.7f:1.2f),speed=Math.min(1,s.walkAnimationSpeed);
-                for(int i=0;i<2;i++){legs[i].xRot=Mth.cos(gait+i*Mth.PI)*speed*.7f;arms[i].xRot=Mth.cos(gait+i*Mth.PI+Mth.PI)*speed*.45f-wind*(kind==CityMob.Kind.ENFORCER?1.7f:1.1f)+strike*.9f;arms[i].zRot=(i==0?-1:1)*wind*.3f;}
+            else {float gait=s.walkAnimationPos*((kind==CityMob.Kind.ENFORCER||kind==CityMob.Kind.MARSHAL)?.7f:1.2f),speed=Math.min(1,s.walkAnimationSpeed);
+                for(int i=0;i<2;i++){legs[i].xRot=Mth.cos(gait+i*Mth.PI)*speed*.7f;arms[i].xRot=Mth.cos(gait+i*Mth.PI+Mth.PI)*speed*.45f-wind*((kind==CityMob.Kind.ENFORCER||kind==CityMob.Kind.MARSHAL)?1.7f:1.1f)+strike*.9f;arms[i].zRot=(i==0?-1:1)*wind*.3f;}
                 torso.xRot=wind*.18f+strike*.28f;torso.y+=Mth.sin(age*.075f)*.16f;head.xRot+=wind*.15f-strike*.1f;
-                if(kind==CityMob.Kind.REAVER)for(int i=0;i<2;i++){var cape=torso.getChild("cape"+i);cape.xRot+=Mth.sin(age*.09f+i)*.07f+speed*.35f+wind*.15f+strike*.35f;cape.getChild("tail").xRot+=Mth.sin(age*.13f+i)*.12f;}
+                if((kind==CityMob.Kind.REAVER||kind==CityMob.Kind.PROWLER))for(int i=0;i<2;i++){var cape=torso.getChild("cape"+i);cape.xRot+=Mth.sin(age*.09f+i)*.07f+speed*.35f+wind*.15f+strike*.35f;cape.getChild("tail").xRot+=Mth.sin(age*.13f+i)*.12f;}
             }
         }
     }

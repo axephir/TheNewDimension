@@ -69,13 +69,13 @@ public final class IndustrialEntity extends BlockEntity implements WorldlyContai
             IndustrialNetwork.distribute(this);updateLit(lit||kind==Industry.Kind.BATTERY&&energy.getAmountAsInt()>0);setChanged();return;
         }
         if((kind==Industry.Kind.QUARRY||kind==Industry.Kind.FARM||kind==Industry.Kind.RANCH||kind==Industry.Kind.PASTURE)&&w.dimension()!=Level.OVERWORLD){status=9;updateLit(false);return;}
-        if((kind==Industry.Kind.CRUSHER||kind==Industry.Kind.FURNACE)&&!foundation()){status=6;progress=0;updateLit(false);return;}
+        if((kind==Industry.Kind.CRUSHER||kind==Industry.Kind.FURNACE||kind==Industry.Kind.REPAIR)&&!foundation()){status=6;progress=0;updateLit(false);return;}
         if(kind==Industry.Kind.QUARRY){
             if(!armed){status=10;updateLit(false);return;}
             if(!derrickBuilt()){status=6;progress=0;updateLit(false);return;}
             if(drill==0&&!items.get(0).is(Industry.DRILL.get())){status=1;updateLit(false);return;}
         }
-        status=7;Job job=switch(kind){case CRUSHER->crushing();case FURNACE->smelting();case QUARRY->quarry(w);case FARM->farming(w);case RANCH->ranching(w);case PASTURE->pasture(w);default->null;};
+        status=7;Job job=switch(kind){case CRUSHER->crushing();case FURNACE->smelting();case QUARRY->quarry(w);case FARM->farming(w);case RANCH->ranching(w);case PASTURE->pasture(w);case REPAIR->repair();default->null;};
         if(job==null){progress=0;updateLit(false);return;}
         if(!fits(job.drops)){status=2;updateLit(false);return;}
         if(energy.getAmountAsInt()<job.cost){status=5;updateLit(false);return;}
@@ -89,6 +89,12 @@ public final class IndustrialEntity extends BlockEntity implements WorldlyContai
             }
         }
         updateLit(lit);setChanged();
+    }
+    private Job repair(){
+        var input=items.get(0);int restored=fr.axephir.tnd.assault.AssaultEquipment.repair(items.get(1));
+        if(!fr.axephir.tnd.assault.AssaultContent.gear(input)||!input.isDamaged()||restored==0){status=1;return null;}
+        var result=input.copyWithCount(1);result.setDamageValue(Math.max(0,result.getDamageValue()-restored));
+        return new Job(List.of(result),2000,80,()->{items.get(0).shrink(1);items.get(1).shrink(1);return true;});
     }
     private record Job(List<ItemStack> drops,int cost,int period,BooleanSupplier apply){}
     private boolean loaded(BlockPos p){return level.hasChunkAt(p);}
@@ -169,19 +175,19 @@ public final class IndustrialEntity extends BlockEntity implements WorldlyContai
             return new Job(List.of(new ItemStack(Items.MILK_BUCKET)),400,40,()->{items.get(1).shrink(1);a.getPersistentData().putLong("tnd_last_milk",w.getGameTime());return true;});
         }return null;
     }
-    private boolean fits(List<ItemStack> drops){var simulated=new ArrayList<ItemStack>();for(int i=2;i<11;i++)simulated.add(items.get(i).copy());return merge(simulated,drops);}
+    private boolean fits(List<ItemStack> drops){var simulated=new ArrayList<ItemStack>();for(int i=2;i<(kind==Industry.Kind.REPAIR?3:11);i++)simulated.add(items.get(i).copy());return merge(simulated,drops);}
     private static boolean merge(List<ItemStack> into,List<ItemStack> drops){
         for(var original:drops){var remaining=original.copy();for(var out:into)if(ItemStack.isSameItemSameComponents(out,remaining)){int moved=Math.min(remaining.getCount(),out.getMaxStackSize()-out.getCount());out.grow(moved);remaining.shrink(moved);}
             for(int i=0;i<into.size()&&!remaining.isEmpty();i++)if(into.get(i).isEmpty()){int moved=Math.min(remaining.getCount(),remaining.getMaxStackSize());into.set(i,remaining.copyWithCount(moved));remaining.shrink(moved);}if(!remaining.isEmpty())return false;
         }return true;
     }
-    private void insert(List<ItemStack> drops){var out=new ArrayList<ItemStack>();for(int i=2;i<11;i++)out.add(items.get(i).copy());if(!merge(out,drops))throw new IllegalStateException("Industrial output changed during an atomic operation");for(int i=0;i<9;i++)items.set(i+2,out.get(i));}
+    private void insert(List<ItemStack> drops){var out=new ArrayList<ItemStack>();for(int i=2;i<(kind==Industry.Kind.REPAIR?3:11);i++)out.add(items.get(i).copy());if(!merge(out,drops))throw new IllegalStateException("Industrial output changed during an atomic operation");for(int i=0;i<out.size();i++)items.set(i+2,out.get(i));}
     private void updateLit(boolean active){var s=getBlockState();if(s.getValue(IndustrialBlock.LIT)!=active&&level.getBlockEntity(worldPosition)==this)level.setBlock(worldPosition,s.setValue(IndustrialBlock.LIT,active),3);}
     @Override public boolean canPlaceItem(int slot,ItemStack s){
-        if(slot>1)return false;if(slot==1)return kind==Industry.Kind.PASTURE&&s.is(Items.BUCKET);
-        return switch(kind){case DYNAMO->coal(s);case CRUSHER->!crushed(s).isEmpty();case FURNACE->!smelted(s).isEmpty();case QUARRY->s.is(Industry.DRILL.get());case RANCH->s.is(Items.WHEAT)||s.is(Items.CARROT)||s.is(Items.POTATO)||s.is(Items.BEETROOT)||s.is(Items.WHEAT_SEEDS)||s.is(Items.BEETROOT_SEEDS)||s.is(Items.MELON_SEEDS)||s.is(Items.PUMPKIN_SEEDS);case PASTURE->s.is(Items.SHEARS);default->false;};
+        if(slot>1)return false;if(slot==1)return kind==Industry.Kind.REPAIR?fr.axephir.tnd.assault.AssaultEquipment.repair(s)>0:kind==Industry.Kind.PASTURE&&s.is(Items.BUCKET);
+        return switch(kind){case DYNAMO->coal(s);case CRUSHER->!crushed(s).isEmpty();case FURNACE->!smelted(s).isEmpty();case QUARRY->s.is(Industry.DRILL.get());case RANCH->s.is(Items.WHEAT)||s.is(Items.CARROT)||s.is(Items.POTATO)||s.is(Items.BEETROOT)||s.is(Items.WHEAT_SEEDS)||s.is(Items.BEETROOT_SEEDS)||s.is(Items.MELON_SEEDS)||s.is(Items.PUMPKIN_SEEDS);case PASTURE->s.is(Items.SHEARS);case REPAIR->fr.axephir.tnd.assault.AssaultContent.gear(s)&&s.isDamaged();default->false;};
     }
-    @Override public int[] getSlotsForFace(Direction d){return d==Direction.DOWN?new int[]{2,3,4,5,6,7,8,9,10}:new int[]{0,1};}
+    @Override public int[] getSlotsForFace(Direction d){return d==Direction.DOWN?(kind==Industry.Kind.REPAIR?new int[]{2}:new int[]{2,3,4,5,6,7,8,9,10}):new int[]{0,1};}
     @Override public boolean canPlaceItemThroughFace(int slot,ItemStack s,Direction d){return d!=Direction.DOWN&&canPlaceItem(slot,s);}
     @Override public boolean canTakeItemThroughFace(int slot,ItemStack s,Direction d){return d==Direction.DOWN&&slot>=2;}
     @Override public int getContainerSize(){return 11;}@Override public boolean isEmpty(){return items.stream().allMatch(ItemStack::isEmpty);}

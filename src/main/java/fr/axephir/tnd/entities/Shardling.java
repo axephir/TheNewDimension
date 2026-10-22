@@ -26,6 +26,7 @@ import java.util.UUID;
 public final class Shardling extends TamableAnimal {
     private static final EntityDataAccessor<Boolean> DOWNED=SynchedEntityData.defineId(Shardling.class,EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> LEVEL=SynchedEntityData.defineId(Shardling.class,EntityDataSerializers.INT),BOND=SynchedEntityData.defineId(Shardling.class,EntityDataSerializers.INT),PULSE=SynchedEntityData.defineId(Shardling.class,EntityDataSerializers.INT);
+    private int protocols;public int protocols(){return protocols;}
     private int xp,guardCooldown,pulseCooldown;private boolean released;private UUID challenger;private BlockPos safe;
     public Shardling(EntityType<? extends Shardling> type,Level level){super(type,level);xpReward=0;setPersistenceRequired();}
     @Override protected void defineSynchedData(SynchedEntityData.Builder b){super.defineSynchedData(b);b.define(DOWNED,false);b.define(LEVEL,1);b.define(BOND,0);b.define(PULSE,0);}
@@ -58,6 +59,11 @@ public final class Shardling extends TamableAnimal {
         var ledger=FamiliarLedger.get(p.level().getServer());
         if(isOwnedBy(p)&&player.isShiftKeyDown()){
             if(!ledger.pack(p,this)&&!ledger.owns(p.getUUID(),getUUID()))p.sendOverlayMessage(Component.translatable("familiar.tnd.one_only"));return InteractionResult.SUCCESS;
+        }
+        for(var memory:fr.axephir.tnd.assault.AssaultContent.MEMORIES.entrySet())if(stack.is(memory.getValue().get())){
+            int bit=1<<memory.getKey().ordinal();
+            if(isOwnedBy(p)&&available()&&(protocols&bit)==0){protocols|=bit;applyGrowth();stack.consume(1,p);ledger.snapshot(this);p.level().playSound(null,blockPosition(),ModContent.atmosphereSound("familiar_bond"),SoundSource.PLAYERS,.7f,1.25f);p.level().sendParticles(ParticleTypes.ENCHANT,getX(),getEyeY(),getZ(),30,.4,.4,.4,.03);p.sendOverlayMessage(Component.translatable("assault.tnd.protocol_installed"));}
+            else p.sendOverlayMessage(Component.translatable("assault.tnd.protocol_refused"));return InteractionResult.SUCCESS;
         }
         if(stack.is(FamiliarContent.NUTRIENT.get())){
             if(!isTame()){
@@ -98,7 +104,7 @@ public final class Shardling extends TamableAnimal {
             playSound(evolution()!=oldStage?ModContent.atmosphereSound("familiar_evolve"):SoundEvents.PLAYER_LEVELUP,.65f,evolution()!=oldStage?1.35f:1.7f);
         }if(level() instanceof ServerLevel w)FamiliarLedger.get(w.getServer()).snapshot(this);
     }
-    private void applyGrowth(){int l=familiarLevel()-1,s=evolution();getAttribute(Attributes.MAX_HEALTH).setBaseValue(24+l*2+s*8);getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(3+l*.35+s*1.5);getAttribute(Attributes.ARMOR).setBaseValue(s*3);getAttribute(Attributes.SCALE).setBaseValue(s==0?1:s==1?1.3:1.65);}
+    private void applyGrowth(){int l=familiarLevel()-1,s=evolution();getAttribute(Attributes.MAX_HEALTH).setBaseValue(24+l*2+s*8+((protocols&1)!=0?6:0));getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(3+l*.35+s*1.5);getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(.28+((protocols&2)!=0?.035:0));getAttribute(Attributes.ARMOR).setBaseValue(s*3+((protocols&4)!=0?2:0));getAttribute(Attributes.SCALE).setBaseValue(s==0?1:s==1?1.3:1.65);}
     public boolean toggleWaiting(){if(!available())return false;setOrderedToSit(!isOrderedToSit());setInSittingPose(isOrderedToSit());navigation.stop();setTarget(null);if(level() instanceof ServerLevel w)FamiliarLedger.get(w.getServer()).snapshot(this);return true;}
     @Override public void tick(){super.tick();
         if(!(level() instanceof ServerLevel w))return;
@@ -131,8 +137,8 @@ public final class Shardling extends TamableAnimal {
         for(var at:BlockPos.betweenClosed(blockPosition().offset(-6,-4,-6),blockPosition().offset(6,4,6))){if(!w.hasChunk(at.getX()>>4,at.getZ()>>4)||!w.getBlockState(at).is(ModContent.RESONANT_ORE.get()))continue;double n=at.distSqr(blockPosition());if(n<d){best=at.immutable();d=n;}}
         if(best==null)return;getLookControl().setLookAt(best.getX()+.5,best.getY()+.5,best.getZ()+.5);for(int i=1;i<=8;i++){double t=i/8.;w.sendParticles(owner,ParticleTypes.ENCHANT,false,false,getX()+(best.getX()+.5-getX())*t,getEyeY()+(best.getY()+.5-getEyeY())*t,getZ()+(best.getZ()+.5-getZ())*t,1,.04,.04,.04,0);}
     }
-    @Override protected void addAdditionalSaveData(ValueOutput o){super.addAdditionalSaveData(o);o.putInt("FamiliarLevel",familiarLevel());o.putInt("FamiliarXp",xp);o.putBoolean("Injured",downed());o.putBoolean("Incubated",released);o.putInt("GuardCooldown",guardCooldown);o.putInt("PulseCooldown",pulseCooldown);if(challenger!=null)o.putString("Challenger",challenger.toString());if(safe!=null){o.putInt("SafeX",safe.getX());o.putInt("SafeY",safe.getY());o.putInt("SafeZ",safe.getZ());}}
-    @Override protected void readAdditionalSaveData(ValueInput i){super.readAdditionalSaveData(i);entityData.set(LEVEL,Math.clamp(i.getIntOr("FamiliarLevel",1),1,30));xp=Math.clamp(i.getIntOr("FamiliarXp",0),0,Math.max(0,requiredXp(familiarLevel())-1));entityData.set(DOWNED,i.getBooleanOr("Injured",false));released=i.getBooleanOr("Incubated",isTame());guardCooldown=Math.clamp(i.getIntOr("GuardCooldown",0),0,600);pulseCooldown=Math.clamp(i.getIntOr("PulseCooldown",0),0,160);try{challenger=UUID.fromString(i.getStringOr("Challenger",""));}catch(IllegalArgumentException ignored){challenger=null;}safe=new BlockPos(i.getIntOr("SafeX",getBlockX()),i.getIntOr("SafeY",getBlockY()),i.getIntOr("SafeZ",getBlockZ()));applyGrowth();setHealth(Math.clamp(i.getFloatOr("Health",getHealth()),1,getMaxHealth()));if(downed()){setNoAi(true);setHealth(1);setOrderedToSit(true);setInSittingPose(true);}entityData.set(BOND,0);entityData.set(PULSE,0);}
+    @Override protected void addAdditionalSaveData(ValueOutput o){super.addAdditionalSaveData(o);o.putInt("AssaultProtocols",protocols);o.putInt("FamiliarLevel",familiarLevel());o.putInt("FamiliarXp",xp);o.putBoolean("Injured",downed());o.putBoolean("Incubated",released);o.putInt("GuardCooldown",guardCooldown);o.putInt("PulseCooldown",pulseCooldown);if(challenger!=null)o.putString("Challenger",challenger.toString());if(safe!=null){o.putInt("SafeX",safe.getX());o.putInt("SafeY",safe.getY());o.putInt("SafeZ",safe.getZ());}}
+    @Override protected void readAdditionalSaveData(ValueInput i){super.readAdditionalSaveData(i);protocols=i.getIntOr("AssaultProtocols",0)&7;entityData.set(LEVEL,Math.clamp(i.getIntOr("FamiliarLevel",1),1,30));xp=Math.clamp(i.getIntOr("FamiliarXp",0),0,Math.max(0,requiredXp(familiarLevel())-1));entityData.set(DOWNED,i.getBooleanOr("Injured",false));released=i.getBooleanOr("Incubated",isTame());guardCooldown=Math.clamp(i.getIntOr("GuardCooldown",0),0,600);pulseCooldown=Math.clamp(i.getIntOr("PulseCooldown",0),0,160);try{challenger=UUID.fromString(i.getStringOr("Challenger",""));}catch(IllegalArgumentException ignored){challenger=null;}safe=new BlockPos(i.getIntOr("SafeX",getBlockX()),i.getIntOr("SafeY",getBlockY()),i.getIntOr("SafeZ",getBlockZ()));applyGrowth();setHealth(Math.clamp(i.getFloatOr("Health",getHealth()),1,getMaxHealth()));if(downed()){setNoAi(true);setHealth(1);setOrderedToSit(true);setInSittingPose(true);}entityData.set(BOND,0);entityData.set(PULSE,0);}
     @Override protected SoundEvent getHurtSound(DamageSource s){return SoundEvents.AMETHYST_BLOCK_HIT;}
     @Override protected SoundEvent getDeathSound(){return SoundEvents.AMETHYST_BLOCK_BREAK;}
 }

@@ -48,7 +48,7 @@ public final class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> 
             text(g,Component.translatable("familiar.tnd.evolution_header",level),12,40,0xffd9ecee);text(g,Component.translatable("familiar.tnd.evolution_path"),12,55,0xffb2c3ce);
             int[] unlocks={3,8,12,20};for(int i=0;i<4;i++){int yy=76+i*27,lv=unlocks[i];boolean active=level>=lv;g.fill(x+10,y+yy-2,x+320,y+yy+23,active?0xff203d40:0xff1a2b35);text(g,Component.translatable("familiar.tnd.skill."+lv),16,yy,active?0xffa8ebcd:0xffacb5bf);text(g,Component.translatable("familiar.tnd.skill_desc."+lv),16,yy+12,0xffb8c6cf);}
         }else{ text(g,Component.translatable("familiar.tnd.care"),12,41,0xffa8e3e5);lines(g,"familiar.tnd.guide.1",12,61,302);g.item(FamiliarContent.NUTRIENT.get().getDefaultInstance(),x+13,y+159);lines(g,"familiar.tnd.food_recipe",37,159,278);}
-        text(g,Component.translatable("familiar.tnd.footer"),12,219,0xff8ca5b2);
+        text(g,Component.translatable("assault.tnd.protocols",menu.value(18)),12,219,0xff8ca5b2);
     }
     @Override public boolean keyPressed(net.minecraft.client.input.KeyEvent event){
         if(event.isEscape()){onClose();return true;}

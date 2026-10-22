@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=true": {
+      "model": "tnd:block/assault_lamp"
+    },
+    "lit=false": {
+      "model": "tnd:block/assault_lamp_off"
+    }
+  }
+}

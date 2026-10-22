@@ -132,7 +132,7 @@ final class CityTests {
             var type=CityMobs.TYPES.get(CityMob.Kind.ENFORCER).get();
             for(long t:new long[]{2000,30000}){w.getServer().clockManager().setTotalTicks(clock,t);check(h,CityMobs.spawn(type,w,EntitySpawnReason.NATURAL,at,w.getRandom()),"City patrols can spawn by neon in daylight and at night");}
             check(h,!CityMobs.spawn(type,h.getLevel(),EntitySpawnReason.NATURAL,h.absolutePos(new BlockPos(8,2,8)),w.getRandom()),"City patrols cannot naturally invade the Overworld");
-            for(var kind:CityMob.Kind.values())for(int i=0;i<2;i++){var m=CityMobs.TYPES.get(kind).get().create(w,EntitySpawnReason.EVENT);m.setNoAi(true);m.setPos(Vec3.atBottomCenterOf(at.offset(i*2,0,kind.ordinal()*2)));w.addFreshEntity(m);made.add(m);}
+            for(var kind:List.of(CityMob.Kind.ENFORCER,CityMob.Kind.DRONE,CityMob.Kind.REAVER))for(int i=0;i<2;i++){var m=CityMobs.TYPES.get(kind).get().create(w,EntitySpawnReason.EVENT);m.setNoAi(true);m.setPos(Vec3.atBottomCenterOf(at.offset(i*2,0,kind.ordinal()*2)));w.addFreshEntity(m);made.add(m);}
             check(h,!CityMobs.spawn(type,w,EntitySpawnReason.NATURAL,at,w.getRandom()),"Six nearby security mobs enforce the local population cap");
             for(int i=0;i<made.size();i++)made.get(i).hurtServer(w,i%2==0?p.damageSources().playerAttack(p):w.damageSources().genericKill(),1000);
             int processors=0,filaments=0;for(var item:w.getEntitiesOfClass(ItemEntity.class,new AABB(at).inflate(12))){if(item.getItem().is(CityContent.PROCESSOR.get()))processors+=item.getItem().getCount();if(item.getItem().is(CityContent.FILAMENT.get()))filaments+=item.getItem().getCount();}

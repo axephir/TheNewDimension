@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ACA",
+    "INI",
+    "FCF"
+  ],
+  "key": {
+    "A": "tnd:umbra_alloy",
+    "C": "tnd:control_circuit",
+    "I": "tnd:inertial_matrix",
+    "N": "minecraft:netherite_ingot",
+    "F": "tnd:industrial_frame"
+  },
+  "result": {
+    "id": "tnd:crystal_restorer"
+  }
+}
