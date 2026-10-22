@@ -1,0 +1,40 @@
+THE NEW DIMENSION — 0.13.0-dev — Les traces muettes
+2026-10-22 · Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : fa4928e07f46662550803fdfd54dae6b9ce0db40
+CI : https://github.com/axephir/TheNewDimension/actions/runs/39802785855
+Résultat : succès sur ce commit exact.
+
+VALIDATIONS
+- Compilation du JAR final : réussie.
+- Noyau : 51 083 assertions réussies.
+- GameTests : 144 scénarios requis réussis, dont recettes natives, inventaires,
+  récoltes, replantation, coûts, recharge, plusieurs joueurs serveur,
+  titres persistants, récompenses uniques et récupération narrative.
+- Ressources : 21 vérifications réussies (JSON/NBT, modèles, traductions, PNG).
+- Audio : 58 OGG décodés sans erreur par ffmpeg.
+- Client réel : menus, icônes, spécialisations, distinctions, guide et noyau
+  examinés dans Minecraft ; chevauchement de messages corrigé et revérifié.
+- Parcours final sur 25 × 25 chunks : caméra, examen du sol, choix et retour
+  réalisés ; phase finale 6 et trace de matériau vérifiées dans la sauvegarde.
+- Ouverture native en observation : test de régression utilisant le véritable
+  MenuProvider du bloc, avec vérification de la trace de noyau sauvegardée.
+- Neuf captures F2 de 854 × 480, sans retouche ; images finales repliées dans la galerie.
+
+LIMITES DES PREUVES
+Les captures utilisent une progression préréglée dans un monde de démonstration,
+avec contrôles visuels en Survie/Pacifique. Les tests de plusieurs joueurs utilisent
+les connexions intégrées de véritables ServerPlayer ; aucune longue campagne humaine
+ni session de plusieurs clients distants n'est revendiquée. Le client cloud utilise
+une sortie audio virtuelle ; le contrôle des OGG ne remplace pas une écoute humaine.
+
+INSTALLATION
+Même JAR côté client et serveur. Retirer l'ancienne version de TND du dossier mods.
+Les niveaux, identités de talents historiques, blocs et machines sont conservés.
+Les configurations existantes gardent leur rayon de projection ; consulter le guide
+pour passer de 8 à 12 chunks. Les journaux de récupération ne sont jamais supprimés.
+
+FICHIERS
+tnd-0.13.0-dev.jar : 4917088 octets
+SHA-256 : e23cfb51cb2330d7783fbc077ca41413c9fd81dfbe15d24a5035a855821f2750
+TheNewDimension-0.13.0-dev.zip : 9399358 octets
+SHA-256 : a24ff39128234d5d4473f5f0ae2c4a170bedd391bf05ecf117c10e27fe723f08

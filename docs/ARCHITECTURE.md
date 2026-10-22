@@ -48,7 +48,7 @@ Une ancre entretient neuf chunks contre un coût de 16 FE/t, sous réserve d’�
 
 `Convergence` gère préparation, entrée, caméra, exploration, signal, retour et conclusion. Le choix multijoueur est personnel : aucun retour ne rembobine les actions d’un autre joueur.
 
-`EchoCopyTask` refuse toute destination autre que `tnd:aftermath`. Il lit les blocs sources, construit un chunk de projection par mise à jour, crée uniquement des conteneurs visuels vides et remplace les machines par des débris inertes. Les heightmaps et la lumière sont recalculées avant l’entrée. La zone fait 17 × 17 chunks par défaut ; la réservation durable empêche sa réutilisation après perte de l’index. Les effets d’explosion de la caméra sont des particules et des sons émis dans cette seule dimension.
+`EchoCopyTask` refuse toute destination autre que `tnd:aftermath`. Il lit les blocs sources, construit un chunk de projection par mise à jour, crée uniquement des conteneurs visuels vides et remplace les machines par des débris inertes. Les heightmaps et la lumière sont recalculées avant l’entrée. La zone fait 25 × 25 chunks par défaut dans les nouvelles configurations ; la réservation durable empêche sa réutilisation après perte de l’index. Les effets d’explosion de la caméra sont des particules et des sons émis dans cette seule dimension.
 
 `EchoReference` capture toutes les cases d’inventaire, armure et seconde main comprises, le coffre de l’Ender, XP, nourriture, santé et effets. La capture est refaite et vérifiée au passage effectif vers la projection, pour ne pas rétablir un inventaire périmé après la préparation. La projection impose l’observation native ; un message distinct permet seulement les choix scénaristiques vérifiés.
 
@@ -62,4 +62,15 @@ Le client conserve au plus une texture GPU de la trame précédente pour une ré
 
 `build` exécute le noyau indépendant. `runGameTestServer` vérifie les systèmes dans `run-gametest/`, séparé des parties client et serveur habituelles. Les registres de datapack sont décodés par Minecraft. Les fixtures de dimensions des tests utilisent les types natifs ; la génération complète et l’affichage se vérifient également dans le client.
 
-Les tests de corruption et d’écriture ne démontrent pas l’absence de toute panne matérielle. L’isolation des données sources reste la protection principale, conformément au §14.6 du cahier. Les vérifications et comportements de la version sont détaillés dans [SYMBIOSIS_0.12.0.md](SYMBIOSIS_0.12.0.md) et [CAHIER_COUVERTURE_0.12.md](CAHIER_COUVERTURE_0.12.md).
+Les tests de corruption et d’écriture ne démontrent pas l’absence de toute panne matérielle. L’isolation des données sources reste la protection principale, conformément au §14.6 du cahier. Les vérifications et comportements de la version sont détaillés dans [TRACES_0.13.0.md](TRACES_0.13.0.md) et [CAHIER_COUVERTURE_0.13.md](CAHIER_COUVERTURE_0.13.md).
+
+
+## Spécialisations et distinctions (0.13)
+
+Les cinq identités historiques de `Talent` sont conservées. Trente identités spécialisées ajoutent un propriétaire de maîtrise, un niveau minimum et une dépendance. `MasteryProgress` contrôle rangs, points et niveaux ; `Profile` refuse un talent appartenant à une autre maîtrise. Le protocole ne transmet qu’un index, jamais un montant d’XP ou un rang arbitraire.
+
+`MasteryAbilities` contrôle contexte, inventaire, mode de jeu et recharge serveur commune. La replantation est différée au tick suivant : l’événement de butin intervient avant que vanilla retire le bloc récolté. La file est bornée à 256 opérations et revérifie sol, air, joueur, dimension et protection urbaine avant de prendre une graine. Les effets ne produisent aucune XP. Le titre et le masque de récompenses `Prestige` sont persistants ; leur sélection est validée avant toute remise de sceau.
+
+Les anomalies choisissent une origine dans les seuls chunks déjà chargés. La réaction réelle d’une porte exige le marqueur d’un quartier nouvellement généré et sa protection urbaine, ne touche pas une porte alimentée et ne fait qu’ouvrir. Les autres phénomènes restent des perceptions locales.
+
+L’examen des ruines n’accepte aucune coordonnée client. Il utilise le rayon du joueur à six blocs, sa session personnelle et une recharge de trente ticks. Les quatre traces sont synchronisées vers leur propriétaire. Aucun bloc, inventaire ou niveau du monde source n’est modifié par ces interactions.
