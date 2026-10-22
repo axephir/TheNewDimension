@@ -2,9 +2,9 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.12.0-dev — Symbiose et quatrième axe.**
+**Version : 0.13.0-dev — Les traces muettes.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.12.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.12.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.12.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.12.0.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.13.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.13.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.13.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.13.0.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
@@ -16,11 +16,13 @@ Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Instal
 
 **Les usines continuent pendant les expéditions** grâce à une ancre alimentée : neuf chunks contre 16 FE/t, assemblage physique, propriétaire connecté et limites de charge. L’industrie électrique, les fermes, les carrières et l’élevage des versions précédentes restent inclus.
 
-**La progression narrative possède une conclusion jouable** : restaurateur à reconstruire, réacteur de convergence, ruines personnelles explorables, effets de rémanence configurables, refus ou acceptation du retour, puis perception du quatrième axe. La scène écrit dans une dimension isolée. La base réelle reste intacte. Des journaux vérifiés et `/tnd recover` assurent des voies de récupération distinctes de l’interface.
+**Trente talents propres aux quinze maîtrises**, avec capacités actives, consommation réelle des ingrédients et recharge commune. L’interface sépare fondations, spécialisations et distinctions. Les niveaux 100, 250, 500 et 1 000 débloquent des titres et quatre sceaux décoratifs lumineux.
 
-Le portail adopte une surface plus claire, des contours lumineux fins et de petites particules. Le moniteur et son ouverture permanente sont conservés. Les archives expliquent progressivement le départ des habitants et les anomalies perceptives, espacées de dizaines de minutes.
+**Le lore laisse davantage de place à la découverte** : noyau énigmatique, relevés incomplets, indices environnementaux et réponses rares des installations. Les consignes utiles restent accessibles dans des onglets pratiques. Le guide affiche désormais l’intégralité des fiches longues.
 
-[Guide complet de la 0.12](docs/SYMBIOSIS_0.12.0.md) · [Couverture du cahier des charges](docs/CAHIER_COUVERTURE_0.12.md)
+Une conclusion personnelle prolonge les huit archives. Son déroulement se découvre en jeu. La base réelle reste intacte ; les protections et voies de récupération sont documentées dans la partie dépliable du guide.
+
+[Guide de la 0.13](docs/TRACES_0.13.0.md) · [Couverture du cahier des charges](docs/CAHIER_COUVERTURE_0.13.md)
 
 ## Commencer une partie
 
@@ -43,7 +45,7 @@ Les nouvelles métropoles, laboratoires, massifs et minerais apparaissent dans l
 | Industrie | Extracteur, forge, séparateur, récolteur nocturne, dynamo, solaire, accumulateur, broyeur, four, carrière, cultivateur, éleveur, station pastorale et ancre |
 | Créatures | Sentinelle, Lithogarde, Traqueur de verre, Conservateur, sécurité de Nacre, drones, Faucheurs et familier évolutif ; attaques annoncées, recharges et butins |
 | Interface | Boutons à gauche de l’inventaire, maîtrises, objectifs, guide, archives, dossier du familier et interfaces des installations |
-| Conclusion | Restaurateur, réacteur, projection isolée, récupération, lentille liée et volumes cachés |
+| Conclusion | Noyau énigmatique, réacteur, exploration personnelle, traces et récupération |
 
 Les textures des blocs et objets restent en **16 × 16**. Les créatures et armures utilisent des atlas **64 × 64**, des modèles articulés et des animations dédiées. L’automatisation ne donne pas l’XP des actions manuelles. Les sorties, carburants, ressources et récompenses restent bornés.
 
@@ -68,7 +70,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **131 GameTests natifs**, **51 035 assertions du noyau**, les ressources JSON/NBT et le décodage des 58 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **144 GameTests natifs**, **51 083 assertions du noyau**, les ressources JSON/NBT et le décodage des 58 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 

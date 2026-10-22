@@ -68,6 +68,7 @@ public final class ProgressionEvents {
         Mastery mastery = event.getState().is(BlockTags.LOGS) ? Mastery.LOGGING
                 : isOre(event.getState()) ? Mastery.MINING : matureCrop(event.getState()) ? Mastery.FARMING : null;
         if (mastery == null) return;
+        MasteryAbilities.replant(player,event.getPos(),event.getState());
         Profile profile = player.getData(PlayerProgression.PROFILE);
         ProgressionService.award(player,mastery,mastery==Mastery.MINING?20:8);
         if(event.getState().is(ModContent.RESONANT_ORE.get()))ProgressionService.award(player,Mastery.ANCIENT_TECH,6);

@@ -45,6 +45,23 @@ class Nbt:
 
 
 class Resources(unittest.TestCase):
+    def test_discovery_specializations_and_mystery(self):
+        from discovery_resources import BRANCHES
+        self.assertEqual(len(BRANCHES),30)
+        for locale in ['fr_fr','en_us']:
+            language=json.loads((ASSETS/f'lang/{locale}.json').read_text())
+            for branch,*_ in BRANCHES:
+                self.assertGreater(len(language['talent.tnd.'+branch]),3)
+                self.assertGreater(len(language['talent.tnd.'+branch+'.description']),10)
+            for key in ['story.tnd.restorer_intro','story.tnd.reactor_intro','story.tnd.preparing']:
+                self.assertNotIn('quatrième axe',language[key].lower())
+                self.assertNotIn('fourth axis',language[key].lower())
+            for i in range(4):self.assertIn(f'block.tnd.prestige_seal_{i}',language)
+        for i in range(4):
+            self.assertTrue((ASSETS/f'items/prestige_seal_{i}.json').exists())
+            self.assertTrue((DATA/f'loot_table/blocks/prestige_seal_{i}.json').exists())
+            self.assertFalse((DATA/f'recipe/prestige_seal_{i}.json').exists())
+
     def test_crowned_sites_and_character_resolution(self):
         for name in generator.SIZES:
             site=json.loads((DATA/f'worldgen/structure/{name}.json').read_text())
@@ -394,7 +411,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS)|set(generator.metropolis_resources.TESTS)|set(generator.convergence_resources.TESTS))
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS)|set(generator.metropolis_resources.TESTS)|set(generator.convergence_resources.TESTS)|set(generator.discovery_resources.TESTS))
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

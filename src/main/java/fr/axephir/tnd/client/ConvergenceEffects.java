@@ -19,7 +19,7 @@ import net.neoforged.neoforge.client.event.*;
 /** One previous GPU frame, softly blended. Never reads pixels back, changes world data or affects another player's perception. */
 public final class ConvergenceEffects {
     private static final Identifier MEMORY=Identifier.fromNamespaceAndPath("tnd","frame_memory");
-    private static FrameMemory frame;private static Object world;private static int sequence,rareTicks,phaseTicks,lastPhase=-1,worldTicks;private static boolean valid,failed,skipped;
+    private static FrameMemory frame;private static Object world;private static int sequence,rareTicks,phaseTicks,lastPhase=-1,worldTicks;private static boolean valid,failed,skipped,using;
     private static final RandomSource RANDOM=RandomSource.create();
     private static final class FrameMemory extends AbstractTexture {
         final int width,height;
@@ -28,13 +28,19 @@ public final class ConvergenceEffects {
     public static void register(RegisterGuiLayersEvent e){e.registerAboveAll(Identifier.fromNamespaceAndPath("tnd","convergence"),ConvergenceEffects::hud);}
     public static void tick(ClientTickEvent.Post e){var mc=Minecraft.getInstance();if(mc.level!=world){world=mc.level;sequence=mc.player==null?0:mc.player.getData(RareAnomalies.SEQUENCE);rareTicks=0;worldTicks=0;valid=false;lastPhase=-1;skipped=false;}
         if(mc.player==null||mc.level==null||mc.isPaused())return;
+        boolean use=mc.options.keyUse.isDown();
+        if(use&&!using&&mc.gui.screen()==null&&Convergence.inEcho(mc.player))mc.player.connection.send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new ConvergenceNetworking.Choice(-1,5)));
+        using=use;
         int phase=mc.player.getData(Convergence.PHASE);if(phase!=lastPhase){lastPhase=phase;phaseTicks=0;skipped=false;}else phaseTicks++;
         if(phase==2&&!AtmosphereOptions.ANIMATIONS.get()&&!skipped){skipped=true;mc.player.connection.send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new ConvergenceNetworking.Choice(-1,3)));}
         if(Convergence.inEcho(mc.player))mc.getMusicManager().stopPlaying();
         int next=mc.player.getData(RareAnomalies.SEQUENCE);if(worldTicks++<40)sequence=next;if(next!=sequence){sequence=next;if(AtmosphereOptions.RARE_EFFECTS.get()&&AtmosphereOptions.ANIMATIONS.get()){
-            rareTicks=32;var at=mc.player.position().subtract(mc.player.getLookAngle().scale(9));
-            if(AtmosphereOptions.ENABLED.get())mc.getSoundManager().play(new SimpleSoundInstance(ModContent.atmosphereSound("reverse_breath"),SoundSource.AMBIENT,.28f*AtmosphereOptions.VOLUME.get().floatValue(),.8f,RANDOM,at.x,at.y+1,at.z));
-            for(int n=0;n<18;n++){double y=(n/3)*.29;mc.level.addParticle(ParticleTypes.WHITE_ASH,at.x+(n%3-1)*.17,at.y+y,at.z,0,.006,0);}
+            rareTicks=32;int variant=mc.player.getData(RareAnomalies.VARIANT);var at=net.minecraft.world.phys.Vec3.atCenterOf(mc.player.getData(RareAnomalies.ORIGIN));
+            String sound=switch(variant){case 1->"stone_shift";case 2->"metal_echo";case 3->"distant_pulse";default->"reverse_breath";};
+            if(AtmosphereOptions.ENABLED.get())mc.getSoundManager().play(new SimpleSoundInstance(ModContent.atmosphereSound(sound),SoundSource.AMBIENT,.28f*AtmosphereOptions.VOLUME.get().floatValue(),variant==2?.65f:.8f,RANDOM,at.x,at.y,at.z));
+            if(variant==0)for(int n=0;n<18;n++){double y=(n/3)*.29;mc.level.addParticle(ParticleTypes.WHITE_ASH,at.x+(n%3-1)*.17,at.y+y,at.z,0,.006,0);}
+            if(variant==1)for(int n=0;n<12;n++)mc.level.addParticle(ParticleTypes.ASH,at.x+(n-6)*.3,at.y-1.1,at.z,0,.015,0);
+            if(variant>=2)for(int n=0;n<16;n++){double angle=n*Math.PI/8;mc.level.addParticle(ParticleTypes.END_ROD,at.x+Math.cos(angle)*.6,at.y+Math.sin(angle)*.6,at.z,0,0,0);}
         }}if(rareTicks>0)rareTicks--;
     }
     private static boolean active(Minecraft mc){return !failed&&mc.player!=null&&mc.level!=null&&mc.gui.screen()==null&&AtmosphereOptions.ANIMATIONS.get()&&AtmosphereOptions.AFTERIMAGES.get()&&(Convergence.inEcho(mc.player)||rareTicks>0);}
@@ -50,6 +56,10 @@ public final class ConvergenceEffects {
             if(alpha>0)g.blit(RenderPipelines.GUI_TEXTURED,MEMORY,0,0,0,frame.height,w,h,frame.width,-frame.height,frame.width,frame.height,(alpha<<24)|0xffffff);
         }
         if(!echo)return;
+        if((phase==3||phase==4)&&mc.hitResult instanceof net.minecraft.world.phys.BlockHitResult hit&&hit.getType()==net.minecraft.world.phys.HitResult.Type.BLOCK&&hit.getLocation().distanceToSqr(mc.player.getEyePosition())<=36){
+            center(g,mc,Component.translatable("echo.tnd.examine"),h-65,0xffb2cec9);
+            center(g,mc,Component.translatable("echo.tnd.count",Integer.bitCount(mc.player.getData(Convergence.TRACES))),h-77,0xff819f9e);
+        }
         if(phase==2){g.fill(0,0,w,17,0xc9000000);g.fill(0,h-39,w,h,0xc9000000);center(g,mc,Component.translatable("story.tnd.cinema"),h-30,0xffd0dddd);center(g,mc,Component.translatable("story.tnd.skip"),h-17,0xff8ea8b1);}
         if(phase==4){var at=mc.player.getData(Convergence.SIGNAL);int distance=(int)mc.player.position().distanceTo(net.minecraft.world.phys.Vec3.atCenterOf(at));center(g,mc,Component.translatable("story.tnd.guidance",distance,at.getX(),at.getZ()),h-50,0xffb9e4df);}
         if(phase==5){int a=Math.min(240,phaseTicks*9);g.fill(0,0,w,h,(a<<24)|0x102733);center(g,mc,Component.translatable("story.tnd.restoring"),h/2,0xffd0eeee);}

@@ -47,7 +47,7 @@ public final class ExtractorBlockEntity extends BlockEntity implements Container
         var engineering = profile.get(Mastery.ENGINEERING);
         int old=calibration;
         calibration = Math.max(calibration,engineering.rank(Talent.EFFICIENCY)*5+engineering.rank(Talent.YIELD)*3
-                +engineering.rank(Talent.PRECISION)+(int)(Experience.prestigeBonus(engineering.level())*100));
+                +engineering.rank(Talent.PRECISION)+engineering.rank(Talent.ENGINEERING_TUNER)*10+(int)(Experience.prestigeBonus(engineering.level())*100));
         synergy = Math.max(synergy,Math.min(profile.get(Mastery.ENGINEERING).rank(Talent.SYNERGY),profile.get(Mastery.MINING).rank(Talent.SYNERGY)));
         if(calibration>old&&player instanceof net.minecraft.server.level.ServerPlayer server
                 &&fr.axephir.tnd.progression.ProgressionService.claim(server,"machine_tuning",24000,8))
@@ -130,7 +130,7 @@ public final class ExtractorBlockEntity extends BlockEntity implements Container
     @Override protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         lastTick = input.getLongOr("lastTick", -1); progress = Math.max(0, input.getLongOr("progress", 0));
-        calibration = Math.clamp(input.getIntOr("calibration", 0), 0, 50);
+        calibration = Math.clamp(input.getIntOr("calibration", 0), 0, 60);
         synergy = Math.clamp(input.getIntOr("synergy", 0), 0, 5);
         mode=ExtractionMode.values()[Math.clamp(input.getIntOr("mode",0),0,ExtractionMode.values().length-1)];
         relicCalibration=Math.clamp(input.getIntOr("relicCalibration",0),0,25);

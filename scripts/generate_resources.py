@@ -32,6 +32,7 @@ import industry_resources
 import city_resources
 import metropolis_resources
 import convergence_resources
+import discovery_resources
 SHAPES.update(awakening_resources.SHAPES)
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
@@ -483,6 +484,7 @@ def languages():
     city_resources.languages(fr,en)
     metropolis_resources.languages(fr,en)
     convergence_resources.languages(fr,en)
+    discovery_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 
@@ -496,7 +498,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--audio', action='store_true')
     options = parser.parse_args()
-    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); languages()
+    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); discovery_resources.content(write,png,ASSETS,DATA); languages()
     if options.audio:
         audio()
         import awakening_audio

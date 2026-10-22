@@ -89,7 +89,7 @@ public final class ExpandedMasteries {
         var contents=e.getItem().get(DataComponents.POTION_CONTENTS);
         if(contents==null)return;
         if(ProgressionService.claim(p,"potion/"+contents.hashCode(),24000,12))ProgressionService.award(p,Mastery.ALCHEMY,8);
-        int rank=rank(p,Mastery.ALCHEMY,Talent.EFFICIENCY);
+        int rank=rank(p,Mastery.ALCHEMY,Talent.EFFICIENCY)+(MasteryAbilities.has(p,Talent.ALCHEMY_DISTILLER)?4:0);
         if(rank==0)return;
         for(var effect:contents.getAllEffects()) {
             var current=p.getEffect(effect.getEffect());

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:discovery_forestry",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 800,
+  "required": true
+}

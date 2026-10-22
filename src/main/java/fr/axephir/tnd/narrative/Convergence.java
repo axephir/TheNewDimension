@@ -51,7 +51,22 @@ public final class Convergence {
         long since;ArmorStand camera;int phase=1;boolean hinted,cameraTickets;
         Session(CompoundTag ref,EchoReference.State state,EchoJournal journal,EchoCopyTask copy,BlockPos reactor,long now){reference=ref.copy();this.state=state;this.journal=journal;this.copy=copy;this.reactor=reactor.immutable();since=now;}
     }
+    public static final DeferredHolder<AttachmentType<?>,AttachmentType<Integer>> TRACES=PlayerProgression.TYPES.register("echo_traces",()->AttachmentType.builder(()->0).serialize(Codec.intRange(0,15).fieldOf("heard")).copyOnDeath().sync((h,p)->h==p,ByteBufCodecs.VAR_INT).build());
+    private static final Map<UUID,Long> INSPECTION_NEXT=new HashMap<>();
     public static void bootstrap(){}
+    /** The client supplies no position. Only the owner's ray into their completed personal projection is accepted. */
+    public static boolean inspect(ServerPlayer p){
+        var s=session(p);if(s==null||!inEcho(p)||(s.phase!=3&&s.phase!=4)||p.containerMenu!=p.inventoryMenu)return false;
+        long now=p.level().getServer().overworld().getGameTime();if(now<INSPECTION_NEXT.getOrDefault(p.getUUID(),0L))return false;
+        var hit=p.pick(6,1,false);if(!(hit instanceof net.minecraft.world.phys.BlockHitResult block)||hit.getType()!=net.minecraft.world.phys.HitResult.Type.BLOCK)return false;
+        var at=block.getBlockPos();var center=s.copy.mapped(s.state.machine());int limit=s.copy.radius()*16+15;
+        if(Math.abs(at.getX()-center.getX())>limit||Math.abs(at.getZ()-center.getZ())>limit||!p.level().hasChunkAt(at))return false;
+        var state=p.level().getBlockState(at);int type=at.equals(center)?3:state.getBlock() instanceof net.minecraft.world.level.block.EntityBlock?1:net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock()).getNamespace().equals("tnd")?0:2;
+        INSPECTION_NEXT.put(p.getUUID(),now+30);p.setData(TRACES,p.getData(TRACES)|(1<<type));
+        p.sendOverlayMessage(Component.translatable("echo.tnd.trace."+type));fr.axephir.tnd.expedition.ExpeditionService.sound(p,ModContent.atmosphereSound(type==3?"spatial_chime":"hollow_resonance"),SoundSource.AMBIENT,.3f,.65f+type*.12f);
+        p.level().sendParticles(p,net.minecraft.core.particles.ParticleTypes.ENCHANT,false,false,at.getX()+.5,at.getY()+.5,at.getZ()+.5,12,.35,.35,.35,0);
+        if(type==3)ConvergenceMenu.open(p,center,false);return true;
+    }
     public static boolean inEcho(net.minecraft.world.entity.Entity p){return p.level().dimension().equals(ECHO);}
     private static Map<UUID,Session> sessions(MinecraftServer server){return SESSIONS.computeIfAbsent(server,s->new HashMap<>());}
     private static Session session(ServerPlayer p){return sessions(p.level().getServer()).get(p.getUUID());}
@@ -161,7 +176,7 @@ public final class Convergence {
     @SubscribeEvent public void login(PlayerEvent.PlayerLoggedInEvent e){if(e.getEntity() instanceof ServerPlayer p&&(inEcho(p)||!p.getData(RETURN).isEmpty()))recover(p);}
     @SubscribeEvent public void respawn(PlayerEvent.PlayerRespawnEvent e){if(e.getEntity() instanceof ServerPlayer p&&!p.getData(RETURN).isEmpty()&&p.getData(PHASE)>=2&&p.getData(PHASE)<=5)recover(p);}
     @SubscribeEvent public void logout(PlayerEvent.PlayerLoggedOutEvent e){if(e.getEntity() instanceof ServerPlayer p){var s=session(p);if(s!=null&&s.phase==1)cancel(p);else if(s!=null){cameraTickets(p,s,false);if(s.camera!=null){p.setCamera(p);s.camera.discard();}sessions(p.level().getServer()).remove(p.getUUID());}}}
-    @SubscribeEvent public void stop(ServerStoppedEvent e){SESSIONS.remove(e.getServer());RETURNING.clear();}
+    @SubscribeEvent public void stop(ServerStoppedEvent e){SESSIONS.remove(e.getServer());RETURNING.clear();INSPECTION_NEXT.clear();}
     @SubscribeEvent(priority=EventPriority.HIGHEST) public void damage(LivingIncomingDamageEvent e){if(e.getEntity() instanceof ServerPlayer p&&inEcho(p))e.setCanceled(true);}
     @SubscribeEvent(priority=EventPriority.HIGHEST) public void travel(EntityTravelToDimensionEvent e){if(e.getEntity() instanceof ServerPlayer p&&inEcho(p)&&!e.getDimension().equals(p.level().dimension())&&!RETURNING.contains(p.getUUID())){e.setCanceled(true);p.sendOverlayMessage(Component.translatable("story.tnd.folded_exit"));}}
     private static String encode(EchoReference.State s){return s.session()+";"+s.source().identifier()+";"+s.position().x+";"+s.position().y+";"+s.position().z+";"+s.yaw()+";"+s.pitch()+";"+s.mode().getId()+";"+s.slot()+";"+s.machine().getX()+";"+s.machine().getY()+";"+s.machine().getZ();}

@@ -60,6 +60,7 @@ public final class CoreTests {
         p = p.award(Experience.threshold(100));
         rejects(() -> MasteryProgress.empty().award(Experience.threshold(100)).learn(Talent.INSIGHT));
         for (var talent : Talent.values())
+            if(!talent.specialized())
             for (int rank = 0; rank < talent.maxRank(); rank++) p = p.learn(talent);
         check(p.points() == 44, "all talents obtainable without exclusivity");
         MasteryProgress full = p;
@@ -81,6 +82,10 @@ public final class CoreTests {
         rejects(() -> Profile.decode(Base64.getEncoder().encodeToString(raw)));
         rejects(() -> new MasteryProgress(0, Map.of(Talent.YIELD, 1)));
         rejects(() -> new MasteryProgress(0, Map.of(Talent.EFFICIENCY, 1)));
+        var specialized=MasteryProgress.empty().award(Experience.threshold(100)).learn(Talent.EFFICIENCY).learn(Talent.INSIGHT).learn(Talent.MINING_PROSPECTOR);
+        rejects(()->Profile.empty().with(Mastery.FISHING,specialized));
+        rejects(()->MasteryProgress.empty().award(Experience.threshold(24)).learn(Talent.EFFICIENCY).learn(Talent.INSIGHT).learn(Talent.MINING_PROSPECTOR));
+        check(Profile.decode(Profile.empty().with(Mastery.MINING,specialized).encode()).get(Mastery.MINING).rank(Talent.MINING_PROSPECTOR)==1,"specialization roundtrip");
     }
     private static void production() {
         var rules = new Production.Rules(100, 2, 64, 432_000);
@@ -142,9 +147,13 @@ public final class CoreTests {
             check(MasteryRules.partner(m)!=m,"synergy involves another activity");
             check(MasteryRules.xpFactor(p,m)==1,"no hidden initial XP multiplier");
             var progress=MasteryProgress.empty().award(Experience.threshold(100));
-            for(var t:Talent.values())for(int i=0;i<t.maxRank();i++)progress=progress.learn(t);
+            for(var t:Talent.available(m))for(int i=0;i<t.maxRank();i++)progress=progress.learn(t);
             p=p.with(m,progress);
-            check(MasteryRules.radius(progress)==16,"maximum insight radius remains bounded");
+            check(MasteryRules.radius(progress)>=16&&MasteryRules.radius(progress)<=20,"specialist insight remains bounded");
+            check(progress.points()==20,"all seven talents remain attainable before prestige");
+            check(Talent.available(m).size()==7,"two exclusive branches per mastery");
+            final var own=progress;
+            rejects(()->Profile.empty().with(m,own.learn(Talent.EFFICIENCY)));
         }
         for(var m:Mastery.values())check(MasteryRules.xpFactor(p,m)>1&&MasteryRules.xpFactor(p,m)<2,"useful bounded XP effects for every mastery");
     }

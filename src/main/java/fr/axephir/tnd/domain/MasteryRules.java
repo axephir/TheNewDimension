@@ -23,6 +23,6 @@ public final class MasteryRules {
                 +(m==Mastery.CRAFTING?p.rank(Talent.EFFICIENCY)*0.05:0)
                 +Math.min(p.rank(Talent.SYNERGY),profile.get(partner(m)).rank(Talent.SYNERGY))*0.02;
     }
-    public static int radius(MasteryProgress p){return 6+p.rank(Talent.PRECISION)*2;}
+    public static int radius(MasteryProgress p){return 6+p.rank(Talent.PRECISION)*2+4*(p.rank(Talent.MINING_PROSPECTOR)+p.rank(Talent.HUNTING_TRACKER)+p.rank(Talent.ANCIENT_TECH_INTERPRETER));}
     private MasteryRules() {}
 }

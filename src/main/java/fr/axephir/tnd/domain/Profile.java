@@ -9,7 +9,12 @@ import java.util.Map;
 public record Profile(Map<Mastery, MasteryProgress> masteries) {
     private static final int SCHEMA = 1;
 
-    public Profile { masteries = Map.copyOf(masteries); }
+    public Profile {
+        masteries = Map.copyOf(masteries);
+        masteries.forEach((mastery,progress)->progress.talents().keySet().forEach(talent->{
+            if(!talent.availableFor(mastery))throw new IllegalArgumentException("talent belongs to another mastery");
+        }));
+    }
     public static Profile empty() { return new Profile(Map.of()); }
     public MasteryProgress get(Mastery mastery) {
         return masteries.getOrDefault(mastery, MasteryProgress.empty());

@@ -17,6 +17,7 @@ public final class ConvergenceNetworking {
     public static void register(RegisterPayloadHandlersEvent e){e.registrar("1").playToServer(Choice.TYPE,Choice.CODEC,(packet,ctx)->{
         if(!(ctx.player() instanceof ServerPlayer p))return;
         if(packet.menu()==-1&&packet.action()==3&&Convergence.inEcho(p)&&p.getData(Convergence.PHASE)==2){Convergence.finishCinema(p);return;}
+        if(packet.menu()==-1&&packet.action()==5){Convergence.inspect(p);return;}
         if(p.containerMenu instanceof ConvergenceMenu menu&&menu.containerId==packet.menu())menu.select(p,packet.action());
     });}
     private ConvergenceNetworking(){}

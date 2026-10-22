@@ -12,6 +12,8 @@ public record MasteryProgress(long experience, Map<Talent, Integer> talents) {
             int rank = entry.getValue();
             if (rank < 1 || rank > entry.getKey().maxRank())
                 throw new IllegalArgumentException("invalid talent rank");
+            if (Experience.level(experience) < entry.getKey().minimumLevel())
+                throw new IllegalArgumentException("talent level not reached");
             Talent prerequisite = entry.getKey().prerequisite();
             if (prerequisite != null && talents.getOrDefault(prerequisite, 0) == 0)
                 throw new IllegalArgumentException("missing prerequisite");
@@ -34,7 +36,7 @@ public record MasteryProgress(long experience, Map<Talent, Integer> talents) {
     }
 
     public MasteryProgress learn(Talent talent) {
-        if (points() < talent.cost() || rank(talent) >= talent.maxRank()
+        if (level() < talent.minimumLevel() || points() < talent.cost() || rank(talent) >= talent.maxRank()
                 || (talent.prerequisite() != null && rank(talent.prerequisite()) == 0))
             throw new IllegalStateException("talent unavailable");
         var result = new EnumMap<Talent, Integer>(Talent.class);

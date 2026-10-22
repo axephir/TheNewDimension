@@ -2,7 +2,7 @@
 import json, random
 BLOCKS=['spatial_anchor','spatial_restorer','convergence_reactor']
 ITEMS=['spatial_lens']
-TESTS=['echo_respawn','echo_camera','anchor_energy','anchor_limits','anchor_recovery','piston_provenance','echo_journals','echo_reference','echo_copy','echo_return','echo_interrupt','echo_corruption','echo_choices','spatial_lens','rare_anomaly']
+TESTS=['echo_observation','echo_respawn','echo_camera','anchor_energy','anchor_limits','anchor_recovery','piston_provenance','echo_journals','echo_reference','echo_copy','echo_return','echo_interrupt','echo_corruption','echo_choices','spatial_lens','rare_anomaly']
 
 def content(write,png,assets,data):
     def box(a,b,t,light=0):
@@ -63,7 +63,7 @@ def content(write,png,assets,data):
     write(data/'worldgen/biome/aftermath.json',biome)
     write(data/'dimension/aftermath.json',{'type':'tnd:aftermath','generator':{'type':'minecraft:flat','settings':{'biome':'tnd:aftermath','layers':[{'block':'minecraft:air','height':1}],'structure_overrides':[],'features':False,'lakes':False}}})
     for tag in ['mineable/pickaxe','needs_diamond_tool']:
-        p=data.parent/f'minecraft/tags/block/{tag}.json';s=json.loads(p.read_text()) if p.exists() else {'values':[]};s['values']+=['tnd:'+n for n in BLOCKS];write(p,s)
+        p=data.parent/f'minecraft/tags/block/{tag}.json';s=json.loads(p.read_text()) if p.exists() else {'values':[]};s['values']=list(dict.fromkeys(s['values']+['tnd:'+n for n in BLOCKS]));write(p,s)
     for test in TESTS:write(data/f'test_instance/{test}.json',{'type':'minecraft:function','environment':'minecraft:default','function':'tnd:'+test,'structure':'tnd:test_habitat','max_ticks':2400 if test.startswith('echo_') else 800,'required':True})
 
 def languages(fr,en):
@@ -92,13 +92,3 @@ def languages(fr,en):
     story['no_reference']=('Aucun retour en attente. Les journaux déjà terminés restent conservés.','No pending return. Completed journals remain retained.')
     for prefix,pairs in [('anchor',anchor),('story',story)]:
         for key,(a,b) in pairs.items():fr[f'{prefix}.tnd.{key}']=a;en[f'{prefix}.tnd.{key}']=b
-
-    # Later records reinterpret the earlier evacuation story; the fourth axis is spatial, never time travel.
-    fr['codex.tnd.text.4']=fr['codex.tnd.text.4'].replace('dont les responsables sont morts depuis longtemps','dont les responsables ne répondent plus depuis longtemps')
-    en['codex.tnd.text.4']=en['codex.tnd.text.4'].replace('whose commanders are long dead','whose commanders no longer answer')
-    fr['codex.tnd.text.3'] += " Les plans d’un autre dispositif sont joints au registre. Un restaurateur, dit l’étiquette. Sa matrice s’obtient auprès du Conservateur. Nous l’avons reconstruit sans jamais parvenir à lui faire produire quoi que ce soit. Conservez-le : son silence ne prouve pas son inutilité."
-    en['codex.tnd.text.3'] += ' Plans for another device accompany the register. A restorer, says the label. Its matrix comes from the Custodian. We rebuilt it without ever making it produce anything. Keep it: silence does not prove uselessness.'
-    fr['codex.tnd.text.6'] += " Une correction avant de terminer : aucun convoi n’a quitté Nacre. Les habitants sont partis un par un, sans traverser les portes. Les relevés d’occupation affichent encore leur présence ; ils ne tiennent simplement plus dans nos trois directions. IRIS conservait un compagnon dans sa capsule centrale, avec un ordinateur d’ouverture et des nutriments dans l’annexe. Il faudra d’abord gagner sa confiance en le laissant se défendre."
-    en['codex.tnd.text.6'] += ' One correction before the end: no convoy left Nacre. People departed one by one, without passing through doors. Occupancy readings still register their presence; they simply no longer fit inside our three directions. IRIS kept a companion in the central capsule, with a release computer and nutrients in the annex. First earn its trust by letting it defend itself.'
-    fr['codex.tnd.text.7'] += " Annexe retrouvée : nous n’avons pas disparu. Nous avons rejoint le quatrième axe spatial. Nous voyons vos chemins comme vous voyez les lignes d’un dessin. Ce n’est pas le temps qui se plie. Le réacteur superpose des sections d’un même volume ; le restaurateur retient celle où vous avez commencé. Reconstruisez son socle avant de tenter la convergence. Lorsqu’une voix vous dira que tout est perdu, cherchez le point qui ne bouge pas."
-    en['codex.tnd.text.7'] += ' Recovered appendix: we did not vanish. We reached the fourth spatial axis. We see your paths as you see lines in a drawing. Time is not what bends. The reactor overlaps cross-sections of one volume; the restorer retains the one where you began. Rebuild its base before attempting convergence. When a voice says everything is lost, find the point that does not move.'

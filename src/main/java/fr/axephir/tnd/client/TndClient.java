@@ -20,6 +20,7 @@ public final class TndClient {
         bus.addListener(TndClient::screens);
         bus.addListener(UmbraArmorModels::register);
         bus.addListener(VestigeHud::register);
+        bus.addListener(PrestigeHud::register);
         bus.addListener(FamiliarHud::register);
         bus.addListener(ConvergenceEffects::register);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ConvergenceEffects::tick);

@@ -23,7 +23,7 @@ public final class TndConfig {
         MAX_CATCHUP = server.comment("Maximum unloaded catch-up in server ticks (default six hours).")
                 .defineInRange("maxCatchupTicks", 432_000, 0, 1_728_000);
         server.pop();
-        server.push("narrative");STORY_RADIUS=server.comment("Radius in chunks of the isolated personal final projection; source Overworld never modified.").defineInRange("projectionRadiusChunks",8,1,12);RARE_ANOMALIES=server.define("rarePerceptualEvents",true);server.pop();
+        server.push("narrative");STORY_RADIUS=server.comment("Radius in chunks of the isolated personal final projection; source Overworld never modified.").defineInRange("projectionRadiusChunks",12,1,12);RARE_ANOMALIES=server.define("rarePerceptualEvents",true);server.pop();
         DEVELOPMENT_COMMANDS = server.comment("Operator-only dimension access for development.")
                 .define("developmentCommands", true);
         SERVER = server.build();

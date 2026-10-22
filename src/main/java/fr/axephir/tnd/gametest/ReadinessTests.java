@@ -29,6 +29,7 @@ public final class ReadinessTests {
     static {
         SymbiosisTests.register(FUNCTIONS);
         ConvergenceTests.register(FUNCTIONS);
+        DiscoveryTests.register(FUNCTIONS);
         FUNCTIONS.register("industry_energy_guards",()->IndustryTests::energyGuards);
         FUNCTIONS.register("industry_farm_guards",()->IndustryTests::farmGuards);
         FUNCTIONS.register("industry_ranch_cap",()->IndustryTests::ranchCap);

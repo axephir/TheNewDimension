@@ -145,9 +145,9 @@ public final class GameplayTests {
             p.setData(PlayerProgression.PROFILE,profile);
             var menu=new MasteryMenu(1,p.getInventory());
             for(var m:Mastery.values()) {
-                check(h,!menu.clickMenuButton(p,m.ordinal()*5+Talent.INSIGHT.ordinal()),"Insight requires its prerequisite for "+m);
-                check(h,menu.clickMenuButton(p,m.ordinal()*5),"Every mastery accepts its first useful talent: "+m);
-                check(h,menu.clickMenuButton(p,m.ordinal()*5+Talent.INSIGHT.ordinal()),"Every mastery unlocks Insight: "+m);
+                check(h,!menu.clickMenuButton(p,m.ordinal()*Talent.values().length+Talent.INSIGHT.ordinal()),"Insight requires its prerequisite for "+m);
+                check(h,menu.clickMenuButton(p,m.ordinal()*Talent.values().length),"Every mastery accepts its first useful talent: "+m);
+                check(h,menu.clickMenuButton(p,m.ordinal()*Talent.values().length+Talent.INSIGHT.ordinal()),"Every mastery unlocks Insight: "+m);
             }
             check(h,!menu.clickMenuButton(p,-1)&&!menu.clickMenuButton(p,99)&&!menu.clickMenuButton(p,1015),"Unknown client buttons cannot mutate a profile");
             p.setPos(at.getX()+.5,at.getY(),at.getZ()+.5);
@@ -161,7 +161,7 @@ public final class GameplayTests {
         var p=player(h);var level=h.getLevel();
         try {
             var progress=MasteryProgress.empty().award(Experience.threshold(100));
-            for(var t:Talent.values())for(int i=0;i<t.maxRank();i++)progress=progress.learn(t);
+            for(var t:Talent.values())if(!t.specialized())for(int i=0;i<t.maxRank();i++)progress=progress.learn(t);
             var profile=Profile.empty();for(var m:Mastery.values())profile=profile.with(m,progress);
             p.setData(PlayerProgression.PROFILE,profile);
             var zombie=EntityTypes.ZOMBIE.create(level,EntitySpawnReason.COMMAND);
