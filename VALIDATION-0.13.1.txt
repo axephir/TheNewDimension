@@ -1,0 +1,47 @@
+THE NEW DIMENSION — 0.13.1-dev — Une empreinte personnelle
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : e3137fecef5d9912f38ba73be6b503bde7b3bd38
+CI : https://github.com/axephir/TheNewDimension/actions/runs/39811355604
+Statut : succès du commit exact.
+
+VALIDATIONS
+- Compilation et 51 083 assertions du noyau réussies.
+- 150 scénarios Minecraft requis réussis, dont six nouveaux scénarios de base.
+- 21 contrôles de ressources réussis.
+- Placements réels de BlockItem en Survie avec consommation des objets.
+- Propriété persistante des blocs et index personnel sauvegardés ; index conservé
+  par la véritable chaîne de réapparition native.
+- Coffres générés, placements annulés, équipements étrangers, blocs cassés,
+  conteneurs dispersés, lit détruit et spawn global exclus du ciblage.
+- Une base à 512 blocs du réacteur est sélectionnée ; la caméra cadre son stockage
+  et garde une vue dégagée sous un vrai toit dans la copie.
+- Les impacts détruisent au moins huit équipements de la grappe de dix du scénario.
+  Passer la cinématique conserve le même résultat et le noyau reste utilisable.
+- Une déconnexion en pleine scène récupère le retour original près du réacteur.
+- Le NBT du coffre source, ses 47 diamants, le lit et l'inventaire du joueur
+  restent intacts. Aucune table de butin n'est générée par le score de détection.
+- Archive des sources comparée fichier par fichier ; son JAR embarqué est identique
+  au JAR autonome.
+
+PORTÉE DES PREUVES
+Les GameTests utilisent des mondes Minecraft et des joueurs serveur avec connexions
+intégrées. La visibilité de la caméra est vérifiée par les rayons de collision natifs.
+Ces contrôles ne sont pas une longue campagne humaine ni un nouveau relevé de captures
+client de la 0.13.1. La galerie 0.13 reste une présentation de la version précédente.
+
+ANCIENNES PARTIES
+L'attribution commence avec cette version. Les anciens coffres non attribués ne
+comptent qu'après avoir été cassés et replacés par leur propriétaire. Le système
+préfère le repli autour du réacteur à une attribution incertaine. La destruction
+reste exclusivement dans la copie narrative ; aucun stock source n'est détruit.
+Voir docs/BASE_CIBLEE_0.13.1.md pour les seuils, limites et petits rayons de projection.
+
+INSTALLATION
+Retirer l'ancien JAR TND de mods et installer le même nouveau JAR client et serveur.
+Les anciennes sauvegardes et références de récupération restent compatibles.
+
+FICHIERS
+tnd-0.13.1-dev.jar : 4944063 octets
+SHA-256 : f58c6ebe005bd5294f6c1c71be52e0f9a1ece9b884b2727b51d4d8632a27186c
+TheNewDimension-0.13.1-dev.zip : 9442296 octets
+SHA-256 : 99121e5440d021c3c7443a431ee49e9a10e902788c8471c3603f7a3c4792718a

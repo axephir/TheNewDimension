@@ -2,13 +2,15 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.13.0-dev — Les traces muettes.**
+**Version : 0.13.1-dev — Une empreinte personnelle.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.13.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.13.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.13.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.13.0.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.13.1-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.13.1-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.13.1-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.13.0.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**La scène finale reconnaît les installations personnelles** : un lit de réapparition et un regroupement d’équipements réellement placés par le joueur permettent de cadrer sa base, même loin du réacteur. Les impacts visent ces équipements dans une copie isolée ; la vraie base et son contenu sont conservés. [Fonctionnement et anciennes parties](docs/BASE_CIBLEE_0.13.1.md).
 
 **Nacre devient une métropole entière**, d’environ 1 280 blocs de diamètre, sous un dôme traversable. Des quartiers de grandes tours, passerelles et pièces aménagées entourent une place centrale. La ville et son mobilier sont protégés ; portes, coffres et ordinateurs restent utilisables. Une couronne de pics ferrenoirs habille ses abords.
 
@@ -22,7 +24,7 @@ Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Instal
 
 Une conclusion personnelle prolonge les huit archives. Son déroulement se découvre en jeu. La base réelle reste intacte ; les protections et voies de récupération sont documentées dans la partie dépliable du guide.
 
-[Guide de la 0.13](docs/TRACES_0.13.0.md) · [Couverture du cahier des charges](docs/CAHIER_COUVERTURE_0.13.md)
+[Guide de la 0.13](docs/TRACES_0.13.0.md) · [Couverture du cahier des charges](docs/CAHIER_COUVERTURE_0.13.1.md)
 
 ## Commencer une partie
 
@@ -70,7 +72,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **144 GameTests natifs**, **51 083 assertions du noyau**, les ressources JSON/NBT et le décodage des 58 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **150 GameTests natifs**, **51 083 assertions du noyau**, les ressources JSON/NBT et le décodage des 58 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 

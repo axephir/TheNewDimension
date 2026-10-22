@@ -48,7 +48,7 @@ Une ancre entretient neuf chunks contre un coût de 16 FE/t, sous réserve d’�
 
 `Convergence` gère préparation, entrée, caméra, exploration, signal, retour et conclusion. Le choix multijoueur est personnel : aucun retour ne rembobine les actions d’un autre joueur.
 
-`EchoCopyTask` refuse toute destination autre que `tnd:aftermath`. Il lit les blocs sources, construit un chunk de projection par mise à jour, crée uniquement des conteneurs visuels vides et remplace les machines par des débris inertes. Les heightmaps et la lumière sont recalculées avant l’entrée. La zone fait 25 × 25 chunks par défaut dans les nouvelles configurations ; la réservation durable empêche sa réutilisation après perte de l’index. Les effets d’explosion de la caméra sont des particules et des sons émis dans cette seule dimension.
+`EchoCopyTask` refuse toute destination autre que `tnd:aftermath`. Il lit les blocs sources, construit un chunk de projection par mise à jour, crée uniquement des conteneurs visuels vides et remplace les machines par des débris inertes. Les heightmaps et la lumière sont recalculées avant l’entrée. La zone fait 25 × 25 chunks par défaut dans les nouvelles configurations ; la réservation durable empêche sa réutilisation après perte de l’index. Les impacts de caméra retirent des blocs uniquement dans cette copie, avec particules et sons dans cette seule dimension.
 
 `EchoReference` capture toutes les cases d’inventaire, armure et seconde main comprises, le coffre de l’Ender, XP, nourriture, santé et effets. La capture est refaite et vérifiée au passage effectif vers la projection, pour ne pas rétablir un inventaire périmé après la préparation. La projection impose l’observation native ; un message distinct permet seulement les choix scénaristiques vérifiés.
 
@@ -74,3 +74,7 @@ Les cinq identités historiques de `Talent` sont conservées. Trente identités 
 Les anomalies choisissent une origine dans les seuls chunks déjà chargés. La réaction réelle d’une porte exige le marqueur d’un quartier nouvellement généré et sa protection urbaine, ne touche pas une porte alimentée et ne fait qu’ouvrir. Les autres phénomènes restent des perceptions locales.
 
 L’examen des ruines n’accepte aucune coordonnée client. Il utilise le rayon du joueur à six blocs, sa session personnelle et une recharge de trente ticks. Les quatre traces sont synchronisées vers leur propriétaire. Aucun bloc, inventaire ou niveau du monde source n’est modifié par ces interactions.
+
+## Ciblage personnel — 0.13.1
+
+`PlayerBase` conserve la provenance des équipements via les attachments serveur `utility_placer` et `base_utilities`. Un placement natif réussi attribue le bloc ; aucune recherche ne déduit le propriétaire d’un inventaire généré. L’index personnel est borné, sérialisé et copié à la mort. Le contrôleur inspecte au plus un chunk indexé par tick près du lit personnel, puis choisit un groupe compact d’au moins dix équipements valides. `EchoCopyTask` distingue le noyau de la scène, son foyer visuel et le noyau réel de référence : seule la copie centrée sur le lit est ciblée. Le signal persistant permet de retrouver le noyau relocalisé sans modifier le format des anciennes références de retour. Les impacts et le dégagement vertical des débris sont bornés aux chunks copiés. [Détails et limites](BASE_CIBLEE_0.13.1.md).
