@@ -30,27 +30,19 @@ public final class EncounterTests {
     }
     public static void bond(GameTestHelper h) {
         var p=GameplayTests.player(h);var level=h.getLevel();var pet=scout(level,h.absolutePos(new BlockPos(2,1,2)));
-        try {
-            p.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModContent.COMPOSITE_CRYSTAL.get(),2));
-            pet.mobInteract(p,InteractionHand.MAIN_HAND);
-            check(h,pet.getExperienceReward(level,p)==0,"Hunting a familiar never produces vanilla XP");
-            check(h,pet.isTame()&&pet.isOwnedBy(p),"A composite crystal establishes the actual persisted owner");
-            check(h,p.getMainHandItem().getCount()==1,"One bond consumes exactly one composite crystal");
-            pet.setHealth(16);p.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(ModContent.RESONANT_SHARD.get(),2));
-            pet.mobInteract(p,InteractionHand.MAIN_HAND);
-            check(h,pet.getHealth()==24&&p.getMainHandItem().getCount()==1,"Owner heals eight HP with one resonant shard");
-            p.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);pet.mobInteract(p,InteractionHand.MAIN_HAND);
-            check(h,pet.isOrderedToSit()&&pet.isInSittingPose(),"Empty hand orders this familiar to wait");
+        pet.releaseFor(p);pet.hurtServer(level,p.damageSources().playerAttack(p),1000);
+        p.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(fr.axephir.tnd.familiar.FamiliarContent.NUTRIENT.get(),2));pet.mobInteract(p,InteractionHand.MAIN_HAND);
+        check(h,pet.isTame()&&pet.isOwnedBy(p)&&p.getMainHandItem().getCount()==1,"Defeated incubation subject consumes one nutrient and persists the actual owner");
+        h.runAfterDelay(65,()->{try{
+            check(h,pet.bondTicks()==0&&!pet.downed()&&!pet.isOrderedToSit(),"The bonding sequence ends in an active following state");
+            check(h,pet.toggleWaiting(),"Owner menu action orders the familiar to wait");
             var out=TagValueOutput.createWithContext(ProblemReporter.DISCARDING,level.registryAccess());pet.saveWithoutId(out);
             var restored=(Shardling)EntityType.create(VestigeEntities.SHARDLING.get(),TagValueInput.create(ProblemReporter.DISCARDING,level.registryAccess(),out.buildResult()),level,EntitySpawnReason.LOAD).orElseThrow();
-            check(h,restored.isTame()&&restored.getOwnerReference().matches(p)&&restored.isOrderedToSit(),"Native save/load preserves owner and wait order");
-            check(h,restored.getHealth()==24&&!restored.canAttack(p),"Restored familiar preserves health and cannot attack its owner");
-            var foreign=VestigeEntities.SHARDLING.get().create(level,EntitySpawnReason.COMMAND);foreign.setTame(true,false);foreign.setOwnerReference(EntityReference.of(java.util.UUID.randomUUID()));
-            restored.setOrderedToSit(false);
-            check(h,!restored.canAttack(foreign),"A companion cannot attack another player's tamed pet");
-            pet.mobInteract(p,InteractionHand.MAIN_HAND);check(h,!pet.isOrderedToSit(),"The same interaction resumes following");
-        }finally{pet.discard();GameplayTests.cleanup(p);}
-        h.succeed();
+            check(h,restored.isTame()&&restored.getOwnerReference().matches(p)&&restored.isOrderedToSit(),"Native save/load preserves owner and waiting order");
+            check(h,restored.getHealth()==24&&restored.getExperienceReward(level,p)==0&&!restored.canAttack(p),"Restored familiar keeps health, has no death XP and cannot attack its owner");
+            p.setItemInHand(InteractionHand.MAIN_HAND,ItemStack.EMPTY);pet.mobInteract(p,InteractionHand.MAIN_HAND);check(h,p.containerMenu instanceof fr.axephir.tnd.familiar.FamiliarMenu,"Empty hand opens the real familiar dossier");
+            check(h,pet.isOrderedToSit(),"Opening the dossier does not silently toggle follow state");
+        }finally{pet.discard();GameplayTests.cleanup(p);}h.succeed();});
     }
     public static void follow(GameTestHelper h) {
         var p=GameplayTests.player(h);var level=h.getLevel();var at=h.absolutePos(new BlockPos(16,1,16));for(var cell:BlockPos.betweenClosed(at.offset(-6,-1,-6),at.offset(6,2,6)))level.setBlock(cell,cell.getY()==at.getY()-1?Blocks.STONE.defaultBlockState():Blocks.AIR.defaultBlockState(),3);
@@ -73,7 +65,7 @@ public final class EncounterTests {
         var p=GameplayTests.player(h);var source=h.getLevel();var at=h.absolutePos(new BlockPos(16,1,16));
         platform(source,at);p.setPos(at.getX()+.5,at.getY(),at.getZ()+.5);
         var pet=scout(source,at.east(2));pet.tame(p);var uuid=pet.getUUID();
-        var waiting=scout(source,at.west(2));waiting.tame(p);waiting.setOrderedToSit(true);
+        var waiting=scout(source,at.west(2));waiting.setTame(true,false);waiting.setOwnerReference(EntityReference.of(java.util.UUID.randomUUID()));waiting.setOrderedToSit(true);
         travelStep(h,p,uuid,waiting,at,0,new java.util.HashSet<ServerLevel>());
     }
     private static void travelStep(GameTestHelper h,ServerPlayer p,java.util.UUID uuid,Shardling waiting,BlockPos at,int step,java.util.Set<ServerLevel> tickets) {

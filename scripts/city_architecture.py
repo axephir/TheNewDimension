@@ -7,8 +7,8 @@ TOWERS=[(8,8,39,39,10,'clinic','cyan'),(45,8,80,39,12,'signal','magenta'),
         (87,48,118,80,9,'transit','cyan'),(8,87,40,118,6,'habitat','magenta'),
         (47,88,79,118,10,'iris','cyan'),(87,88,118,118,7,'market','magenta')]
 
-def build():
-    b=Building.__new__(Building);b.name='neon_district';b.size=SIZE;b.grid={};b.rooms=[]
+def build(max_floors=12):
+    b=Building.__new__(Building);b.name='neon_district';b.size=(127,min(111,max_floors*8+15),127);b.grid={};b.rooms=[]
     p=b.put;q=b.box
     q(2,0,2,124,0,124,'tnd:city_tiles')
     # Native flat streets with cleared headroom, markings, drains and pavements.
@@ -29,6 +29,7 @@ def build():
     p(60,2,59,'tnd:memory_terminal',{'entry':'1'})
     archive={'clinic':(2,8),'foundry':(3,4),'barracks':(4,6),'transit':(5,7),'iris':(6,9),'signal':(7,12)}
     for index,(x0,z0,x1,z1,floors,purpose,color) in enumerate(TOWERS):
+        floors=min(floors,max_floors)
         height=floors*8
         q(x0,0,z0,x1,height,z1,'minecraft:air')
         # Floors, facades: dark structural piers, alternating glowing window ribbons and copper service ducts.
@@ -61,7 +62,7 @@ def build():
                         elif purpose=='barracks' or theme==2:
                             q(x,y+1,z,x+2,y+1,z,'tnd:reinforced_panel');p(x,y+2,z,'tnd:circuit_panel');p(x+2,y+2,z,'tnd:neon_magenta');p(x+1,y+1,z+2,'tnd:cut_alloy_stairs',{'facing':'north','half':'bottom','shape':'straight','waterlogged':'false'})
                         else:
-                            p(x,y+1,z,'minecraft:bookshelf');p(x+1,y+1,z,'minecraft:bookshelf');q(x,y+1,z+2,x+2,y+1,z+2,'tnd:cut_alloy_slab',{'type':'top','waterlogged':'false'});p(x,y+1,z+3,'minecraft:spruce_stairs',{'facing':'north','half':'bottom','shape':'straight','waterlogged':'false'})
+                            p(x,y+1,z,'tnd:archive_shelf');p(x+1,y+1,z,'tnd:archive_shelf');q(x,y+1,z+2,x+2,y+1,z+2,'tnd:cut_alloy_slab',{'type':'top','waterlogged':'false'});p(x,y+1,z+3,'tnd:cut_alloy_stairs',{'facing':'north','half':'bottom','shape':'straight','waterlogged':'false'})
                 # Clear broad central circulation between furnished zones.
                 mid=(z0+z1)//2;q(x0+1,y+1,mid-1,x1-1,y+3,mid+1,'minecraft:air')
             # External horizontal ledges / roof safety parapet.
@@ -111,7 +112,7 @@ def build():
         b.chest(x1-4,z1-4,'city_rooftop',height+1)
         for f in (1,floors//2):b.chest(x1-3,z1-3,'city_salvage',f*8+1)
         if purpose in archive:
-            entry,f=archive[purpose];p(x0+12,f*8+1,z0+3,'tnd:memory_terminal',{'entry':str(entry)})
+            entry,f=archive[purpose];f=min(f,floors);p(x0+12,f*8+1,z0+3,'tnd:memory_terminal',{'entry':str(entry)})
             p(x0+12,f*8,z0+3,'tnd:neon_amber')
     # Glazed elevated streets connect upper floors, with open doorway mouths.
     def bridge(x0,z0,x1,z1,y):
@@ -120,5 +121,5 @@ def build():
             for z in [z0,z1]:q(x0,y+1,z,x1,y+3,z,'minecraft:cyan_stained_glass');q(x0,y+4,z,x1,y+4,z,'tnd:neon_cyan')
         else:
             for x in [x0,x1]:q(x,y+1,z0,x,y+3,z1,'minecraft:purple_stained_glass');q(x,y+4,z0,x,y+4,z1,'tnd:neon_magenta')
-    bridge(38,20,46,24,24);bridge(79,20,89,24,48);bridge(20,38,24,48,24);bridge(20,78,24,88,48);bridge(39,99,48,103,24);bridge(78,99,88,103,48);bridge(100,41,104,49,24);bridge(100,79,104,89,48)
+    bridge(38,20,46,24,24);bridge(79,20,89,24,min(48,(max_floors-1)*8));bridge(20,38,24,48,24);bridge(20,78,24,88,min(48,(max_floors-1)*8));bridge(39,99,48,103,24);bridge(78,99,88,103,min(48,(max_floors-1)*8));bridge(100,41,104,49,24);bridge(100,79,104,89,min(48,(max_floors-1)*8))
     return b

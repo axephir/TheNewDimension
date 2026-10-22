@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:symbiosis_skills",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 500,
+  "required": true
+}

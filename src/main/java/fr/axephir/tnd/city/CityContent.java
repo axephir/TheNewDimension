@@ -14,6 +14,8 @@ import java.util.*;
 
 /** The first gate is buildable using only Overworld/Nether materials; no Vestige prerequisite cycle. */
 public final class CityContent {
+    public static final DeferredBlock<DomeBlock> DOME=ModContent.BLOCKS.registerBlock("city_dome",DomeBlock::new,p->p.strength(-1,3600000).noLootTable().noCollision().noOcclusion().lightLevel(s->1));
+    public static final DeferredBlock<DomeBlock> DOME_RIB=ModContent.BLOCKS.registerBlock("city_dome_rib",DomeBlock::new,p->p.strength(-1,3600000).noLootTable().noCollision().noOcclusion().lightLevel(s->5));
     public static final Map<String,DeferredBlock<Block>> DECOR=new LinkedHashMap<>();
     static {for(String name:List.of("city_asphalt","carbon_panel","city_tiles","reinforced_panel","circuit_panel","vent_panel","neon_cyan","neon_magenta","neon_amber","relay_coil","nacre_memorial")){
         int light=name.startsWith("neon_")?13:name.equals("nacre_memorial")?8:0;
@@ -27,7 +29,7 @@ public final class CityContent {
     public static final DeferredHolder<MenuType<?>,MenuType<CodexMenu>> CODEX_MENU=ModContent.MENUS.register("archives",()->new MenuType<>(CodexMenu::new,FeatureFlags.DEFAULT_FLAGS));
     public static void register(IEventBus bus){
         DECOR.forEach((name,b)->ModContent.ITEMS.registerSimpleBlockItem(name,b));ModContent.ITEMS.registerSimpleBlockItem("portal_monitor",MONITOR);ModContent.ITEMS.registerSimpleBlockItem("memory_terminal",ARCHIVE);
-        Codex.bootstrap();CityMobs.register(bus);
+        Codex.bootstrap();CityRegions.bootstrap();CityMobs.register(bus);CityWorldgen.register(bus);
         bus.addListener((RegisterCapabilitiesEvent e)->e.registerBlockEntity(Capabilities.Energy.BLOCK,MONITOR_ENTITY.get(),(be,side)->be.port));
         for(String name:List.of("gate_charge","gate_open","gate_transit","gate_hum","city_drone","city_alarm","city_footstep","city_laser","city_dash","city_impact","archive_read","nacre_ambience"))
             ModContent.ATMOSPHERE_SOUNDS.put(name,ModContent.SOUNDS.register(name,()->net.minecraft.sounds.SoundEvent.createVariableRangeEvent(net.minecraft.resources.Identifier.fromNamespaceAndPath("tnd",name))));

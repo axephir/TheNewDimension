@@ -362,5 +362,47 @@
     "peak": 0.55999755859375,
     "rms": 0.2079515289077447,
     "splice_delta": 0.010223388671875
+  },
+  "incubator_start": {
+    "duration": 4.0,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.13180968049224534,
+    "splice_delta": 0.0
+  },
+  "incubator_release": {
+    "duration": 1.6,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.057286359389793845,
+    "splice_delta": 0.0
+  },
+  "familiar_bond": {
+    "duration": 2.8,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.1193362837019618,
+    "splice_delta": 0.0
+  },
+  "familiar_evolve": {
+    "duration": 2.8,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.10063489566219244,
+    "splice_delta": 0.0
+  },
+  "familiar_down": {
+    "duration": 0.9,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.08219043913833646,
+    "splice_delta": 0.0
+  },
+  "familiar_pulse": {
+    "duration": 1.2,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.09416972998516282,
+    "splice_delta": 0.0
   }
 }

@@ -34,7 +34,10 @@ public final class RelicModel extends EntityModel<RelicRenderState> {
         } else {
             var shell=root.addOrReplaceChild("body",cube(0,0,-2,0,-2,4,3,4),PartPose.offset(0,14.5f,0).withScale(1.65f));
             for(int i=0;i<3;i++)shell.addOrReplaceChild("segment"+i,cube(0,32,-2.1f,-.5f,-.5f,4.2f,1,1),PartPose.offset(0,0,-1.4f+i*1.4f));
-            shell.addOrReplaceChild("tail",cube(32,32,-.5f,-.5f,0,1,1,2),PartPose.offsetAndRotation(0,1.5f,2,-.4f,0,0));
+            var tail=shell.addOrReplaceChild("tail",cube(32,32,-.5f,-.5f,0,1,1,2),PartPose.offsetAndRotation(0,1.5f,2,-.4f,0,0));
+            tail.addOrReplaceChild("tip",cube(48,0,-.7f,-.7f,-.3f,1.4f,1.4f,1.4f),PartPose.offsetAndRotation(0,0,2.3f,0,0,.78f));
+            for(int i=0;i<3;i++)shell.addOrReplaceChild("crest"+i,cube(48,0,-.45f,-2.3f,-.45f,.9f,2.5f,.9f),PartPose.offsetAndRotation(0,-.4f,-1.3f+i*1.3f,-.25f,0,0));
+            for(int side:new int[]{-1,1})shell.addOrReplaceChild("mantle"+side,cube(0,32,-1.1f,-.3f,-1.9f,2.2f,.7f,3.8f),PartPose.offsetAndRotation(side*2.1f,.4f,0,0,0,side*.45f));
             root.addOrReplaceChild("core",cube(48,0,-1,-1,-1,2,2,2),PartPose.offsetAndRotation(0,14,0,0,0,.785f).withScale(1.2f));
             var head=root.addOrReplaceChild("head",cube(48,0,-1,-1,-1,2,2,2),PartPose.offset(0,16,-4).withScale(1.5f));
             head.addOrReplaceChild("mask",cube(0,16,-1.3f,-1.1f,-1.3f,2.6f,1,1),PartPose.ZERO);
@@ -66,6 +69,11 @@ public final class RelicModel extends EntityModel<RelicRenderState> {
             core.yRot=state.ageInTicks*(state.bonded?.06f:.015f);
             for(int i=0;i<2;i++){var feeler=head.getChild("feelers"+i);feeler.zRot+=Mth.sin(state.ageInTicks*.09f+i)*.10f;}
             head.z+=Mth.sin(state.ageInTicks*.12f)*.15f;
+            for(int i=0;i<3;i++){var crest=body.getChild("crest"+i);crest.visible=state.stage>=1;crest.xRot-=state.pulse>0?.3f:0;}
+            for(int side:new int[]{-1,1}){var mantle=body.getChild("mantle"+side);mantle.visible=state.stage>=2;mantle.zRot+=Mth.sin(state.ageInTicks*.06f)*.06f*side;}
+            var tail=body.getChild("tail");tail.yRot=Mth.sin(state.ageInTicks*.08f)*.22f;tail.zScale=1+state.stage*.35f;
+            if(state.downed){body.y=21;body.zRot=.48f;head.y=22;head.zRot=.48f;core.y=21;for(var leg:legs){leg.y=22;leg.xRot=1.5f;}core.yRot=state.ageInTicks*.008f;}
+            if(state.bondTicks>0){core.y-=1.4f;core.yRot=state.ageInTicks*.1f;head.xRot=-.2f;}
         }
     }
 }

@@ -526,5 +526,65 @@
         "attenuation_distance": 24
       }
     ]
+  },
+  "incubator_start": {
+    "subtitle": "subtitles.tnd.incubator_start",
+    "sounds": [
+      {
+        "name": "tnd:ambient/incubator_start",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "incubator_release": {
+    "subtitle": "subtitles.tnd.incubator_release",
+    "sounds": [
+      {
+        "name": "tnd:ambient/incubator_release",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "familiar_bond": {
+    "subtitle": "subtitles.tnd.familiar_bond",
+    "sounds": [
+      {
+        "name": "tnd:ambient/familiar_bond",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "familiar_evolve": {
+    "subtitle": "subtitles.tnd.familiar_evolve",
+    "sounds": [
+      {
+        "name": "tnd:ambient/familiar_evolve",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "familiar_down": {
+    "subtitle": "subtitles.tnd.familiar_down",
+    "sounds": [
+      {
+        "name": "tnd:ambient/familiar_down",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "familiar_pulse": {
+    "subtitle": "subtitles.tnd.familiar_pulse",
+    "sounds": [
+      {
+        "name": "tnd:ambient/familiar_pulse",
+        "volume": 0.65,
+        "attenuation_distance": 24
+      }
+    ]
   }
 }

@@ -36,7 +36,8 @@
     [],
     [
       "tnd:vestige_landscape",
-      "tnd:echo_bloom"
+      "tnd:echo_bloom",
+      "tnd:metropolis"
     ]
   ],
   "creature_spawn_probability": 0.02,
@@ -49,14 +50,7 @@
   "spawners": {
     "ambient": [],
     "axolotls": [],
-    "creature": [
-      {
-        "type": "tnd:shardling",
-        "weight": 3,
-        "minCount": 1,
-        "maxCount": 1
-      }
-    ],
+    "creature": [],
     "misc": [],
     "monster": [
       {

@@ -33,10 +33,6 @@
     {
       "structure": "tnd:echo_conservatory",
       "weight": 1
-    },
-    {
-      "structure": "tnd:neon_district",
-      "weight": 3
     }
   ]
 }

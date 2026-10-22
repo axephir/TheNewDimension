@@ -27,6 +27,7 @@ public final class ReadinessTests {
     public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
             BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
     static {
+        SymbiosisTests.register(FUNCTIONS);
         FUNCTIONS.register("industry_energy_guards",()->IndustryTests::energyGuards);
         FUNCTIONS.register("industry_farm_guards",()->IndustryTests::farmGuards);
         FUNCTIONS.register("industry_ranch_cap",()->IndustryTests::ranchCap);

@@ -22,7 +22,7 @@ public final class CompanionTravel {
         long now=p.level().getServer().overworld().getGameTime();
         pending.values().removeIf(old->now-old.tick()>40);
         if(pending.size()>=4096)pending.clear();
-        var pets=p.level().getEntitiesOfClass(Shardling.class,p.getBoundingBox().inflate(6),pet->pet.isOwnedBy(p)&&!pet.isOrderedToSit()&&pet.isAlive());
+        var pets=p.level().getEntitiesOfClass(Shardling.class,p.getBoundingBox().inflate(6),pet->pet.isOwnedBy(p)&&!pet.isOrderedToSit()&&!pet.downed()&&pet.available()&&pet.isAlive());
         pending.put(p.getUUID(),new Pending(p.level().dimension(),e.getDimension(),pets.stream().map(Shardling::getUUID).toList(),now));
     }
     @SubscribeEvent
@@ -38,7 +38,7 @@ public final class CompanionTravel {
         int left=0;
         for(UUID uuid:transfer.pets()) {
             if(!(source.getEntity(uuid) instanceof Shardling pet)||!pet.isAlive()||pet.isOrderedToSit()
-                    ||pet.getOwnerReference()==null||!pet.getOwnerReference().matches(p))continue;
+                    ||pet.downed()||!pet.available()||pet.getOwnerReference()==null||!pet.getOwnerReference().matches(p))continue;
             var pos=findLanding(p.level(),p.blockPosition(),pet);
             if(pos.isEmpty()||pet.teleport(new TeleportTransition(p.level(),Vec3.atBottomCenterOf(pos.get()),Vec3.ZERO,pet.getYRot(),pet.getXRot(),TeleportTransition.DO_NOTHING))==null)left++;
         }

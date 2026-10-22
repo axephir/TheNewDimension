@@ -45,8 +45,7 @@ public final class VestigeEntities {
                 &&level.getBlockState(pos.below()).is(VestigeLandscapeFeature.SURFACES);
     }
     public static boolean scoutSpawn(EntityType<Shardling> type,ServerLevelAccessor level,EntitySpawnReason reason,BlockPos pos,RandomSource random) {
-        return habitat(level,pos)&&random.nextInt(24)==0
-                &&level.getLevel().getEntitiesOfClass(Shardling.class,new AABB(pos).inflate(96),e->!e.isTame()).isEmpty();
+        return reason!=EntitySpawnReason.NATURAL&&reason!=EntitySpawnReason.CHUNK_GENERATION;
     }
     public static boolean sentinelSpawn(EntityType<RiftSentinel> type,ServerLevelAccessor level,EntitySpawnReason reason,BlockPos pos,RandomSource random) {
         return level.getDifficulty()!=net.minecraft.world.Difficulty.PEACEFUL&&habitat(level,pos)

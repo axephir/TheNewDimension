@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " H ",
+    "SAS",
+    " G "
+  ],
+  "key": {
+    "H": "minecraft:honey_bottle",
+    "S": "tnd:resonant_shard",
+    "A": "minecraft:golden_apple",
+    "G": "minecraft:glow_berries"
+  },
+  "result": {
+    "id": "tnd:incubator_nutrient",
+    "count": 3
+  }
+}

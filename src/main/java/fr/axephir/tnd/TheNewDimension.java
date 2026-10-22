@@ -22,6 +22,7 @@ public final class TheNewDimension {
         fr.axephir.tnd.core.AwakeningContent.bootstrap();
         fr.axephir.tnd.technology.Industry.register(bus);
         fr.axephir.tnd.city.CityContent.register(bus);
+        fr.axephir.tnd.familiar.FamiliarContent.register(bus);
         MachineRegistry.register(bus);
         fr.axephir.tnd.entities.VestigeEntities.register(bus);
         ReadinessTests.FUNCTIONS.register(bus);
@@ -35,6 +36,8 @@ public final class TheNewDimension {
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.expedition.ExpeditionService());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.progression.ExpandedMasteries());
         NeoForge.EVENT_BUS.register(new StarterOutpost());
+        NeoForge.EVENT_BUS.register(new fr.axephir.tnd.city.CityShield());
+        NeoForge.EVENT_BUS.register(new fr.axephir.tnd.familiar.FamiliarEvents());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.entities.CompanionTravel());
         NeoForge.EVENT_BUS.addListener(DevelopmentCommands::register);
     }

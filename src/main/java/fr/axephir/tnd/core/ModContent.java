@@ -58,7 +58,7 @@ public final class ModContent {
             p -> p.mapColor(MapColor.COLOR_BLACK).strength(-1, 3_600_000).noLootTable());
     public static final DeferredBlock<PortalControllerBlock> PORTAL_CONTROLLER = BLOCKS.registerBlock("portal_controller", PortalControllerBlock::new,
             p -> p.mapColor(MapColor.COLOR_BLACK).strength(-1, 3_600_000).noLootTable()
-                    .lightLevel(state -> state.getValue(PortalControllerBlock.ONLINE) ? 11 : state.getValue(PortalControllerBlock.CHARGING) ? 7 : 1));
+                    .lightLevel(state -> state.getValue(PortalControllerBlock.ONLINE) ? 15 : state.getValue(PortalControllerBlock.CHARGING) ? 11 : 1));
     public static final DeferredBlock<InscriptionBlock> MURAL_OCEAN = BLOCKS.registerBlock("mural_ocean", p -> new InscriptionBlock(p,"ocean"), p -> p.strength(4,10).lightLevel(state -> 2));
     public static final DeferredBlock<InscriptionBlock> MURAL_LAVA = BLOCKS.registerBlock("mural_lava", p -> new InscriptionBlock(p,"lava"), p -> p.strength(4,10).lightLevel(state -> 2));
     public static final DeferredBlock<InscriptionBlock> MURAL_FOREST = BLOCKS.registerBlock("mural_forest", p -> new InscriptionBlock(p,"forest"), p -> p.strength(4,10).lightLevel(state -> 2));

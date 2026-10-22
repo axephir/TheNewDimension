@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "tnd:block/city_dome"
+  },
+  "render_type": "minecraft:translucent"
+}

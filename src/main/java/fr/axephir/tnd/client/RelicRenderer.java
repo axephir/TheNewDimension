@@ -26,6 +26,7 @@ public final class RelicRenderer<T extends Mob> extends MobRenderer<T,RelicRende
     @Override public void extractRenderState(T entity,RelicRenderState state,float partial) {
         super.extractRenderState(entity,state,partial);
         state.charge=entity instanceof RiftSentinel s?s.windup():0;
+        if(entity instanceof Shardling p){state.downed=p.downed();state.stage=p.evolution();state.bondTicks=p.bondTicks();state.pulse=p.pulseTicks();}
         state.bonded=entity instanceof Shardling s&&s.isTame();state.sitting=entity instanceof Shardling s&&s.isInSittingPose();
     }
     @Override public Identifier getTextureLocation(RelicRenderState state) {

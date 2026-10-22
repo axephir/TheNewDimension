@@ -22,6 +22,10 @@ final class InventoryMasteries {
         for(int i=0;i<tabs.size();i++){var tab=tabs.get(i).get();if(tab!=null){tab.setPosition(x,screen.getTopPos()+6+i*25);tab.visible=!overlay;}}
     }
     static void init(ScreenEvent.Init.Post event) {
+        if(event.getScreen() instanceof net.minecraft.client.gui.screens.options.OptionsScreen settings){
+            var familiar=Button.builder(Component.translatable("familiar.tnd.title"),b->{var mc=Minecraft.getInstance();if(mc.player!=null){FamiliarScreen.pendingParent=settings;mc.gui.setScreen(null);mc.player.connection.sendCommand("tnd familiar");}}).bounds(settings.width-108,5,102,20).build();
+            familiar.active=Minecraft.getInstance().player!=null;event.addListener(familiar);return;
+        }
         if (!(event.getScreen() instanceof InventoryScreen || event.getScreen() instanceof CreativeModeInventoryScreen)) return;
         var screen = (AbstractContainerScreen<?>) event.getScreen();
         // Potion effects own the right edge. Keep our tabs attached to the left.
@@ -43,9 +47,10 @@ final class InventoryMasteries {
         };expeditions.setTooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_expeditions")));event.addListener(expeditions);
         var guide=Button.builder(Component.literal("?"),b->Minecraft.getInstance().gui.setScreen(new FieldGuideScreen(event.getScreen()))).bounds(x,y+50,22,22).tooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_guide"))).build();event.addListener(guide);
         var archives=Button.builder(Component.literal("≡"),b->{var p=Minecraft.getInstance().player;if(p!=null)p.connection.sendCommand("tnd archives");}).bounds(x,y+75,22,22).tooltip(Tooltip.create(Component.translatable("gui.tnd.archives"))).build();event.addListener(archives);
+        var familiar=Button.builder(Component.literal("◇"),b->{var p=Minecraft.getInstance().player;if(p!=null)p.connection.sendCommand("tnd familiar");}).bounds(x,y+100,22,22).tooltip(Tooltip.create(Component.translatable("familiar.tnd.title"))).build();event.addListener(familiar);
         // Click callbacks retain their parent screen; weak values avoid keeping old
         // inventories and worlds alive through the otherwise weak screen keys.
-        TABS.put(event.getScreen(),java.util.List.of(new java.lang.ref.WeakReference<>(button),new java.lang.ref.WeakReference<>(expeditions),new java.lang.ref.WeakReference<>(guide),new java.lang.ref.WeakReference<>(archives)));
+        TABS.put(event.getScreen(),java.util.List.of(new java.lang.ref.WeakReference<>(button),new java.lang.ref.WeakReference<>(expeditions),new java.lang.ref.WeakReference<>(guide),new java.lang.ref.WeakReference<>(archives),new java.lang.ref.WeakReference<>(familiar)));
     }
     private InventoryMasteries() {}
 }

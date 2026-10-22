@@ -7,8 +7,8 @@
   },
   "attributes": {
     "minecraft:visual/fog_color": "#45465f",
-    "minecraft:visual/fog_start_distance": 64.0,
-    "minecraft:visual/fog_end_distance": 320.0,
+    "minecraft:visual/fog_start_distance": 110.0,
+    "minecraft:visual/fog_end_distance": 620.0,
     "minecraft:visual/sky_color": "#343748",
     "minecraft:visual/ambient_particles": [
       {
@@ -42,7 +42,9 @@
     [],
     [],
     [],
-    []
+    [
+      "tnd:metropolis"
+    ]
   ],
   "creature_spawn_probability": 0.02,
   "spawn_costs": {},

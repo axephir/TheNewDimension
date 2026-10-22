@@ -1,0 +1,24 @@
+{
+  "criteria": {
+    "food": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:incubator_nutrient"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "food"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:incubator_nutrient"
+    ]
+  }
+}

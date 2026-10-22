@@ -32,14 +32,15 @@ public final class VestigeHud {
             g.text(mc.font,Component.translatable(VestigeTime.isNight(mc.level)?"hud.tnd.night":"hud.tnd.day"),16,56,(alpha<<24)|0xa7beb2,false);
         }
         LivingEntity target=null;double nearest=16*16;
-        for(var candidate:mc.level.getEntitiesOfClass(LivingEntity.class,mc.player.getBoundingBox().inflate(16),e->e.isAlive()&&(e instanceof fr.axephir.tnd.city.CityMob||e instanceof AwakenedMob||e instanceof RiftSentinel||e instanceof FracturedCustodian))){
+        for(var candidate:mc.level.getEntitiesOfClass(LivingEntity.class,mc.player.getBoundingBox().inflate(16),e->e.isAlive()&&(e instanceof Shardling||e instanceof fr.axephir.tnd.city.CityMob||e instanceof AwakenedMob||e instanceof RiftSentinel||e instanceof FracturedCustodian))){
             var direction=candidate.getEyePosition().subtract(mc.player.getEyePosition());double distance=direction.lengthSqr();
             if(distance<nearest&&direction.normalize().dot(mc.player.getLookAngle())>.97&&mc.player.hasLineOfSight(candidate)){target=candidate;nearest=distance;}
         }
         if(target!=null){
             int x=g.guiWidth()/2,y=g.guiHeight()/2+23;var name=target.getDisplayName();g.text(mc.font,name,x-mc.font.width(name)/2,y,0xffeee4bf,true);
-            int value=bar.value(0,(int)(target.getHealth()*1000/Math.max(1,target.getMaxHealth())));
+            int value=bar.value(0,(int)((target instanceof Shardling pet&&pet.downed()?0:target.getHealth())*1000/Math.max(1,target.getMaxHealth())));
             g.fill(x-55,y+12,x+55,y+17,0xbb172525);g.fill(x-54,y+13,x-54+108*value/1000,y+16,0xffaa8178);
+            if(target instanceof Shardling pet&&pet.downed()){var hint=Component.translatable("familiar.tnd.state.3");g.text(mc.font,hint,x-mc.font.width(hint)/2,y+21,0xffffc39a,true);}
             boolean charging=target instanceof fr.axephir.tnd.city.CityMob cm&&cm.charge()>0||target instanceof AwakenedMob m&&m.charge()>0||target instanceof RiftSentinel s&&s.windup()>0||target instanceof FracturedCustodian c&&c.charge()>0;
             boolean opening=target instanceof fr.axephir.tnd.city.CityMob cm&&cm.recovery()>0&&cm.recovery()<(cm.kind()==fr.axephir.tnd.city.CityMob.Kind.DRONE?62:cm.kind()==fr.axephir.tnd.city.CityMob.Kind.ENFORCER?47:45)&&cm.charge()==0||target instanceof AwakenedMob m&&m.recovery()>0&&m.recovery()<(m.heavy()?60:44)||target instanceof FracturedCustodian c&&c.exposed()>0;
             if(charging||opening){var warning=Component.translatable(charging?"hud.tnd.attack":"hud.tnd.opening");g.text(mc.font,warning,x-mc.font.width(warning)/2,y+21,charging?0xffffcf88:0xffb7ddb1,true);}

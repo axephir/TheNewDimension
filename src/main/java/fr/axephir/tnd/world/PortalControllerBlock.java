@@ -25,10 +25,14 @@ public final class PortalControllerBlock extends Block implements EntityBlock {
     @Override public <T extends BlockEntity> net.minecraft.world.level.block.entity.BlockEntityTicker<T> getTicker(Level w,BlockState s,net.minecraft.world.level.block.entity.BlockEntityType<T> t){return w.isClientSide()||t!=fr.axephir.tnd.technology.MachineRegistry.PORTAL_ENTITY.get()?null:(l,p,state,e)->{if(l.getGameTime()%20==0)((PortalControllerEntity)e).updateLink();};}
     @Override public void animateTick(BlockState state,Level world,BlockPos pos,net.minecraft.util.RandomSource random){
         if(!state.getValue(ONLINE)&&!state.getValue(CHARGING))return;
-        double time=world.getGameTime()*.09;for(int i=0;i<2;i++){double angle=time+i*Math.PI;
-            world.addParticle(net.minecraft.core.particles.ParticleTypes.PORTAL,pos.getX()+.5+Math.cos(angle)*.7,pos.getY()+1+Math.sin(time*.7)*.4,pos.getZ()+.5+Math.sin(angle)*.7,0,.02,0);
+        double time=world.getGameTime()*.045;var front=state.getValue(FACING);var right=front.getClockWise();
+        for(int i=0;i<6;i++){double angle=time+i*Math.PI/3,co=Math.cos(angle),si=Math.sin(angle);
+            double rail=Math.copySign(Math.pow(Math.abs(co),.62),co)*1.43,height=Math.copySign(Math.pow(Math.abs(si),.62),si)*2.06;
+            double x=pos.getX()+.5+front.getStepX()*.58+right.getStepX()*rail,z=pos.getZ()+.5+front.getStepZ()*.58+right.getStepZ()*rail;
+            if(i==0&&random.nextInt(3)==0)world.addParticle(net.minecraft.core.particles.ParticleTypes.END_ROD,x,pos.getY()+2.9+height,z,front.getStepX()*.006,.006,front.getStepZ()*.006);
+            world.addParticle(new net.minecraft.core.particles.DustParticleOptions(0xb4e5ed,.34f),x,pos.getY()+2.9+height,z,0,.004,0);
         }
-        if(random.nextInt(5)==0)world.addParticle(net.minecraft.core.particles.ParticleTypes.END_ROD,pos.getX()+.5,pos.getY()+1.4,pos.getZ()+.5,0,.015,0);
+        if(random.nextInt(5)==0)world.addParticle(net.minecraft.core.particles.ParticleTypes.ELECTRIC_SPARK,pos.getX()+.5+front.getStepX()*.7,pos.getY()+1.2+random.nextDouble()*3.4,pos.getZ()+.5+front.getStepZ()*.7,0,.02,0);
         if(state.getValue(ACTIVE)&&random.nextInt(100)==0)world.playLocalSound(pos.getX()+.5,pos.getY()+2,pos.getZ()+.5,ModContent.atmosphereSound("gate_hum"),net.minecraft.sounds.SoundSource.BLOCKS,.25f,1,false);
     }
     @Override protected InteractionResult useItemOn(ItemStack item, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

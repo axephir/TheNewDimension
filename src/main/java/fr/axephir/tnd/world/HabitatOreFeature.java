@@ -27,6 +27,7 @@ public final class HabitatOreFeature extends Feature<NoneFeatureConfiguration> {
         return TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(TheNewDimension.ID, color + "_ore"));
     }
     static {
+        FEATURES.register("metropolis",fr.axephir.tnd.city.MetropolisFeature::new);
         FEATURES.register("vestige_landscape",VestigeLandscapeFeature::new);
         FEATURES.register("echo_bloom",EchoBloomFeature::new);
         FEATURES.register("red_habitat_ore", () -> new HabitatOreFeature(Habitat.LAVA));
