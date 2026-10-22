@@ -1,0 +1,48 @@
+THE NEW DIMENSION — 0.15.0-dev — Constellations
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : aa5419e32d88a0c058b289d5be17df348ca252ba
+CI : https://github.com/axephir/TheNewDimension/actions/runs/39841283670
+Statut : succès du commit exact.
+
+VALIDATIONS AUTOMATISÉES
+- Compilation réussie et 51 083 assertions du noyau réussies.
+- 159 GameTests Minecraft requis réussis.
+- 22 contrôles de ressources réussis, dont références bilingues du nouvel écran.
+- Les calculs, identifiants de sauvegarde et paquets du menu restent inchangés.
+- JAR embarqué identique au JAR distribué ; chaque source du ZIP est comparée
+  au fichier local du commit validé. Archives et PNG vérifiés.
+
+CONTRÔLES DANS LE CLIENT NATIF
+PASS: native GUI purchase audit from saved player data.
+Mining: EFFICIENCY 2 -> 3, PRECISION 0 -> 1, MINING_SEISMIC 0 -> 1.
+Exactly 16 points spent, 24 points remaining; mining experience preserved.
+All other mastery talent maps unchanged, including refused level-1 and level-28 purchases.
+Prestige title hidden; reward flags 8 -> 10 and exactly one tier-1 seal after two equip actions.
+Native Haste II (14 seconds remaining) observed in vanilla inventory after Use; menu showed 44 seconds of shared cooldown.
+All 15 mastery tabs, four milestones, pan, zoom, Home, keyboard navigation, scrolling details and 1280x720 / 854x480 / 640x480 layouts examined.
+Reduced-motion preference saved and restored; native F3+T resource reload checked the final bilingual point-cost wording.
+
+
+CAPTURES ET PORTÉE
+Cinq captures F2 sans retouche : arbre, capacité active, verrouillage, distinctions,
+petite fenêtre. Présentations à 1280 × 720 et 854 × 480 ; contrôle supplémentaire
+à 640 × 480. Niveaux et équipement préparés dans une copie isolée de monde QA ;
+les trois achats, l'activation de Célérité II, le titre et sa récompense ont ensuite
+été effectués par les vraies commandes du menu en Survie et audités dans la
+sauvegarde native. Il ne s'agit pas d'une progression Survie acquise intégralement.
+Le rendu cloud est logiciel et le moteur OpenAL utilise une sortie virtuelle ;
+aucune écoute physique ni mesure générale de FPS n'est revendiquée. Le serveur
+X11 sans bureau a signalé un curseur standard manquant ; aucune exception du
+nouvel écran n'a été constatée. Les 58 fichiers OGG existants sont conservés.
+
+INSTALLATION
+Retirer l'ancien JAR TND et installer la même version côté client et serveur.
+Le nouveau menu s'applique aux personnages existants, sans nouveaux chunks.
+Les maîtrises, points, rangs, machines, équipements et contenu 0.14 sont conservés.
+Voir docs/CONSTELLATIONS_0.15.0.md et GALLERY_0.15.0.md.
+
+FICHIERS
+tnd-0.15.0-dev.jar : 5124808 octets
+SHA-256 : b1f5f8b29c23eda92b269423d5dbdbf1f5226bbc3581f01179e37bede71a765c
+TheNewDimension-0.15.0-dev.zip : 9761883 octets
+SHA-256 : ec3c5435e5d45d234fb0e5beb67b945ca1cae3164520e9490e4972ff39bc898d
