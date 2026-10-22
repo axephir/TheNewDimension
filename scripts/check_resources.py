@@ -330,6 +330,9 @@ class Resources(unittest.TestCase):
             for key in re.findall(r'Component.translatable\("([a-zA-Z0-9_.]+)"\)', path.read_text()):
                 if key.startswith(('gui.tnd.', 'message.tnd.', 'block.tnd.', 'itemGroup.tnd', 'direction.tnd.')):
                     self.assertIn(key, fr, str(path))
+            if path.name == 'MasteryScreen.java':
+                for key in re.findall(r'\btr\("([a-zA-Z0-9_.]+)"', path.read_text()):
+                    self.assertIn('tree.tnd.' + key, fr, str(path))
 
     def test_all_playable_trees_and_console_states(self):
         ids=['mining','logging','farming','fishing','hunting','breeding','melee','ranged','defense',

@@ -34,6 +34,7 @@ import metropolis_resources
 import convergence_resources
 import discovery_resources
 import assault_resources
+import constellation_resources
 SHAPES.update(awakening_resources.SHAPES)
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
@@ -487,6 +488,7 @@ def languages():
     convergence_resources.languages(fr,en)
     discovery_resources.languages(fr,en)
     assault_resources.languages(fr,en)
+    constellation_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 

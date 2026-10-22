@@ -2,13 +2,15 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.14.0-dev — Les tours de confinement.**
+**Version : 0.15.0-dev — Constellations.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.14.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.14.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.14.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.14.0.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.15.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.15.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.15.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.15.0.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**Un arbre de compétences entièrement visuel** remplace les listes compactes : fond spatial discret, quinze maîtrises illustrées, branches de prérequis, fiches au survol, achats séparés de la sélection, navigation par glissement et zoom. Une fiche latérale sur grand écran, une disposition adaptée aux petites fenêtres, des confirmations lumineuses et sonores et une option de mouvements réduits accompagnent la refonte. Les maîtrises et titres existants sont conservés. [Guide de la 0.15](docs/CONSTELLATIONS_0.15.0.md).
 
 **Trois familles de tours d’assaut** ajoutent des gardes, réserves, pannes de lumière et mini-boss de sommet. Douze pièces enchantables, 500 points de durabilité et bonus de set complet ; tirage de 20 % pour une pièce aléatoire. Un restaurateur électrique répare avec les cristaux. Trois mémoires améliorent le familier. [Guide de la 0.14](docs/ASSAULT_0.14.0.md).
 
@@ -20,7 +22,7 @@ Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Instal
 
 **Les usines continuent pendant les expéditions** grâce à une ancre alimentée : neuf chunks contre 16 FE/t, assemblage physique, propriétaire connecté et limites de charge. L’industrie électrique, les fermes, les carrières et l’élevage des versions précédentes restent inclus.
 
-**Trente talents propres aux quinze maîtrises**, avec capacités actives, consommation réelle des ingrédients et recharge commune. L’interface sépare fondations, spécialisations et distinctions. Les niveaux 100, 250, 500 et 1 000 débloquent des titres et quatre sceaux décoratifs lumineux.
+**Trente talents propres aux quinze maîtrises**, avec capacités actives, consommation réelle des ingrédients et recharge commune. L’arbre réunit fondations et spécialisations ; une constellation dédiée présente les distinctions. Les niveaux 100, 250, 500 et 1 000 débloquent des titres et quatre sceaux décoratifs lumineux.
 
 **Le lore laisse davantage de place à la découverte** : noyau énigmatique, relevés incomplets, indices environnementaux et réponses rares des installations. Les consignes utiles restent accessibles dans des onglets pratiques. Le guide affiche désormais l’intégralité des fiches longues.
 
