@@ -1,0 +1,60 @@
+THE NEW DIMENSION — 0.15.1-dev — Interfaces astrales
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : 64f296fa86c3c9277ee56187a6ff6e4e3c063e4b
+CI : https://github.com/axephir/TheNewDimension/actions/runs/39865311056
+Statut : succès du commit exact.
+
+VALIDATIONS AUTOMATISÉES
+- Compilation et 51 083 assertions du noyau réussies.
+- 159 GameTests Minecraft requis réussis.
+- 22 contrôles des ressources réussis.
+- Les seize icônes d'armure diffèrent de la 0.15.0, restent en 16 × 16,
+  ont une transparence franche et correspondent au générateur canonique.
+- Les neuf empreintes des atlas d'équipement porté et du modèle d'armure
+  sont inchangées. Aucun calcul de gameplay ni protocole serveur modifié.
+- JAR embarqué identique au JAR distribué ; chaque source du ZIP est comparée
+  au fichier local du commit validé. Archives et PNG vérifiés.
+
+CONTRÔLES DANS LE CLIENT NATIF
+Native client QA — TND 0.15.1-dev, Minecraft 26.2, NeoForge 26.2.0.93.
+French UI, GUI scale 2. Isolated copy Astral 0151 QA; prepared inventory, progression and familiar ledger; Survival, Peaceful. No production player world modified.
+- Inventory: all sixteen new armor item sprites visible, Umbra / Rempart / Traque / Suture; equipped Ward geometry unchanged; five mod shortcuts on the left.
+- Expeditions: objective cards and progress readable; next page clicked.
+- Archives: selected entry and full paragraphs readable; next page clicked. Final build: clipped first entry displays complete Architectes du Seuil tooltip on hover.
+- Familiar: existing Aster level 20 recovered from stored state using native Recover capsule button, capsule deployed by right click, empty hand selected. Dossier portrait, Evolution and Care tabs inspected. Wait order submitted. No ownership or progression code changed.
+- Industrial: crystal_restorer native input, crystal and repaired-output slots, energy and incomplete assembly status inspected. Help opens the selected repair entry; complete three-paragraph repair instructions readable.
+- Portal monitor: assembly counts, energy, crystal slot, archive action and unavailable activation inspected. Guide opens; Construction, Energy and Travel tabs all clicked and inspected, including assembly diagram.
+- Extractor: native inputs/output and all five resource controls inspected; Copper mode clicked and selected state observed, unavailable Diamond distinct without stabilizer.
+- Forge, ore separator and echo reaper: all three variants opened; headings, subtitles, native slots, progress and status inspected.
+- Spatial anchor: nine-sector diagram, energy, suspended status, assembly requirements and action readable.
+- Narrative terminal: spatial restorer opened in the pre-existing completed phase; read-only text, disabled chapters and close action inspected. No narrative choice activated and no story screenshot published.
+- Field guide: opened from inventory question shortcut; navigation, item selectors and first practical text readable at 1280x720 and 854x480. Small-window screenshot is native 854x480.
+- Masteries: skill tree, branches, points, detail card and common action controls inspected after the shared-button change; existing levels/ranks/24 remaining points retained, no additional purchase performed.
+- All thirteen mod screen classes were opened in the native client. Eight unedited F2 screenshots copied to screenshots/0.15.1. Technical previews used only for private inspection.
+- Final tooltip adjustment compiled and inspected in a second native client launch; full truncated label was visible. Source unchanged after that launch.
+- Software rendering and null OpenAL output used in cloud. No physical listening, full Survival playthrough or general FPS benchmark claimed. X11 dummy server standard-cursor warning is an environment limitation; no mod UI exception observed.
+PASS: 16 distinct redesigned 16x16 icons, canonical regeneration and binary alpha verified.
+PASS: all 9 worn equipment atlas/model fingerprints unchanged from 0.15.0.
+PASS: distributed JAR embeds all 16 new icons and all 8 unchanged worn equipment atlases.
+
+
+CAPTURES ET PORTÉE
+Huit captures F2 sans retouche, dont le guide à 854 × 480 ; les autres
+sont en 1280 × 720. Inventaire et progression préparés dans un monde isolé,
+interactions réalisées dans les vrais menus. Les archives et le terminal
+narratif sont inspectés sans publication de leur texte pour préserver le lore.
+Aucune campagne complète, écoute physique ou mesure générale de FPS revendiquée.
+Les 58 fichiers OGG existants sont conservés ; les contrôles communs utilisent
+un événement de clic natif sur le canal UI, avec volume réduit.
+
+INSTALLATION
+Retirer l'ancien JAR TND et installer la même version côté client et serveur.
+Les icônes et interfaces s'appliquent aux parties existantes, sans nouveau chunk.
+Modèles portés, équipements, familiers, points et progression conservés.
+Voir docs/ASTRAL_0.15.1.md et GALLERY_0.15.1.md.
+
+FICHIERS
+tnd-0.15.1-dev.jar : 5130295 octets
+SHA-256 : 5bc756190e673cc038cb2f0664a9259e0ba946b0a4171c7adc0357a1b3016258
+TheNewDimension-0.15.1-dev.zip : 9775254 octets
+SHA-256 : f7d5915de44637de46c9c9c1daf99f8a3f5feba7d51a91032df7c131ec755d05
