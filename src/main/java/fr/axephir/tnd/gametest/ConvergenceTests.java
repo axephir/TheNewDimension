@@ -67,10 +67,42 @@ final class ConvergenceTests {
     private static void anchorRecovery(GameTestHelper h){var w=h.getLevel();var at=new BlockPos(214000,120,214000);FieldworkTests.platform(w,at);var p=FieldworkTests.player(h,w,at.south(3));var a=anchor(w,at);a.energy.set(10000);a.toggle(p);var saved=a.saveWithFullMetadata(w.registryAccess());var reload=(SpatialAnchorEntity)BlockEntity.loadStatic(at,a.getBlockState(),saved,w.registryAccess());
         check(h,reload.enabled()&&!reload.active()&&reload.owner().equals(p.getUUID())&&reload.energy.getAmountAsInt()==a.energy.getAmountAsInt(),"Native reload retains ownership and FE without resurrecting orphan tickets");
         GameplayTests.cleanup(p);check(h,!a.active(),"Owner logout releases factory tickets");a.tick();check(h,!a.active()&&a.status()==3,"An offline owner cannot reactivate tickets");FieldworkTests.release(w,at);h.succeed();}
-    private static void piston(GameTestHelper h){var w=h.getLevel();var at=new BlockPos(216014,120,216000);FieldworkTests.platform(w,at);var p=FieldworkTests.player(h,w,at.south(3));var ore=at.east();w.setBlock(at,Blocks.STICKY_PISTON.defaultBlockState().setValue(PistonBaseBlock.FACING,Direction.EAST),3);w.setBlock(ore,Blocks.IRON_ORE.defaultBlockState(),3);w.setBlock(ore.east(),Blocks.IRON_ORE.defaultBlockState(),3);w.getChunkAt(ore).setData(ProgressionEvents.PLACED,List.of(ore.asLong()));w.setBlock(at.above(),Blocks.REDSTONE_BLOCK.defaultBlockState(),3);
-        h.runAfterDelay(12,()->{check(h,w.getBlockState(ore.east()).is(Blocks.IRON_ORE)&&ProgressionEvents.playerPlaced(w,ore.east())&&!ProgressionEvents.playerPlaced(w,ore.east(2)),"Native piston chain carries the placed marker across a chunk boundary without marking natural ore");p.setItemSlot(EquipmentSlot.MAINHAND,new ItemStack(Items.DIAMOND_PICKAXE));long before=p.getData(PlayerProgression.PROFILE).get(Mastery.MINING).experience();p.gameMode.destroyBlock(ore.east(2));long earned=p.getData(PlayerProgression.PROFILE).get(Mastery.MINING).experience();check(h,earned>before,"Moving a natural ore keeps its legitimate mining XP");w.setBlock(at.above(),Blocks.AIR.defaultBlockState(),3);
-            h.runAfterDelay(12,()->{try{check(h,w.getBlockState(ore).is(Blocks.IRON_ORE)&&ProgressionEvents.playerPlaced(w,ore)&&!ProgressionEvents.playerPlaced(w,ore.east()),"Sticky retraction: piston="+w.getBlockState(at)+" source="+w.getBlockState(ore)+" destination="+w.getBlockState(ore.east())+" marks="+ProgressionEvents.playerPlaced(w,ore)+","+ProgressionEvents.playerPlaced(w,ore.east()));p.gameMode.destroyBlock(ore);check(h,p.getData(PlayerProgression.PROFILE).get(Mastery.MINING).experience()==earned,"A pushed then pulled placed ore still gives no mining XP");}finally{GameplayTests.cleanup(p);FieldworkTests.release(w,at);}h.succeed();});
-        });}
+    private static void piston(GameTestHelper h){
+        var w=h.getLevel();var at=new BlockPos(216014,120,216000);FieldworkTests.platform(w,at);
+        var p=FieldworkTests.player(h,w,at.south(3));var ore=at.east();int[] phase={0};long[] earned={0};boolean[] finished={false};
+        Runnable cleanup=()->{GameplayTests.cleanup(p);FieldworkTests.release(w,at);};
+        h.onEachTick(()->{
+            if(phase[0]>=3)return;
+            try{
+                if(phase[0]==0){
+                    // Forced-chunk futures are asynchronous. Power only after both
+                    // sides of the real chunk boundary can process native block events.
+                    if(!w.shouldTickBlocksAt(ChunkPos.pack(at))||!w.shouldTickBlocksAt(ChunkPos.pack(ore.east(2))))return;
+                    w.setBlock(at,Blocks.STICKY_PISTON.defaultBlockState().setValue(PistonBaseBlock.FACING,Direction.EAST),3);
+                    w.setBlock(ore,Blocks.IRON_ORE.defaultBlockState(),3);w.setBlock(ore.east(),Blocks.IRON_ORE.defaultBlockState(),3);
+                    w.getChunkAt(ore).setData(ProgressionEvents.PLACED,List.of(ore.asLong()));
+                    w.setBlock(at.above(),Blocks.REDSTONE_BLOCK.defaultBlockState(),3);phase[0]=1;return;
+                }
+                if(phase[0]==1){
+                    // Check provenance as soon as both moving block entities finish,
+                    // rather than treating twelve global ticks as twelve chunk ticks.
+                    if(!w.getBlockState(ore.east()).is(Blocks.IRON_ORE)||!w.getBlockState(ore.east(2)).is(Blocks.IRON_ORE))return;
+                    check(h,ProgressionEvents.playerPlaced(w,ore.east())&&!ProgressionEvents.playerPlaced(w,ore.east(2)),
+                            "Settled native extension preserves placed/natural provenance across the chunk boundary: "+ProgressionEvents.playerPlaced(w,ore.east())+","+ProgressionEvents.playerPlaced(w,ore.east(2)));
+                    p.setItemSlot(EquipmentSlot.MAINHAND,new ItemStack(Items.DIAMOND_PICKAXE));long before=p.getData(PlayerProgression.PROFILE).get(Mastery.MINING).experience();
+                    p.gameMode.destroyBlock(ore.east(2));earned[0]=p.getData(PlayerProgression.PROFILE).get(Mastery.MINING).experience();
+                    check(h,earned[0]>before,"Moving a natural ore keeps its legitimate mining XP");
+                    w.setBlock(at.above(),Blocks.AIR.defaultBlockState(),3);phase[0]=2;return;
+                }
+                if(!w.getBlockState(ore).is(Blocks.IRON_ORE))return;
+                check(h,ProgressionEvents.playerPlaced(w,ore)&&!ProgressionEvents.playerPlaced(w,ore.east()),
+                        "Settled sticky retraction preserves the placed marker: "+ProgressionEvents.playerPlaced(w,ore)+","+ProgressionEvents.playerPlaced(w,ore.east()));
+                p.gameMode.destroyBlock(ore);check(h,p.getData(PlayerProgression.PROFILE).get(Mastery.MINING).experience()==earned[0],"A pushed then pulled placed ore still gives no mining XP");
+                phase[0]=3;finished[0]=true;cleanup.run();
+            }catch(RuntimeException failure){phase[0]=3;cleanup.run();throw failure;}
+        });
+        h.succeedWhen(()->check(h,finished[0],"Waiting for actual native piston motion: phase="+phase[0]+", piston="+w.getBlockState(at)+", source="+w.getBlockState(ore)+", destination="+w.getBlockState(ore.east())+", ticking="+w.shouldTickBlocksAt(ChunkPos.pack(at))+","+w.shouldTickBlocksAt(ChunkPos.pack(ore.east(2)))));
+    }
     private static void journals(GameTestHelper h){var p=GameplayTests.player(h);try{var token=UUID.randomUUID();var reference=EchoReference.capture(p,token,p.blockPosition(),0);var path=Files.createTempDirectory("tnd-journal-test-");var journal=new EchoJournal(path);journal.prepare(reference);check(h,journal.read().equals(reference),"Two fsynced independent native NBT references verify exactly");Files.write(path.resolve("reference-a.nbt"),new byte[]{1,2,3});check(h,journal.read().equals(reference),"A corrupt first reference falls back to the independently verified second copy");Files.writeString(path.resolve("reference-b.sha256"),"0".repeat(64));boolean rejected=false;try{journal.read();}catch(java.io.IOException expected){rejected=true;}check(h,rejected&&Files.exists(path.resolve("reference-a.nbt"))&&Files.exists(path.resolve("reference-b.nbt")),"Both corrupt copies are rejected and retained for recovery");var blocked=path.resolve("unwritable");Files.writeString(blocked,"not a directory");rejected=false;try{new EchoJournal(blocked).prepare(reference);}catch(java.io.IOException expected){rejected=true;}check(h,rejected&&!Convergence.inEcho(p)&&!p.isSpectator(),"An incomplete/full-disk-style write prevents entry and leaves the source player unchanged");}catch(java.io.IOException e){throw new java.io.UncheckedIOException(e);}finally{GameplayTests.cleanup(p);}h.succeed();}
     private static void reference(GameTestHelper h){var p=GameplayTests.player(h);try{p.getInventory().setItem(0,new ItemStack(Items.DIAMOND,7));p.setItemSlot(EquipmentSlot.CHEST,new ItemStack(Items.DIAMOND_CHESTPLATE));p.setItemSlot(EquipmentSlot.OFFHAND,new ItemStack(Items.TOTEM_OF_UNDYING));p.getEnderChestInventory().setItem(17,new ItemStack(Items.NETHERITE_INGOT,5));p.giveExperiencePoints(537);p.getFoodData().setFoodLevel(13);p.setHealth(11);var token=UUID.randomUUID();var tag=EchoReference.capture(p,token,p.blockPosition(),3);EchoReference.validate(tag,p.getUUID(),token);p.getInventory().clearContent();p.getEnderChestInventory().clearContent();p.setHealth(20);p.giveExperiencePoints(5000);EchoReference.restoreResources(p,tag);
         check(h,p.getInventory().getItem(0).getCount()==7&&p.getItemBySlot(EquipmentSlot.CHEST).is(Items.DIAMOND_CHESTPLATE)&&p.getOffhandItem().is(Items.TOTEM_OF_UNDYING),"Round trip retains all native inventory slots including equipped armour and offhand");check(h,p.getEnderChestInventory().getItem(17).getCount()==5&&p.totalExperience==537&&p.getFoodData().getFoodLevel()==13&&p.getHealth()==11,"Ender inventory, exact XP, food and health are restored");boolean rejected=false;try{EchoReference.validate(tag,UUID.randomUUID(),token);}catch(IllegalArgumentException expected){rejected=true;}check(h,rejected,"A reference owned by another player cannot be accepted");
