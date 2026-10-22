@@ -43,7 +43,7 @@ public final class AssaultNodeEntity extends BlockEntity {
         if(!(level instanceof ServerLevel w))return;
         for(var at:BlockPos.betweenClosed(worldPosition.offset(-12,0,-12),worldPosition.offset(12,6,12))){
             if(!w.hasChunkAt(at))continue;var state=w.getBlockState(at);
-            if(state.is(AssaultContent.LAMP.get()))w.setBlock(at,state.setValue(AssaultLampBlock.LIT,lit),3);
+            if(state.is(AssaultContent.LAMP.get())){w.setBlock(at,state.setValue(AssaultLampBlock.LIT,lit),3);if(!lit)w.scheduleTick(at.immutable(),AssaultContent.LAMP.get(),160);}
         }
     }
     @Override protected void saveAdditional(ValueOutput out){super.saveAdditional(out);out.putInt("spawned",spawned);out.putInt("blackout",blackout);}
