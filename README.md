@@ -4,7 +4,7 @@ Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.
 
 **Version : 0.14.0-dev — Les tours de confinement.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.14.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.14.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.14.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.13.0.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.14.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.14.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.14.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.14.0.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
