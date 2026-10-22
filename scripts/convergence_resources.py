@@ -2,7 +2,7 @@
 import json, random
 BLOCKS=['spatial_anchor','spatial_restorer','convergence_reactor']
 ITEMS=['spatial_lens']
-TESTS=['echo_observation','echo_respawn','echo_camera','anchor_energy','anchor_limits','anchor_recovery','piston_provenance','echo_journals','echo_reference','echo_copy','echo_return','echo_interrupt','echo_corruption','echo_choices','spatial_lens','rare_anomaly']
+TESTS=['base_skip','base_provenance','base_selection','base_fallbacks','base_scene','base_interruption','echo_observation','echo_respawn','echo_camera','anchor_energy','anchor_limits','anchor_recovery','piston_provenance','echo_journals','echo_reference','echo_copy','echo_return','echo_interrupt','echo_corruption','echo_choices','spatial_lens','rare_anomaly']
 
 def content(write,png,assets,data):
     def box(a,b,t,light=0):
@@ -64,7 +64,7 @@ def content(write,png,assets,data):
     write(data/'dimension/aftermath.json',{'type':'tnd:aftermath','generator':{'type':'minecraft:flat','settings':{'biome':'tnd:aftermath','layers':[{'block':'minecraft:air','height':1}],'structure_overrides':[],'features':False,'lakes':False}}})
     for tag in ['mineable/pickaxe','needs_diamond_tool']:
         p=data.parent/f'minecraft/tags/block/{tag}.json';s=json.loads(p.read_text()) if p.exists() else {'values':[]};s['values']=list(dict.fromkeys(s['values']+['tnd:'+n for n in BLOCKS]));write(p,s)
-    for test in TESTS:write(data/f'test_instance/{test}.json',{'type':'minecraft:function','environment':'minecraft:default','function':'tnd:'+test,'structure':'tnd:test_habitat','max_ticks':2400 if test.startswith('echo_') else 800,'required':True})
+    for test in TESTS:write(data/f'test_instance/{test}.json',{'type':'minecraft:function','environment':'minecraft:default','function':'tnd:'+test,'structure':'tnd:test_habitat','max_ticks':2400 if test.startswith(('echo_','base_')) else 800,'required':True})
 
 def languages(fr,en):
     names={'spatial_anchor':('Ancre d’atelier','Workshop Anchor'),'spatial_restorer':('Restaurateur spatial','Spatial Restorer'),'convergence_reactor':('Réacteur de convergence','Convergence Reactor'),'phase_lattice':('Projection tétrale','Tetrad Projection')}

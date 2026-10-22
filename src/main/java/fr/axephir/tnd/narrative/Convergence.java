@@ -47,9 +47,9 @@ public final class Convergence {
     private static final Set<UUID> RETURNING=new HashSet<>();
     private static final org.slf4j.Logger LOG=org.slf4j.LoggerFactory.getLogger("tnd/convergence");
     private static final class Session {
-        CompoundTag reference;EchoReference.State state;final EchoJournal journal;final EchoCopyTask copy;final BlockPos reactor;
-        long since;ArmorStand camera;int phase=1;boolean hinted,cameraTickets;
-        Session(CompoundTag ref,EchoReference.State state,EchoJournal journal,EchoCopyTask copy,BlockPos reactor,long now){reference=ref.copy();this.state=state;this.journal=journal;this.copy=copy;this.reactor=reactor.immutable();since=now;}
+        CompoundTag reference;EchoReference.State state;final EchoJournal journal;EchoCopyTask copy;final PlayerBase.Search search;final int radius;final BlockPos reactor;
+        long since;ArmorStand camera;int phase=1,impacts;boolean hinted,cameraTickets;
+        Session(CompoundTag ref,EchoReference.State state,EchoJournal journal,PlayerBase.Search search,int radius,BlockPos reactor,long now){reference=ref.copy();this.state=state;this.journal=journal;this.search=search;this.radius=radius;this.reactor=reactor.immutable();since=now;}
     }
     public static final DeferredHolder<AttachmentType<?>,AttachmentType<Integer>> TRACES=PlayerProgression.TYPES.register("echo_traces",()->AttachmentType.builder(()->0).serialize(Codec.intRange(0,15).fieldOf("heard")).copyOnDeath().sync((h,p)->h==p,ByteBufCodecs.VAR_INT).build());
     private static final Map<UUID,Long> INSPECTION_NEXT=new HashMap<>();
@@ -59,7 +59,7 @@ public final class Convergence {
         var s=session(p);if(s==null||!inEcho(p)||(s.phase!=3&&s.phase!=4)||p.containerMenu!=p.inventoryMenu)return false;
         long now=p.level().getServer().overworld().getGameTime();if(now<INSPECTION_NEXT.getOrDefault(p.getUUID(),0L))return false;
         var hit=p.pick(6,1,false);if(!(hit instanceof net.minecraft.world.phys.BlockHitResult block)||hit.getType()!=net.minecraft.world.phys.HitResult.Type.BLOCK)return false;
-        var at=block.getBlockPos();var center=s.copy.mapped(s.state.machine());int limit=s.copy.radius()*16+15;
+        var at=block.getBlockPos();var center=s.copy.core();int limit=s.copy.radius()*16+15;
         if(Math.abs(at.getX()-center.getX())>limit||Math.abs(at.getZ()-center.getZ())>limit||!p.level().hasChunkAt(at))return false;
         var state=p.level().getBlockState(at);int type=at.equals(center)?3:state.getBlock() instanceof net.minecraft.world.level.block.EntityBlock?1:state.is(CityContent.DECOR.get("vent_panel").get())||state.is(Industry.FRAME.get())||state.is(CityContent.DECOR.get("relay_coil").get())?0:2;
         INSPECTION_NEXT.put(p.getUUID(),now+30);p.setData(TRACES,p.getData(TRACES)|(1<<type));
@@ -70,7 +70,7 @@ public final class Convergence {
     public static boolean inEcho(net.minecraft.world.entity.Entity p){return p.level().dimension().equals(ECHO);}
     private static Map<UUID,Session> sessions(MinecraftServer server){return SESSIONS.computeIfAbsent(server,s->new HashMap<>());}
     private static Session session(ServerPlayer p){return sessions(p.level().getServer()).get(p.getUUID());}
-    public static int progress(ServerPlayer p){var s=session(p);return s==null?0:s.copy.progress();}
+    public static int progress(ServerPlayer p){var s=session(p);return s==null?0:s.copy==null?s.search.progress()/10:100+s.copy.progress()*9/10;}
     public static boolean assembled(ServerLevel w,BlockPos p,boolean reactor){
         int r=reactor?2:1;for(int x=-r;x<=r;x++)for(int z=-r;z<=r;z++)if(reactor?Math.max(Math.abs(x),Math.abs(z))==r:x!=0||z!=0){var at=p.offset(x,-1,z);if(!w.hasChunkAt(at)||!w.getBlockState(at).is(Industry.FRAME.get()))return false;}
         for(int x:new int[]{-r,r})for(int z:new int[]{-r,r}){
@@ -101,7 +101,7 @@ public final class Convergence {
         var reference=EchoReference.capture(p,token,machine,slot);var state=EchoReference.validate(reference,p.getUUID(),token);var journal=new EchoJournal(server,p.getUUID(),token);
         try{EchoJournal.reservePlot(server,slot,p.getUUID(),token);journal.prepare(reference);}catch(IOException|RuntimeException failure){LOG.error("Cannot verify both story references; player and source world unchanged",failure);p.sendSystemMessage(Component.translatable("story.tnd.prepare_failed"));return false;}
         String marker=encode(state);StoryRecords.get(server).reserve(p.getUUID(),token,marker,slot);p.setData(RETURN,marker);p.setData(PHASE,1);
-        sessions(server).put(p.getUUID(),new Session(reference,state,journal,new EchoCopyTask(source,echo,machine,slot,radius),reactor,source.getGameTime()));
+        sessions(server).put(p.getUUID(),new Session(reference,state,journal,new PlayerBase.Search(p,radius),radius,reactor,source.getGameTime()));
         server.getPlayerList().saveAll();return true;
     }
     @SubscribeEvent public void tick(PlayerTickEvent.Post event){
@@ -109,41 +109,59 @@ public final class Convergence {
         try{
             if(s.phase==1){
                 if(!p.isAlive()||p.level().dimension()!=s.state.source()||p.distanceToSqr(Vec3.atCenterOf(s.reactor))>32*32){cancel(p);return;}
+                if(s.copy==null){
+                    s.search.step();if(!s.search.finished())return;
+                    var target=server.getLevel(ECHO);if(target==null){cancel(p);return;}
+                    s.copy=new EchoCopyTask(p.level(),target,s.state.machine(),s.state.slot(),s.radius,s.search.result().orElse(null));
+                }
                 s.copy.step();if(!s.copy.finished())return;
-                var echo=server.getLevel(ECHO);if(echo==null||!p.level().getBlockState(s.state.machine()).is(ConvergenceContent.RESTORER.get())||!assembled(p.level(),s.state.machine(),false)||!p.level().getBlockState(s.reactor).is(ConvergenceContent.REACTOR.get())||!assembled(p.level(),s.reactor,true)){cancel(p);p.sendSystemMessage(Component.translatable("story.tnd.prepare_failed"));return;}p.closeContainer();p.stopRiding();
+                var echo=server.getLevel(ECHO);if(echo==null||!echo.getBlockState(s.copy.core()).is(ConvergenceContent.RESTORER.get())||!p.level().getBlockState(s.state.machine()).is(ConvergenceContent.RESTORER.get())||!assembled(p.level(),s.state.machine(),false)||!p.level().getBlockState(s.reactor).is(ConvergenceContent.REACTOR.get())||!assembled(p.level(),s.reactor,true)){cancel(p);p.sendSystemMessage(Component.translatable("story.tnd.prepare_failed"));return;}p.closeContainer();p.stopRiding();
                 // Preparation is interactive. Refresh both references at the exact transition so moving items during preparation cannot duplicate them.
                 var fresh=EchoReference.capture(p,s.state.session(),s.state.machine(),s.state.slot());s.journal.prepare(fresh);s.reference=fresh;s.state=EchoReference.validate(fresh,p.getUUID(),s.state.session());
                 p.setData(RETURN,encode(s.state));StoryRecords.get(server).reserve(p.getUUID(),s.state.session(),encode(s.state),s.state.slot());
                 s.journal.mark("entering");server.getPlayerList().saveAll();p.setGameMode(GameType.SPECTATOR);
-                var at=Vec3.atCenterOf(s.copy.mapped(s.state.machine())).add(cameraRadius(s),36,0);
+                var at=cameraPosition(echo,s,0,null);
                 if(p.teleport(new TeleportTransition(echo,at,Vec3.ZERO,90,35,TeleportTransition.DO_NOTHING))==null){p.setGameMode(s.state.mode());cancel(p);return;}
-                s.phase=2;s.since=now;p.setData(PHASE,2);p.setData(SIGNAL,s.copy.mapped(s.state.machine()));StoryRecords.get(server).phase(p.getUUID(),2);s.journal.mark("exploring");cameraTickets(p,s,true);
-                var camera=EntityTypes.ARMOR_STAND.create(echo,EntitySpawnReason.EVENT);camera.setInvisible(true);camera.setNoGravity(true);camera.setInvulnerable(true);camera.addTag("tnd_echo_camera");camera.setPos(at);camera.setYRot(90);camera.setYHeadRot(90);camera.setXRot(35);
+                s.phase=2;s.since=now;p.setData(PHASE,2);p.setData(SIGNAL,s.copy.core());StoryRecords.get(server).phase(p.getUUID(),2);s.journal.mark("exploring");cameraTickets(p,s,true);
+                var camera=EntityTypes.ARMOR_STAND.create(echo,EntitySpawnReason.EVENT);camera.setInvisible(true);camera.setNoGravity(true);camera.setInvulnerable(true);camera.addTag("tnd_echo_camera");camera.setPos(at);aimCamera(camera,Vec3.atCenterOf(s.copy.focus()));
                 echo.addFreshEntity(camera);s.camera=camera;p.setCamera(camera);return;
             }
             if(!inEcho(p)){if(p.getData(PHASE)>=2&&p.getData(PHASE)<=5)recover(p);return;}
             if(s.phase==2){
                 if(now-s.since>=160||p.isShiftKeyDown()||s.camera==null||p.getCamera()!=s.camera){finishCinema(p);return;}
                 if((now-s.since)%10==0)p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetCameraPacket(s.camera));
-                var center=Vec3.atCenterOf(s.copy.mapped(s.state.machine()));double angle=(now-s.since)*.0055,r=cameraRadius(s);var pos=center.add(Math.cos(angle)*r,36+Math.sin(angle)*5,Math.sin(angle)*r);
-                var delta=center.subtract(pos);s.camera.setPos(pos);s.camera.setYRot((float)Math.toDegrees(Math.atan2(-delta.x,delta.z)));s.camera.setYHeadRot(s.camera.getYRot());s.camera.setXRot((float)-Math.toDegrees(Math.atan2(delta.y,Math.hypot(delta.x,delta.z))));
-                if((now-s.since)%18==0){var impact=s.copy.cinematicImpact((int)((now-s.since)/18-1));p.level().sendParticles(p,net.minecraft.core.particles.ParticleTypes.EXPLOSION_EMITTER,false,false,impact.getX()+.5,impact.getY()+.5,impact.getZ()+.5,1,0,0,0,0);p.level().playSound(null,impact,ModContent.atmosphereSound("city_impact"),SoundSource.AMBIENT,.9f,.6f);}
+                var center=Vec3.atCenterOf(s.copy.focus());s.camera.setPos(cameraPosition(p.level(),s,now-s.since,s.camera.position()));aimCamera(s.camera,center);
+                if(s.impacts<Math.min(8,(now-s.since)/18)){var impact=s.copy.cinematicImpact(s.impacts++);p.level().sendParticles(p,net.minecraft.core.particles.ParticleTypes.EXPLOSION_EMITTER,false,false,impact.getX()+.5,impact.getY()+.5,impact.getZ()+.5,1,0,0,0,0);p.level().playSound(null,impact,ModContent.atmosphereSound("city_impact"),SoundSource.AMBIENT,.9f,.6f);}
             }else if(s.phase==3||s.phase==4){
                 if(p.getCamera()!=p)p.setCamera(p);
                 if(!s.hinted&&now-s.since>=2400){s.hinted=true;s.phase=4;p.setData(PHASE,4);StoryRecords.get(server).phase(p.getUUID(),4);fr.axephir.tnd.expedition.ExpeditionService.sound(p,ModContent.atmosphereSound("low_signal"),SoundSource.AMBIENT,.8f,.75f);p.sendSystemMessage(Component.translatable("story.tnd.signal"));}
                 // The unobserved boundary is a spatial fold, never a corridor into somebody else's projection.
-                var center=s.copy.mapped(s.state.machine());int limit=s.copy.radius()*16+7;
+                var center=s.copy.core();int limit=s.copy.radius()*16+7;
                 if(Math.abs(p.getX()-center.getX())>limit||Math.abs(p.getZ()-center.getZ())>limit||p.getY()<p.level().getMinY()-8)p.teleportTo(center.getX()+.5,center.getY()+4,center.getZ()+.5);
             }else if(s.phase==5&&now-s.since>=30)recover(p);
         }catch(IOException|RuntimeException failure){LOG.error("Interrupted personal projection; preserving both reference journals and original world",failure);if(inEcho(p))recover(p);else cancel(p);}
     }
+    private static Vec3 cameraPosition(ServerLevel world,Session s,long elapsed,Vec3 previous){
+        var center=Vec3.atCenterOf(s.copy.focus());double angle=elapsed*.0055,r=cameraRadius(s);
+        var desired=center.add(Math.cos(angle)*r,36+Math.sin(angle)*5,Math.sin(angle)*r);
+        double eyeHeight=EntityTypes.ARMOR_STAND.getDimensions().eyeHeight();
+        if(previous!=null)desired=previous.add(0,eyeHeight,0).lerp(desired,.16);
+        // A roof or hillside must not hide the player's workshop. Stay on its visible side,
+        // then ease out into the wider orbit as the copied roof opens during the impacts.
+        var start=center.add(0,2,0);var ray=world.clip(new ClipContext(start,desired,ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,net.minecraft.world.phys.shapes.CollisionContext.empty()));
+        var eye=ray.getType()==net.minecraft.world.phys.HitResult.Type.MISS?desired:ray.getLocation().subtract(desired.subtract(start).normalize().scale(.75));
+        return eye.add(0,-eyeHeight,0);
+    }
+    private static void aimCamera(ArmorStand camera,Vec3 center){var delta=center.subtract(camera.getEyePosition());camera.setYRot((float)Math.toDegrees(Math.atan2(-delta.x,delta.z)));camera.setYHeadRot(camera.getYRot());camera.setXRot((float)-Math.toDegrees(Math.atan2(delta.y,Math.hypot(delta.x,delta.z))));}
     private static double cameraRadius(Session s){return Math.min(52,s.copy.radius()*16+4);}
     private static void cameraTickets(ServerPlayer p,Session s,boolean add){
-        var echo=p.level().getServer().getLevel(ECHO);if(echo==null||!add&&!s.cameraTickets)return;var center=s.copy.mapped(s.state.machine());
+        var echo=p.level().getServer().getLevel(ECHO);if(echo==null||!add&&!s.cameraTickets)return;var center=s.copy.focus();
         // Spectators do not keep camera entities ticking. Cover the orbit for eight seconds only; never ticket the source world here.
         int reach=(int)Math.ceil(cameraRadius(s)/16);for(int x=-reach;x<=reach;x++)for(int z=-reach;z<=reach;z++)CAMERA_TICKETS.forceChunk(echo,p.getUUID(),(center.getX()>>4)+x,(center.getZ()>>4)+z,add,false);s.cameraTickets=add;
     }
     public static void finishCinema(ServerPlayer p){var s=session(p);if(s==null||s.phase!=2)return;
+        // Accessibility/skip changes presentation, never the resulting private ruins.
+        while(s.impacts<8)s.copy.cinematicImpact(s.impacts++);
         var point=s.camera==null?p.position():s.camera.position();float yaw=s.camera==null?p.getYRot():s.camera.getViewYRot(1),pitch=s.camera==null?p.getXRot():s.camera.getViewXRot(1);
         p.setCamera(p);p.setYRot(yaw);p.setXRot(pitch);p.teleportTo(point.x,point.y,point.z);if(s.camera!=null){s.camera.discard();s.camera=null;}cameraTickets(p,s,false);
         s.phase=3;s.since=p.level().getServer().overworld().getGameTime();p.setData(PHASE,3);StoryRecords.get(p.level().getServer()).phase(p.getUUID(),3);p.sendSystemMessage(Component.translatable("story.tnd.detached"));}
@@ -171,7 +189,7 @@ public final class Convergence {
             p.sendSystemMessage(Component.translatable("story.tnd.revelation"));return true;
         }finally{RETURNING.remove(p.getUUID());}
     }
-    public static BlockPos echoMachine(ServerPlayer p){var s=session(p);if(s!=null)return s.copy.mapped(s.state.machine());try{var state=decode(p.getData(RETURN),p.getUUID());return new BlockPos(EchoCopyTask.plotX(state.slot())+(state.machine().getX()&15),state.machine().getY(),EchoCopyTask.plotZ(state.slot())+(state.machine().getZ()&15));}catch(RuntimeException e){return p.blockPosition();}}
+    public static BlockPos echoMachine(ServerPlayer p){var s=session(p);if(s!=null&&s.copy!=null)return s.copy.core();try{var state=decode(p.getData(RETURN),p.getUUID());var signal=p.getData(SIGNAL);if(inEcho(p)&&signal.getX()>=EchoCopyTask.plotX(state.slot())&&signal.getX()<EchoCopyTask.plotX(state.slot())+16&&signal.getZ()>=EchoCopyTask.plotZ(state.slot())&&signal.getZ()<EchoCopyTask.plotZ(state.slot())+16)return signal;return new BlockPos(EchoCopyTask.plotX(state.slot())+(state.machine().getX()&15),state.machine().getY(),EchoCopyTask.plotZ(state.slot())+(state.machine().getZ()&15));}catch(RuntimeException e){return p.blockPosition();}}
     @SubscribeEvent public void orphanCamera(net.neoforged.neoforge.event.entity.EntityJoinLevelEvent e){if(!e.getLevel().isClientSide()&&e.loadedFromDisk()&&e.getEntity().entityTags().contains("tnd_echo_camera"))e.setCanceled(true);}
     @SubscribeEvent public void login(PlayerEvent.PlayerLoggedInEvent e){if(e.getEntity() instanceof ServerPlayer p&&(inEcho(p)||!p.getData(RETURN).isEmpty()))recover(p);}
     @SubscribeEvent public void respawn(PlayerEvent.PlayerRespawnEvent e){if(e.getEntity() instanceof ServerPlayer p&&!p.getData(RETURN).isEmpty()&&p.getData(PHASE)>=2&&p.getData(PHASE)<=5)recover(p);}
