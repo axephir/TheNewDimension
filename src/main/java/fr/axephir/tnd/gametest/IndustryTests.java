@@ -75,10 +75,29 @@ final class IndustryTests {
     }
     private static void penFloor(GameTestHelper h,IndustrialEntity e){for(int x=-5;x<=5;x++)for(int z=-5;z<=5;z++)h.getLevel().setBlock(e.getBlockPos().offset(x,-1,z),Blocks.STONE.defaultBlockState(),3);}
     static void ranching(GameTestHelper h){
-        var e=machine(h,10,2,10,Industry.Kind.RANCH);e.energy.set(8000);e.setItem(0,new ItemStack(Items.WHEAT,4));penFloor(h,e);var w=h.getLevel();
-        for(int i=0;i<2;i++){var cow=EntityTypes.COW.create(w,EntitySpawnReason.EVENT);cow.setNoAi(true);cow.setPos(Vec3.atBottomCenterOf(e.getBlockPos().east(2+i)));w.addFreshEntity(cow);}
-        h.runAfterDelay(115,()->{var cows=w.getEntitiesOfClass(Animal.class,new AABB(e.getBlockPos()).inflate(5));check(h,cows.size()==2&&cows.stream().allMatch(Animal::isInLove)&&e.getItem(0).getCount()==2&&e.energy.getAmountAsInt()==6400,"Exactly two compatible food items and 1600 FE feed a real native adult pair");
-            for(var a:cows)a.setNoAi(false);h.runAfterDelay(150,()->{var herd=w.getEntitiesOfClass(Animal.class,new AABB(e.getBlockPos()).inflate(6));check(h,herd.stream().anyMatch(Animal::isBaby)&&herd.stream().filter(a->!a.isBaby()).allMatch(a->a.getAge()>0),"Native animal AI breeds a real baby and applies vanilla parent cooldowns");check(h,e.getItem(0).getCount()==2,"Parents in their cooldown cannot consume more feed");for(var a:herd)a.discard();h.succeed();});});
+        var e=machine(h,10,2,10,Industry.Kind.RANCH);e.energy.set(8000);e.setItem(0,new ItemStack(Items.WHEAT,4));penFloor(h,e);var w=h.getLevel();var at=e.getBlockPos();
+        // A real enclosed pen keeps native navigation inside the machine's working area.
+        for(int x=-5;x<=5;x++)for(int z=-5;z<=5;z++)if(Math.abs(x)==5||Math.abs(z)==5)w.setBlock(at.offset(x,0,z),Blocks.OAK_FENCE.defaultBlockState(),3);
+        var chunks=new java.util.ArrayList<net.minecraft.world.level.ChunkPos>();
+        for(int x=(at.getX()>>4)-1;x<=(at.getX()>>4)+1;x++)for(int z=(at.getZ()>>4)-1;z<=(at.getZ()>>4)+1;z++){w.setChunkForced(x,z,true);chunks.add(new net.minecraft.world.level.ChunkPos(x,z));}
+        var cows=new java.util.ArrayList<Animal>();
+        for(int i=0;i<2;i++){var cow=EntityTypes.COW.create(w,EntitySpawnReason.EVENT);cow.setNoAi(true);cow.setPos(Vec3.atBottomCenterOf(at.east(2+i)));w.addFreshEntity(cow);cows.add(cow);}
+        boolean[] fed={false};
+        h.onEachTick(()->{
+            if(fed[0]||!cows.stream().allMatch(Animal::isInLove))return;
+            check(h,e.getItem(0).getCount()==2&&e.energy.getAmountAsInt()==6400,"Exactly two food items and 1600 FE feed the native adult pair");
+            // Block ticking and entity ticking become ready asynchronously on a cold server.
+            if(!cows.stream().allMatch(c->w.isPositionEntityTicking(c.blockPosition())))return;
+            fed[0]=true;for(var cow:cows)cow.setNoAi(false);
+        });
+        h.succeedWhen(()->{
+            check(h,fed[0],"The ranch feeds both adults in entity-ticking chunks");
+            var herd=w.getEntitiesOfClass(Animal.class,new AABB(at).inflate(6));
+            check(h,herd.stream().filter(Animal::isBaby).count()==1&&cows.stream().allMatch(c->c.isAlive()&&c.getAge()>0),
+                    "Native AI must produce one baby and apply both parent cooldowns; "+cows.stream().map(c->"ticks="+c.tickCount+", age="+c.getAge()+", love="+c.isInLove()+", pos="+c.blockPosition()).toList());
+            check(h,e.getItem(0).getCount()==2&&e.energy.getAmountAsInt()==6400,"Cooldown parents cannot consume more feed or energy");
+            for(var animal:herd)animal.discard();for(var chunk:chunks)w.setChunkForced(chunk.x(),chunk.z(),false);
+        });
     }
     static void pasture(GameTestHelper h){
         var e=machine(h,10,2,10,Industry.Kind.PASTURE);e.energy.set(8000);e.setItem(0,new ItemStack(Items.SHEARS));penFloor(h,e);var sheep=EntityTypes.SHEEP.create(h.getLevel(),EntitySpawnReason.EVENT);sheep.setNoAi(true);sheep.setPos(Vec3.atBottomCenterOf(e.getBlockPos().east(2)));h.getLevel().addFreshEntity(sheep);
