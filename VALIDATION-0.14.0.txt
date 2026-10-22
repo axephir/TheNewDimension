@@ -1,7 +1,7 @@
 THE NEW DIMENSION — 0.14.0-dev — Les tours de confinement
 Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
-Source : abdaa90c1266795d793bb277659410800bbad3a5
-CI : https://github.com/axephir/TheNewDimension/actions/runs/39825355376
+Source : c01cdd9c564dbfa670bc4869fdf3ac6d7ac2c589
+CI : https://github.com/axephir/TheNewDimension/actions/runs/39828816360
 Statut : succès du commit exact.
 
 VALIDATIONS
@@ -43,7 +43,7 @@ Les enchantements vanilla, Raccommodage compris, restent compatibles.
 Voir docs/ASSAULT_0.14.0.md pour les bonus, cristaux, protocoles et coûts de montage.
 
 FICHIERS
-tnd-0.14.0-dev.jar : 5100173 octets
-SHA-256 : 234d7f0b55820114cb356e577644dc2f55160f76e8b406b5e9a4e26ab5c04c14
-TheNewDimension-0.14.0-dev.zip : 9724907 octets
-SHA-256 : 595b2505c0fd90d33f15754367afb0b37384224c5abac09b42415c9df6249619
+tnd-0.14.0-dev.jar : 5100878 octets
+SHA-256 : 53c66faa125ba25072f6804d4fb550e46969ce79624b16f1a7dc02ca4c22523c
+TheNewDimension-0.14.0-dev.zip : 9725976 octets
+SHA-256 : 7acc2adcb08dd38e2b55a41366c634248245b5941b481e2e5a64a9a50869dc2d
