@@ -15,5 +15,5 @@ public final class ConvergenceTerminalBlock extends Block implements net.minecra
     public ConvergenceTerminalBlock(Properties p,boolean reactor){super(p);this.reactor=reactor;}
     @Override public net.minecraft.world.level.block.entity.BlockEntity newBlockEntity(BlockPos p,BlockState s){return new ConvergenceTerminalEntity(p,s);}
     @Override protected InteractionResult useWithoutItem(BlockState s,Level w,BlockPos at,Player p,BlockHitResult hit){if(p instanceof ServerPlayer sp)ConvergenceMenu.open(sp,at,reactor);return InteractionResult.SUCCESS;}
-    @Override protected MenuProvider getMenuProvider(BlockState s,Level w,BlockPos at){return new SimpleMenuProvider((id,inv,p)->new ConvergenceMenu(id,inv,(ServerPlayer)p,at,reactor),net.minecraft.network.chat.Component.translatable("story.tnd."+(reactor?"reactor":"restorer")));}
+    @Override protected MenuProvider getMenuProvider(BlockState s,Level w,BlockPos at){return new SimpleMenuProvider((id,inv,p)->ConvergenceMenu.create(id,inv,(ServerPlayer)p,at,reactor),net.minecraft.network.chat.Component.translatable("story.tnd."+(reactor?"reactor":"restorer")));}
 }

@@ -125,6 +125,8 @@ final class ConvergenceTests {
                 Convergence.finishCinema(p);var core=Convergence.echoMachine(p);p.setPos(core.getX()+.5,core.getY(),core.getZ()+3.5);p.lookAt(net.minecraft.commands.arguments.EntityAnchorArgument.Anchor.EYES,Vec3.atCenterOf(core));
                 check(h,Convergence.inspect(p)&&p.getData(Convergence.TRACES)==8&&p.containerMenu instanceof ConvergenceMenu,"The owner's real ray hears a trace and opens the personal core: hit="+p.pick(6,1,false)+" traces="+p.getData(Convergence.TRACES)+" phase="+p.getData(Convergence.PHASE)+" menu="+p.containerMenu.getClass().getSimpleName());
                 p.closeContainer();check(h,!Convergence.inspect(p),"Repeated private inspection obeys its server cooldown");
+                p.setData(Convergence.TRACES,4);var provider=p.level().getBlockState(core).getMenuProvider(p.level(),core);check(h,provider!=null,"The personal core exposes the real vanilla spectator menu provider");p.openMenu(provider);
+                check(h,p.getData(Convergence.TRACES)==12&&p.containerMenu instanceof ConvergenceMenu,"Vanilla spectator menu opening records the core trace even when its packet arrives before custom inspection");p.closeContainer();
                 var other=GameplayTests.player(h);try{check(h,!Convergence.inspect(other)&&other.getData(Convergence.TRACES)==0,"An unrelated player cannot inspect another owner's projection");}finally{GameplayTests.cleanup(other);}
                 h.runAfterDelay(32,()->{
                     var floor=core.south(2).below();p.level().setBlock(floor,ModContent.ASHSTONE_BRICKS.get().defaultBlockState(),3);p.lookAt(net.minecraft.commands.arguments.EntityAnchorArgument.Anchor.EYES,Vec3.atCenterOf(floor));
