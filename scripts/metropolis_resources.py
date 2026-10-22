@@ -65,7 +65,7 @@ def laboratory():
     p(34,2,36,'tnd:vent_panel')
     for x in range(7,42,7):
         for z in range(7,42,7):p(x,12,z,'tnd:neon_cyan')
-    p(10,9,36,'tnd:memory_terminal',{'entry':'6'})
+    p(10,9,36,'tnd:memory_terminal',{'entry':'6'});p(11,9,36,'tnd:phase_lattice')
     return b
 
 def content(write,png,assets,data,nbt_payload):

@@ -1,0 +1,18 @@
+{
+  "type": "tnd:aftermath",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "tnd:aftermath",
+      "layers": [
+        {
+          "block": "minecraft:air",
+          "height": 1
+        }
+      ],
+      "structure_overrides": [],
+      "features": false,
+      "lakes": false
+    }
+  }
+}

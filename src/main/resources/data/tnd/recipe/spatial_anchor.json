@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NCN",
+    "OAO",
+    "FCF"
+  ],
+  "key": {
+    "N": "tnd:noctilite_crystal",
+    "C": "tnd:control_circuit",
+    "O": "tnd:copper_coil",
+    "A": "minecraft:netherite_ingot",
+    "F": "tnd:industrial_frame"
+  },
+  "result": {
+    "id": "tnd:spatial_anchor",
+    "count": 1
+  }
+}

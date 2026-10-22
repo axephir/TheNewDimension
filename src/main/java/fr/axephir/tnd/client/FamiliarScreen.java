@@ -17,10 +17,11 @@ public final class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> 
     @Override protected void init(){super.init();
         for(int i=0;i<3;i++){final int p=i;addRenderableWidget(Button.builder(Component.translatable("familiar.tnd.tab."+i),b->page=p).bounds(leftPos+8+i*106,topPos+8,102,20).build());}
         name=new EditBox(font,leftPos+12,topPos+38,209,18,Component.translatable("familiar.tnd.rename"));name.setMaxLength(24);name.setValue(title.getString());addRenderableWidget(name);
-        rename=Button.builder(Component.translatable("familiar.tnd.rename"),b->{minecraft.player.connection.send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new FamiliarNetworking.Rename(menu.containerId,name.getValue())));name.setFocused(false);}).bounds(leftPos+226,topPos+37,92,20).build();addRenderableWidget(rename);
+        rename=Button.builder(Component.translatable("familiar.tnd.rename"),b->saveName()).bounds(leftPos+226,topPos+37,92,20).build();addRenderableWidget(rename);
         order=Button.builder(Component.empty(),b->action(0)).bounds(leftPos+10,topPos+194,99,20).build();pack=Button.builder(Component.translatable("familiar.tnd.pack"),b->action(1)).bounds(leftPos+115,topPos+194,99,20).build();heal=Button.builder(Component.translatable("familiar.tnd.heal"),b->action(3)).bounds(leftPos+220,topPos+194,99,20).build();recover=Button.builder(Component.translatable("familiar.tnd.recover_capsule"),b->action(2)).bounds(leftPos+115,topPos+194,204,20).build();
         addRenderableWidget(order);addRenderableWidget(pack);addRenderableWidget(heal);addRenderableWidget(recover);
     }
+    private void saveName(){minecraft.player.connection.send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(new FamiliarNetworking.Rename(menu.containerId,name.getValue())));name.setFocused(false);}
     private void action(int id){minecraft.gameMode.handleInventoryButtonClick(menu.containerId,id);}
     @Override protected void containerTick(){super.containerTick();boolean bonded=menu.value(0)>0,stored=menu.value(5)==4,near=menu.value(17)>0;name.visible=rename.visible=bonded&&page==0;rename.active=!name.getValue().isBlank();order.visible=pack.visible=heal.visible=bonded&&!stored;recover.visible=bonded&&stored;
         order.active=menu.value(5)==1||menu.value(5)==2;order.setMessage(Component.translatable(menu.value(5)==2?"familiar.tnd.follow":"familiar.tnd.wait"));pack.active=near&&menu.value(5)!=5;heal.active=near&&menu.value(16)>0&&menu.value(3)<menu.value(4);
@@ -48,6 +49,14 @@ public final class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> 
             int[] unlocks={3,8,12,20};for(int i=0;i<4;i++){int yy=76+i*27,lv=unlocks[i];boolean active=level>=lv;g.fill(x+10,y+yy-2,x+320,y+yy+23,active?0xff203d40:0xff1a2b35);text(g,Component.translatable("familiar.tnd.skill."+lv),16,yy,active?0xffa8ebcd:0xffacb5bf);text(g,Component.translatable("familiar.tnd.skill_desc."+lv),16,yy+12,0xffb8c6cf);}
         }else{ text(g,Component.translatable("familiar.tnd.care"),12,41,0xffa8e3e5);lines(g,"familiar.tnd.guide.1",12,61,302);g.item(FamiliarContent.NUTRIENT.get().getDefaultInstance(),x+13,y+159);lines(g,"familiar.tnd.food_recipe",37,159,278);}
         text(g,Component.translatable("familiar.tnd.footer"),12,219,0xff8ca5b2);
+    }
+    @Override public boolean keyPressed(net.minecraft.client.input.KeyEvent event){
+        if(event.isEscape()){onClose();return true;}
+        if(name!=null&&name.visible&&name.canConsumeInput()){
+            if(event.key()==org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER||event.key()==org.lwjgl.glfw.GLFW.GLFW_KEY_KP_ENTER){if(rename.active)saveName();return true;}
+            name.keyPressed(event);return true;
+        }
+        return super.keyPressed(event);
     }
     @Override public void onClose(){super.onClose();if(parent!=null)minecraft.gui.setScreen(parent);}
 }

@@ -82,7 +82,7 @@ final class CityTests {
     static void droneWall(GameTestHelper h){
         var at=h.absolutePos(new BlockPos(16,2,16));FieldworkTests.platform(h.getLevel(),at);var p=GameplayTests.player(h);p.setPos(Vec3.atBottomCenterOf(at.east(7)));var d=mob(h,at.above(2),CityMob.Kind.DRONE);check(h,d.beginAttack(p),"Drone locks visible target");float hp=p.getHealth();
         for(var q:BlockPos.betweenClosed(at.offset(3,0,-3),at.offset(3,5,3)))h.getLevel().setBlock(q,Blocks.OBSIDIAN.defaultBlockState(),3);
-        h.runAfterDelay(60,()->{check(h,p.getHealth()==hp,"A solid wall blocks the complete announced beam burst");for(var q:BlockPos.betweenClosed(at.offset(3,0,-3),at.offset(3,5,3)))h.getLevel().setBlock(q,Blocks.AIR.defaultBlockState(),3);
+        h.runAfterDelay(60,()->{check(h,p.getHealth()==hp,"A solid wall blocks the complete announced beam burst; HP="+p.getHealth()+" expected="+hp+" drone="+d.position()+" last attacker="+p.getLastHurtByMob());for(var q:BlockPos.betweenClosed(at.offset(3,0,-3),at.offset(3,5,3)))h.getLevel().setBlock(q,Blocks.AIR.defaultBlockState(),3);
             d.discard();var firing=mob(h,at.above(2),CityMob.Kind.DRONE);check(h,firing.beginAttack(p),"A fresh drone can aim without a wall");h.runAfterDelay(60,()->{try{check(h,p.getHealth()<hp,"Unblocked actual laser damages a stationary player");}finally{firing.discard();GameplayTests.cleanup(p);FieldworkTests.release(h.getLevel(),at);}h.succeed();});});
     }
     static void interrupt(GameTestHelper h){var at=h.absolutePos(new BlockPos(16,2,16));FieldworkTests.platform(h.getLevel(),at);var p=GameplayTests.player(h);p.setPos(Vec3.atBottomCenterOf(at.east(5)));var m=mob(h,at,CityMob.Kind.REAVER);

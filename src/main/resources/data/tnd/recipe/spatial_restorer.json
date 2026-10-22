@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UAU",
+    "CIC",
+    "FRF"
+  ],
+  "key": {
+    "U": "tnd:umbra_alloy",
+    "A": "tnd:auralite_ingot",
+    "C": "tnd:control_circuit",
+    "I": "tnd:inertial_matrix",
+    "F": "tnd:industrial_frame",
+    "R": "tnd:resonance_heart"
+  },
+  "result": {
+    "id": "tnd:spatial_restorer",
+    "count": 1
+  }
+}

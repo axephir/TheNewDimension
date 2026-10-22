@@ -1,0 +1,24 @@
+{
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:umbra_alloy"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "item"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:spatial_anchor"
+    ]
+  }
+}

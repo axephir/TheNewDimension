@@ -6,7 +6,7 @@ public final class AtmosphereOptions {
     public static final ModConfigSpec SPEC;
     public static final ModConfigSpec.BooleanValue ENABLED;
     public static final ModConfigSpec.DoubleValue VOLUME;
-    public static final ModConfigSpec.BooleanValue HUD,ANIMATIONS;
+    public static final ModConfigSpec.BooleanValue HUD,ANIMATIONS,AFTERIMAGES,RARE_EFFECTS;
     static{
         var b=new ModConfigSpec.Builder();b.push("atmosphere");
         ENABLED=b.comment("Additional night/indoor layers and distant cues in Vestige. Biome loops use Minecraft's Ambient slider.").define("additionalLayers",true);
@@ -14,6 +14,8 @@ public final class AtmosphereOptions {
         b.pop();b.push("interface");
         HUD=b.comment("Biome discovery cards and health/attack feedback for targeted Vestige creatures.").define("immersiveHud",true);
         ANIMATIONS=b.comment("Subtle animated panel accents and eased progress bars. Disable for reduced motion.").define("animations",true);
+        AFTERIMAGES=b.comment("Subtle previous-frame traces during spatial memories. Disable for visual accessibility.").define("afterimages",true);
+        RARE_EFFECTS=b.comment("Rare private perceptual anomalies in Vestige. No terrain or inventory changes.").define("rareAnomalies",true);
         b.pop();SPEC=b.build();
     }
     private AtmosphereOptions(){}

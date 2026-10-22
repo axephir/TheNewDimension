@@ -58,7 +58,7 @@ public final class CityMob extends Monster {
     private boolean valid(Player p){return p.isAlive()&&!p.isCreative()&&!p.isSpectator();}
     public boolean beginAttack(LivingEntity t){
         if(!(t instanceof Player p)||!valid(p)||charge()>0||recovery()>0||burst>0||distanceToSqr(t)>(kind==Kind.DRONE?400:64)||!hasLineOfSight(t))return false;
-        mark=kind==Kind.DRONE?t.getEyePosition():t.position();heading=mark.subtract(position()).multiply(1,0,1).normalize();struck.clear();navigation.stop();entityData.set(CHARGE,kind.windup);
+        setTarget(p);mark=kind==Kind.DRONE?t.getEyePosition():t.position();heading=mark.subtract(position()).multiply(1,0,1).normalize();struck.clear();navigation.stop();entityData.set(CHARGE,kind.windup);
         cue(kind==Kind.DRONE?"city_drone":kind==Kind.ENFORCER?"city_alarm":"city_dash",.65f,kind==Kind.REAVER?.65f:1);return true;
     }
     @Override protected void customServerAiStep(ServerLevel w){

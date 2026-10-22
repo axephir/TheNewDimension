@@ -44,6 +44,18 @@ public final class MetropolisFeature extends Feature<NoneFeatureConfiguration> {
             var template=w.getLevel().getStructureManager().get(Identifier.fromNamespaceAndPath("tnd","incubation_laboratory")).orElseThrow();
             template.placeInWorld(w,lab,lab,new StructurePlaceSettings().setIgnoreEntities(true).setBoundingBox(clip),random,2);
         }
+        // A mineral crown surrounds the whole metropolis. All needles are clipped to this chunk and fit under the dome.
+        for(int x=x0;x<x0+16;x++)for(int z=z0;z<z0+16;z++){
+            double d=region.distance(x+.5,z+.5);if(d>CityRegions.RADIUS-16||d<CityRegions.RADIUS-130)continue;
+            int cx=region.x()+Math.floorDiv(x-region.x()+32,64)*64,cz=region.z()+Math.floorDiv(z-region.z()+32,64)*64;
+            double cd=region.distance(cx,cz);if(cd>CityRegions.RADIUS-40||cd<CityRegions.RADIUS-115)continue;
+            long hash=CityRegions.mix(cx*17L+cz*97L);int height=Math.min(34+Math.floorMod(hash,18),(int)region.roof(cd+10)-CityRegions.FLOOR-8);
+            double width=Math.max(Math.abs(x-cx),Math.abs(z-cz));
+            if(width<=7)for(int y=48;y<CityRegions.FLOOR;y++)w.setBlock(new BlockPos(x,y,z),(Math.floorMod(x+y+z,23)==0?vein:metal),2);
+            for(int y=0;y<=height;y++)if(width<=6.5*(1-y/(double)Math.max(1,height))+.2)w.setBlock(new BlockPos(x,CityRegions.FLOOR+1+y,z),Math.floorMod(x+z+y,13)==0?vein:metal,2);
+            // Walkable, softly lit paths between the spires keep the edge from becoming an empty asphalt band.
+            if(width>8&&(Math.floorMod(x-region.x(),32)<3||Math.floorMod(z-region.z(),32)<3))w.setBlock(new BlockPos(x,CityRegions.FLOOR,z),CityContent.DECOR.get("city_tiles").get().defaultBlockState(),2);
+        }
         // A contiguous voxel shell. Vertical risers connect neighbouring heights near the rim; all pass through.
         for(int x=x0;x<x0+16;x++)for(int z=z0;z<z0+16;z++){
             double d=region.distance(x+.5,z+.5);if(d>CityRegions.RADIUS+1)continue;

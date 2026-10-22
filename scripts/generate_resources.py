@@ -31,6 +31,7 @@ import character_art
 import industry_resources
 import city_resources
 import metropolis_resources
+import convergence_resources
 SHAPES.update(awakening_resources.SHAPES)
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
@@ -38,9 +39,9 @@ DATA = ROOT / 'data/tnd'
 ASSETS = ROOT / 'assets/tnd'
 BLOCKS = ['ashstone', 'ancient_alloy', 'resonant_ore', 'conduit',
           'blue_ore', 'red_ore', 'green_ore', 'portal_frame',
-          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault','resonance_forge'] + awakening_resources.BLOCKS + fieldwork_resources.BLOCKS + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES) + industry_resources.BLOCKS + city_resources.BLOCKS
+          'mural_ocean', 'mural_lava', 'mural_forest', 'mural_fusion', 'extractor', 'portal_controller', 'echo_bloom', 'vault_core', 'vault_seal', 'mural_vault','resonance_forge'] + awakening_resources.BLOCKS + fieldwork_resources.BLOCKS + atmosphere_resources.BLOCKS + EXTRA_BLOCKS + list(SHAPES) + industry_resources.BLOCKS + city_resources.BLOCKS + convergence_resources.BLOCKS
 ITEMS = ['blue_shard', 'red_shard', 'green_shard', 'resonant_shard',
-         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis','inertial_matrix','tempered_alloy','resonant_pickaxe','resonant_blade','recall_prism'] + awakening_resources.ITEMS + industry_resources.ITEMS + city_resources.ITEMS + metropolis_resources.ITEMS
+         'composite_crystal', 'locator_core', 'efficiency_module', 'field_journal', 'detector', 'relic_fragment', 'stabilizer_module', 'echo_dust', 'echo_lens', 'shardling_spawn_egg', 'rift_sentinel_spawn_egg', 'resonance_heart', 'resonant_aegis','inertial_matrix','tempered_alloy','resonant_pickaxe','resonant_blade','recall_prism'] + awakening_resources.ITEMS + industry_resources.ITEMS + city_resources.ITEMS + metropolis_resources.ITEMS + convergence_resources.ITEMS
 
 
 def write(path, data):
@@ -481,6 +482,7 @@ def languages():
     industry_resources.languages(fr,en)
     city_resources.languages(fr,en)
     metropolis_resources.languages(fr,en)
+    convergence_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 
@@ -494,7 +496,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--audio', action='store_true')
     options = parser.parse_args()
-    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); languages()
+    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); languages()
     if options.audio:
         audio()
         import awakening_audio

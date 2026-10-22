@@ -14,7 +14,7 @@ public final class MasteryMenu extends AbstractContainerMenu {
     @Override public boolean stillValid(Player player) { return player.isAlive(); }
     @Override public ItemStack quickMoveStack(Player player, int index) { return ItemStack.EMPTY; }
     @Override public boolean clickMenuButton(Player player, int button) {
-        if (!(player instanceof ServerPlayer server)||!stillValid(player))return false;
+        if (!(player instanceof ServerPlayer server)||!stillValid(player)||player.isSpectator())return false;
         if(button>=1000&&button<1000+Mastery.values().length) {
             OreSense.scan(server,Mastery.values()[button-1000]);return true;
         }

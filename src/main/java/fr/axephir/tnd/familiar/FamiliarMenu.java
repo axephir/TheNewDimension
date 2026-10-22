@@ -16,7 +16,7 @@ public final class FamiliarMenu extends AbstractContainerMenu {
     public FamiliarMenu(int id,Inventory inv,ServerPlayer owner){super(FamiliarContent.MENU.get(),id);this.owner=owner;
         data=owner==null?new SimpleContainerData(18):new ContainerData(){public int get(int i){refresh();return snapshot[i];}public void set(int i,int v){}public int getCount(){return 18;}};addDataSlots(data);
     }
-    public static void open(ServerPlayer p){var ledger=FamiliarLedger.get(p.level().getServer());var pet=ledger.loaded(p.level().getServer(),p.getUUID());if(pet!=null)ledger.snapshot(pet);var r=ledger.record(p.getUUID());
+    public static void open(ServerPlayer p){if(fr.axephir.tnd.narrative.Convergence.inEcho(p)){fr.axephir.tnd.narrative.ConvergenceMenu.open(p,fr.axephir.tnd.narrative.Convergence.echoMachine(p),false);return;}var ledger=FamiliarLedger.get(p.level().getServer());var pet=ledger.loaded(p.level().getServer(),p.getUUID());if(pet!=null)ledger.snapshot(pet);var r=ledger.record(p.getUUID());
         p.openMenu(new SimpleMenuProvider((id,inv,player)->new FamiliarMenu(id,inv,p),r==null?Component.translatable("familiar.tnd.title"):Component.literal(r.getStringOr("Name",""))));}
     public int value(int i){return data.get(i);}public int entityId(){return value(9)&65535|value(10)<<16;}public int x(){return value(11)&65535|value(12)<<16;}public int z(){return value(13)&65535|value(14)<<16;}
     private void refresh(){long now=owner.level().getGameTime();if(updated==now)return;updated=now;java.util.Arrays.fill(snapshot,0);

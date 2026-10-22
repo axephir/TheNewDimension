@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=true": {
+      "model": "tnd:block/spatial_anchor"
+    },
+    "lit=false": {
+      "model": "tnd:block/spatial_anchor_idle"
+    }
+  }
+}

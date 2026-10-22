@@ -112,6 +112,12 @@
     "tnd:relay_coil",
     "tnd:nacre_memorial",
     "tnd:portal_monitor",
-    "tnd:memory_terminal"
+    "tnd:memory_terminal",
+    "tnd:spatial_anchor",
+    "tnd:spatial_restorer",
+    "tnd:convergence_reactor",
+    "tnd:spatial_anchor",
+    "tnd:spatial_restorer",
+    "tnd:convergence_reactor"
   ]
 }

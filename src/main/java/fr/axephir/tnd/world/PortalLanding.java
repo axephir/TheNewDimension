@@ -57,7 +57,7 @@ public final class PortalLanding {
         return Optional.empty();
     }
 
-    private static boolean isSafe(ServerLevel level, BlockPos feet, Entity entity) {
+    public static boolean isSafe(ServerLevel level, BlockPos feet, Entity entity) {
         var dimensions = entity.getDimensions(Pose.STANDING);
         double halfWidth = dimensions.width() / 2.0;
         AABB box = new AABB(feet.getX() + 0.5 - halfWidth, feet.getY(), feet.getZ() + 0.5 - halfWidth,

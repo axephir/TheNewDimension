@@ -1,0 +1,24 @@
+{
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:inertial_matrix"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "item"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:spatial_restorer"
+    ]
+  }
+}

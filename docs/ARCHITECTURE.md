@@ -1,70 +1,65 @@
 # Architecture et décisions
 
-## Choix retenus
+## Versions et modules
 
-La demande explicite de NeoForge 26.2 remplace la proposition Forge 1.20.1 du document. Le MDK officiel 26.2 référence Minecraft 26.2, NeoForge 26.2.0.93, Java 25, ModDevGradle 2.0.148 et Gradle 9.2.1. Ces versions sont épinglées. Pas de bibliothèque de gameplay tierce.
-
-Le nom de travail est The New Dimension, espace de noms `tnd`, dimension `tnd:vestige`. Les noms des biomes et ressources sont provisoires. Les deux premières espèces sont des propositions documentées dans ENCOUNTERS_0.4.0.md. Le premier boss et la transformation industrielle sont documentés dans EXPEDITION_0.7.0.md. Les autres boss, l’énergie industrielle avancée et l’accès quadridimensionnel restent à concevoir.
-
-## Séparation des responsabilités
+La demande NeoForge 26.2 remplace la proposition Forge 1.20.1 du cahier initial. Versions épinglées : Minecraft **26.2**, NeoForge **26.2.0.93**, Java **25**, ModDevGradle **2.0.148**, Gradle **9.2.1**. Aucune bibliothèque de gameplay supplémentaire.
 
 | Package | Responsabilité |
 |---|---|
-| `domain` | XP, talents, profils immuables, cycle, calcul de production ; aucune dépendance Minecraft |
-| `core` | Enregistrements et configuration serveur |
-| `world` | Quête d’accès, détecteur, passages et commandes de développement |
-| `progression` | Événements manuels, attachements persistants, perception et menu autoritaire |
-| `technology` | Extracteur et forge : inventaires, production différée, menus, entonnoirs et pause redstone |
-| `client` | Écrans et configuration graphique, chargés uniquement sur le client |
-| `entities` | Familiers, sentinelles, boss lié au sanctuaire et transport interdimensionnel |
-| `dungeon` | Sceaux, épreuves finies, contrôleur persistant et égide défensive |
-| `gametest` | Tests d’intégration natifs : monde, portails, progression, consoles et machines |
+| `domain` | Calculs indépendants du jeu : profils, XP, talents, budgets, production, cycle et expéditions |
+| `core` | Enregistrements et configuration |
+| `world` | Génération, structures couronnées, accès, portails et vérification des arrivées |
+| `city` | Biome urbain continu, relief commun, génération par chunk, dôme, protection, sécurité et archives |
+| `progression` | Attachements, événements manuels, provenance des blocs, talents et perception |
+| `technology` | Transformations finies, énergie, réseau, carrière, agriculture, élevage et maintien des ateliers |
+| `entities`, `familiar` | Créatures, attaques, boss, lien unique, incubation, états blessés, niveaux et transport |
+| `dungeon`, `expedition` | Épreuves, récompenses finies, objectifs, observatoire et retour canalisé |
+| `narrative` | Références durables, projections personnelles, récupération et perception finale |
+| `client` | Écrans, modèles, rendu, effets GPU et audio local ; jamais chargé par le serveur dédié |
+| `gametest` | Intégration native dans un monde distinct des parties normales |
 
-Les modules narratifs et anomalies ne sont pas représentés par des classes vides : ils seront ajoutés avec leur première fonctionnalité réelle.
+## Serveur et persistance
 
-## Autorité et persistance
+Le serveur décide des XP, talents, recettes, ressources, propriétaires, destinations et états de combat. Le client transmet des indices de menu ou des choix bornés ; le serveur vérifie le propriétaire, le menu courant, ses prérequis et la distance pertinente. Les attachements de progression se synchronisent à leur propriétaire et survivent à la mort.
 
-Le serveur attribue l’expérience et achète les talents. Un client envoie seulement un index de bouton via le protocole de menu vanilla ; le serveur vérifie le menu, la maîtrise, les points, le rang et les prérequis. Les profils sont immuables et synchronisés uniquement à leur propriétaire avec les attachements NeoForge. `copyOnDeath` conserve la progression après un décès.
+Les profils sont immuables et possèdent un schéma. Leurs codecs rejettent les incohérences au lieu de réinitialiser silencieusement les données. L’XP utilise des entiers longs avec saturation ; la progression dépasse le niveau 100 sans prétendre offrir des entiers mathématiquement infinis. Les budgets d’activité sont persistants et bornés.
 
-Le codec de profil possède un numéro de schéma, limite la taille, rejette les doublons et les points incohérents. Une donnée invalide n’est pas réinitialisée silencieusement. Une migration explicite sera nécessaire si le schéma change. Les XP utilisent des entiers longs avec saturation protégée contre le débordement ; la progression dépasse largement le niveau 100, mais ne prétend pas offrir une capacité arithmétique infinie.
+La provenance des minerais et autres ressources posées est stockée par chunk. Le déplacement réussi d’une chaîne de piston transfère ces marques, y compris entre chunks ; un déplacement annulé ne les change pas. Les machines n’attribuent pas d’XP manuelle.
 
-Les ressources placées par les joueurs sont mémorisées par chunk pour ne pas redonner d’XP lors de leur récolte répétée. Les actions mécaniques ne déclenchent pas les récompenses manuelles. La résistance aux déplacements par pistons et aux interactions avec d’autres mods doit encore être testée et renforcée ; elle n’est pas annoncée comme étanche.
+Le registre mondial des familiers attribue un lien unique par UUID de joueur. La capsule contient une identité et un ticket révocable ; le modèle NBT central fait autorité. Le déploiement vérifie la position, le sol, les dangers, la collision et l’absence du même UUID dans toutes les dimensions chargées avant de consommer le ticket. La réémission invalide les copies anciennes.
 
-Un historique immuable limité à 2 048 entrées conserve les budgets d’activité et les territoires récents. Il est sauvegardé côté serveur sans être synchronisé au client. Les nouveaux identifiants de maîtrise réutilisent le codec existant : aucune remise à zéro des XP ou des talents.
+## Génération et passages
 
-## Industrie
+Les neuf anciens sites sont des pièces de structure sauvegardées, découpées par chunk, avec massif, pics, couronne, accès et bâtiment. Les passages de l’Overworld utilisent un placement natif rare et une recherche de structure réelle. Le moniteur vérifie son assemblage et ses 16 000 FE, canalise l’ouverture et n’établit le couple permanent qu’après validation de l’arrivée. Le passage ne supprime jamais de constructions pour dégager la destination.
 
-Le moteur `Production` transforme une quantité finie de carburant en une quantité bornée de ressources. Il est déterministe, idempotent à temps constant et ne remplit pas rétroactivement un inventaire bloqué. Le temps pris en compte est celui du serveur, avec un maximum configurable par rattrapage ; un serveur arrêté ne produit rien.
+Les métropoles utilisent un champ spatial partagé par `CityBiomeSource`, la fonction de densité, la génération et la protection. Les centres sont décalés sur une grille de 3 072 blocs et le rayon est de 640 blocs. Ce champ est indépendant de la seed ; le terrain naturel autour reste généré par le bruit du monde. L’alignement exact évite des limites de biome qui coupent les rues et le dôme.
 
-L’extracteur règle son compte avant une mutation d’inventaire ou un recalibrage, et sauvegarde son horloge, son travail partiel et ses objets. Les bonus d’ingénierie sont copiés lors de l’interaction manuelle, afin de continuer à fonctionner quand le joueur se déconnecte. Le rattrapage se fait au retour du chunk, sans forcer son chargement pendant l’expédition.
+Chaque feature écrit uniquement dans le chunk décoré. Les tours sont des tuiles NBT, avec rotation et hauteur adaptées à la voûte. Un seul emplacement de laboratoire et d’ordinateur appartient à chaque région, indépendamment de l’ordre de chargement. Un marqueur de génération permet de préserver les anciennes bases non urbaines sous la nouvelle grille. Les anciennes structures de quartier restent enregistrées pour les sauvegardes, mais ne servent plus à générer les nouvelles métropoles.
 
-L’extracteur possède cinq profils persistants : fer brut, cuivre brut, or brut, redstone et diamant. Les durées relatives sont 1, 1, 3, 2 et 8. Le diamant exige un module de stabilisation. Chaque objet consomme un charbon. La sortie doit être vide pour changer de profil ; la progression partielle est alors remise à zéro. La calibration de relique est distincte de celle de l’ingénieur, ne diminue pas lors d’une visite et survit au rechargement. Les valeurs sont ajustables. Un réseau d’énergie et les autres machines ne sont pas simulés par des objets décoratifs.
+## Production et charge des ateliers
 
-## Monde et accès
+L’extracteur et les processeurs finis règlent les cycles avant mutation d’inventaire. Matière, carburant, sortie et rattrapage sont bornés. Un serveur arrêté ne produit rien. Le réseau FE parcourt uniquement des chunks chargés, visite au plus 128 positions et utilise les transactions natives ; câbles et accumulateurs ne créent pas d’énergie.
 
-La génération repose sur des registres de données natifs : densité 3D originale, biomes, minerais, pools de structures et placement `random_spread`. Pour les portails, l’espacement de 768 chunks et la séparation de 640 chunks sont des réglages provisoires visant l’ordre de grandeur du document ; la distribution réelle doit être mesurée sur plusieurs seeds.
+Les machines électriques réalisent leur travail dans le monde : récolte, replantation, nourriture, animaux, fluides, trépans et sorties sont vérifiés. La carrière exige un montage et un démarrage explicites ; elle respecte les refus des protections de blocs.
 
-Le détecteur appelle la recherche native de structure. Il ne calcule pas de coordonnées fictives. Les six modèles de ruines sont originaux, fermés et aménagés. L’avant-poste de départ est demandé uniquement lors de la création du spawn d’un nouveau monde et placé à la première connexion ; les mondes existants ne sont pas automatiquement modifiés par ce mécanisme.
+Une ancre entretient neuf chunks contre un coût de 16 FE/t, sous réserve d’énergie, de montage, de redstone et d’un propriétaire connecté. Deux sites au plus par joueur, seize actifs par serveur par défaut. Son contrôleur ne force pas les apparitions naturelles. Les tickets persistants de ce seul contrôleur sont retirés au chargement, puis les sites du joueur sont revalidés à sa connexion. Rupture et déconnexion libèrent les tickets. Les extracteurs conservent leur mécanisme distinct de production différée.
 
-Le passage du prototype s’utilise en cliquant son mécanisme. L’animation et la traversée automatique d’une surface de portail restent à compléter. Les couples sont sauvegardés en `GlobalPos`. L’arrivée doit être dégagée ; le code refuse de supprimer des constructions pour placer un passage retour. Les déplacements de familiers concernent actuellement les animaux vanilla apprivoisés compatibles ; les Éclats errants utilisent aussi les changements de dimension vanilla, avec capture avant transfert puis recherche d’un sol sûr après réussite. Aucun déplacement n’a lieu sur un transfert annulé.
+## Conclusion isolée
 
-## Conclusion et récupération — conception, pas fonctionnalité livrée
+`Convergence` gère préparation, entrée, caméra, exploration, signal, retour et conclusion. Le choix multijoueur est personnel : aucun retour ne rembobine les actions d’un autre joueur.
 
-Le document exige de développer la catastrophe tardivement. Aucun appel d’explosion scénaristique n’est présent dans le gameplay. Le seul appel d’explosion est contenu dans le GameTest de résistance, exécuté dans le monde de test séparé.
+`EchoCopyTask` refuse toute destination autre que `tnd:aftermath`. Il lit les blocs sources, construit un chunk de projection par mise à jour, crée uniquement des conteneurs visuels vides et remplace les machines par des débris inertes. Les heightmaps et la lumière sont recalculées avant l’entrée. La zone fait 17 × 17 chunks par défaut ; la réservation durable empêche sa réutilisation après perte de l’index. Les effets d’explosion de la caméra sont des particules et des sons émis dans cette seule dimension.
 
-Avant une implémentation, la solution devra préserver les données sources, créer une représentation isolée des destructions et séparer les inventaires temporaires. La copie ne devra jamais s’exécuter dans les chemins du monde d’origine. Un journal transactionnel durable devra distinguer préparation, vérification, exploration et retour. Le retour restera accessible indépendamment de l’interface. Aucune copie de récupération ne sera supprimée automatiquement tant que la validation finale n’aura pas réussi.
+`EchoReference` capture toutes les cases d’inventaire, armure et seconde main comprises, le coffre de l’Ender, XP, nourriture, santé et effets. La capture est refaite et vérifiée au passage effectif vers la projection, pour ne pas rétablir un inventaire périmé après la préparation. La projection impose l’observation native ; un message distinct permet seulement les choix scénaristiques vérifiés.
 
-La politique multijoueur demeure ouverte : déclenchement administré, consentement des joueurs concernés et isolation d’une session sont à décider. Un test de disque plein, corruption, arrêt brutal à chaque transition, déconnexion et redémarrage sera indispensable. Cette description ne constitue ni une preuve de sûreté ni une sauvegarde implémentée.
+`EchoJournal` conserve deux fichiers compressés et deux empreintes SHA-256. Chaque écriture utilise un fichier temporaire, `force(true)`, un renommage atomique et une seconde synchronisation du fichier final. Le répertoire est également synchronisé sur les systèmes qui exposent ce canal ; Windows ne le permet pas. Les erreurs d’écriture des fichiers restent bloquantes sur tous les systèmes. L’entrée est refusée si les deux références ne sont pas vérifiées. Un repère sur le joueur, un index SavedData et la recherche des journaux du propriétaire permettent une récupération indépendante de l’interface. Un retour terminé ne peut pas être rejoué pour rétablir un ancien inventaire. Aucun journal n’est supprimé automatiquement.
 
-Le sanctuaire de résonance utilise un seul contrôleur de données, trois sceaux ordinaires et au plus trois UUID de gardiens actifs. Le marquage naturel provient du modèle NBT ; les objets reposés ne le transportent pas. Les morts confirmées et le jeton de vague font autorité, sans déduire une victoire de l’absence d’une entité. Rotations et miroirs transforment à la fois les positions et le repère des mécanismes.
+Au retour, le sol est vérifié sans supprimer de bloc. Le monde source n’est jamais une destination de copie ou de destruction. Reconnexion et `/tnd recover` prennent en charge une session interrompue. Si les références sur disque sont invalides, l’inventaire natif resté intact en observation constitue une voie de repli ; les fichiers endommagés restent conservés.
 
-La 0.6 utilise six cellules climatiques à deux axes et mélange leurs densités aux frontières. Les éléments de paysage travaillent dans le seul chunk décoré et vérifient leur volume avant écriture. Les sons de biome suivent le système natif ; un contrôleur exclusivement client ajoute au plus deux nappes contextuelles et deux événements ponctuels, avec arrêt au changement de dimension. Les célébrations de maîtrise sont émises par le serveur lors du franchissement du seuil, sous forme de paquets natifs adressés au propriétaire.
+Le client conserve au plus une texture GPU de la trame précédente pour une rémanence légère. Il n’effectue aucune lecture des pixels vers le processeur, libère la texture en quittant l’effet et désactive ce rendu si l’allocation échoue. Les réglages d’accessibilité peuvent le retirer et passer la rotation cinématique. Les projections tétrales sont des hypercubes tournant sur deux plans avant projection en trois dimensions.
 
-La 0.7 conserve les trois sceaux et leur trésor lors de la migration. Le boss optionnel dispose d’un UUID et d’un jeton distincts dans le contrôleur ; les anciens champs restent inchangés. Son état d’attaque est serveur, ses tracés sont des particules natives et ses seuls champs visuels sont synchronisés. La récompense globale est marquée récupérée avant le transfert des objets. La forge règle les cycles avant mutation des emplacements, persiste sa pause et bloque les mises à jour de lumière pendant sa suppression. Ses calculs bornent simultanément temps, combustible, matière et sortie.
+## Validation et portée
 
-La 0.8 ajoute des notes d’expédition immuables et bornées dans un attachement distinct, conservé après mort et synchronisé au propriétaire. Les menus ne reçoivent qu’un indice de récompense ; les conditions et objets sont déterminés côté serveur. La mort confirmée d’une sentinelle libre enregistre l’objectif après acceptation par le moteur. Le retour utilise une identité persistante de bloc, une liaison sur le prisme, cent mises à jour natives d’utilisation et une vérification finale de l’arrivée avant prélèvement. Aucune canalisation n’est sauvegardée. Le pupitre naturel est marqué dans le NBT de l’observatoire ; les objets reposés ne portent pas cette autorité.
+`build` exécute le noyau indépendant. `runGameTestServer` vérifie les systèmes dans `run-gametest/`, séparé des parties client et serveur habituelles. Les registres de datapack sont décodés par Minecraft. Les fixtures de dimensions des tests utilisent les types natifs ; la génération complète et l’affichage se vérifient également dans le client.
 
-La 0.9 réutilise le même processeur fini pour forge et séparateur ; leurs recettes, périodes et menus sont distincts. Le récolteur observe au plus 24 emplacements voisins chargés, conserve les huit charges d’un charbon, valide capacité et maturité avant toute mutation, et n’accorde ni XP ni progression automatique. Il n’utilise aucun rattrapage temporel. Les nouveaux minerais sont générés après le paysage, dans le chunk courant, uniquement sur des sols exposés et naturels. Les deux nouveaux types d’entités partagent les contrôles d’attaque mais possèdent silhouettes, timings, butins et habitats distincts ; seules charge et récupération sont synchronisées, les animations et l’aide visuelle demeurant locales. Le guide ne détient pas d’autorité serveur. Les identifiants et schémas d’attachement de la 0.8 sont conservés.
-
-
-La génération 0.9 des neuf sites passe par `CrownedSiteStructure` et `CrownedSitePiece` : codec et pièces enregistrés, sommet choisi après sondage du terrain, placement déterministe du massif et du template dans le même morceau sauvegardé, écritures limitées au chunk fourni par le moteur. La grille `random_spread` et les identifiants historiques sont conservés ; les anciennes pièces jigsaw déjà sauvegardées restent lisibles. `OutpostTerrain.crowned` applique le même massif à l’avant-poste manuel des nouveaux mondes. Les atlas de personnages sont maintenant en 64 × 64 ; `UmbraArmorModels` fournit un modèle distinct par emplacement avec les poses humanoïdes natives, sans changer les statistiques serveur.
+Les tests de corruption et d’écriture ne démontrent pas l’absence de toute panne matérielle. L’isolation des données sources reste la protection principale, conformément au §14.6 du cahier. Les vérifications et comportements de la version sont détaillés dans [SYMBIOSIS_0.12.0.md](SYMBIOSIS_0.12.0.md) et [CAHIER_COUVERTURE_0.12.md](CAHIER_COUVERTURE_0.12.md).

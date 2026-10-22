@@ -18,6 +18,7 @@ public final class CompanionTravel {
     private final Map<UUID,Pending> pending=new HashMap<>();
     @SubscribeEvent(priority=EventPriority.LOWEST)
     public void departing(EntityTravelToDimensionEvent e) {
+        if(e.getDimension().equals(fr.axephir.tnd.narrative.Convergence.ECHO)||e.getEntity().level().dimension().equals(fr.axephir.tnd.narrative.Convergence.ECHO))return;
         if(!(e.getEntity() instanceof ServerPlayer p)||p.level().dimension().equals(e.getDimension()))return;
         long now=p.level().getServer().overworld().getGameTime();
         pending.values().removeIf(old->now-old.tick()>40);
