@@ -77,7 +77,7 @@ public final class CityRenderer extends MobRenderer<CityMob,CityRenderer.State,C
             if(k==CityMob.Kind.PROWLER)for(int side:new int[]{-1,1})body.getChild("head").addOrReplaceChild("fin"+side,box(48,0,-.5f,-2,0,1,4,7),PartPose.offsetAndRotation(side*3,-1,2,.2f,side*.2f,0));
             return LayerDefinition.create(mesh,64,64);
         }
-        @Override public void setupAnim(State s){super.setupAnim(s);float age=AtmosphereOptions.ANIMATIONS.get()?s.ageInTicks:0;float wind=s.charge>0?1-s.charge/(float)kind.windup:0;wind=wind*wind*(3-2*wind);float strike=Math.max(0,(s.recovery-(kind==CityMob.Kind.DRONE?62:45))/(kind==CityMob.Kind.DRONE?13f:10f));
+        @Override public void setupAnim(State s){super.setupAnim(s);float age=AtmosphereOptions.ANIMATIONS.get()?s.ageInTicks:0;float wind=s.charge>0?1-s.charge/(float)kind.windup:0;wind=wind*wind*(3-2*wind);float strikeTicks=kind==CityMob.Kind.DRONE||kind==CityMob.Kind.SURGEON?13f:10f;float strike=Math.clamp((s.recovery-(kind.recoveryTicks()-strikeTicks))/strikeTicks,0,1);
             head.yRot=s.yRot*Mth.DEG_TO_RAD*.65f;head.xRot=s.xRot*Mth.DEG_TO_RAD*.5f;
             if(kind==CityMob.Kind.DRONE){torso.y+=Mth.sin(age*.12f)*.6f;torso.zRot=Mth.sin(age*.08f)*.06f;for(int i=0;i<4;i++)rotors[i].yRot=age*(i%2==0?.9f:-.9f);for(int i=0;i<2;i++)arms[i].xRot=-wind*.85f+Mth.sin(age*.09f+i)*.1f;head.xRot-=wind*.3f;torso.xRot+=strike*.12f;}
             else {float gait=s.walkAnimationPos*((kind==CityMob.Kind.ENFORCER||kind==CityMob.Kind.MARSHAL)?.7f:1.2f),speed=Math.min(1,s.walkAnimationSpeed);

@@ -24,6 +24,7 @@ import java.util.*;
 public final class CityMob extends Monster {
     public enum Kind { ENFORCER("neon_enforcer",28,54,.30,9,6), DRONE("suture_drone",40,24,.26,4,2), REAVER("signal_reaver",24,36,.36,7,3), MARSHAL("nacre_marshal",40,180,.25,12,10), SURGEON("choir_surgeon",44,140,.28,8,6), PROWLER("glass_prowler",30,125,.40,9,4);
         public final String id;public final int windup;final double hp,speed,damage,armor;
+        public int recoveryTicks(){return this==DRONE?75:this==SURGEON?90:ordinal()>=3?75:55;}
         Kind(String id,int w,double h,double s,double d,double a){this.id=id;windup=w;hp=h;speed=s;damage=d;armor=a;}
     }
     private static final EntityDataAccessor<Integer> CHARGE=SynchedEntityData.defineId(CityMob.class,EntityDataSerializers.INT),RECOVERY=SynchedEntityData.defineId(CityMob.class,EntityDataSerializers.INT);
@@ -32,7 +33,7 @@ public final class CityMob extends Monster {
     private int burst;private BlockPos post;
     private final net.minecraft.server.level.ServerBossEvent bossBar=new net.minecraft.server.level.ServerBossEvent(java.util.UUID.randomUUID(),net.minecraft.network.chat.Component.empty(),net.minecraft.world.BossEvent.BossBarColor.PURPLE,net.minecraft.world.BossEvent.BossBarOverlay.PROGRESS);
     private final Set<UUID> struck=new HashSet<>();
-    public CityMob(EntityType<? extends CityMob> type,Level world,Kind kind){super(type,world);this.kind=kind;xpReward=kind.ordinal()>=3?80:kind==Kind.ENFORCER?16:10;
+    public CityMob(EntityType<? extends CityMob> type,Level world,Kind kind){super(type,world);this.kind=kind;bossBar.setName(net.minecraft.network.chat.Component.translatable("entity.tnd."+kind.id));xpReward=kind.ordinal()>=3?80:kind==Kind.ENFORCER?16:10;
         if(kind==Kind.DRONE){moveControl=new FlyingMoveControl<>(this,20,true);navigation=new FlyingPathNavigation(this,world);setNoGravity(true);}
     }
     public static AttributeSupplier.Builder attributes(Kind k){return createMonsterAttributes().add(Attributes.MAX_HEALTH,k.hp).add(Attributes.MOVEMENT_SPEED,k.speed).add(Attributes.FLYING_SPEED,.35).add(Attributes.ATTACK_DAMAGE,k.damage).add(Attributes.ARMOR,k.armor).add(Attributes.SCALE,k==Kind.MARSHAL?1.25:1).add(Attributes.FOLLOW_RANGE,40).add(Attributes.KNOCKBACK_RESISTANCE,k==Kind.ENFORCER?.5:0);}
@@ -72,7 +73,7 @@ public final class CityMob extends Monster {
                 if(ranged())beam(w,getEyePosition(),mark,true);
                 else for(int i=0;i<20;i++){double a=i*Math.PI/10;double radius=kind==Kind.MARSHAL?4:heavy()?1.8:1.1;w.sendParticles(ParticleTypes.ELECTRIC_SPARK,mark.x+Math.cos(a)*radius,mark.y+.1,mark.z+Math.sin(a)*radius,1,0,.015,0,0);}
             }
-            entityData.set(CHARGE,c-1);if(c==1){burst=ranged()?13:heavy()?8:10;entityData.set(RECOVERY,ranged()?90:boss()?75:55);
+            entityData.set(CHARGE,c-1);if(c==1){burst=ranged()?13:heavy()?8:10;entityData.set(RECOVERY,kind.recoveryTicks());
                 if(kind==Kind.SURGEON)for(var ally:w.getEntitiesOfClass(CityMob.class,getBoundingBox().inflate(10),a->a!=this&&a.isAlive()&&hasLineOfSight(a)).stream().limit(6).toList()){ally.heal(6);w.sendParticles(ParticleTypes.HAPPY_VILLAGER,ally.getX(),ally.getEyeY(),ally.getZ(),8,.3,.3,.3,0);}}
         }else if(burst>0){
             if(ranged()){if(burst%6==1)beam(w,getEyePosition(),mark,false);}
