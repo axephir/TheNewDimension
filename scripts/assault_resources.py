@@ -64,7 +64,7 @@ def content(write,png,assets,data):
  write(data/'advancement/recipes/crystal_restorer.json',{'criteria':{'crystal':{'trigger':'minecraft:inventory_changed','conditions':{'items':[{'items':'tnd:security_processor'}]}}},'requirements':[['crystal']],'rewards':{'recipes':['tnd:crystal_restorer']}})
  write(data/'recipe/assault_lamp.json',{'type':'minecraft:crafting_shaped','pattern':[' G ','CRC',' G '],'key':{'G':'minecraft:glass','C':'minecraft:copper_ingot','R':'minecraft:redstone'},'result':{'id':'tnd:assault_lamp','count':4}})
  write(data/'loot_table/chests/assault_reserves.json',{'type':'minecraft:chest','pools':[{'rolls':{'type':'minecraft:uniform','min':4,'max':7},'entries':[{'type':'minecraft:item','name':n,'functions':[{'function':'minecraft:set_count','count':{'type':'minecraft:uniform','min':1,'max':4}}]} for n in ['tnd:blue_shard','tnd:red_shard','tnd:green_shard','tnd:ion_filament','tnd:security_processor','tnd:tempered_alloy','minecraft:gold_ingot','minecraft:cooked_beef']]}]})
- for name in TESTS:write(data/f'test_instance/{name}.json',{'type':'minecraft:function','environment':'minecraft:default','function':'tnd:'+name,'structure':'tnd:test_habitat','max_ticks':1000,'required':True})
+ for name in TESTS:write(data/f'test_instance/{name}.json',{'type':'minecraft:function','environment':'minecraft:default','function':'tnd:'+name,'structure':'tnd:test_habitat','max_ticks':4000 if name=='assault_blackout' else 1000,'required':True})
 def languages(fr,en):
  values={'ward':('du Rempart','of the Ward'),'shade':('de la Traque','of the Shade'),'choir':('de la Suture','of the Choir')}
  names={'helmet':('Heaume','Helmet'),'chestplate':('Plastron','Chestplate'),'leggings':('Jambières','Leggings'),'boots':('Bottes','Boots')}
