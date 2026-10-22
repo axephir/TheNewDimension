@@ -5,6 +5,8 @@ BLOCKS=['auralite_ore','noctilite_ore']+DECOR+['harmonic_chime','ore_separator',
 ITEMS=['raw_auralite','raw_noctilite','auralite_grit','noctilite_grit','auralite_ingot','noctilite_crystal','umbra_alloy','lithic_heart','glass_filament','auralite_pickaxe','auralite_blade','umbra_pickaxe','umbra_blade','gravitas_hammer','umbra_helmet','umbra_chestplate','umbra_leggings','umbra_boots','lithoguard_spawn_egg','glass_stalker_spawn_egg']
 ENTITIES=['lithoguard','lithoguard_charged','glass_stalker','glass_stalker_charged']
 def paint(name,item=False):
+    from armor_icons import ART, pixels
+    if name in ART:return pixels(name)
     if name not in BLOCKS+ITEMS+ENTITIES+['umbra_armor','umbra_leggings_armor']:return None
     rng=random.Random(int.from_bytes(hashlib.sha256(name.encode()).digest()[:8],'big'))
     p=[(0,0,0,0)]*256

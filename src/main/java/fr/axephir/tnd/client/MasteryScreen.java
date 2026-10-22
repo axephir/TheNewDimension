@@ -209,10 +209,8 @@ public final class MasteryScreen extends AbstractContainerScreen<MasteryMenu> {
     @Override public void extractRenderState(GuiGraphicsExtractor g,int mx,int my,float partial){super.extractRenderState(g,mx,my,partial);
         if(mx>=leftPos+12&&mx<leftPos+panelWidth-12&&my>=topPos+60&&my<topPos+79){var p=progress();g.setTooltipForNextFrame(tr("xp",p.experience(),Math.max(0,Experience.threshold(p.level()+1)-p.experience())),mx,my);}
     }
-    private class AtlasButton extends Button {
+    private class AtlasButton extends AstralButton {
         AtlasButton(int x,int y,int w,int h,Component text,Runnable action){super(x,y,w,h,text,b->action.run(),n->n.get());}
-        @Override protected void extractContents(GuiGraphicsExtractor g,int mx,int my,float a){boolean hot=isHoveredOrFocused();ConstellationStyle.plate(g,getX(),getY(),getWidth(),getHeight(),active?(hot?ConstellationStyle.CYAN:0xff405574):0xff263149,active?(hot?0xff254051:0xff17273c):0xff101b2d);String label=fitText(getMessage(),getWidth()-(getWidth()<25?4:8));g.text(font,label,getX()+(getWidth()-font.width(label))/2,getY()+(getHeight()-8)/2,active?ConstellationStyle.TEXT:ConstellationStyle.DIM,false);}
-        @Override public void playDownSound(SoundManager manager){sound(false);}
     }
     private final class Node extends AtlasButton {
         final Talent t;final int milestone,gx,gy;

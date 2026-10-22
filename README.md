@@ -2,13 +2,15 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.15.0-dev — Constellations.**
+**Version : 0.15.1-dev — Interfaces astrales.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.15.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.15.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.15.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.15.0.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.15.1-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.15.1-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.15.1-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.15.1.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**La direction artistique de Constellations accompagne tous les menus du mod** : panneaux bleu nuit, étoiles discrètes, cartes opaques pour la lecture, accents cyan et or, boutons cohérents et clics doux. Objectifs, archives, dossier du familier, guides, machines, moniteur et terminaux partagent ce thème. **Les seize icônes d’armure ont été redessinées en 16 × 16**, avec une silhouette et une palette propres à chaque ensemble ; les modèles 3D portés restent inchangés. Cette refonte s’applique aux parties existantes, sans génération de nouveaux chunks. [Guide de la 0.15.1](docs/ASTRAL_0.15.1.md).
 
 **Un arbre de compétences entièrement visuel** remplace les listes compactes : fond spatial discret, quinze maîtrises illustrées, branches de prérequis, fiches au survol, achats séparés de la sélection, navigation par glissement et zoom. Une fiche latérale sur grand écran, une disposition adaptée aux petites fenêtres, des confirmations lumineuses et sonores et une option de mouvements réduits accompagnent la refonte. Les maîtrises et titres existants sont conservés. [Guide de la 0.15](docs/CONSTELLATIONS_0.15.0.md).
 

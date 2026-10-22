@@ -1,5 +1,5 @@
 """Original Nacre assault equipment, finite encounter nodes and restoration workshop."""
-import json,random
+import json
 SETS=['ward','shade','choir'];PARTS=['helmet','chestplate','leggings','boots']
 BOSSES=['nacre_marshal','glass_prowler','choir_surgeon']
 BLOCKS=['assault_lamp','crystal_restorer']
@@ -10,6 +10,7 @@ def content(write,png,assets,data):
  from character_art import armor
  from city_resources import character
  from industry_resources import art
+ from armor_icons import pixels as inventory_pixels
  for set,boss in zip(SETS,BOSSES):
   glow=COLORS[set]
   name=set+'_memory';png(assets/f'textures/item/{name}.png',art('control_circuit'));write(assets/f'models/item/{name}.json',{'parent':'minecraft:item/generated','textures':{'layer0':'tnd:item/'+name}});write(assets/f'items/{name}.json',{'model':{'type':'minecraft:model','model':'tnd:item/'+name}})
@@ -24,14 +25,7 @@ def content(write,png,assets,data):
    png(assets/f'textures/entity/equipment/{"humanoid_leggings" if leggings else "humanoid"}/{set}.png',pixels,64,64)
   write(assets/f'equipment/{set}.json',{'layers':{'humanoid':[{'texture':'tnd:'+set}],'humanoid_leggings':[{'texture':'tnd:'+set}]}})
   for part in PARTS:
-   pixels=[];rng=random.Random(set+part)
-   for y in range(16):
-    for x in range(16):
-     body=(3<=x<=12 and 3<=y<=10) if part=='helmet' else ((2<=x<=13 and 3<=y<=6) or (4<=x<=11 and 6<=y<=13)) if part=='chestplate' else (3<=x<=12 and 2<=y<=5 or 3<=x<=6 and 5<=y<=13 or 9<=x<=12 and 5<=y<=13) if part=='leggings' else (3<=x<=6 and 6<=y<=12 or 9<=x<=12 and 6<=y<=12 or 2<=x<=6 and y==13 or 9<=x<=13 and y==13)
-     if part=='helmet' and 5<=x<=10 and 7<=y<=10:body=False
-     n=rng.randrange(-4,5);c=(0,0,0,0)
-     if body:c=(*glow,255) if y in (3,6,12) else (68+n,78+n,86+n,255)
-     pixels.append(c)
+   pixels=inventory_pixels(set+'_'+part)
    name=set+'_'+part;png(assets/f'textures/item/{name}.png',pixels);write(assets/f'models/item/{name}.json',{'parent':'minecraft:item/generated','textures':{'layer0':'tnd:item/'+name}});write(assets/f'items/{name}.json',{'model':{'type':'minecraft:model','model':'tnd:item/'+name}})
   write(data/f'loot_table/entities/{boss}.json',{'type':'minecraft:entity','pools':[
    {'rolls':1,'conditions':[{'condition':'minecraft:killed_by_player'}],'entries':[{'type':'minecraft:item','name':'tnd:'+set+'_memory'}]},
