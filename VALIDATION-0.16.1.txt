@@ -1,0 +1,43 @@
+THE NEW DIMENSION — 0.16.1-dev — Reliefs du Premier Silence
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : 09d156d83d47b596177b982e1f907ae94a33458c
+CI du commit exact : https://github.com/axephir/TheNewDimension/actions/runs/39940222548
+Statut : succès.
+
+CONTENU
+Révision des intérieurs des 48 chambres de l’Observatoire.
+Cours réellement excavées, quatre niveaux, marches natives, terrasses et gradins.
+Arcades porteuses, voûtes courbes, caissons, consoles et alcôves en profondeur.
+Mobilier distinct pour chaque acte, archives ajourées et réacteurs creux.
+Éclairage à hauteur humaine et liserés sous les arches.
+Neuf sprites refaits : facettes minérales, métal biseauté, circuits et gravures.
+
+VALIDATION
+- Compilation réussie et 53 119 assertions du noyau.
+- Tous les 181 GameTests Minecraft requis réussis, dont deux nouveaux contrôles
+  des accès des 48 chambres, volumes de combat et fondations réellement creusées.
+- Les 24 groupes de contrôles des ressources réussis.
+- Les 65 sons existants se décodent ; aucun son modifié dans cette révision.
+- Neuf sprites de 16 × 16 pixels, alpha binaire et seize couleurs maximum.
+- Empreintes des neuf atlas/modèles d’armures portées identiques à la 0.15.1.
+- Huit captures F2 natives de 1280 × 720, sans retouche, sur un site inédit.
+- Descente de 129 à 125 et retour à 129 à pied, sans saut ni vol ;
+  montée des escaliers de galerie de 129 à 139 observée dans le client.
+- Inspection dans le client : reliefs, éclairage, aménagements des six actes,
+  cours excavées, cheminements et inventaire. Caméra/inventaire préparés.
+- Source de chaque fichier du ZIP comparée au dépôt ; JAR embarqué identique.
+
+INSTALLATION ET PORTÉE
+Remplacer l’ancien JAR TND côté client et serveur.
+Les nouveaux sprites s’appliquent immédiatement ; pour les nouveaux intérieurs,
+rejoindre un Observatoire dans des chunks encore inexplorés ou un nouveau monde.
+Les salles déjà enregistrées et les progressions existantes sont conservées.
+Aucun parcours humain complet de 3 h 30–4 h ni équilibrage final revendiqué.
+Client de contrôle avec rendu logiciel ; les images montrent le rendu effectif.
+Guide : docs/INTERIORS_0.16.1.md.
+
+FICHIERS
+tnd-0.16.1-dev.jar : 5616859 octets
+SHA-256 : 29fca51a6486827f24ef6b1fcc7d1f33d73d50b30f385773c5eb36a44c9acf5b
+TheNewDimension-0.16.1-dev.zip : 10655354 octets
+SHA-256 : df95cdbae46669d130f6ffa17ba536d62317b0c4c49977b0c7ebd78ff6007bc3

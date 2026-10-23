@@ -18,3 +18,7 @@ Les seize icônes d’armure de la 0.15.1 proviennent d’une création original
 Les seize textures de blocs et les neuf nouvelles icônes d’objets de l’Observatoire 0.16 proviennent de créations originales assistées par génération d’image, exportées en 16 × 16 à palette limitée et transparence franche. Les grilles et palettes canoniques figurent dans `scripts/sanctuary_art.py` et `scripts/sanctuary_item_art.py`. Les atlas des gardiens, modèles, géométrie et fragments narratifs sont originaux. Les sept nouveaux sons sont synthétisés par `scripts/sanctuary_audio.py`, sans échantillon tiers.
 
 Références visuelles externes consultées pour l’atmosphère de l’Observatoire d’Assassin’s Creed Black Flag Resynced : [salle d’observation](https://www.noobfeed.com/articles/assassins-creed-black-flag-resynced-observation-room) et [sortie de l’Observatoire](https://www.noobfeed.com/articles/assassins-creed-black-flag-resynced-exit-observatory). Aucune capture ni ressource Ubisoft n’est incorporée aux fichiers distribués.
+
+## Révision 0.16.1
+
+Les neuf sprites d’objets du Premier Silence ont été redessinés avec l’outil de génération d’images, puis extraits, recadrés et exportés techniquement en 16 × 16. Leurs palettes et pixels canoniques sont dans `scripts/sanctuary_item_art.py`. Aucun sprite d’un autre jeu ni texture de référence Assassin’s Creed n’est distribué.
