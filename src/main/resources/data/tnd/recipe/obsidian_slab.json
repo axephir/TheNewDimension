@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:obsidian_tiles",
+  "result": {
+    "id": "tnd:obsidian_slab",
+    "count": 2
+  }
+}

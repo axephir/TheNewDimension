@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tnd:item/threshold_colossus_spawn_egg"
+  }
+}

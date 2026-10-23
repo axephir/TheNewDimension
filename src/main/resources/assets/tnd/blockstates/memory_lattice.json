@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "tnd:block/memory_lattice"
+    }
+  }
+}

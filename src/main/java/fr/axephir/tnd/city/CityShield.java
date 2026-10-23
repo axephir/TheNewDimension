@@ -11,8 +11,16 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 /** City-wide protection covers vanilla furniture as well as mod blocks. Doors, containers and terminals still work. */
 public final class CityShield {
-    private static boolean locked(net.minecraft.world.level.LevelAccessor w,BlockPos p){return w instanceof Level l&&CityRegions.protectedAt(l,p);}
-    @SubscribeEvent(priority=net.neoforged.bus.api.EventPriority.HIGHEST) public void mining(BreakBlockEvent e){if(locked(e.getLevel(),e.getPos())){e.setCanceled(true);e.setNotifyClient(true);if(!e.getLevel().isClientSide())e.getPlayer().sendOverlayMessage(Component.translatable("city.tnd.protected"));}}
+    private static boolean locked(net.minecraft.world.level.LevelAccessor w,BlockPos p){return w instanceof Level l&&(CityRegions.protectedAt(l,p)||fr.axephir.tnd.sanctuary.SanctuaryRegions.protectedAt(l,p));}
+    @SubscribeEvent(priority=net.neoforged.bus.api.EventPriority.HIGHEST)
+    public void mining(BreakBlockEvent e){
+        if(!locked(e.getLevel(),e.getPos()))return;
+        e.setCanceled(true);e.setNotifyClient(true);
+        if(!e.getLevel().isClientSide()){
+            boolean sanctuary=e.getLevel() instanceof Level level&&fr.axephir.tnd.sanctuary.SanctuaryRegions.protectedAt(level,e.getPos());
+            e.getPlayer().sendOverlayMessage(Component.translatable(sanctuary?"observatory.tnd.protected":"city.tnd.protected"));
+        }
+    }
     @SubscribeEvent(priority=net.neoforged.bus.api.EventPriority.HIGHEST) public void placement(BlockEvent.EntityPlaceEvent e){if(locked(e.getLevel(),e.getPos())||e instanceof BlockEvent.EntityMultiPlaceEvent multi&&multi.getReplacedBlockSnapshots().stream().anyMatch(s->locked(e.getLevel(),s.getPos())))e.setCanceled(true);}
     @SubscribeEvent public void explosion(ExplosionEvent.Detonate e){e.getAffectedBlocks().removeIf(p->locked(e.getLevel(),p));}
     @SubscribeEvent public void fire(BlockEvent.FluidPlaceBlockEvent e){if(locked(e.getLevel(),e.getPos()))e.setCanceled(true);}
@@ -30,13 +38,14 @@ public final class CityShield {
         for(int cx=minX>>4;cx<=maxX>>4;cx++)for(int cz=minZ>>4;cz<=maxZ>>4;cz++)if(w.hasChunk(cx,cz)){
             int x=Math.clamp(region.x(),Math.max(minX,cx*16),Math.min(maxX,cx*16+15)),z=Math.clamp(region.z(),Math.max(minZ,cz*16),Math.min(maxZ,cz*16+15));
             if(CityRegions.protectedAt(w,new BlockPos(x,at.getY(),z)))return true;
+            for(int xx=Math.max(minX,cx*16);xx<=Math.min(maxX,cx*16+15);xx++)for(int zz=Math.max(minZ,cz*16);zz<=Math.min(maxZ,cz*16+15);zz++)if(fr.axephir.tnd.sanctuary.SanctuaryRegions.protectedAt(w,new BlockPos(xx,at.getY(),zz)))return true;
         }
         // Older city biomes are stored in four-block cells and may predate the new circular generation marker.
         for(int x=minX;x<=maxX;x+=4)for(int z=minZ;z<=maxZ;z+=4)for(int y=at.getY()-14;y<=at.getY()+14;y+=4)if(CityRegions.protectedAt(w,new BlockPos(x,y,z)))return true;
         return false;
     }
     @SubscribeEvent public void entityBreak(net.neoforged.neoforge.event.entity.living.LivingDestroyBlockEvent e){if(locked(e.getEntity().level(),e.getPos()))e.setCanceled(true);}
-    @SubscribeEvent public void grief(EntityMobGriefingEvent e){var mob=e.getEntity();if(mob.level().dimension().equals(fr.axephir.tnd.world.DevelopmentCommands.DIMENSION)&&CityRegions.nearest(mob.getBlockX(),mob.getBlockZ()).distance(mob.getX(),mob.getZ())<=CityRegions.RADIUS+32)e.setCanGrief(false);}
+    @SubscribeEvent public void grief(EntityMobGriefingEvent e){var mob=e.getEntity();if(mob.level().dimension().equals(fr.axephir.tnd.world.DevelopmentCommands.DIMENSION)&&(CityRegions.nearest(mob.getBlockX(),mob.getBlockZ()).distance(mob.getX(),mob.getZ())<=CityRegions.RADIUS+32||fr.axephir.tnd.sanctuary.SanctuaryRegions.protectedAt(mob.level(),mob.blockPosition())))e.setCanGrief(false);}
     @SubscribeEvent public void use(PlayerInteractEvent.RightClickBlock e){
         if(!locked(e.getLevel(),e.getPos()))return;var item=e.getItemStack();
         if(item.getItem() instanceof net.minecraft.world.item.BucketItem||item.is(net.minecraft.world.item.Items.FLINT_AND_STEEL)||item.is(net.minecraft.world.item.Items.FIRE_CHARGE))e.setCanceled(true);

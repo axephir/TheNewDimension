@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "tnd:nightslag",
+  "result": {
+    "id": "tnd:amber_seal",
+    "count": 1
+  }
+}

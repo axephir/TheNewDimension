@@ -69,13 +69,13 @@ public final class IndustrialEntity extends BlockEntity implements WorldlyContai
             IndustrialNetwork.distribute(this);updateLit(lit||kind==Industry.Kind.BATTERY&&energy.getAmountAsInt()>0);setChanged();return;
         }
         if((kind==Industry.Kind.QUARRY||kind==Industry.Kind.FARM||kind==Industry.Kind.RANCH||kind==Industry.Kind.PASTURE)&&w.dimension()!=Level.OVERWORLD){status=9;updateLit(false);return;}
-        if((kind==Industry.Kind.CRUSHER||kind==Industry.Kind.FURNACE||kind==Industry.Kind.REPAIR)&&!foundation()){status=6;progress=0;updateLit(false);return;}
+        if((kind==Industry.Kind.CRUSHER||kind==Industry.Kind.FURNACE||kind==Industry.Kind.REPAIR||kind.ordinal()>=10)&&!foundation()){status=6;progress=0;updateLit(false);return;}
         if(kind==Industry.Kind.QUARRY){
             if(!armed){status=10;updateLit(false);return;}
             if(!derrickBuilt()){status=6;progress=0;updateLit(false);return;}
             if(drill==0&&!items.get(0).is(Industry.DRILL.get())){status=1;updateLit(false);return;}
         }
-        status=7;Job job=switch(kind){case CRUSHER->crushing();case FURNACE->smelting();case QUARRY->quarry(w);case FARM->farming(w);case RANCH->ranching(w);case PASTURE->pasture(w);case REPAIR->repair();default->null;};
+        status=7;Job job=switch(kind){case CRUSHER->crushing();case FURNACE->smelting();case QUARRY->quarry(w);case FARM->farming(w);case RANCH->ranching(w);case PASTURE->pasture(w);case REPAIR->repair();case REFINERY,CRUCIBLE,ASSEMBLER->observatoryProcess();case SORTER->sorting();default->null;};
         if(job==null){progress=0;updateLit(false);return;}
         if(!fits(job.drops)){status=2;updateLit(false);return;}
         if(energy.getAmountAsInt()<job.cost){status=5;updateLit(false);return;}
@@ -89,6 +89,16 @@ public final class IndustrialEntity extends BlockEntity implements WorldlyContai
             }
         }
         updateLit(lit);setChanged();
+    }
+    private Job sorting(){
+        var input=items.get(0);var filter=items.get(1);if(input.isEmpty()||filter.isEmpty()||!ItemStack.isSameItemSameComponents(input,filter)){status=1;return null;}
+        return new Job(List.of(input.copyWithCount(1)),120,10,()->{items.get(0).shrink(1);return true;});
+    }
+    private Job observatoryProcess(){
+        var recipe=ObservatoryProcessing.recipe(kind);if(recipe==null||!recipe.matches(items.get(0),items.get(1))){status=1;return null;}
+        return new Job(List.of(new ItemStack(recipe.output(),recipe.count())),recipe.energy(),recipe.ticks(),()->{
+            if(!recipe.matches(items.get(0),items.get(1)))return false;items.get(0).shrink(recipe.firstCount());items.get(1).shrink(recipe.secondCount());return true;
+        });
     }
     private Job repair(){
         var input=items.get(0);int restored=fr.axephir.tnd.assault.AssaultEquipment.repair(items.get(1));
@@ -184,10 +194,10 @@ public final class IndustrialEntity extends BlockEntity implements WorldlyContai
     private void insert(List<ItemStack> drops){var out=new ArrayList<ItemStack>();for(int i=2;i<(kind==Industry.Kind.REPAIR?3:11);i++)out.add(items.get(i).copy());if(!merge(out,drops))throw new IllegalStateException("Industrial output changed during an atomic operation");for(int i=0;i<out.size();i++)items.set(i+2,out.get(i));}
     private void updateLit(boolean active){var s=getBlockState();if(s.getValue(IndustrialBlock.LIT)!=active&&level.getBlockEntity(worldPosition)==this)level.setBlock(worldPosition,s.setValue(IndustrialBlock.LIT,active),3);}
     @Override public boolean canPlaceItem(int slot,ItemStack s){
-        if(slot>1)return false;if(slot==1)return kind==Industry.Kind.REPAIR?fr.axephir.tnd.assault.AssaultEquipment.repair(s)>0:kind==Industry.Kind.PASTURE&&s.is(Items.BUCKET);
+        if(slot<0||slot>1)return false;if(kind==Industry.Kind.SORTER)return slot==1||!items.get(1).isEmpty()&&ItemStack.isSameItemSameComponents(s,items.get(1));if(kind.ordinal()>=10){var r=ObservatoryProcessing.recipe(kind);return r!=null&&s.is(slot==0?r.first():r.second());}if(slot==1)return kind==Industry.Kind.REPAIR?fr.axephir.tnd.assault.AssaultEquipment.repair(s)>0:kind==Industry.Kind.PASTURE&&s.is(Items.BUCKET);
         return switch(kind){case DYNAMO->coal(s);case CRUSHER->!crushed(s).isEmpty();case FURNACE->!smelted(s).isEmpty();case QUARRY->s.is(Industry.DRILL.get());case RANCH->s.is(Items.WHEAT)||s.is(Items.CARROT)||s.is(Items.POTATO)||s.is(Items.BEETROOT)||s.is(Items.WHEAT_SEEDS)||s.is(Items.BEETROOT_SEEDS)||s.is(Items.MELON_SEEDS)||s.is(Items.PUMPKIN_SEEDS);case PASTURE->s.is(Items.SHEARS);case REPAIR->fr.axephir.tnd.assault.AssaultContent.gear(s)&&s.isDamaged();default->false;};
     }
-    @Override public int[] getSlotsForFace(Direction d){return d==Direction.DOWN?(kind==Industry.Kind.REPAIR?new int[]{2}:new int[]{2,3,4,5,6,7,8,9,10}):new int[]{0,1};}
+    @Override public int[] getSlotsForFace(Direction d){return d==Direction.DOWN?(kind==Industry.Kind.REPAIR?new int[]{2}:new int[]{2,3,4,5,6,7,8,9,10}):kind==Industry.Kind.SORTER?new int[]{0}:new int[]{0,1};}
     @Override public boolean canPlaceItemThroughFace(int slot,ItemStack s,Direction d){return d!=Direction.DOWN&&canPlaceItem(slot,s);}
     @Override public boolean canTakeItemThroughFace(int slot,ItemStack s,Direction d){return d==Direction.DOWN&&slot>=2;}
     @Override public int getContainerSize(){return 11;}@Override public boolean isEmpty(){return items.stream().allMatch(ItemStack::isEmpty);}
@@ -200,5 +210,5 @@ public final class IndustrialEntity extends BlockEntity implements WorldlyContai
     @Override public AbstractContainerMenu createMenu(int id,Inventory inv,Player p){return new IndustrialMenu(id,inv,this,data);}
     @Override public void preRemoveSideEffects(BlockPos p,BlockState s){if(level!=null&&!level.isClientSide()){Containers.dropContents(level,p,this);items.clear();}super.preRemoveSideEffects(p,s);}
     @Override protected void saveAdditional(ValueOutput out){super.saveAdditional(out);energy.serialize(out);out.putInt("progress",progress);out.putInt("burn",burn);out.putInt("drill",drill);out.putInt("cursor",cursor);out.putInt("rotation",rotation);out.putBoolean("armed",armed);var list=out.list("items",ItemStackWithSlot.CODEC);for(int i=0;i<11;i++)if(!items.get(i).isEmpty())list.add(new ItemStackWithSlot(i,items.get(i)));}
-    @Override protected void loadAdditional(ValueInput in){super.loadAdditional(in);energy.set(Math.clamp(in.getIntOr("energy",0),0,kind.capacity));progress=Math.clamp(in.getIntOr("progress",0),0,99);burn=Math.clamp(in.getIntOr("burn",0),0,25);drill=Math.clamp(in.getIntOr("drill",0),0,1024);cursor=Math.clamp(in.getIntOr("cursor",0),0,100000);rotation=Math.floorMod(in.getIntOr("rotation",0),81);armed=in.getBooleanOr("armed",false);items.clear();in.listOrEmpty("items",ItemStackWithSlot.CODEC).forEach(e->{if(e.isValidInContainer(11)){e.stack().limitSize(Math.min(64,e.stack().getMaxStackSize()));items.set(e.slot(),e.stack());}});}
+    @Override protected void loadAdditional(ValueInput in){super.loadAdditional(in);energy.set(Math.clamp(in.getIntOr("energy",0),0,kind.capacity));progress=Math.clamp(in.getIntOr("progress",0),0,kind.ordinal()>=10?239:99);burn=Math.clamp(in.getIntOr("burn",0),0,25);drill=Math.clamp(in.getIntOr("drill",0),0,1024);cursor=Math.clamp(in.getIntOr("cursor",0),0,100000);rotation=Math.floorMod(in.getIntOr("rotation",0),81);armed=in.getBooleanOr("armed",false);items.clear();in.listOrEmpty("items",ItemStackWithSlot.CODEC).forEach(e->{if(e.isValidInContainer(11)){e.stack().limitSize(Math.min(64,e.stack().getMaxStackSize()));items.set(e.slot(),e.stack());}});}
 }

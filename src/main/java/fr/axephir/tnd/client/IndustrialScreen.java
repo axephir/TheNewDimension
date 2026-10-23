@@ -31,6 +31,7 @@ public final class IndustrialScreen extends AbstractContainerScreen<IndustrialMe
             var lines=font.split(Component.translatable("industry.tnd.detail."+menu.kind().id),103);
             for(int i=0;i<Math.min(4,lines.size());i++)g.text(font,lines.get(i),x+55,y+(menu.inputVisible(0)?48:61)+i*10,ConstellationStyle.TEXT,false);
         }
+        if(menu.kind().ordinal()>=10)g.text(font,Component.translatable(menu.kind()==Industry.Kind.SORTER?"observatory.tnd.filter":"observatory.tnd.reagent"),x+45,y+90,ConstellationStyle.MUTED,false);
         if(menu.kind()==Industry.Kind.REPAIR){g.text(font,Component.translatable("assault.tnd.crystal"),x+47,y+90,ConstellationStyle.TEXT,false);g.text(font,Component.translatable("assault.tnd.result"),x+109,y+77,ConstellationStyle.TEXT,false);}
         g.text(font,menu.energy()+" / "+menu.kind().capacity+" FE",x+9,y+109,ConstellationStyle.MUTED,false);
         var lines=font.split(Component.translatable("industry.tnd.state."+menu.status()),158);for(int i=0;i<(menu.kind()==Industry.Kind.QUARRY?0:Math.min(2,lines.size()));i++)g.text(font,lines.get(i),x+9,y+137+i*9,ConstellationStyle.MUTED,false);

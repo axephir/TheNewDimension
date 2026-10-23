@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tnd:item/antiphon_guardian_spawn_egg"
+  }
+}

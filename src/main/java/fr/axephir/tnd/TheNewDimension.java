@@ -20,6 +20,7 @@ public final class TheNewDimension {
 
     public TheNewDimension(IEventBus bus, ModContainer container) {
         fr.axephir.tnd.assault.AssaultContent.bootstrap();
+        fr.axephir.tnd.sanctuary.SanctuaryContent.register(bus);
         fr.axephir.tnd.progression.Prestige.bootstrap();
         fr.axephir.tnd.progression.MasteryAbilities.bootstrap();
         fr.axephir.tnd.narrative.PlayerBase.bootstrap();
@@ -47,6 +48,7 @@ public final class TheNewDimension {
         NeoForge.EVENT_BUS.register(new StarterOutpost());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.city.CityShield());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.familiar.FamiliarEvents());
+        NeoForge.EVENT_BUS.register(new fr.axephir.tnd.sanctuary.SanctuaryFamiliar());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.technology.SpatialAnchors());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.narrative.Convergence());
         NeoForge.EVENT_BUS.register(new fr.axephir.tnd.narrative.PlayerBase());

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "tnd:resonant_pickaxe"
+    "tnd:resonant_pickaxe",
+    "tnd:nocturne_pickaxe"
   ]
 }

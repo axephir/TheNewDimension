@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "tnd:resonant_blade"
+    "tnd:resonant_blade",
+    "tnd:nocturne_blade"
   ]
 }

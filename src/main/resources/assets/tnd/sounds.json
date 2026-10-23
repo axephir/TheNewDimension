@@ -586,5 +586,82 @@
         "attenuation_distance": 24
       }
     ]
+  },
+  "observatory_drone": {
+    "subtitle": "subtitles.tnd.observatory_drone",
+    "sounds": [
+      {
+        "name": "tnd:ambient/observatory_drone",
+        "stream": true,
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "observatory_threshold": {
+    "subtitle": "subtitles.tnd.observatory_threshold",
+    "sounds": [
+      {
+        "name": "tnd:ambient/observatory_threshold",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "observatory_relay": {
+    "subtitle": "subtitles.tnd.observatory_relay",
+    "sounds": [
+      {
+        "name": "tnd:ambient/observatory_relay",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "observatory_warning": {
+    "subtitle": "subtitles.tnd.observatory_warning",
+    "sounds": [
+      {
+        "name": "tnd:ambient/observatory_warning",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "observatory_impact": {
+    "subtitle": "subtitles.tnd.observatory_impact",
+    "sounds": [
+      {
+        "name": "tnd:ambient/observatory_impact",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "observatory_victory": {
+    "subtitle": "subtitles.tnd.observatory_victory",
+    "sounds": [
+      {
+        "name": "tnd:ambient/observatory_victory",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "observatory_core": {
+    "subtitle": "subtitles.tnd.observatory_core",
+    "sounds": [
+      {
+        "name": "tnd:ambient/observatory_core",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 32
+      }
+    ]
   }
 }

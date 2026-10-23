@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": "tnd:purified_auralite",
+  "result": {
+    "id": "tnd:auralite_ingot",
+    "count": 2
+  },
+  "experience": 0.5,
+  "cookingtime": 200
+}

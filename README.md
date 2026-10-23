@@ -2,13 +2,17 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.15.1-dev — Interfaces astrales.**
+**Version : 0.16.0-dev — Premier Silence.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.15.1-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.15.1-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.15.1-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.15.1.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.16.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.16.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.16.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.16.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**L’Observatoire du Premier Silence ouvre une nouvelle région de fin de progression**, d’environ 1 280 × 1 024 blocs. Six actes et 48 chambres nommées suivent une route continue entre roche noire métallique, voûtes, galeries soutenues, couronnes de pics et dispositifs lumineux. Carte d’expédition, disques couplés, surveillance à couper, résonances, réserves et 36 fragments brefs accompagnent l’exploration. **Dix nouvelles créatures**, dont sept grands gardiens et un duo coordonné, possèdent leurs modèles articulés, préparations visibles, phases et récompenses personnelles.
+
+**Quatre nouvelles machines FE** raffinent l’auralite, produisent la nocturne, assemblent des circuits et trient les objets en conservant exactement leurs composants. Socles physiques, matériaux et coûts réels ; lame et pioche de nocturne enchantables, quatrième mémoire du familier, sept nouveaux sons et nouvel onglet pratique. Les nouveaux sites apparaissent dans les chunks inexplorés. La cible d’une première exploration de **3 h 30–4 h reste à confirmer par des parties complètes**. [Guide de la 0.16](docs/PREMIER_SILENCE_0.16.md).
 
 **La direction artistique de Constellations accompagne tous les menus du mod** : panneaux bleu nuit, étoiles discrètes, cartes opaques pour la lecture, accents cyan et or, boutons cohérents et clics doux. Objectifs, archives, dossier du familier, guides, machines, moniteur et terminaux partagent ce thème. **Les seize icônes d’armure ont été redessinées en 16 × 16**, avec une silhouette et une palette propres à chaque ensemble ; les modèles 3D portés restent inchangés. Cette refonte s’applique aux parties existantes, sans génération de nouveaux chunks. [Guide de la 0.15.1](docs/ASTRAL_0.15.1.md).
 
@@ -40,18 +44,18 @@ Une conclusion personnelle prolonge les huit archives. Son déroulement se déco
 4. Construire le moniteur près du seuil, son socle de huit charpentes et ses quatre bobines relais. Fournir **16 000 FE** et un cristal composite. L’interface indique les éléments manquants. **Inventaire → ? → Portail** détaille le montage.
 5. Explorer Vestige, réactiver les consoles, développer les maîtrises et l’industrie, affronter le sanctuaire, retrouver Nacre et ses archives.
 
-Les nouvelles métropoles, laboratoires, massifs et minerais apparaissent dans les **nouveaux chunks**. Une mise à jour ne remplace pas les constructions déjà sauvegardées. Les anciennes parties conservent leurs passages, maîtrises, machines et compagnons reconnus.
+Les nouveaux Observatoires, métropoles, laboratoires, massifs et minerais apparaissent dans les **nouveaux chunks**. Une mise à jour ne remplace pas les constructions déjà sauvegardées. Les anciennes parties conservent leurs passages, maîtrises, machines et compagnons reconnus.
 
 ## Systèmes inclus
 
 | Domaine | Contenu |
 |---|---|
-| Vestige | Six biomes naturels, métropole, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 58 sons originaux |
-| Exploration | Neuf grandes architectures sur massifs couronnés, sanctuaire à trois ailes et boss, observatoire, citadelle, conservatoire, tours aménagées et archives |
+| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 65 sons originaux |
+| Exploration | Neuf grandes architectures sur massifs couronnés, sanctuaire à trois ailes et boss, observatoire, citadelle, conservatoire, tours aménagées, archives et expédition du Premier Silence en six actes |
 | RPG | Quinze maîtrises, XP manuelle, talents, synergies, perception, progression au-delà du niveau 100 et célébrations personnelles |
 | Équipements | Minerais exposés, alliages, armure en relief, outils, armes, égide, marteau et objets de retour |
-| Industrie | Extracteur, forge, séparateur, récolteur nocturne, dynamo, solaire, accumulateur, broyeur, four, carrière, cultivateur, éleveur, station pastorale et ancre |
-| Créatures | Sentinelle, Lithogarde, Traqueur de verre, Conservateur, sécurité de Nacre, drones, Faucheurs et familier évolutif ; attaques annoncées, recharges et butins |
+| Industrie | Extracteur, forge, séparateur, récolteur nocturne, dynamo, solaire, accumulateur, broyeur, four, carrière, cultivateur, éleveur, station pastorale, ancre, raffinerie mnémonique, creuset, assembleur et trieur |
+| Créatures | Sentinelle, Lithogarde, Traqueur de verre, Conservateur, sécurité de Nacre, drones, Faucheurs, gardiens de l’Observatoire et familier évolutif ; attaques annoncées, recharges et butins |
 | Interface | Boutons à gauche de l’inventaire, maîtrises, objectifs, guide, archives, dossier du familier et interfaces des installations |
 | Conclusion | Noyau énigmatique, réacteur, exploration personnelle, traces et récupération |
 
@@ -78,7 +82,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **159 GameTests natifs**, **51 083 assertions du noyau**, les ressources JSON/NBT et le décodage des 58 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **179 GameTests natifs**, **53 119 assertions du noyau**, **24 contrôles des ressources** JSON/NBT et le décodage des 65 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 

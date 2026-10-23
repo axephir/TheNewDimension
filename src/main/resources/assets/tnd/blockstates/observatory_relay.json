@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "tnd:block/observatory_relay"
+    },
+    "lit=true": {
+      "model": "tnd:block/observatory_relay_active"
+    }
+  }
+}

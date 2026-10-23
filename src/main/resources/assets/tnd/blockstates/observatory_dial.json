@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "tone=0": {
+      "model": "tnd:block/observatory_dial",
+      "y": 0
+    },
+    "tone=1": {
+      "model": "tnd:block/observatory_dial",
+      "y": 90
+    },
+    "tone=2": {
+      "model": "tnd:block/observatory_dial",
+      "y": 180
+    },
+    "tone=3": {
+      "model": "tnd:block/observatory_dial",
+      "y": 270
+    }
+  }
+}

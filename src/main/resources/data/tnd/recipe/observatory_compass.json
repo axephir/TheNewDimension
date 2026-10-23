@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " F ",
+    "NCS",
+    " A "
+  ],
+  "key": {
+    "F": "tnd:glass_filament",
+    "N": "tnd:noctilite_crystal",
+    "C": "minecraft:compass",
+    "S": "tnd:security_processor",
+    "A": "tnd:auralite_ingot"
+  },
+  "result": {
+    "id": "tnd:observatory_compass",
+    "count": 1
+  }
+}

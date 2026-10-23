@@ -12,7 +12,7 @@ public final class FieldGuideScreen extends Screen {
     private final Screen parent;private int page,row,textPage,x,y;private Button previous,next;private final Button[] entries=new Button[3];
     public FieldGuideScreen(Screen parent){super(Component.translatable("gui.tnd.guide"));this.parent=parent;}
     @Override protected void init(){x=(width-300)/2;y=(height-216)/2;
-        for(int i=0;i<6;i++){final int p=i;var b=AstralButton.create(Component.translatable("guide.tnd.tab."+i),v->{page=p;row=0;textPage=0;update();}).bounds(x+9,y+31+i*28,83,24).build();b.setOverrideRenderHighlightedSprite(()->page==p);addRenderableWidget(b);}
+        for(int i=0;i<7;i++){final int p=i;var b=AstralButton.create(Component.translatable("guide.tnd.tab."+i),v->{page=p;row=0;textPage=0;update();}).bounds(x+9,y+31+i*24,83,22).build();b.setOverrideRenderHighlightedSprite(()->page==p);addRenderableWidget(b);}
         addRenderableWidget(AstralButton.create(Component.translatable("gate.tnd.guide"),b->minecraft.gui.setScreen(new GateGuideScreen(this))).bounds(x+99,y+5,50,20).build());
         addRenderableWidget(AstralButton.create(Component.translatable("industry.tnd.open"),b->minecraft.gui.setScreen(new IndustrialGuideScreen(this,fr.axephir.tnd.technology.Industry.Kind.DYNAMO))).bounds(x+155,y+5,110,20).build());
         addRenderableWidget(AstralButton.create(Component.literal("×"),b->onClose()).bounds(x+274,y+6,17,17).build());
@@ -27,6 +27,7 @@ public final class FieldGuideScreen extends Screen {
         case 2->new ItemStack(r==0?AwakeningContent.RAW_AURALITE.get():r==1?AwakeningContent.RAW_NOCTILITE.get():AwakeningContent.UMBRA_ALLOY.get());
         case 3->new ItemStack(r==0?AwakeningContent.SEPARATOR.get().asItem():r==1?fr.axephir.tnd.technology.MachineRegistry.FORGE.get().asItem():AwakeningContent.REAPER.get().asItem());
         case 4->new ItemStack(r==0?ModContent.SURVEY_TERMINAL.get().asItem():r==1?ModContent.RELIC_FRAGMENT.get():ModContent.CARTOGRAPHER_TROPHY.get().asItem());
+        case 6->new ItemStack(r==0?fr.axephir.tnd.sanctuary.SanctuaryContent.COMPASS.get():r==1?fr.axephir.tnd.sanctuary.SanctuaryContent.CORE.get():fr.axephir.tnd.sanctuary.SanctuaryContent.MEMORY.get());
         default->new ItemStack(r==0?ModContent.RECALL_PRISM.get():r==1?ModContent.RETURN_ANCHOR.get().asItem():ModContent.ECHO_DUST.get());};}
     @Override public void extractRenderState(GuiGraphicsExtractor g,int mx,int my,float partial){AstralPanel.frame(g,x,y,300,216);g.text(font,title,x+11,y+11,ConstellationStyle.TEXT,false);AstralPanel.inset(g,x+98,y+29,193,176);g.text(font,Component.translatable("guide.tnd.tab."+page),x+107,y+36,ConstellationStyle.GOLD,false);
         var lines=lines();int first=textPage*9;for(int i=first;i<Math.min(lines.size(),first+9);i++)g.text(font,lines.get(i),x+108,y+83+(i-first)*10,ConstellationStyle.TEXT,false);g.text(font,(textPage+1)+" / "+Math.max(1,(lines.size()+8)/9),x+180,y+187,ConstellationStyle.MUTED,false);super.extractRenderState(g,mx,my,partial);g.nextStratum();for(int i=0;i<3;i++)g.item(icon(i),x+127+i*57,y+54);}

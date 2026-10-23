@@ -404,5 +404,54 @@
     "peak": 0.47998046875,
     "rms": 0.09416972998516282,
     "splice_delta": 0.0
+  },
+  "observatory_drone": {
+    "duration": 24,
+    "loop": true,
+    "peak": 0.55999755859375,
+    "rms": 0.14360431492254438,
+    "splice_delta": 0.0
+  },
+  "observatory_threshold": {
+    "duration": 3.4,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.15828333659350627,
+    "splice_delta": 0
+  },
+  "observatory_relay": {
+    "duration": 1.8,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.09448966429217703,
+    "splice_delta": 0
+  },
+  "observatory_warning": {
+    "duration": 2.4,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.1687627256558411,
+    "splice_delta": 0
+  },
+  "observatory_impact": {
+    "duration": 1.8,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.07970283229466614,
+    "splice_delta": 0
+  },
+  "observatory_victory": {
+    "duration": 2.8,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.11902948612560948,
+    "splice_delta": 0
+  },
+  "observatory_core": {
+    "duration": 3.4,
+    "loop": false,
+    "peak": 0.55999755859375,
+    "rms": 0.1609824129264056,
+    "splice_delta": 0
   }
 }

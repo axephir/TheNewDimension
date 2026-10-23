@@ -13,7 +13,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 /** Extra layers are local audio only: no entities, searches, chunk requests or network traffic. */
 public final class AtmosphereDirector {
     private static ClientLevel previous;
-    private static FadingBed night,interior;
+    private static FadingBed night,interior,observatory;
     private static final List<SoundInstance> cues=new ArrayList<>();
     private static final RandomSource random=RandomSource.create();
     private static int cueDelay,deepDelay;
@@ -25,6 +25,8 @@ public final class AtmosphereDirector {
         }
         if(mc.isPaused())return;
         float gain=AtmosphereOptions.VOLUME.get().floatValue();
+        boolean inObservatory=mc.level.getBiome(mc.player.blockPosition()).unwrapKey().map(k->k.identifier().getPath().equals("black_observatory")).orElse(false);
+        observatory=bed(mc,observatory,"observatory_drone",inObservatory?.33f*gain:0);
         night=bed(mc,night,"night_pressure",VestigeTime.isNight(mc.level)?.32f*gain:0);
         // The sky test reads the heightmap of the already simulated player chunk.
         interior=bed(mc,interior,"enclosed_hum",!mc.level.canSeeSky(mc.player.blockPosition())?.26f*gain:0);
@@ -59,6 +61,7 @@ public final class AtmosphereDirector {
         cues.add(sound);mc.getSoundManager().play(sound);
     }
     private static void clear(Minecraft mc){
+        if(observatory!=null)mc.getSoundManager().stop(observatory);observatory=null;
         if(night!=null)mc.getSoundManager().stop(night);if(interior!=null)mc.getSoundManager().stop(interior);
         cues.forEach(mc.getSoundManager()::stop);cues.clear();night=null;interior=null;
     }

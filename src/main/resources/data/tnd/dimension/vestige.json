@@ -4,193 +4,197 @@
     "type": "minecraft:noise",
     "settings": "tnd:vestige",
     "biome_source": {
-      "type": "tnd:metropolis",
+      "type": "tnd:black_observatory",
       "outside": {
-        "type": "minecraft:multi_noise",
-        "biomes": [
-          {
-            "biome": "tnd:silent_expanse",
-            "parameters": {
-              "temperature": [
-                -1,
-                -0.14
-              ],
-              "humidity": [
-                -1,
-                0
-              ],
-              "continentalness": [
-                -1,
-                1
-              ],
-              "erosion": [
-                -1,
-                1
-              ],
-              "depth": [
-                -1,
-                1
-              ],
-              "weirdness": [
-                -1,
-                1
-              ],
-              "offset": 0.0
+        "type": "tnd:metropolis",
+        "outside": {
+          "type": "minecraft:multi_noise",
+          "biomes": [
+            {
+              "biome": "tnd:silent_expanse",
+              "parameters": {
+                "temperature": [
+                  -1,
+                  -0.14
+                ],
+                "humidity": [
+                  -1,
+                  0
+                ],
+                "continentalness": [
+                  -1,
+                  1
+                ],
+                "erosion": [
+                  -1,
+                  1
+                ],
+                "depth": [
+                  -1,
+                  1
+                ],
+                "weirdness": [
+                  -1,
+                  1
+                ],
+                "offset": 0.0
+              }
+            },
+            {
+              "biome": "tnd:fractured_fields",
+              "parameters": {
+                "temperature": [
+                  -0.14,
+                  0.14
+                ],
+                "humidity": [
+                  -1,
+                  0
+                ],
+                "continentalness": [
+                  -1,
+                  1
+                ],
+                "erosion": [
+                  -1,
+                  1
+                ],
+                "depth": [
+                  -1,
+                  1
+                ],
+                "weirdness": [
+                  -1,
+                  1
+                ],
+                "offset": 0.0
+              }
+            },
+            {
+              "biome": "tnd:hollow_shelves",
+              "parameters": {
+                "temperature": [
+                  0.14,
+                  1
+                ],
+                "humidity": [
+                  -1,
+                  0
+                ],
+                "continentalness": [
+                  -1,
+                  1
+                ],
+                "erosion": [
+                  -1,
+                  1
+                ],
+                "depth": [
+                  -1,
+                  1
+                ],
+                "weirdness": [
+                  -1,
+                  1
+                ],
+                "offset": 0.0
+              }
+            },
+            {
+              "biome": "tnd:glass_woodland",
+              "parameters": {
+                "temperature": [
+                  -1,
+                  -0.14
+                ],
+                "humidity": [
+                  0,
+                  1
+                ],
+                "continentalness": [
+                  -1,
+                  1
+                ],
+                "erosion": [
+                  -1,
+                  1
+                ],
+                "depth": [
+                  -1,
+                  1
+                ],
+                "weirdness": [
+                  -1,
+                  1
+                ],
+                "offset": 0.0
+              }
+            },
+            {
+              "biome": "tnd:ashen_basin",
+              "parameters": {
+                "temperature": [
+                  -0.14,
+                  0.14
+                ],
+                "humidity": [
+                  0,
+                  1
+                ],
+                "continentalness": [
+                  -1,
+                  1
+                ],
+                "erosion": [
+                  -1,
+                  1
+                ],
+                "depth": [
+                  -1,
+                  1
+                ],
+                "weirdness": [
+                  -1,
+                  1
+                ],
+                "offset": 0.0
+              }
+            },
+            {
+              "biome": "tnd:obsidian_dunes",
+              "parameters": {
+                "temperature": [
+                  0.14,
+                  1
+                ],
+                "humidity": [
+                  0,
+                  1
+                ],
+                "continentalness": [
+                  -1,
+                  1
+                ],
+                "erosion": [
+                  -1,
+                  1
+                ],
+                "depth": [
+                  -1,
+                  1
+                ],
+                "weirdness": [
+                  -1,
+                  1
+                ],
+                "offset": 0.0
+              }
             }
-          },
-          {
-            "biome": "tnd:fractured_fields",
-            "parameters": {
-              "temperature": [
-                -0.14,
-                0.14
-              ],
-              "humidity": [
-                -1,
-                0
-              ],
-              "continentalness": [
-                -1,
-                1
-              ],
-              "erosion": [
-                -1,
-                1
-              ],
-              "depth": [
-                -1,
-                1
-              ],
-              "weirdness": [
-                -1,
-                1
-              ],
-              "offset": 0.0
-            }
-          },
-          {
-            "biome": "tnd:hollow_shelves",
-            "parameters": {
-              "temperature": [
-                0.14,
-                1
-              ],
-              "humidity": [
-                -1,
-                0
-              ],
-              "continentalness": [
-                -1,
-                1
-              ],
-              "erosion": [
-                -1,
-                1
-              ],
-              "depth": [
-                -1,
-                1
-              ],
-              "weirdness": [
-                -1,
-                1
-              ],
-              "offset": 0.0
-            }
-          },
-          {
-            "biome": "tnd:glass_woodland",
-            "parameters": {
-              "temperature": [
-                -1,
-                -0.14
-              ],
-              "humidity": [
-                0,
-                1
-              ],
-              "continentalness": [
-                -1,
-                1
-              ],
-              "erosion": [
-                -1,
-                1
-              ],
-              "depth": [
-                -1,
-                1
-              ],
-              "weirdness": [
-                -1,
-                1
-              ],
-              "offset": 0.0
-            }
-          },
-          {
-            "biome": "tnd:ashen_basin",
-            "parameters": {
-              "temperature": [
-                -0.14,
-                0.14
-              ],
-              "humidity": [
-                0,
-                1
-              ],
-              "continentalness": [
-                -1,
-                1
-              ],
-              "erosion": [
-                -1,
-                1
-              ],
-              "depth": [
-                -1,
-                1
-              ],
-              "weirdness": [
-                -1,
-                1
-              ],
-              "offset": 0.0
-            }
-          },
-          {
-            "biome": "tnd:obsidian_dunes",
-            "parameters": {
-              "temperature": [
-                0.14,
-                1
-              ],
-              "humidity": [
-                0,
-                1
-              ],
-              "continentalness": [
-                -1,
-                1
-              ],
-              "erosion": [
-                -1,
-                1
-              ],
-              "depth": [
-                -1,
-                1
-              ],
-              "weirdness": [
-                -1,
-                1
-              ],
-              "offset": 0.0
-            }
-          }
-        ]
+          ]
+        },
+        "city": "tnd:neon_city"
       },
-      "city": "tnd:neon_city"
+      "sanctuary": "tnd:black_observatory"
     }
   }
 }

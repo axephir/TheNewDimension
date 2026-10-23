@@ -6,8 +6,8 @@ import java.util.*;
 public final class CoreTests {
     private static int assertions;
     public static void main(String[] args) {
-        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions();
-        System.out.println("PASS: " + assertions + " assertions (progression, saves, production, cycle, activity ledger, mastery rules, expeditions)");
+        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions(); sanctuary();
+        System.out.println("PASS: " + assertions + " assertions (progression, saves, production, cycle, activity ledger, mastery rules, expeditions, sanctuary route)");
     }
     private static void check(boolean value, String reason) {
         assertions++;
@@ -38,6 +38,21 @@ public final class CoreTests {
         rejects(()->ExpeditionProgress.decode("bad encoded notes!"));rejects(()->ExpeditionProgress.decode("a".repeat(4097)));
         var raw=Base64.getDecoder().decode(s.encode());raw[3]=2;rejects(()->ExpeditionProgress.decode(Base64.getEncoder().encodeToString(raw)));
         rejects(()->empty.console("x".repeat(97)));rejects(()->empty.discover(-1));rejects(()->empty.discover(6));
+    }
+    private static void sanctuary(){
+        long mask=0;var visited=new HashSet<String>();
+        for(int i=0;i<48;i++){int x=SanctuaryRoute.x(i),z=SanctuaryRoute.z(i);check(visited.add(x+":"+z),"Every chamber has a unique position");check(SanctuaryRoute.indexAt(x,z)==i,"Negative local coordinates map back to the correct station");check(SanctuaryRoute.available(mask,i),"The next objective is available");
+            for(int n=i+1;n<48;n++)check(!SanctuaryRoute.available(mask,n),"No route can skip unseen chambers");
+            if(i>0)check(Math.abs(x-SanctuaryRoute.x(i-1))+Math.abs(z-SanctuaryRoute.z(i-1))==128,"One straight main route joins each pair of chambers");
+            mask=SanctuaryRoute.complete(mask,i);check(SanctuaryRoute.reached(mask)==i+1,"Reached count follows the contiguous completed prefix");check(SanctuaryRoute.complete(mask,i)==mask,"Completion is idempotent");}
+        check(mask==SanctuaryRoute.FULL,"The route uses exactly 48 persistent bits");check(!SanctuaryRoute.available(1L<<6,7),"A corrupt isolated predecessor cannot bypass the route");
+        for(int x=-100000;x<100000;x+=997){var site=SanctuaryRoute.nearest(x,-x);check(site.x()==site.gridX()*6144+3072&&site.z()==site.gridZ()*6144+3072,"Signed grid placement has stable boundaries");check(site.contains(site.x(),site.z()),"Every site contains its own origin");check(!site.contains(site.x()+641,site.z()),"The reserved footprint has exact bounds");}
+        for(int act=0;act<6;act++){int station=act*8+2;boolean reachable=false;int[] target=SanctuaryPuzzles.target(station);
+            for(int code=0;code<256;code++){int[] state=new int[4];int digits=code;for(int d=0;d<4;d++){int count=digits%4;digits/=4;for(int n=0;n<count;n++)state=SanctuaryPuzzles.turn(state,station,d);}if(Arrays.equals(state,target))reachable=true;}
+            check(reachable,"Each coupled dial target is reachable without guessing an impossible state");
+            int[] state={0,1,2,3},original=state.clone();for(int n=0;n<4;n++)state=SanctuaryPuzzles.turn(state,station,2);check(Arrays.equals(state,original),"Every dial mechanism can be reversed in four turns");}
+        rejects(()->SanctuaryPuzzles.turn(new int[]{0,0,0},2,0));rejects(()->SanctuaryPuzzles.turn(new int[]{0,0,4,0},2,0));
+        rejects(()->SanctuaryRoute.x(-1));rejects(()->SanctuaryRoute.z(48));
     }
     private static void progression() {
         check(Mastery.values().length == 15, "fifteen independent masteries");

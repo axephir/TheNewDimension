@@ -35,6 +35,7 @@ import convergence_resources
 import discovery_resources
 import assault_resources
 import constellation_resources
+import sanctuary_resources
 SHAPES.update(awakening_resources.SHAPES)
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
@@ -68,7 +69,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Symbiose 0.12 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Premier Silence 0.16 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}
@@ -489,6 +490,7 @@ def languages():
     discovery_resources.languages(fr,en)
     assault_resources.languages(fr,en)
     constellation_resources.languages(fr,en)
+    sanctuary_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 
@@ -502,7 +504,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--audio', action='store_true')
     options = parser.parse_args()
-    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); discovery_resources.content(write,png,ASSETS,DATA); assault_resources.content(write,png,ASSETS,DATA); languages()
+    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); discovery_resources.content(write,png,ASSETS,DATA); assault_resources.content(write,png,ASSETS,DATA); sanctuary_resources.content(write,png,ASSETS,DATA); languages()
     if options.audio:
         audio()
         import awakening_audio
@@ -511,4 +513,6 @@ if __name__ == '__main__':
         city_audio.generate(ASSETS,write)
         import metropolis_audio
         metropolis_audio.generate(ASSETS,write)
-    print('Generated 16px blocks/items, 64px character atlases, nine ancient sites and Nacre-9.')
+        import sanctuary_audio
+        sanctuary_audio.generate(ASSETS,write)
+    print('Generated 16px blocks/items, 64px character atlases, nine ancient sites, Nacre-9 and the First Silence Observatory.')

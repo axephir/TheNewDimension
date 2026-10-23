@@ -26,12 +26,13 @@ public final class TndClient {
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ConvergenceEffects::tick);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(ConvergenceEffects::frame);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(VestigeHud::tick);
-        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions e)->{RelicRenderer.layers(e);CustodianRenderer.layers(e);AwakenedRenderer.layers(e);CityRenderer.layers(e);});
-        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers e)->{RelicRenderer.renderers(e);CustodianRenderer.renderers(e);AwakenedRenderer.renderers(e);CityRenderer.renderers(e);e.registerBlockEntityRenderer(fr.axephir.tnd.narrative.ConvergenceContent.TERMINAL_ENTITY.get(),c->new ConvergenceTerminalRenderer());e.registerBlockEntityRenderer(fr.axephir.tnd.narrative.ConvergenceContent.LATTICE_ENTITY.get(),c->new PhaseLatticeRenderer());e.registerBlockEntityRenderer(MachineRegistry.PORTAL_ENTITY.get(),c->new GateRenderer());});
+        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions e)->{RelicRenderer.layers(e);CustodianRenderer.layers(e);AwakenedRenderer.layers(e);CityRenderer.layers(e);SanctuaryRenderer.layers(e);});
+        bus.addListener((net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers e)->{RelicRenderer.renderers(e);CustodianRenderer.renderers(e);AwakenedRenderer.renderers(e);CityRenderer.renderers(e);SanctuaryRenderer.renderers(e);e.registerBlockEntityRenderer(fr.axephir.tnd.narrative.ConvergenceContent.TERMINAL_ENTITY.get(),c->new ConvergenceTerminalRenderer());e.registerBlockEntityRenderer(fr.axephir.tnd.narrative.ConvergenceContent.LATTICE_ENTITY.get(),c->new PhaseLatticeRenderer());e.registerBlockEntityRenderer(MachineRegistry.PORTAL_ENTITY.get(),c->new GateRenderer());});
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(InventoryMasteries::init);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(InventoryMasteries::position);
     }
     private static void screens(RegisterMenuScreensEvent event) {
+        event.register(fr.axephir.tnd.sanctuary.SanctuaryContent.MENU.get(),SanctuaryScreen::new);
         event.register(fr.axephir.tnd.narrative.ConvergenceContent.MENU.get(),ConvergenceScreen::new);
         event.register(fr.axephir.tnd.technology.SpatialAnchors.MENU.get(),SpatialAnchorScreen::new);
         event.register(fr.axephir.tnd.familiar.FamiliarContent.MENU.get(),FamiliarScreen::new);

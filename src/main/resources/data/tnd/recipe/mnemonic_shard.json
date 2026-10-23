@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "tnd:security_processor",
+    "tnd:echo_dust",
+    "tnd:noctilite_crystal"
+  ],
+  "result": {
+    "id": "tnd:mnemonic_shard",
+    "count": 2
+  }
+}

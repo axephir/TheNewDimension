@@ -2,6 +2,7 @@
   "values": [
     "tnd:spatial_anchor",
     "tnd:spatial_restorer",
-    "tnd:convergence_reactor"
+    "tnd:convergence_reactor",
+    "tnd:obsidian_metal"
   ]
 }

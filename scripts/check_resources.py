@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check asset references and binary integrity; runtime codecs still require GameTests."""
 import gzip
+import hashlib
 import importlib.util
 import json
 import re
@@ -45,6 +46,40 @@ class Nbt:
 
 
 class Resources(unittest.TestCase):
+    def test_observatory_progression_resources(self):
+        content=generator.sanctuary_resources
+        self.assertEqual(len({hashlib.sha256((ASSETS/f'textures/item/{name}.png').read_bytes()).digest() for name in content.ITEMS}),len(content.ITEMS),'Every new survival item must have its own recognisable sprite')
+        stem=json.loads((DATA/'dimension/vestige.json').read_text())
+        self.assertEqual(stem['generator']['biome_source']['type'],'tnd:black_observatory')
+        self.assertEqual(stem['generator']['biome_source']['outside']['type'],'tnd:metropolis')
+        biome=json.loads((DATA/'worldgen/biome/black_observatory.json').read_text())
+        self.assertEqual(biome['features'][10],['tnd:black_observatory'])
+        self.assertFalse(any(biome['spawners'].values()),'Encounter stations, not ambient spawn spam, own the finite guards')
+        for name in content.MACHINES:
+            recipe=json.loads((DATA/f'recipe/{name}.json').read_text())
+            self.assertIn('tnd:axiomatic_core',recipe['key'].values())
+            self.assertIn('minecraft:netherite_ingot',recipe['key'].values())
+        for name in content.ENTITIES[3:]:
+            self.assertEqual(json.loads((DATA/f'loot_table/entities/{name}.json').read_text())['pools'],[], 'Boss rewards belong to the participation ledger')
+        self.assertFalse((DATA/'recipe/axiomatic_core.json').exists())
+        for tool,tag in [('nocturne_blade','enchantable/sword'),('nocturne_pickaxe','enchantable/mining')]:
+            for key in [tag,'enchantable/durability']:
+                self.assertIn('tnd:'+tool,json.loads((RES/f'data/minecraft/tags/item/{key}.json').read_text())['values'])
+
+    def test_observatory_menu_and_mysterious_fragments(self):
+        for language in ['fr_fr','en_us']:
+            text=json.loads((ASSETS/f'lang/{language}.json').read_text())
+            for name in generator.sanctuary_resources.MACHINES:self.assertIn('tooltip.tnd.'+name,text)
+            for family,count in [('room',48),('act',6),('objective',8),('action',8),('rule',6)]:
+                values=[text[f'observatory.tnd.{family}.{n}'] for n in range(count)]
+                self.assertTrue(all(values))
+                if family=='room':self.assertEqual(len(set(values)),48)
+            fragments=[text[f'observatory.tnd.{kind}.{act}.{n}'] for kind in ['trace','echo'] for act in range(6) for n in range(3)]
+            self.assertEqual(len(set(fragments)),36,'Optional lore should not repeat generic placeholders')
+            self.assertTrue(all(len(line)<120 for line in fragments),'Stele fragments remain readable as brief discoveries')
+            source=(ROOT/'src/main/java/fr/axephir/tnd/client/SanctuaryScreen.java').read_text()
+            for key in re.findall(r'\btr\("([a-zA-Z0-9_]+)"',source):self.assertIn('observatory.tnd.'+key,text)
+
     def test_assault_loot_and_equipment_contract(self):
         from assault_resources import SETS,PARTS,BOSSES
         for set,boss in zip(SETS,BOSSES):
@@ -187,9 +222,9 @@ class Resources(unittest.TestCase):
                 self.assertRegex(path.name, r'^[a-z0-9_.]+$')
 
     def test_all_registered_content_has_assets(self):
-        for block in generator.BLOCKS:
+        for block in generator.BLOCKS+generator.sanctuary_resources.BLOCKS+generator.sanctuary_resources.MACHINES+['obsidian_stairs','obsidian_slab','observatory_relay']:
             self.assertTrue((ASSETS / f'blockstates/{block}.json').is_file(), block)
-        for name in generator.BLOCKS + generator.ITEMS:
+        for name in generator.BLOCKS + generator.ITEMS + generator.sanctuary_resources.BLOCKS + generator.sanctuary_resources.MACHINES + generator.sanctuary_resources.ITEMS + ['obsidian_stairs','obsidian_slab','observatory_relay'] + [n+'_spawn_egg' for n in generator.sanctuary_resources.ENTITIES]:
             self.assertTrue((ASSETS / f'items/{name}.json').is_file(), name)
             self.assertTrue((ASSETS / f'models/item/{name}.json').is_file(), name)
 
@@ -297,8 +332,8 @@ class Resources(unittest.TestCase):
     def test_atmosphere_and_biome_content(self):
         biomes={'silent_expanse','fractured_fields','hollow_shelves','glass_woodland','ashen_basin','obsidian_dunes'}
         stem=json.loads((DATA/'dimension/vestige.json').read_text())
-        self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['outside']['biomes']},biomes)
-        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),58)
+        self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['outside']['outside']['biomes']},biomes)
+        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),65)
         loops=set()
         for biome in biomes:
             data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())
@@ -315,7 +350,7 @@ class Resources(unittest.TestCase):
             if report[name]['loop']:self.assertLess(report[name]['splice_delta'],.03)
 
     def test_recipes_only_use_known_local_items(self):
-        registered = set(generator.BLOCKS + generator.ITEMS)
+        registered = set(generator.BLOCKS + generator.ITEMS + generator.sanctuary_resources.BLOCKS + generator.sanctuary_resources.MACHINES + generator.sanctuary_resources.ITEMS + ['obsidian_stairs','obsidian_slab','observatory_relay'])
         for path in (DATA / 'recipe').glob('*.json'):
             recipe = json.loads(path.read_text())
             if recipe['result']['id'].startswith('tnd:'):self.assertIn(recipe['result']['id'][4:], registered)
@@ -427,7 +462,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS)|set(generator.metropolis_resources.TESTS)|set(generator.convergence_resources.TESTS)|set(generator.discovery_resources.TESTS)|set(generator.assault_resources.TESTS))
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS)|set(generator.metropolis_resources.TESTS)|set(generator.convergence_resources.TESTS)|set(generator.discovery_resources.TESTS)|set(generator.assault_resources.TESTS)|set(generator.sanctuary_resources.TESTS))
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

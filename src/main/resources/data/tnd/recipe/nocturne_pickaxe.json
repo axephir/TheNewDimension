@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    " C ",
+    " C "
+  ],
+  "key": {
+    "I": "tnd:nocturne_ingot",
+    "C": "tnd:mnemonic_circuit"
+  },
+  "result": {
+    "id": "tnd:nocturne_pickaxe",
+    "count": 1
+  }
+}

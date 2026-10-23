@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:observatory_trace_gate",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 1600,
+  "required": true
+}

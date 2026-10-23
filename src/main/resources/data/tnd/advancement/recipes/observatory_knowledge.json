@@ -1,0 +1,32 @@
+{
+  "criteria": {
+    "processor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:security_processor"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "processor"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:observatory_compass",
+      "tnd:mnemonic_shard",
+      "tnd:mnemonic_refinery",
+      "tnd:nocturne_crucible",
+      "tnd:axiomatic_assembler",
+      "tnd:mnemonic_sorter",
+      "tnd:nocturne_blade",
+      "tnd:nocturne_pickaxe",
+      "tnd:purified_auralite_smelting"
+    ]
+  }
+}
