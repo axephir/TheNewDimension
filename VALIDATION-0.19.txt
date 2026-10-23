@@ -1,0 +1,62 @@
+THE NEW DIMENSION — 0.19.0-dev — Les Archives du Silence
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Code validé : 9db7167eeaaf931b580655e558dc44eeafc8b6be
+Documentation finale : 08408bb008a52b1d17eb7147efb15f8be253fa59 (README uniquement ; code inchangé)
+CI du commit de code exact : https://github.com/axephir/TheNewDimension/actions/runs/40026678521
+Statut : succès.
+
+CONTENU
+Troisième acte : huit nouvelles chambres de roche noire métallique,
+monolithes gravés, voûtes, miroirs physiques et six fragments brefs.
+Atlas : socle, instrument suspendu, deux galeries +12/+24, vrais escaliers,
+ancre manuelle ou familier facultatif, quatre résonances et passage supérieur
+reconstruit en dix étapes. Aucun chunk forcé, aucune obstruction écrasée.
+Deux nouvelles familles de gardes ; Conservateur de douze blocs nominaux,
+anneaux articulés, trois motifs d’attaque, phases et ouverture du noyau.
+Lentille personnelle unique ; un seul accord de relique actif :
+esquive collisionnelle, Égide ou rappel offensif du seul familier propriétaire.
+Menu astral, onglet à gauche, touche R modifiable, recharge commune persistante.
+Cinq nouveaux sons originaux, 79 au total avec sous-titres français/anglais.
+
+VÉRIFICATIONS
+Compilation, 54 236 assertions du noyau, 216 GameTests Minecraft requis réussis.
+28 groupes JSON/NBT/textures ; les 79 Vorbis décodent sans saturation.
+Les 74 OGG antérieurs sont inchangés byte pour byte.
+Vrais blocs, interactions lointaines et occluses, alignements, ordre des échos,
+génération, édition des stations, collisions des 48 salles jusqu’aux paliers
++25, étapes du passage, boss réel, exposition et récompense non répétable.
+Tâche réelle du familier ; ancre manuelle ; menus autoritaires ; esquive
+balayée, absence de familier, rappel réel, effets et recharge partagée,
+sérialisation native du joueur et copie après mort.
+
+CLIENT NATIF
+SAVED: archive mask 16777215 (24/48), site 19,19.
+SAVED: relic unlocked, selection 1 (Aegis), persistent shared cooldown present.
+SAVED: personal Conservator reward claimed, act III bit set.
+Player in Survival, mayfly/flying/instabuild false; Resistance VI for control.
+First gallery: W-only from y129 to 119914.500,141.000,119733.720.
+Second gallery: W-only from y141 to 119861.700,153.000,119786.500.
+Restored crossing: W-only from 119840.500,153.000,119720.500 to 119911.700,153.000,119720.500.
+All eight chambers operated with native interactions; teleports between devices.
+Combat deaths accelerated by commands; manual anchor, mirrors, echoes, arena exposure used.
+Actual lens reward visible; an additional control lens consumed to exercise attunement.
+Aegis selected and invoked with R; menu checked at 1280x720 and 854x480.
+World saved and client closed normally.
+
+Seize fichiers F2 comparés aux originaux, sans retouche ni redimensionnement.
+Fenêtres 1280 × 720 et 854 × 480.
+
+PORTÉE
+Troisième acte enrichi ; les deux précédents restent présents, les trois
+suivants conservent leur contenu. Pas de rétro-génération dans une station
+ancienne : explorer un Observatoire entièrement inédit ou un nouveau monde.
+Les combats sont accélérés par commandes dans le monde de contrôle.
+Aucune campagne humaine complète, durée de jeu, équilibrage final multi,
+écoute physique ou performance sur configuration de joueur revendiquée.
+Guide : docs/ARCHIVES_0.19.md.
+
+FICHIERS
+tnd-0.19.0-dev.jar : 6266524 octets
+SHA-256 : 4a9abd65cac0437eb5388cda34236bc8d0f11a10a734c7c4b78b6fca4d3a344e
+TheNewDimension-0.19.0-dev.zip : 11856288 octets
+SHA-256 : 2bbe1597ffc4b2e9c5cd5efa7b77edb8092cac8f982461512d4b19461e4affd6

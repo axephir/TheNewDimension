@@ -2,13 +2,15 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.18.0-dev — La Forge du Premier Feu.**
+**Version : 0.19.0-dev — Les Archives du Silence.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.18.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.18.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.18.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.18.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.19.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.19.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.19.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.19.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**Les Archives du Silence** transforment le troisième acte de l’Observatoire : huit chambres de monolithes noirs, miroirs physiques, souvenirs à ordonner, deux niveaux de galeries et un grand atlas suspendu. Le familier peut maintenir son ancre ; une commande manuelle permet aussi de terminer le parcours. Un raccourci supérieur se reconstruit après la réussite. Deux nouveaux gardes et **le Conservateur**, gardien de douze blocs aux anneaux articulés, défendent ce lieu. Sa lentille déverrouille **un seul accord de relique actif** : esquive, égide ou rappel offensif du familier. Menu astral illustré, nouvel onglet à gauche de l’inventaire et touche R modifiable, recharge commune, cinq sons originaux et six fragments mystérieux. **Explorer un Observatoire entièrement inédit.** [Guide de la 0.19](docs/ARCHIVES_0.19.md).
 
 **Le deuxième acte devient la Forge du Premier Feu** : huit chambres de pierre noire et métal ancien, turbines et presses animées, circuits de vannes, six fragments brefs et un puits monumental excavé sur 27 blocs, sous une voûte haute de 76 blocs. Deux galeries à 10 et 20 mètres se parcourent par de vrais escaliers. Résonances, repères gravés, échelles de secours et passage supérieur déployable guident une boucle lisible autour du puits.
 
@@ -58,7 +60,7 @@ Les nouveaux Observatoires, métropoles, laboratoires, massifs et minerais appar
 
 | Domaine | Contenu |
 |---|---|
-| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 74 sons originaux |
+| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 79 sons originaux |
 | Exploration | Neuf grandes architectures sur massifs couronnés, sanctuaire à trois ailes et boss, observatoire, citadelle, conservatoire, tours aménagées, archives et expédition du Premier Silence en six actes |
 | RPG | Quinze maîtrises, XP manuelle, talents, synergies, perception, progression au-delà du niveau 100 et célébrations personnelles |
 | Équipements | Minerais exposés, alliages, armure en relief, outils, armes, égide, marteau et objets de retour |
@@ -90,7 +92,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **199 GameTests natifs**, **54 177 assertions du noyau**, **27 contrôles des ressources** JSON/NBT et le décodage des 74 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **216 GameTests natifs**, **54 236 assertions du noyau**, **28 contrôles des ressources** JSON/NBT et le décodage des 79 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 

@@ -31,3 +31,8 @@ Les appareils du premier acte utilisent des modèles JSON originaux et la biblio
 ## Révision 0.18
 
 La forge conserve les matériaux originaux de pierre noire en 16 × 16. La plaque graduée des vannes, le sprite du cœur et les cinq atlas de personnages sont des créations procédurales originales, définies dans `scripts/foundry_resources.py`. Modèles articulés, dispositifs JSON, plans, textes et interfaces sont originaux. Les cinq nouveaux sons sont synthétisés par `scripts/foundry_audio.py`, sans enregistrement externe ; les 69 OGG précédents sont conservés byte pour byte.
+
+
+## Révision 0.19
+
+Les miroirs et ancres utilisent des modèles JSON originaux et les matériaux de pierre noire existants. Le cadran 16 × 16, la lentille 16 × 16 et les trois atlas de personnages 64 × 64 sont des créations procédurales originales dans `scripts/archive_resources.py`. Les plans, dialogues, modèle articulé du Conservateur, interface et motifs d’attaque sont originaux. Les cinq sons de `scripts/archive_audio.py` sont synthétisés sans échantillon externe ; les 74 OGG antérieurs sont conservés.
