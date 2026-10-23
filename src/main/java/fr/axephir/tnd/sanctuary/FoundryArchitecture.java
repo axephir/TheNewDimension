@@ -21,7 +21,7 @@ public final class FoundryArchitecture {
             if(y==p.y()-1&&z>=p.z()+2&&z<=p.z()+4&&stroke)return stone("luminous_script");
         }
         // Terraced black-metal shaft with a visible floor, ribs and a protected luminous crucible.
-        if(pit&&ax==24&&z==-10&&y>=-26&&y<=0)return Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING,x>0?Direction.WEST:Direction.EAST);
+        if(pit&&ax==24&&z==-18&&y>=-26&&y<=0)return Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING,x>0?Direction.WEST:Direction.EAST);
         if(y<=0){
             if(pit&&FoundryAct.shaft(x,z)){
                 if(y<=-27)return stone(y==-27?"amber_seal":"obsidian_metal");
@@ -36,7 +36,6 @@ public final class FoundryArchitecture {
                 return air();
             }
             if(y<0)return stone("obsidian_metal");
-            if(index==13&&z==-8&&(x==-20||x==0||x==20))return filament().setValue(WitnessFilamentBlock.POWER,fr.axephir.tnd.domain.FoundryAct.wanted(index,(x+20)/20));
             if(pit&&(z==32&&ax<=42||x==0&&z>=18&&z<=32))return stone("guiding_inlay");
             if(ax==30||az==36||ax<=2)return stone("guiding_inlay");
             if(ax==8&&z>=-32&&z<=32&&z%4==0)return filament();

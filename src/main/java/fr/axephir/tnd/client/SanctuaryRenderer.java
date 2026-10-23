@@ -91,7 +91,7 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
             var fore=t.getChild("arm0").getChild("fore");
             fore.addOrReplaceChild("founder_handle",box(32,0,-.5f,-4,-.5f,1,12,1),PartPose.offset(0,4,-2));
             fore.addOrReplaceChild("founder_head",box(0,0,-4,-2,-2.5f,8,4,5),PartPose.offset(0,0,-2));
-            fore.addOrReplaceChild("founder_edge",box(48,0,-4.1f,-.4f,-2.7f,8.2f,.8f,.4f),PartPose.offset(0,0,-2));
+            fore.addOrReplaceChild("founder_edge",box(48,0,-3.75f,-.4f,-2.7f,7.5f,.8f,.3f),PartPose.offset(0,0,-2));
         }
         public void setupAnim(State s){super.setupAnim(s);float age=AtmosphereOptions.ANIMATIONS.get()?s.ageInTicks:0;float scale=kind.height/1.875f;
             root.xScale=scale;root.yScale=scale;root.zScale=scale;root.y=24-24*scale;if(AtmosphereOptions.ANIMATIONS.get()&&s.awakening>0)root.y+=Math.min(1,s.awakening/(s.ritual?160f:80f))*kind.height*13;

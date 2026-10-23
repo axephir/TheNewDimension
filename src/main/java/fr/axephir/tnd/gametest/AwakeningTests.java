@@ -94,8 +94,23 @@ final class AwakeningTests {
     static void reaperNight(GameTestHelper h){
         var w=FieldworkTests.vestige(h);var at=FieldworkTests.center(h,20);FieldworkTests.platform(w,at);w.setBlock(at,AwakeningContent.REAPER.get().defaultBlockState(),3);var f=(EchoReaperEntity)w.getBlockEntity(at);var plant=at.east(2);
         w.setBlock(plant,ModContent.ECHO_BLOOM.get().defaultBlockState().setValue(EchoBloomBlock.CHARGE,3),3);f.setItem(1,new ItemStack(Items.COAL));var clock=w.dimensionType().defaultClock().orElseThrow();long old=w.getServer().clockManager().getTotalTicks(clock);
-        h.onEachTick(()->w.getServer().clockManager().setTotalTicks(clock,30000));
-        h.runAfterDelay(225,()->{try{check(h,f.getItem(2).is(ModContent.ECHO_DUST.get())&&f.getItem(2).getCount()==1&&f.getItem(1).isEmpty(),"Native block ticking harvests a mature neighbouring aggregate with finite fuel");check(h,w.getBlockState(plant).getValue(EchoBloomBlock.CHARGE)==0,"The real aggregate is emptied rather than copied or destroyed");var saved=f.saveWithFullMetadata(w.registryAccess());check(h,saved.getIntOr("FuelUses",0)==7,"One coal stores exactly seven remaining harvest charges after the first");}finally{w.getServer().clockManager().setTotalTicks(clock,old);w.removeBlockEntity(at);FieldworkTests.release(w,at);}h.succeed();});
+        var observer=FieldworkTests.player(h,w,at.south(4));observer.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.RESISTANCE,500,5));boolean[] done={false};long began=w.getGameTime();
+        java.util.function.Consumer<net.neoforged.neoforge.event.tick.LevelTickEvent.Pre> keepNight=event->{if(event.getLevel()==w)w.getServer().clockManager().setTotalTicks(clock,30000);};
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(keepNight);
+        Runnable cleanup=()->{net.neoforged.neoforge.common.NeoForge.EVENT_BUS.unregister(keepNight);w.getServer().clockManager().setTotalTicks(clock,old);w.removeBlockEntity(at);GameplayTests.cleanup(observer);FieldworkTests.release(w,at);};
+        // Observe the first native product. The aggregate may naturally start charging again
+        // on the very next random tick, so a later fixed-time charge==0 assertion is unstable.
+        h.onEachTick(()->{
+            if(done[0])return;
+            if(f.getItem(2).isEmpty())return;done[0]=true;
+            try{
+                check(h,w.getGameTime()-began>=180,"A native harvest requires the real loaded work interval");
+                check(h,f.getItem(2).is(ModContent.ECHO_DUST.get())&&f.getItem(2).getCount()==1&&f.getItem(1).isEmpty(),"The first native harvest consumes finite fuel and produces exactly one dust");
+                var actual=w.getBlockState(plant);check(h,actual.is(ModContent.ECHO_BLOOM.get())&&actual.getValue(EchoBloomBlock.CHARGE)<3,"The mature aggregate is consumed in the world before its natural night recharge");
+                var saved=f.saveWithFullMetadata(w.registryAccess());check(h,saved.getIntOr("FuelUses",0)==7,"One coal stores exactly seven remaining harvest charges after the first");
+            }finally{cleanup.run();}h.succeed();
+        });
+        h.runAtTickTime(350,()->{if(!done[0]){done[0]=true;try{check(h,false,"The loaded native reaper must finish its first harvest within 350 ticks; status="+f.status()+", progress="+f.data.get(0)+", live="+(w.getBlockEntity(at)==f)+", block="+w.getBlockState(at)+", removed="+f.isRemoved()+", elapsed="+(w.getGameTime()-began));}finally{cleanup.run();}}});
     }
     static void reaperGuards(GameTestHelper h){
         var w=FieldworkTests.vestige(h);var at=FieldworkTests.center(h,22);FieldworkTests.platform(w,at);w.setBlock(at,AwakeningContent.REAPER.get().defaultBlockState(),3);var f=(EchoReaperEntity)w.getBlockEntity(at);var plant=at.east();w.setBlock(plant,ModContent.ECHO_BLOOM.get().defaultBlockState().setValue(EchoBloomBlock.CHARGE,3),3);f.setItem(1,new ItemStack(Items.CHARCOAL));var clock=w.dimensionType().defaultClock().orElseThrow();long old=w.getServer().clockManager().getTotalTicks(clock);

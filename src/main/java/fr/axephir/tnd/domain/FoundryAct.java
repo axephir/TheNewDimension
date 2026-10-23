@@ -9,8 +9,8 @@ public final class FoundryAct {
         return switch(index){
             case 8->new Point(-26+n*26,1,-2);
             case 12->new Point(n==0?-34:34,n==2?21:11,n==0?-12:n==1?12:28);
-            case 13->new Point(-20+n*20,1,-10);
-            case 15->new Point(n==0?-30:30,1,-10);
+            case 13->new Point(-18+n*18,1,-10);
+            case 15->new Point(n==0?-24:24,1,-10);
             default->new Point(n==0?-28:28,1,8);
         };
     }

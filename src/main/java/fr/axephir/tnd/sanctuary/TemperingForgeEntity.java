@@ -53,9 +53,10 @@ public final class TemperingForgeEntity extends BlockEntity implements WorldlyCo
     }
     public int status(){
         if(level==null||!built())return 1;if(level.hasNeighborSignal(worldPosition))return 2;
+        if(!items.get(3).isEmpty())return 6;
         if(!eligible(items.get(0)))return 3;if(choice<0)return 4;
         if(!items.get(1).is(SanctuaryContent.SHARD.get())||items.get(1).getCount()<8||!items.get(2).is(SanctuaryContent.DUST.get())||items.get(2).getCount()<2)return 5;
-        if(!items.get(3).isEmpty())return 6;if(energy.getAmountAsInt()<COST)return 7;
+        if(energy.getAmountAsInt()<COST)return 7;
         return armed?9:8;
     }
     public final ContainerData data=new ContainerData(){public int get(int n){return switch(n){case 0->choice+1;case 1->progress;case 2->status();case 3->energy.getAmountAsInt()&65535;case 4->energy.getAmountAsInt()>>>16;case 5->armed?1:0;default->0;};}public void set(int n,int v){}public int getCount(){return 6;}};
