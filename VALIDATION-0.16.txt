@@ -1,0 +1,61 @@
+THE NEW DIMENSION — 0.16.0-dev — Premier Silence
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : 395cba714929ce5bc42ffa7b02f5358cda2e6302
+CI du commit exact : https://github.com/axephir/TheNewDimension/actions/runs/39903419491
+Statut : succès.
+
+CONTENU LIVRÉ
+Six actes, 48 chambres nommées, emprise d'environ 1280 × 1024 blocs.
+Voûtes, galeries, réserves, couronnes, flèche et grand oculus original.
+Six familles d'accords couplés, relais, résonances et rencontres finies.
+Trois types de gardes et sept grands gardiens, dont un duo coordonné.
+Carte et retours vers les étapes atteintes ; sauvegarde et butins personnels.
+Quatre machines FE, nocturne, outils, neuf sprites distincts et quatrième mémoire.
+Sept nouveaux sons ; les 58 sons précédents restent inchangés.
+
+VÉRIFICATIONS AUTOMATISÉES
+- Compilation réussie, 53 119 assertions du noyau.
+- Tous les 179 GameTests Minecraft requis réussis.
+- 24 groupes de contrôles des ressources réussis.
+- Les 65 OGG distribués se décodent ; durée, niveau et limites des boucles vérifiés localement.
+- Les neuf sprites finaux ont chacun 16 × 16 pixels, au plus 16 couleurs et un alpha binaire.
+- Empreintes des neuf atlas/modèles d'armures portées identiques à la 0.15.1.
+- Les rencontres absentes ne deviennent pas des victoires ; le duo exige les deux morts.
+- Tests des entrées, FE, sorties, socles, filtrage exact, progression, sauvegardes et protections.
+- Source de chaque fichier du ZIP comparée au dépôt ; JAR embarqué identique au JAR distribué.
+
+VÉRIFICATIONS DANS LE CLIENT NATIF
+Génération naturelle des grandes chambres, éclairage et supports inspectés.
+Carte, états, retours, noms et objectifs lisibles. Un accord couplé a été résolu
+par interactions physiques et validé : progression réelle de 10 à 11 chambres.
+Archonte éveillé par sa station : déplacement, attaques, préparation, ouvertures
+et six couches de contrôle jusqu'à la mort finale. La route préparée est passée
+de 47 à 48 ; récompense remise une fois et bouton Reçu. Le duo a été observé
+avec ses deux barres et ses attaques, puis avec le premier gardien vaincu.
+La barre restante est correctement retirée lors du changement de dimension.
+
+Dans l'atelier privé : raffinerie, creuset et assembleur ont réellement produit
+leurs sorties. Les coûts FE et entrées mesurés correspondent aux cycles ; réserve
+insuffisante : arrêt sans perte des entrées restantes. Le trieur a déplacé 64 objets
+pour 7680 FE et conservé son filtre. Manuels, neuf icônes et aide de la mémoire
+inspectés ; nouvel onglet pratique et pagination contrôlés en 854 × 480.
+Quatorze fichiers F2 natifs, sans modification, avec deux tailles de fenêtre.
+
+PORTÉE ET INSTALLATION
+La cible de 3 h 30–4 h reste à confirmer par des campagnes complètes avec un
+équipement représentatif. Aucun parcours humain complet, équilibrage final en
+coopération, écoute physique des sons ou benchmark général de FPS revendiqué.
+Le client de contrôle utilise un rendu logiciel et un avatar préparé avec résistance.
+Les GameTests vérifient les règles serveur ; les images montrent le rendu effectif.
+
+Remplacer l'ancien JAR TND, même version côté client et serveur.
+Le grand Observatoire apparaît dans les nouveaux chunks de Vestige.
+Fabriquer et utiliser la Boussole du Premier Silence ; guide à gauche de l'inventaire.
+Les constructions déjà sauvegardées, maîtrises, machines et familiers sont conservés.
+Voir docs/PREMIER_SILENCE_0.16.md.
+
+FICHIERS
+tnd-0.16.0-dev.jar : 5610113 octets
+SHA-256 : 0295da3da63ee63824a848b5c6c1e7acc9997797ec3ce3d13a811686a2b8cd30
+TheNewDimension-0.16.0-dev.zip : 10641713 octets
+SHA-256 : 06164c6fec64f61f902b35133a85efef4903f65a553c258c31199e418fad8ee2
