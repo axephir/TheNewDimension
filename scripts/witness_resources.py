@@ -69,3 +69,6 @@ def languages(fr,en):
     for name,f,e in [('witness_current','Un courant s’accorde','A current aligns'),('witness_bridge','Un passage se déploie','A crossing unfolds'),('witness_reliquary','Un réceptacle répond','A receptacle answers'),('witness_awaken','Une masse ancienne s’éveille','An ancient mass awakens')]:fr['subtitles.tnd.'+name]=f;en['subtitles.tnd.'+name]=e
     fr['guide.tnd.page.6.1']+=' Dans les nouveaux parvis, les faisceaux montrent les accords. Les coupleurs des galeries déploient une passerelle ; ceux de la salle des échos suivent les gravures au sol. Trois réceptacles facultatifs donnent chacun une récompense personnelle unique.'
     en['guide.tnd.page.6.1']+=' In new forecourts, beams reveal alignments. Gallery couplers deploy a crossing; echo-room couplers follow floor engravings. Three optional receptacles each grant a unique personal reward.'
+
+    fr['observatory.tnd.action.4']='Activer le parcours'
+    en['observatory.tnd.action.4']='Start the route'
