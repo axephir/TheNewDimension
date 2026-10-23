@@ -25,7 +25,6 @@ public final class VestigeHud {
     }
     private static void render(GuiGraphicsExtractor g,net.minecraft.client.DeltaTracker dt){
         var mc=Minecraft.getInstance();if(mc.player==null||mc.level==null||mc.gui.hud.isHidden()||mc.gui.screen()!=null||!AtmosphereOptions.HUD.get())return;
-        WitnessHud.render(g);
         if(reveal>0&&mc.level.dimension().equals(DevelopmentCommands.DIMENSION)){
             int alpha=Math.min(220,reveal*22);int col=(alpha<<24)|0xe4dfbf;
             g.fill(9,39,159,67,(alpha/2<<24)|0x182b28);g.fill(9,39,11,67,(alpha<<24)|0xb39b66);
@@ -37,6 +36,7 @@ public final class VestigeHud {
             var direction=candidate.getEyePosition().subtract(mc.player.getEyePosition());double distance=direction.lengthSqr();
             if(distance<nearest&&direction.normalize().dot(mc.player.getLookAngle())>.97&&mc.player.hasLineOfSight(candidate)){target=candidate;nearest=distance;}
         }
+        if(target==null)WitnessHud.render(g);
         if(target!=null){
             int x=g.guiWidth()/2,y=g.guiHeight()/2+23;var name=target.getDisplayName();g.text(mc.font,name,x-mc.font.width(name)/2,y,0xffeee4bf,true);
             float health=target instanceof fr.axephir.tnd.sanctuary.SanctuaryConstruct construct?construct.integrity():target instanceof Shardling pet&&pet.downed()?0:target.getHealth();
