@@ -62,6 +62,7 @@ final class ObservatoryTests {
             }
             for(var target:new BlockPos[]{new BlockPos(-47,1,0),new BlockPos(47,1,0),new BlockPos(0,1,-47),new BlockPos(0,1,47),new BlockPos(-35,1,33),new BlockPos(35,1,33),new BlockPos(-42,11,-12),new BlockPos(42,11,12),new BlockPos(0,1,-20),new BlockPos(0,1,28)})
                 check(h,seen.contains(target),"Room "+index+" retains a walk/jump route to "+target);
+            if(index%8!=7&&index%8!=3)check(h,seen.contains(new BlockPos(22,-3,-26)),"The lowest court has a connected return route in room "+index);
             if(index%8==0||index%8==5)for(var target:new BlockPos[]{new BlockPos(-24,1,10),new BlockPos(24,1,10),new BlockPos(0,1,-28)})check(h,seen.contains(target),"Stele approaches remain connected in room "+index);
             if(index%8==2)for(int n=0;n<4;n++)check(h,seen.contains(new BlockPos(-12+n*8,1,-12)),"Each dial is reachable in room "+index);
             if(index%8==3)for(int x:new int[]{-24,24})for(int z:new int[]{-24,24})check(h,seen.contains(new BlockPos(x,1,z+Integer.signum(z)*2)),"Relay approaches remain at ground level in room "+index);
@@ -77,7 +78,7 @@ final class ObservatoryTests {
         new SanctuaryFeature().generate(w,bottom);
         check(h,!w.getBlockState(bottom).isAir(),"The naturally carved court has a supported mineral floor four blocks down");
         for(int y=1;y<=4;y++)check(h,w.getBlockState(bottom.above(y)).isAir(),"The court really cuts through the foundation instead of retaining the original flat floor");
-        var step=new BlockPos(cx+13,SanctuaryRoute.FLOOR,cz-24);new SanctuaryFeature().generate(w,step);
+        var step=new BlockPos(cx+12,SanctuaryRoute.FLOOR,cz-24);new SanctuaryFeature().generate(w,step);
         check(h,w.getBlockState(step).is(SanctuaryContent.STAIRS.get()),"A real native stair connects the first court terrace to the hall");
         check(h,!w.getBlockState(bottom.below(4)).isAir(),"Excavation preserves the load-bearing foundation below the court");
         h.succeed();

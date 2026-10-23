@@ -40,9 +40,13 @@ public final class SanctuaryInterior {
         int ax=Math.abs(x),az=Math.abs(z),slot=index%8,act=index/8;
         int surface=floorLevel(x,z,index);
         if(y<=0){
-            if(surface<0&&surface>-4&&y==surface+1){
-                int nearest=Math.min(Math.min(ax-12,30-ax),Math.min(z+34,-16-z));
-                Direction up=nearest==ax-12?(x>0?Direction.WEST:Direction.EAST):nearest==30-ax?(x>0?Direction.EAST:Direction.WEST):nearest==z+34?Direction.NORTH:Direction.SOUTH;
+            int inset=Math.min(Math.min(ax-12,30-ax),Math.min(z+34,-16-z));
+            // A stair REPLACES its terrace surface. Placing it one block above the
+            // surface makes a 1.5-block first step out of the lowest court.
+            boolean court=slot!=7&&slot!=3&&inset>=0&&inset<4;
+            boolean reactor=act==2&&(ax-24)*(ax-24)+(az-17)*(az-17)<=25;
+            if(court&&!reactor&&y==surface){
+                Direction up=inset==ax-12?(x>0?Direction.WEST:Direction.EAST):inset==30-ax?(x>0?Direction.EAST:Direction.WEST):inset==z+34?Direction.NORTH:Direction.SOUTH;
                 return stair(up);
             }
             return foundation(x,y,z,index);
