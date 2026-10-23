@@ -21,7 +21,9 @@ public final class SanctuaryFeature extends Feature<NoneFeatureConfiguration> {
             int index=SanctuaryRoute.indexAt(lx,lz);int dx=index<0?999:lx-SanctuaryRoute.x(index),dz=index<0?999:lz-SanctuaryRoute.z(index);
             int edge=Math.min(SanctuaryRoute.HALF_X-Math.abs(lx),SanctuaryRoute.HALF_Z-Math.abs(lz));
             // Continuous mineral foundations connect every chamber, crown and approach to terrain.
-            for(int y=SanctuaryRoute.FLOOR-9;y<=SanctuaryRoute.FLOOR;y++)world.setBlock(pos.set(x,y,z),stone(y==SanctuaryRoute.FLOOR?floor(lx,lz,dx,dz,index):"obsidian_metal"),2);
+            boolean hall=index>=0&&Math.abs(dx)<=50&&Math.abs(dz)<=50;
+            for(int y=-9;y<=0;y++)world.setBlock(pos.set(x,SanctuaryRoute.FLOOR+y,z),
+                hall?SanctuaryInterior.sample(dx,y,dz,index,0):stone(y==0?floor(lx,lz,dx,dz,index):"obsidian_metal"),2);
             if(index>=0&&Math.abs(dx)<=50&&Math.abs(dz)<=50){
                 int height=SanctuaryRoute.boss(index)?62:32+(index%3)*7;
                 for(int y=1;y<=height;y++){
@@ -90,81 +92,13 @@ public final class SanctuaryFeature extends Feature<NoneFeatureConfiguration> {
         int turn=Math.floorDiv(lz+320,128);
         return turn>=0&&turn<5&&Math.abs(lx-(turn%2==0?448:-448))<=5;
     }
-    private static boolean doorway(int dx,int dz,int index,int neighbor){
+    static boolean doorway(int dx,int dz,int index,int neighbor){
         if(neighbor<0)return index==0&&dx<=-48&&Math.abs(dz)<=5;
         if(neighbor>=48)return false;
         int vx=Integer.signum(SanctuaryRoute.x(neighbor)-SanctuaryRoute.x(index)),vz=Integer.signum(SanctuaryRoute.z(neighbor)-SanctuaryRoute.z(index));
         return vx!=0&&dx*vx>=48&&Math.abs(dz)<=5||vz!=0&&dz*vz>=48&&Math.abs(dx)<=5;
     }
     public static BlockState chamber(int dx,int y,int dz,int index,int height){
-        int ax=Math.abs(dx),az=Math.abs(dz),slot=index%8,act=index/8;
-        int vault=height-Math.max(0,(Math.max(ax,az)-22)/3);
-        boolean wall=ax>=48||az>=48;
-        // Boss halls have chamfered monumental corners instead of another square room.
-        if(slot==7&&ax+az>=76){if(y==3&&Math.floorMod(dx-dz,8)==0)return stone("luminous_script");return stone(y==height?"obsidian_ribbed":"obsidian_relief");}
-        if(wall){
-            if(y<=8&&(doorway(dx,dz,index,index-1)||doorway(dx,dz,index,index+1))){
-                boolean entrance=doorway(dx,dz,index,index-1)&&index>0;
-                return entrance&&((ax==48&&az<6)||(az==48&&ax<6))?SanctuaryContent.GATE.get().defaultBlockState():Blocks.AIR.defaultBlockState();
-            }
-            if(y>=vault)return stone(y==vault&&Math.floorMod(dx+dz,12)<2?"luminous_script":"obsidian_ribbed");
-            boolean rib=(ax>=48&&Math.floorMod(dz,12)<3)||(az>=48&&Math.floorMod(dx,12)<3);
-            if(y==3&&rib||y==15&&Math.floorMod(dx+dz,12)<2)return stone("luminous_script");
-            return stone(rib?"obsidian_pillar":y%12==0?"obsidian_relief":"obsidian_tiles");
-        }
-        if(y>=vault)return stone(y==vault&&(Math.floorMod(dx,12)<2||Math.floorMod(dz,24)==0)?"luminous_script":"obsidian_ribbed");
-        // Layered pillars never intrude on the main route or mechanisms.
-        if(ax>=31&&ax<=34&&az>=30&&az<=33)return stone(y==3||y==height-3?"observatory_brazier":"obsidian_pillar");
-        if(y>=height-4&&(ax==42||az==42))return stone("obsidian_ribbed");
-        if(y>=7&&y<=9&&((ax>=37+(9-y)&&az<46&&Math.floorMod(dz,12)<2)||(az>=37+(9-y)&&ax<46&&Math.floorMod(dx,12)<2)))return stone("obsidian_relief");
-        // Walkable perimeter galleries, with eight broad stair flights and lit landings.
-        if(y==10&&Math.max(ax,az)>=38)return stone((slot==4&&ax>=40&&ax<=44&&Math.abs(az-12)<=2)||Math.floorMod(dx+dz,8)==0?"guiding_inlay":"obsidian_grate");
-        if(ax>=40&&ax<=45&&dz>=-29&&dz<=-10&&y<=1+(dz+29)/2){if(y==1+(dz+29)/2&&(dz+29)%2==0)return SanctuaryContent.STAIRS.get().defaultBlockState().setValue(StairBlock.FACING,Direction.SOUTH);return stone("obsidian_tiles");}
-        if(y==11&&Math.max(ax,az)==38&&Math.floorMod(dx+dz,3)==0)return stone("obsidian_relief");
-        if((slot==0||slot==5)&&y==1&&((dx==-24&&dz==8)||(dx==24&&dz==8)||(dx==0&&dz==-30)))return SanctuaryContent.TRACE.get().defaultBlockState();
-        if(index%8==0||index%8==7){if(dx==12&&dz==18&&y==1)return fr.axephir.tnd.core.ModContent.RETURN_ANCHOR.get().defaultBlockState();if(dx==-12&&dz==18&&y==1)return Blocks.ENDER_CHEST.defaultBlockState();if(dx==-13&&dz==18&&y==1)return Blocks.CRAFTING_TABLE.defaultBlockState();}
-        if(slot==3&&y<=2&&Math.abs(dx)==24&&Math.abs(dz)==24)return y==2?SanctuaryContent.RELAY.get().defaultBlockState():stone("obsidian_pillar");
-        // Four visible rotating devices: no pixel hunt. Their puzzle state is native block state.
-        for(int d=0;slot==2&&d<4;d++)if(dx==-12+d*8&&dz==-14&&y<=2)return y==2?SanctuaryContent.DIAL.get().defaultBlockState():stone("obsidian_pillar");
-        // The second flight gives a safe descent from both perimeter galleries.
-        if(ax>=40&&ax<=45&&dz>=10&&dz<=29&&y<=1+(29-dz)/2){if(y==1+(29-dz)/2&&(29-dz)%2==0)return SanctuaryContent.STAIRS.get().defaultBlockState().setValue(StairBlock.FACING,Direction.NORTH);return stone("obsidian_tiles");}
-        // Furnished alcoves beneath the rear galleries, lit at human height.
-        if(az>=39&&az<=47&&y<9){
-            if(Math.floorMod(dx+42,14)==0&&ax<43)return stone(y==3?"luminous_script":"obsidian_pillar");
-            if(az>=45&&Math.floorMod(dx+42,14)>=3&&Math.floorMod(dx+42,14)<=9&&ax<42&&y<=4)return stone(y==4?"memory_lattice":"obsidian_relief");
-            if(az==41&&ax<42&&Math.floorMod(dx+42,14)>=4&&Math.floorMod(dx+42,14)<=8&&y==1)return SanctuaryContent.SLAB.get().defaultBlockState();
-        }
-        // The forecourt has anchored votive monuments, benches and engraved witness plinths.
-        if(act==0&&az>=20&&az<=23&&ax>=15&&ax<=30&&Math.floorMod(dx,12)<3&&y<=7+(slot%3)*2)return stone(y==4?"amber_seal":y==7+(slot%3)*2?"luminous_script":"obsidian_pillar");
-        if(act==0&&y==1&&az==16&&ax>=18&&ax<=28)return SanctuaryContent.SLAB.get().defaultBlockState();
-        // Archive aisles: low stacks, readable crossings and high sealed memory banks.
-        if(act==1&&ax>=18&&ax<=29&&Math.floorMod(dx,6)<2&&az<=20&&az>=5&&y<=5)return stone(y%2==0?"memory_lattice":"obsidian_metal");
-        // Four restrained brazier basins and rising crystalline mineral columns in the gardens.
-        if(act==3&&ax>=18&&ax<=25&&az>=18&&az<=25){int taper=(ax-18)+(az-18);if(y<=18-taper)return stone(y%5==0?"luminous_script":"obsidian_relief");}
-        // Foundry chambers contain anchored reactor banks, coolant conduits and suspended service ribs.
-        if(act==2&&ax>=20&&ax<=28&&az<=15&&az>=8&&y<=12){if(y==4||y==9)return stone("amber_seal");return stone(ax==20||ax==28?"obsidian_ribbed":"silent_conduit");}
-        // Twin pylons frame the tribunal without blocking the central combat floor.
-        if(act==4&&ax>=20&&ax<=23&&az>=18&&az<=21&&y<height-6)return stone(y%7==0?"amber_seal":"obsidian_pillar");
-        // The final act carries an overhead armillary crown, supported by the perimeter pylons.
-        if(act==5&&y>=height-15&&y<=height-13){double r=Math.hypot(dx,dz);if(r>=23&&r<=26)return stone(Math.floorMod(dx+dz,13)==0?"luminous_script":"obsidian_ribbed");}
-        if(act==5&&y>=height-13&&y<height&&((ax==24&&az<2)||(az==24&&ax<2)))return stone("silent_conduit");
-        // The last chamber holds an immense suspended black lens above the unobstructed arena.
-        if(index==47){
-            double lens=Math.sqrt(dx*dx+dz*dz+(y-(height-23))*(y-(height-23)));
-            if(lens>=8&&lens<=10)return stone(y==height-23||ax<=1?"luminous_script":"obsidian_relief");
-            if(y>=height-23&&y<=height-14&&ax<=1&&az<=1)return stone("obsidian_pillar");
-            if(y==height-14&&Math.max(ax,az)<=24&&Math.min(ax,az)<=1)return stone("obsidian_ribbed");
-        }
-        // An original large apparatus differentiates each act and keeps every room furnished.
-        if(az>=23&&az<=27&&ax<=21&&Math.floorMod(dx,7)<3&&y<=7+(slot%3)*3){
-            if(act==1)return stone(y%3==0?"memory_lattice":"obsidian_relief");
-            if(act==2)return stone(y==5?"amber_seal":"obsidian_ribbed");
-            if(act==3&&ax%7==0)return stone(y%4==0?"luminous_script":"silent_conduit");
-        }
-        if((slot==4||slot==7)&&y>=height-17&&y<=height-14){double radius=Math.hypot(dx,dz);if(radius>=14&&radius<=16)return stone((Math.floorMod(dx+dz,9)==0)?"luminous_script":"obsidian_metal");}
-        if(act==3&&ax>=20&&ax<=27&&az>=9&&az<=17&&y<=2)return stone(y==2?"luminous_script":"obsidian_relief");
-        if(y==2&&((dx==-27&&dz==19)||(dx==27&&dz==19)))return stone("observatory_brazier");
-        if(y<=2&&az==35&&ax<=27&&Math.floorMod(dx,8)<3)return stone(y==2?"memory_lattice":"obsidian_relief");
-        return Blocks.AIR.defaultBlockState();
+        return SanctuaryInterior.sample(dx,y,dz,index,height);
     }
 }

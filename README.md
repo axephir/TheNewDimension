@@ -2,13 +2,15 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.16.0-dev — Premier Silence.**
+**Version : 0.16.1-dev — Reliefs du Premier Silence.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.16.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.16.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.16.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.16.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.16.1-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.16.1-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.16.1-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.16.1.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**Les 48 intérieurs de l’Observatoire ont été repris** : cours encaissées sur quatre niveaux, terrasses et gradins praticables, arcades épaisses, voûtes courbes, caissons, alcôves et mobilier sculpté propre aux six actes. Les neuf objets de la 0.16 ont de nouveaux sprites plus texturés, toujours en 16 × 16. Les bâtiments sauvegardés restent conservés : explorer un nouveau site pour découvrir la nouvelle architecture. [Guide de la 0.16.1](docs/INTERIORS_0.16.1.md).
 
 **L’Observatoire du Premier Silence ouvre une nouvelle région de fin de progression**, d’environ 1 280 × 1 024 blocs. Six actes et 48 chambres nommées suivent une route continue entre roche noire métallique, voûtes, galeries soutenues, couronnes de pics et dispositifs lumineux. Carte d’expédition, disques couplés, surveillance à couper, résonances, réserves et 36 fragments brefs accompagnent l’exploration. **Dix nouvelles créatures**, dont sept grands gardiens et un duo coordonné, possèdent leurs modèles articulés, préparations visibles, phases et récompenses personnelles.
 
@@ -82,7 +84,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **179 GameTests natifs**, **53 119 assertions du noyau**, **24 contrôles des ressources** JSON/NBT et le décodage des 65 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **181 GameTests natifs**, **53 119 assertions du noyau**, **24 contrôles des ressources** JSON/NBT et le décodage des 65 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 

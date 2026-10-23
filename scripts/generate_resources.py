@@ -69,7 +69,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Premier Silence 0.16 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Reliefs du Premier Silence 0.16.1 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}

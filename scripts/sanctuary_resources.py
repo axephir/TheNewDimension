@@ -7,7 +7,7 @@ MACHINES=['mnemonic_refinery','nocturne_crucible','axiomatic_assembler','mnemoni
 ITEMS=['observatory_compass','mnemonic_shard','axiomatic_core','nocturne_ingot','mnemonic_circuit','purified_auralite','observatory_memory','nocturne_blade','nocturne_pickaxe']
 ENTITIES=['obsidian_watcher','prismatic_lancer','mnemonic_cantor','threshold_colossus','keeper_of_lenses','silent_smelter','petrified_hortulan','axiom_guardian','antiphon_guardian','first_silence_archon']
 SOUNDS=['observatory_drone','observatory_threshold','observatory_relay','observatory_warning','observatory_impact','observatory_victory','observatory_core']
-TESTS=['observatory_route','observatory_ledger','observatory_palette','observatory_codec','observatory_mechanics','observatory_industry','observatory_industry_guards','observatory_construct','observatory_attacks','observatory_familiar','observatory_generation','observatory_protection','observatory_core_layers','observatory_sorter','observatory_pads','observatory_relays','observatory_trace_gate','observatory_duo_rewards','observatory_linked_dials','observatory_live_ai']
+TESTS=['observatory_interior_routes','observatory_interior_foundations','observatory_route','observatory_ledger','observatory_palette','observatory_codec','observatory_mechanics','observatory_industry','observatory_industry_guards','observatory_construct','observatory_attacks','observatory_familiar','observatory_generation','observatory_protection','observatory_core_layers','observatory_sorter','observatory_pads','observatory_relays','observatory_trace_gate','observatory_duo_rewards','observatory_linked_dials','observatory_live_ai']
 
 def item_art(name):
     if name in ITEM_ART:return item_pixels(name)

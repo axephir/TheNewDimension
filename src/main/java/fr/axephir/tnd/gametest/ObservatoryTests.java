@@ -25,12 +25,62 @@ import java.util.function.Consumer;
 
 final class ObservatoryTests {
     static void register(DeferredRegister<Consumer<GameTestHelper>> f){
+        f.register("observatory_interior_routes",()->ObservatoryTests::interiorRoutes);
+        f.register("observatory_interior_foundations",()->ObservatoryTests::interiorFoundations);
         f.register("observatory_trace_gate",()->ObservatoryTests::traceGate);
         f.register("observatory_duo_rewards",()->ObservatoryTests::duoRewards);
         f.register("observatory_linked_dials",()->ObservatoryTests::linkedDials);
         f.register("observatory_live_ai",()->ObservatoryTests::liveAi);
         f.register("observatory_core_layers",()->ObservatoryTests::coreLayers);f.register("observatory_sorter",()->ObservatoryTests::sorter);f.register("observatory_pads",()->ObservatoryTests::pads);f.register("observatory_relays",()->ObservatoryTests::relays);
         f.register("observatory_route",()->ObservatoryTests::route);f.register("observatory_ledger",()->ObservatoryTests::ledger);f.register("observatory_palette",()->ObservatoryTests::palette);f.register("observatory_codec",()->ObservatoryTests::codec);f.register("observatory_mechanics",()->ObservatoryTests::mechanics);f.register("observatory_industry",()->ObservatoryTests::industry);f.register("observatory_industry_guards",()->ObservatoryTests::guards);f.register("observatory_construct",()->ObservatoryTests::construct);f.register("observatory_attacks",()->ObservatoryTests::attacks);f.register("observatory_familiar",()->ObservatoryTests::familiar);f.register("observatory_generation",()->ObservatoryTests::generation);f.register("observatory_protection",()->ObservatoryTests::protection);
+    }
+
+    /** Check traversability using native collision shapes, including both gallery heights.
+     * Goals are the actual station, devices, chest approaches and four resonance locations. */
+    static void interiorRoutes(GameTestHelper h){
+        var shapeCache=new HashMap<net.minecraft.world.level.block.state.BlockState,Boolean>();
+        for(int index=0;index<48;index++){
+            int height=SanctuaryRoute.boss(index)?62:32+(index%3)*7;
+            int[][] floors=new int[95][95];
+            for(int x=-47;x<=47;x++)for(int z=-47;z<=47;z++){
+                boolean[] solid=new boolean[20];
+                for(int y=-6;y<=13;y++){
+                    var state=SanctuaryInterior.sample(x,y,z,index,height);
+                    solid[y+6]=shapeCache.computeIfAbsent(state,s->!s.getCollisionShape(h.getLevel(),BlockPos.ZERO).isEmpty());
+                }
+                for(int feet=-4;feet<=11;feet++)if(solid[feet+5]&&!solid[feet+6]&&!solid[feet+7])floors[x+47][z+47]|=1<<(feet+4);
+            }
+            var seen=new HashSet<BlockPos>();var queue=new ArrayDeque<BlockPos>();
+            var start=new BlockPos(0,1,20);seen.add(start);queue.add(start);
+            while(!queue.isEmpty()){
+                var p=queue.removeFirst();
+                for(var direction:Direction.Plane.HORIZONTAL)for(int step=-1;step<=1;step++){
+                    var q=p.relative(direction).above(step);int x=q.getX(),z=q.getZ(),y=q.getY();
+                    if(Math.abs(x)>47||Math.abs(z)>47||y< -4||y>11)continue;
+                    if((floors[x+47][z+47]&(1<<(y+4)))!=0&&seen.add(q))queue.addLast(q);
+                }
+            }
+            for(var target:new BlockPos[]{new BlockPos(-47,1,0),new BlockPos(47,1,0),new BlockPos(0,1,-47),new BlockPos(0,1,47),new BlockPos(-35,1,33),new BlockPos(35,1,33),new BlockPos(-42,11,-12),new BlockPos(42,11,12),new BlockPos(0,1,-20),new BlockPos(0,1,28)})
+                check(h,seen.contains(target),"Room "+index+" retains a walk/jump route to "+target);
+            if(index%8==0||index%8==5)for(var target:new BlockPos[]{new BlockPos(-24,1,10),new BlockPos(24,1,10),new BlockPos(0,1,-28)})check(h,seen.contains(target),"Stele approaches remain connected in room "+index);
+            if(index%8==2)for(int n=0;n<4;n++)check(h,seen.contains(new BlockPos(-12+n*8,1,-12)),"Each dial is reachable in room "+index);
+            if(index%8==3)for(int x:new int[]{-24,24})for(int z:new int[]{-24,24})check(h,seen.contains(new BlockPos(x,1,z+Integer.signum(z)*2)),"Relay approaches remain at ground level in room "+index);
+            if(index%8==7)for(int x=-19;x<=19;x++)for(int z=-7;z<=11;z++)for(int y=1;y<=12;y++)check(h,SanctuaryInterior.sample(x,y,z,index,height).getCollisionShape(h.getLevel(),BlockPos.ZERO).isEmpty(),"Large boss spawn and central combat envelopes remain clear in room "+index);
+        }
+        h.succeed();
+    }
+
+    static void interiorFoundations(GameTestHelper h){
+        var w=FieldworkTests.vestige(h);var site=SanctuaryRoute.nearest(78*6144,78*6144);
+        int cx=site.x()+SanctuaryRoute.x(0),cz=site.z()+SanctuaryRoute.z(0);
+        var bottom=new BlockPos(cx+22,SanctuaryRoute.FLOOR-4,cz-24);
+        new SanctuaryFeature().generate(w,bottom);
+        check(h,!w.getBlockState(bottom).isAir(),"The naturally carved court has a supported mineral floor four blocks down");
+        for(int y=1;y<=4;y++)check(h,w.getBlockState(bottom.above(y)).isAir(),"The court really cuts through the foundation instead of retaining the original flat floor");
+        var step=new BlockPos(cx+13,SanctuaryRoute.FLOOR,cz-24);new SanctuaryFeature().generate(w,step);
+        check(h,w.getBlockState(step).is(SanctuaryContent.STAIRS.get()),"A real native stair connects the first court terrace to the hall");
+        check(h,!w.getBlockState(bottom.below(4)).isAir(),"Excavation preserves the load-bearing foundation below the court");
+        h.succeed();
     }
     private static void check(GameTestHelper h,boolean ok,String why){h.assertTrue(ok,Component.literal(why));}
     static void route(GameTestHelper h){long mask=0;for(int i=0;i<48;i++){check(h,SanctuaryRoute.available(mask,i),"Next authored station is reachable");check(h,i==47||!SanctuaryRoute.available(mask,i+1),"The route cannot skip an objective");if(i>0)check(h,Math.abs(SanctuaryRoute.x(i)-SanctuaryRoute.x(i-1))+Math.abs(SanctuaryRoute.z(i)-SanctuaryRoute.z(i-1))==128,"Adjacent route chambers share one straight corridor");mask=SanctuaryRoute.complete(mask,i);}check(h,mask==SanctuaryRoute.FULL&&SanctuaryRoute.reached(mask)==48,"All six acts have a persistent unbroken route");h.succeed();}
