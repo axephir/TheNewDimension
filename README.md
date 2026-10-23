@@ -2,13 +2,15 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.16.1-dev — Reliefs du Premier Silence.**
+**Version : 0.17.0-dev — L’Éveil des Témoins.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.16.1-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.16.1-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.16.1-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.16.1.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.17.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.17.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.17.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.17.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**Le premier acte devient une séquence réactive de huit salles** : faisceaux des prismes, circuit à rétablir, passerelle de galerie déployable, portes qui se lèvent, trois découvertes personnelles et gravures qui se réveillent. Le Colosse bénéficie d’un éveil de huit secondes, de trois phases mises en scène et de nouveaux motifs d’attaque. Aides contextuelles, compteur de découvertes et quatre nouveaux sons accompagnent ce parcours. Les nouveaux mécanismes apparaissent dans les sites entièrement inédits ; les anciennes stations conservent leurs règles. [Guide de la 0.17](docs/WITNESSES_0.17.md).
 
 **Les 48 intérieurs de l’Observatoire ont été repris** : cours encaissées sur quatre niveaux, terrasses et gradins praticables, arcades épaisses, voûtes courbes, caissons, alcôves et mobilier sculpté propre aux six actes. Les neuf objets de la 0.16 ont de nouveaux sprites plus texturés, toujours en 16 × 16. Les bâtiments sauvegardés restent conservés : explorer un nouveau site pour découvrir la nouvelle architecture. [Guide de la 0.16.1](docs/INTERIORS_0.16.1.md).
 
@@ -52,7 +54,7 @@ Les nouveaux Observatoires, métropoles, laboratoires, massifs et minerais appar
 
 | Domaine | Contenu |
 |---|---|
-| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 65 sons originaux |
+| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 69 sons originaux |
 | Exploration | Neuf grandes architectures sur massifs couronnés, sanctuaire à trois ailes et boss, observatoire, citadelle, conservatoire, tours aménagées, archives et expédition du Premier Silence en six actes |
 | RPG | Quinze maîtrises, XP manuelle, talents, synergies, perception, progression au-delà du niveau 100 et célébrations personnelles |
 | Équipements | Minerais exposés, alliages, armure en relief, outils, armes, égide, marteau et objets de retour |
@@ -84,7 +86,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **181 GameTests natifs**, **53 119 assertions du noyau**, **24 contrôles des ressources** JSON/NBT et le décodage des 65 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **188 GameTests natifs**, **54 115 assertions du noyau**, **25 contrôles des ressources** JSON/NBT et le décodage des 69 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 

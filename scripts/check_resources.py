@@ -46,6 +46,23 @@ class Nbt:
 
 
 class Resources(unittest.TestCase):
+    def test_witness_mechanism_assets(self):
+        from witness_resources import BLOCKS,SOUNDS,TESTS
+        for name in BLOCKS:
+            self.assertTrue((ASSETS/f'blockstates/{name}.json').is_file())
+            self.assertFalse((DATA/f'recipe/{name}.json').exists(),'Authored quest devices cannot be cheaply crafted as indestructible blocks')
+        filament=json.loads((ASSETS/'blockstates/observatory_filament.json').read_text())['variants']
+        self.assertEqual(len(filament),16,'Four real light states and four visible arrow directions')
+        for name in SOUNDS:
+            self.assertIn(name,json.loads((ASSETS/'sounds.json').read_text()))
+        for locale in ['fr_fr','en_us']:
+            text=json.loads((ASSETS/f'lang/{locale}.json').read_text())
+            for index in range(8):self.assertIn('observatory.tnd.witness.objective.'+str(index),text)
+            lore=[text['observatory.tnd.witness.lore.'+str(i)] for i in range(3)]
+            self.assertEqual(len(set(lore)),3)
+            self.assertTrue(all(len(line)<100 for line in lore),'Discoveries remain brief and suggestive')
+        for name in TESTS:self.assertTrue((DATA/f'test_instance/{name}.json').is_file())
+
     def test_observatory_progression_resources(self):
         content=generator.sanctuary_resources
         self.assertEqual(len({hashlib.sha256((ASSETS/f'textures/item/{name}.png').read_bytes()).digest() for name in content.ITEMS}),len(content.ITEMS),'Every new survival item must have its own recognisable sprite')
@@ -333,7 +350,7 @@ class Resources(unittest.TestCase):
         biomes={'silent_expanse','fractured_fields','hollow_shelves','glass_woodland','ashen_basin','obsidian_dunes'}
         stem=json.loads((DATA/'dimension/vestige.json').read_text())
         self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['outside']['outside']['biomes']},biomes)
-        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),65)
+        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),69)
         loops=set()
         for biome in biomes:
             data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())

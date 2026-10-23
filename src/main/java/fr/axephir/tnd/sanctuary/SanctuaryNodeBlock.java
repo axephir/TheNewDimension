@@ -11,6 +11,6 @@ import net.minecraft.world.phys.BlockHitResult;
 public final class SanctuaryNodeBlock extends Block implements EntityBlock {
     public SanctuaryNodeBlock(Properties p){super(p);}
     public BlockEntity newBlockEntity(BlockPos p,BlockState s){return new SanctuaryNodeEntity(p,s);}
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level w,BlockState s,BlockEntityType<T> type){return w.isClientSide()||type!=SanctuaryContent.NODE_ENTITY.get()?null:(l,p,b,e)->{if(l.getGameTime()%20==0)((SanctuaryNodeEntity)e).tick();};}
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level w,BlockState s,BlockEntityType<T> type){return w.isClientSide()||type!=SanctuaryContent.NODE_ENTITY.get()?null:(l,p,b,e)->{if(l.getGameTime()%20==0)((SanctuaryNodeEntity)e).tick();if(l.getGameTime()%5==0)((SanctuaryNodeEntity)e).sceneTick();};}
     protected InteractionResult useWithoutItem(BlockState s,Level w,BlockPos p,Player player,BlockHitResult hit){if(!w.isClientSide()&&w.getBlockEntity(p) instanceof SanctuaryNodeEntity node)player.openMenu(node);return InteractionResult.SUCCESS;}
 }

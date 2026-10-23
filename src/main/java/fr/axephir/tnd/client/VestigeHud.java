@@ -25,6 +25,7 @@ public final class VestigeHud {
     }
     private static void render(GuiGraphicsExtractor g,net.minecraft.client.DeltaTracker dt){
         var mc=Minecraft.getInstance();if(mc.player==null||mc.level==null||mc.gui.hud.isHidden()||mc.gui.screen()!=null||!AtmosphereOptions.HUD.get())return;
+        WitnessHud.render(g);
         if(reveal>0&&mc.level.dimension().equals(DevelopmentCommands.DIMENSION)){
             int alpha=Math.min(220,reveal*22);int col=(alpha<<24)|0xe4dfbf;
             g.fill(9,39,159,67,(alpha/2<<24)|0x182b28);g.fill(9,39,11,67,(alpha<<24)|0xb39b66);

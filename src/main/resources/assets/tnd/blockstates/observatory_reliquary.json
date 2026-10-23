@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "lit=false,tone=0": {
+      "model": "tnd:block/observatory_reliquary_0"
+    },
+    "lit=false,tone=1": {
+      "model": "tnd:block/observatory_reliquary_1"
+    },
+    "lit=false,tone=2": {
+      "model": "tnd:block/observatory_reliquary_2"
+    },
+    "lit=false,tone=3": {
+      "model": "tnd:block/observatory_reliquary_3"
+    },
+    "lit=true,tone=0": {
+      "model": "tnd:block/observatory_reliquary_0_active"
+    },
+    "lit=true,tone=1": {
+      "model": "tnd:block/observatory_reliquary_1_active"
+    },
+    "lit=true,tone=2": {
+      "model": "tnd:block/observatory_reliquary_2_active"
+    },
+    "lit=true,tone=3": {
+      "model": "tnd:block/observatory_reliquary_3_active"
+    }
+  }
+}

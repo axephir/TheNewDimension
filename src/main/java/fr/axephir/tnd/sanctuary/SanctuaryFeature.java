@@ -67,7 +67,7 @@ public final class SanctuaryFeature extends Feature<NoneFeatureConfiguration> {
         for(int i=0;i<SanctuaryRoute.COUNT;i++){
             var p=SanctuaryRegions.station(site,i);if((p.getX()>>4)!=(x0>>4)||(p.getZ()>>4)!=(z0>>4))continue;
             world.setBlock(p,SanctuaryContent.NODE.get().defaultBlockState(),2);
-            if(world.getBlockEntity(p) instanceof SanctuaryNodeEntity node)node.initialize(site,i);
+            if(world.getBlockEntity(p) instanceof SanctuaryNodeEntity node)node.initializeWitness(site,i);
         }
         for(int i=0;i<48;i++)for(int side:new int[]{-1,1}){
             var p=new BlockPos(site.x()+SanctuaryRoute.x(i)+side*35,SanctuaryRoute.FLOOR+1,site.z()+SanctuaryRoute.z(i)+35);

@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "lit=false,tone=0": {
+      "model": "tnd:block/observatory_coupler",
+      "y": 270
+    },
+    "lit=false,tone=1": {
+      "model": "tnd:block/observatory_coupler",
+      "y": 0
+    },
+    "lit=false,tone=2": {
+      "model": "tnd:block/observatory_coupler",
+      "y": 90
+    },
+    "lit=false,tone=3": {
+      "model": "tnd:block/observatory_coupler",
+      "y": 180
+    },
+    "lit=true,tone=0": {
+      "model": "tnd:block/observatory_coupler_active",
+      "y": 270
+    },
+    "lit=true,tone=1": {
+      "model": "tnd:block/observatory_coupler_active",
+      "y": 0
+    },
+    "lit=true,tone=2": {
+      "model": "tnd:block/observatory_coupler_active",
+      "y": 90
+    },
+    "lit=true,tone=3": {
+      "model": "tnd:block/observatory_coupler_active",
+      "y": 180
+    }
+  }
+}

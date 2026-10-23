@@ -663,5 +663,49 @@
         "attenuation_distance": 32
       }
     ]
+  },
+  "witness_current": {
+    "subtitle": "subtitles.tnd.witness_current",
+    "sounds": [
+      {
+        "name": "tnd:ambient/witness_current",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "witness_bridge": {
+    "subtitle": "subtitles.tnd.witness_bridge",
+    "sounds": [
+      {
+        "name": "tnd:ambient/witness_bridge",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "witness_reliquary": {
+    "subtitle": "subtitles.tnd.witness_reliquary",
+    "sounds": [
+      {
+        "name": "tnd:ambient/witness_reliquary",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "witness_awaken": {
+    "subtitle": "subtitles.tnd.witness_awaken",
+    "sounds": [
+      {
+        "name": "tnd:ambient/witness_awaken",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
   }
 }

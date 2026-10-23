@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "environment": "minecraft:default",
+  "function": "tnd:witness_circuit",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 1600,
+  "required": true
+}

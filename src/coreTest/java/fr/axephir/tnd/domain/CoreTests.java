@@ -6,8 +6,14 @@ import java.util.*;
 public final class CoreTests {
     private static int assertions;
     public static void main(String[] args) {
-        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions(); sanctuary();
+        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions(); sanctuary(); witness();
         System.out.println("PASS: " + assertions + " assertions (progression, saves, production, cycle, activity ledger, mastery rules, expeditions, sanctuary route)");
+    }
+    private static void witness(){
+        int solutions=0;for(int a=0;a<4;a++)for(int b=0;b<4;b++)for(int c=0;c<4;c++){int mask=WitnessAct.circuit(a,b,c);check(mask>=0&&mask<=7,"bounded circuit mask");if(mask==7)solutions++;check(WitnessAct.litPrefix(mask)>=0&&WitnessAct.litPrefix(mask)<=3,"bounded active beam prefix");}check(solutions==1,"one unambiguous physical circuit orientation");
+        int previous=0;for(int stage=0;stage<=10;stage++){int columns=0;for(int x=-38;x<=38;x++){if(WitnessAct.bridgeColumn(stage,x))columns++;check(!WitnessAct.bridgeColumn(stage,x)||stage==10||WitnessAct.bridgeColumn(stage+1,x),"bridge extension never removes an earlier support");}check(columns>=previous,"monotonic bridge deployment");previous=columns;}check(previous==75,"complete 75-block bridge span");
+        for(int i=0;i<3;i++){check(WitnessAct.facing(i)>=0&&WitnessAct.facing(i)<4,"native facing range");check(WitnessAct.coupler(i)!=null,"three authored coupler positions");}
+        rejects(()->WitnessAct.coupler(3));rejects(()->WitnessAct.reliquary(7));
     }
     private static void check(boolean value, String reason) {
         assertions++;

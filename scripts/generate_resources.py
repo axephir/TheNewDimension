@@ -69,7 +69,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Reliefs du Premier Silence 0.16.1 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — L’éveil des Témoins 0.17 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}
@@ -515,4 +515,6 @@ if __name__ == '__main__':
         metropolis_audio.generate(ASSETS,write)
         import sanctuary_audio
         sanctuary_audio.generate(ASSETS,write)
+        import witness_audio
+        witness_audio.generate(ASSETS,write)
     print('Generated 16px blocks/items, 64px character atlases, nine ancient sites, Nacre-9 and the First Silence Observatory.')

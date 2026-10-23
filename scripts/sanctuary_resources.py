@@ -1,13 +1,14 @@
 """Original sanctuary architecture resources, explicit industry recipes and complete practical bilingual UI."""
 import json,math,random
+import witness_resources
 from sanctuary_art import ART,pixels
 from sanctuary_item_art import ITEM_ART,pixels as item_pixels
-BLOCKS=list(ART)
+BLOCKS=list(ART)+witness_resources.BLOCKS
 MACHINES=['mnemonic_refinery','nocturne_crucible','axiomatic_assembler','mnemonic_sorter']
 ITEMS=['observatory_compass','mnemonic_shard','axiomatic_core','nocturne_ingot','mnemonic_circuit','purified_auralite','observatory_memory','nocturne_blade','nocturne_pickaxe']
 ENTITIES=['obsidian_watcher','prismatic_lancer','mnemonic_cantor','threshold_colossus','keeper_of_lenses','silent_smelter','petrified_hortulan','axiom_guardian','antiphon_guardian','first_silence_archon']
 SOUNDS=['observatory_drone','observatory_threshold','observatory_relay','observatory_warning','observatory_impact','observatory_victory','observatory_core']
-TESTS=['observatory_interior_routes','observatory_interior_foundations','observatory_route','observatory_ledger','observatory_palette','observatory_codec','observatory_mechanics','observatory_industry','observatory_industry_guards','observatory_construct','observatory_attacks','observatory_familiar','observatory_generation','observatory_protection','observatory_core_layers','observatory_sorter','observatory_pads','observatory_relays','observatory_trace_gate','observatory_duo_rewards','observatory_linked_dials','observatory_live_ai']
+TESTS=witness_resources.TESTS+['observatory_interior_routes','observatory_interior_foundations','observatory_route','observatory_ledger','observatory_palette','observatory_codec','observatory_mechanics','observatory_industry','observatory_industry_guards','observatory_construct','observatory_attacks','observatory_familiar','observatory_generation','observatory_protection','observatory_core_layers','observatory_sorter','observatory_pads','observatory_relays','observatory_trace_gate','observatory_duo_rewards','observatory_linked_dials','observatory_live_ai']
 
 def item_art(name):
     if name in ITEM_ART:return item_pixels(name)
@@ -37,7 +38,7 @@ def item_art(name):
 
 def content(write,png,assets,data):
     for name in BLOCKS:
-        png(assets/f'textures/block/{name}.png',pixels(name))
+        png(assets/f'textures/block/{name}.png',pixels(name if name in ART else 'obsidian_tiles'))
         write(assets/f'models/block/{name}.json',{'parent':'minecraft:block/cube_all','textures':{'all':'tnd:block/'+name}})
         if name=='observatory_dial':
             write(assets/f'blockstates/{name}.json',{'variants':{f'tone={i}':{'model':'tnd:block/'+name,'y':i*90} for i in range(4)}})
@@ -135,6 +136,8 @@ def content(write,png,assets,data):
     write(path,noise)
     for name in TESTS:write(data/f'test_instance/{name}.json',{'type':'minecraft:function','environment':'minecraft:default','function':'tnd:'+name,'structure':'tnd:test_habitat','max_ticks':1600,'required':True})
 
+    witness_resources.content(write,assets,data)
+
 def languages(fr,en):
     names=[('Métal d’obsidienne','Obsidian Metal'),('Dalles de l’Observatoire','Observatory Tiles'),('Pilier d’obsidienne','Obsidian Pillar'),('Bas-relief noir','Black Relief'),('Nervure d’obsidienne','Obsidian Ribbing'),('Grille d’obsidienne','Obsidian Grate'),('Écriture lumineuse','Luminous Script'),('Incrustation directrice','Guiding Inlay'),('Sceau ambré','Amber Seal'),('Treillis mémoriel','Memory Lattice'),('Conduit silencieux','Silent Conduit'),('Brasero de l’Observatoire','Observatory Brazier'),('Station de l’Observatoire','Observatory Station'),('Disque d’accord','Attunement Dial'),('Seuil scellé','Sealed Threshold'),('Stèle mémorielle','Memory Stele')]
     for name,(f,e) in zip(BLOCKS,names):fr['block.tnd.'+name]=f;en['block.tnd.'+name]=e
@@ -210,3 +213,5 @@ def languages(fr,en):
     for i in range(3):fr[f'guide.tnd.page.6.{i}']=guide_fr[i];en[f'guide.tnd.page.6.{i}']=guide_en[i]
     fr['assault.tnd.protocols']='Protocoles installés : %s / 4';en['assault.tnd.protocols']='Installed protocols: %s / 4'
     for n in SOUNDS:fr['subtitles.tnd.'+n]={'observatory_drone':'Une vibration traverse les murs','observatory_threshold':'Un seuil s’éveille','observatory_relay':'Un accord répond','observatory_warning':'Une charge résonne','observatory_impact':'La pierre résonne','observatory_victory':'Un sceau se relâche','observatory_core':'Un cœur change de rythme'}[n];en['subtitles.tnd.'+n]={'observatory_drone':'A vibration crosses the walls','observatory_threshold':'A threshold awakens','observatory_relay':'A tone answers','observatory_warning':'A charge resonates','observatory_impact':'Stone resounds','observatory_victory':'A seal releases','observatory_core':'A core changes rhythm'}[n]
+
+    witness_resources.languages(fr,en)

@@ -39,6 +39,7 @@ public final class SanctuaryInterior {
     public static BlockState sample(int x,int y,int z,int index,int height){
         int ax=Math.abs(x),az=Math.abs(z),slot=index%8,act=index/8;
         int surface=floorLevel(x,z,index);
+        var authored=WitnessArchitecture.sample(x,y,z,index,height);if(authored!=null)return authored;
         if(y<=0){
             int inset=Math.min(Math.min(ax-12,30-ax),Math.min(z+34,-16-z));
             // A stair REPLACES its terrace surface. Placing it one block above the

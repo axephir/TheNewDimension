@@ -29,6 +29,9 @@ public final class SanctuaryContent {
     public static final DeferredBlock<SanctuaryRelayBlock> RELAY=ModContent.BLOCKS.registerBlock("observatory_relay",SanctuaryRelayBlock::new,p->p.strength(-1,3600000).noLootTable().lightLevel(s->s.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT)?12:3));
     public static final DeferredBlock<SanctuaryTraceBlock> TRACE=ModContent.BLOCKS.registerBlock("observatory_trace",SanctuaryTraceBlock::new,p->p.strength(-1,3600000).noLootTable().lightLevel(s->12));
     public static final DeferredBlock<SanctuaryGateBlock> GATE=ModContent.BLOCKS.registerBlock("observatory_gate",SanctuaryGateBlock::new,p->p.strength(-1,3600000).noLootTable().lightLevel(s->8).sound(SoundType.METAL));
+    public static final DeferredBlock<WitnessFilamentBlock> FILAMENT=ModContent.BLOCKS.registerBlock("observatory_filament",WitnessFilamentBlock::new,p->p.strength(-1,3600000).noLootTable().lightLevel(s->s.getValue(WitnessFilamentBlock.POWER)==0?1:12+s.getValue(WitnessFilamentBlock.POWER)));
+    public static final DeferredBlock<WitnessDeviceBlock> COUPLER=ModContent.BLOCKS.registerBlock("observatory_coupler",p->new WitnessDeviceBlock(p,WitnessDeviceBlock.Kind.COUPLER),p->p.strength(-1,3600000).noLootTable().noOcclusion().lightLevel(s->s.getValue(WitnessDeviceBlock.LIT)?12:3));
+    public static final DeferredBlock<WitnessDeviceBlock> RELIQUARY=ModContent.BLOCKS.registerBlock("observatory_reliquary",p->new WitnessDeviceBlock(p,WitnessDeviceBlock.Kind.RELIQUARY),p->p.strength(-1,3600000).noLootTable().noOcclusion().lightLevel(s->s.getValue(WitnessDeviceBlock.LIT)?12:2));
     public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<SanctuaryNodeEntity>> NODE_ENTITY=MachineRegistry.ENTITIES.register("observatory_station",()->new BlockEntityType<>(SanctuaryNodeEntity::new,NODE.get()));
     public static final DeferredHolder<MenuType<?>,MenuType<SanctuaryMenu>> MENU=ModContent.MENUS.register("observatory",()->new MenuType<>(SanctuaryMenu::new,FeatureFlags.DEFAULT_FLAGS));
     public static final DeferredItem<SanctuaryCompassItem> COMPASS=ModContent.ITEMS.registerItem("observatory_compass",SanctuaryCompassItem::new,p->p.stacksTo(1));
@@ -44,8 +47,9 @@ public final class SanctuaryContent {
     public static void register(IEventBus bus){
         STONE.forEach((n,b)->ModContent.ITEMS.registerSimpleBlockItem(n,b));ModContent.ITEMS.registerSimpleBlockItem("obsidian_stairs",STAIRS);ModContent.ITEMS.registerSimpleBlockItem("obsidian_slab",SLAB);
         ModContent.ITEMS.registerSimpleBlockItem("observatory_relay",RELAY);ModContent.ITEMS.registerSimpleBlockItem("observatory_trace",TRACE);ModContent.ITEMS.registerSimpleBlockItem("observatory_station",NODE);ModContent.ITEMS.registerSimpleBlockItem("observatory_dial",DIAL);ModContent.ITEMS.registerSimpleBlockItem("observatory_gate",GATE);
+        ModContent.ITEMS.registerSimpleBlockItem("observatory_filament",FILAMENT);ModContent.ITEMS.registerSimpleBlockItem("observatory_coupler",COUPLER);ModContent.ITEMS.registerSimpleBlockItem("observatory_reliquary",RELIQUARY);
         FEATURES.register(bus);BIOMES.register(bus);DENSITIES.register(bus);SanctuaryEntities.register(bus);SanctuaryRegions.GENERATED.getId();
-        for(String n:List.of("observatory_drone","observatory_threshold","observatory_relay","observatory_warning","observatory_impact","observatory_victory","observatory_core"))ModContent.ATMOSPHERE_SOUNDS.put(n,ModContent.SOUNDS.register(n,()->net.minecraft.sounds.SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath("tnd",n))));
+        for(String n:List.of("observatory_drone","observatory_threshold","observatory_relay","observatory_warning","observatory_impact","observatory_victory","observatory_core","witness_current","witness_bridge","witness_reliquary","witness_awaken"))ModContent.ATMOSPHERE_SOUNDS.put(n,ModContent.SOUNDS.register(n,()->net.minecraft.sounds.SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath("tnd",n))));
     }
     private SanctuaryContent(){}
 }

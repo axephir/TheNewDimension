@@ -21,5 +21,7 @@ public final class SanctuaryLedger extends SavedData {
     public void eligible(long key,UUID player,int act){if(act>=0&&act<6){var r=region(key);String k="eligible/"+player;r.putInt(k,r.getIntOr(k,0)|(1<<act));setDirty();}}
     public boolean canClaim(long key,UUID player,int act){if(act<0||act>=6||!SanctuaryRoute.done(mask(key),act*8+7))return false;var r=records.get("site/"+key);return r!=null&&(r.getIntOr("eligible/"+player,0)&(1<<act))!=0&&(r.getIntOr("reward/"+player,0)&(1<<act))==0;}
     public boolean claim(long key,UUID player,int act){if(!canClaim(key,player,act))return false;var r=region(key);String name="reward/"+player;r.putInt(name,r.getIntOr(name,0)|1<<act);setDirty();return true;}
+    public int discoveries(long key,UUID player){var r=records.get("site/"+key);return r==null?0:r.getIntOr("discoveries/"+player,0)&7;}
+    public boolean discover(long key,UUID player,int secret){if(secret<0||secret>2||(discoveries(key,player)&(1<<secret))!=0)return false;region(key).putInt("discoveries/"+player,discoveries(key,player)|(1<<secret));setDirty();return true;}
     public int rewards(long key,UUID player){var r=records.get("site/"+key);return r==null?0:r.getIntOr("reward/"+player,0)&63;}
 }

@@ -21,9 +21,9 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
     });}
     public static void layers(EntityRenderersEvent.RegisterLayerDefinitions e){for(var k:SanctuaryConstruct.Kind.values())e.registerLayerDefinition(layer(k),()->Model.layer(k));}
     public static void renderers(EntityRenderersEvent.RegisterRenderers e){SanctuaryEntities.TYPES.forEach((k,t)->e.registerEntityRenderer(t.get(),c->new SanctuaryRenderer(c,k)));}
-    public static final class State extends LivingEntityRenderState {int charge,exposed,phase,pattern,awakening;}
+    public static final class State extends LivingEntityRenderState {int charge,exposed,phase,pattern,awakening;boolean ritual;}
     public State createRenderState(){return new State();}
-    public void extractRenderState(SanctuaryConstruct e,State s,float partial){super.extractRenderState(e,s,partial);s.charge=e.charge();s.exposed=e.exposed();s.phase=e.phase();s.pattern=e.pattern();s.awakening=e.awakening();}
+    public void extractRenderState(SanctuaryConstruct e,State s,float partial){super.extractRenderState(e,s,partial);s.charge=e.charge();s.exposed=e.exposed();s.phase=e.phase();s.pattern=e.pattern();s.awakening=e.awakening();s.ritual=e.ritual();}
     public Identifier getTextureLocation(State s){return id("textures/entity/"+kind.id+(s.exposed>0?"_open":"")+".png");}
     protected int getBlockLightLevel(SanctuaryConstruct e,BlockPos p){return Math.max(e.exposed()>0?15:e.kind().boss()?13:11,super.getBlockLightLevel(e,p));}
     public static final class Model extends EntityModel<State> {
@@ -73,12 +73,13 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
             return LayerDefinition.create(mesh,64,64);
         }
         public void setupAnim(State s){super.setupAnim(s);float age=AtmosphereOptions.ANIMATIONS.get()?s.ageInTicks:0;float scale=kind.height/1.875f;
-            root.xScale=scale;root.yScale=scale;root.zScale=scale;root.y=24-24*scale;if(AtmosphereOptions.ANIMATIONS.get()&&s.awakening>0)root.y+=Math.min(1,s.awakening/80f)*kind.height*13;
+            root.xScale=scale;root.yScale=scale;root.zScale=scale;root.y=24-24*scale;if(AtmosphereOptions.ANIMATIONS.get()&&s.awakening>0)root.y+=Math.min(1,s.awakening/(s.ritual?160f:80f))*kind.height*13;
             float wind=s.charge>0?1-Math.min(1,s.charge/60f):0,release=s.exposed>35?(s.exposed-35)/45f:0;
-            torso.xRot=wind*.12f-release*.15f;torso.y+=Mth.sin(age*.045f)*.12f;
+            float waking=AtmosphereOptions.ANIMATIONS.get()&&s.ritual?Math.min(1,s.awakening/160f):0;
+            torso.xRot=wind*.12f-release*.15f+waking*.55f;torso.y+=Mth.sin(age*.045f)*.12f;
             crown.yRot=age*(s.charge>0?.06f:.01f)*(kind==SanctuaryConstruct.Kind.ANTIPHON?-1:1);crown.y-=wind*1.8f+s.phase*.4f;
             core.yRot=age*(s.exposed>0?.07f:.02f);core.xScale=core.yScale=core.zScale=1+Mth.sin(age*.08f)*.06f+(s.exposed>0?.25f:0);
-            for(int i=0;i<4;i++){arms[i].xRot=-wind*(i<2?1.7f:1.1f)+release*.8f+(i>=2?.3f:0)+Mth.cos(s.walkAnimationPos*.6f+i*Mth.PI)*s.walkAnimationSpeed*.3f;arms[i].zRot=(i%2==0?-1:1)*(wind*.35f+(i>=2?.5f:0));if(i>=2)arms[i].visible=kind==SanctuaryConstruct.Kind.ARCHON||kind==SanctuaryConstruct.Kind.HORTULAN;}
+            for(int i=0;i<4;i++){arms[i].xRot=-wind*(i<2?1.7f:1.1f)+release*.8f+(i>=2?.3f:0)+Mth.cos(s.walkAnimationPos*.6f+i*Mth.PI)*s.walkAnimationSpeed*.3f;arms[i].xRot+=waking*.65f;arms[i].zRot=(i%2==0?-1:1)*(wind*.35f+(i>=2?.5f:0));if(i>=2)arms[i].visible=kind==SanctuaryConstruct.Kind.ARCHON||kind==SanctuaryConstruct.Kind.HORTULAN;}
             if(s.charge>0&&s.pattern==2){arms[0].xRot=-1.5f;arms[1].xRot=-wind*.8f;}
             if(s.charge>0&&s.pattern==3){arms[0].zRot=-wind*1.3f;arms[1].zRot=wind*1.3f;}
             for(int i=0;i<2;i++)legs[i].xRot=Mth.cos(s.walkAnimationPos*.65f+i*Mth.PI)*Math.min(1,s.walkAnimationSpeed)*.5f;

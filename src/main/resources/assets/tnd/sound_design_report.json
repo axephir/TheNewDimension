@@ -453,5 +453,33 @@
     "peak": 0.55999755859375,
     "rms": 0.1609824129264056,
     "splice_delta": 0
+  },
+  "witness_current": {
+    "duration": 1.9,
+    "loop": false,
+    "peak": 0.53997802734375,
+    "rms": 0.13676117597244988,
+    "splice_delta": 0
+  },
+  "witness_bridge": {
+    "duration": 3.4,
+    "loop": false,
+    "peak": 0.53997802734375,
+    "rms": 0.09830892940996407,
+    "splice_delta": 0
+  },
+  "witness_reliquary": {
+    "duration": 2.8,
+    "loop": false,
+    "peak": 0.53997802734375,
+    "rms": 0.10424853455874096,
+    "splice_delta": 0
+  },
+  "witness_awaken": {
+    "duration": 8.0,
+    "loop": false,
+    "peak": 0.53997802734375,
+    "rms": 0.11624378724144274,
+    "splice_delta": 0
   }
 }
