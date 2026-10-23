@@ -38,18 +38,18 @@ public final class SanctuaryScreen extends AbstractContainerScreen<SanctuaryMenu
         for(int i=0;i<47;i++){int col=i/8%2==0?i%8:7-i%8,ncol=(i+1)/8%2==0?(i+1)%8:7-(i+1)%8;
             ConstellationStyle.segment(g,x+20+col*21,y+59+i/8*23,x+20+ncol*21,y+59+(i+1)/8*23,SanctuaryRoute.done(menu.mask(),i)?0xff8d7753:0xff28364f);}
         AstralPanel.inset(g,x+190,y+39,200,158);
-        AstralPanel.heading(g,font,tr("act."+(selected/8)),x+199,y+47,180,mx,my);
-        AstralPanel.heading(g,font,tr("room."+selected),x+199,y+62,178,mx,my);
-        int yy=y+79;var lines=font.split(tr(menu.value(17)==1&&selected<8?"witness.objective."+selected:selected==39?"objective.duo":"objective."+(selected%8)),178);for(int i=0;i<Math.min(7,lines.size());i++)g.text(font,lines.get(i),x+199,yy+i*10,ConstellationStyle.TEXT,false);
+        AstralPanel.heading(g,font,tr(menu.value(22)==1&&selected/8==1?"foundry.act":"act."+(selected/8)),x+199,y+47,180,mx,my);
+        AstralPanel.heading(g,font,tr(menu.value(22)==1&&selected>=8&&selected<16?"foundry.room."+(selected-8):"room."+selected),x+199,y+62,178,mx,my);
+        int yy=y+79;var lines=font.split(tr(menu.value(22)==1&&selected>=8&&selected<16?"foundry.objective."+(selected-8):menu.value(17)==1&&selected<8?"witness.objective."+selected:selected==39?"objective.duo":"objective."+(selected%8)),178);for(int i=0;i<Math.min(7,lines.size());i++)g.text(font,lines.get(i),x+199,yy+i*10,ConstellationStyle.TEXT,false);
         if(selected==menu.index()){
             int slot=selected%8;if(slot==2){int[] v=fr.axephir.tnd.domain.SanctuaryPuzzles.target(selected);for(int i=0;i<4;i++)v[i]++;int hintY=y+124;for(var hint:font.split(tr("rule."+(selected/8)),178)){g.text(font,hint,x+199,hintY,ConstellationStyle.MUTED,false);hintY+=10;}g.text(font,tr("alignment",v[0],v[1],v[2],v[3]),x+199,y+154,ConstellationStyle.CYAN,false);g.text(font,tr("current_alignment",tone(13),tone(14),tone(15),tone(16)),x+199,y+165,ConstellationStyle.TEXT,false);}
-            else if(slot==4){g.text(font,tr("pad_count",menu.value(10)),x+199,y+154,ConstellationStyle.CYAN,false);if(menu.value(17)==1)g.text(font,tr("witness.bridge_count",menu.value(19)),x+199,y+165,ConstellationStyle.MUTED,false);}
+            else if(slot==4){g.text(font,tr("pad_count",menu.value(10)),x+199,y+154,ConstellationStyle.CYAN,false);if(menu.value(22)==1)g.text(font,tr("foundry.valves",menu.value(23)<0?"–":Integer.bitCount(menu.value(23))),x+199,y+165,ConstellationStyle.MUTED,false);else if(menu.value(17)==1)g.text(font,tr("witness.bridge_count",menu.value(19)),x+199,y+165,ConstellationStyle.MUTED,false);}
             else if(slot==3){g.text(font,tr("relays",menu.value(11)),x+199,y+154,ConstellationStyle.CYAN,false);g.text(font,tr("enemies",menu.value(6),menu.value(7)),x+199,y+165,ConstellationStyle.MUTED,false);}
-            else if(slot==0||slot==5){g.text(font,tr("trace_count",Integer.bitCount(menu.value(8))),x+199,y+154,ConstellationStyle.CYAN,false);if(slot==5&&menu.value(17)==1)g.text(font,tr("witness.circuit_count",menu.value(18)<0?"–":Integer.bitCount(menu.value(18))),x+199,y+165,ConstellationStyle.MUTED,false);}
-            else g.text(font,tr("enemies",menu.value(6),menu.value(7)),x+199,y+154,ConstellationStyle.CYAN,false);
+            else if(slot==0||slot==5){g.text(font,tr("trace_count",Integer.bitCount(menu.value(8))),x+199,y+154,ConstellationStyle.CYAN,false);if(menu.value(22)==1)g.text(font,tr("foundry.valves",menu.value(23)<0?"–":Integer.bitCount(menu.value(23))),x+199,y+165,ConstellationStyle.MUTED,false);else if(slot==5&&menu.value(17)==1)g.text(font,tr("witness.circuit_count",menu.value(18)<0?"–":Integer.bitCount(menu.value(18))),x+199,y+165,ConstellationStyle.MUTED,false);}
+            else {g.text(font,tr("enemies",menu.value(6),menu.value(7)),x+199,y+154,ConstellationStyle.CYAN,false);if(menu.value(22)==1&&slot==7)g.text(font,tr("foundry.vent",menu.value(25)),x+199,y+165,ConstellationStyle.MUTED,false);}
         }
         String state=SanctuaryRoute.done(menu.mask(),selected)?"done":SanctuaryRoute.available(menu.mask(),selected)?"available":"locked";
-        g.text(font,tr(state),x+199,y+179,ConstellationStyle.MUTED,false);g.text(font,menu.value(17)==1?tr("witness.discoveries",menu.value(20)):tr("map_hint"),x+12,y+194,ConstellationStyle.MUTED,false);
+        g.text(font,tr(state),x+199,y+179,ConstellationStyle.MUTED,false);g.text(font,menu.value(22)==1&&menu.index()==12?tr("foundry.shortcut",menu.value(26)):menu.value(17)==1?tr("witness.discoveries",menu.value(20)):tr("map_hint"),x+12,y+194,ConstellationStyle.MUTED,false);
     }
     private Object tone(int field){return menu.value(field)>0?Integer.toString(menu.value(field)):"–";}
 }

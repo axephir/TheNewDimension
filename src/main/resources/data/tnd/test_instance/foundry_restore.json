@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "function": "tnd:foundry_restore",
+  "environment": "minecraft:default",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 1600,
+  "required": true
+}

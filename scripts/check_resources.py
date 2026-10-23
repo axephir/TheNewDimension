@@ -46,6 +46,38 @@ class Nbt:
 
 
 class Resources(unittest.TestCase):
+    def test_foundry_mechanisms_and_reward_gate(self):
+        from foundry_resources import BLOCKS,ENTITIES,TESTS
+        for name in BLOCKS:
+            self.assertTrue((ASSETS/f'blockstates/{name}.json').is_file())
+            self.assertTrue((ASSETS/f'items/{name}.json').is_file())
+            if name!='mnemonic_tempering_forge':self.assertFalse((DATA/f'recipe/{name}.json').exists(),'Indestructible quest machinery is never a cheap player recipe')
+        recipe=json.loads((DATA/'recipe/mnemonic_tempering_forge.json').read_text())
+        self.assertIn('tnd:foundry_heart',recipe['key'].values())
+        self.assertIn('minecraft:netherite_ingot',recipe['key'].values())
+        self.assertFalse((DATA/'recipe/foundry_heart.json').exists())
+        for name in ENTITIES:
+            self.assertTrue((ASSETS/f'textures/entity/{name}.png').is_file())
+            self.assertTrue((ASSETS/f'items/{name}_spawn_egg.json').is_file())
+        for name in ENTITIES[-2:]:self.assertEqual(json.loads((DATA/f'loot_table/entities/{name}.json').read_text())['pools'],[],'Boss hearts use personal participation rewards, never repeated generic drops')
+        for name in TESTS:self.assertTrue((DATA/f'test_instance/{name}.json').is_file())
+        for locale in ['fr_fr','en_us']:
+            lang=json.loads((ASSETS/f'lang/{locale}.json').read_text())
+            for i in range(8):self.assertIn('observatory.tnd.foundry.objective.'+str(i),lang)
+            for i in range(3):self.assertIn('gui.tnd.tempering.effect.'+str(i),lang)
+
+    def test_foundry_moving_model_materials(self):
+        for name in ['foundry_valve_*','foundry_rotor_*','foundry_press_*','mnemonic_tempering_forge_*']:
+            for path in (ASSETS/'models/block').glob(name+'.json'):
+                model=json.loads(path.read_text())
+                self.assertTrue(model['elements'])
+                for e in model['elements']:
+                    self.assertTrue(all(-16<=n<=32 for n in e['from']+e['to']))
+                    for face in e['faces'].values():self.assertTrue(all(0<=n<=16 for n in face['uv']),(path,'Mechanical movement must not stretch its material atlas'))
+        sounds=json.loads((ASSETS/'sounds.json').read_text())
+        from foundry_resources import SOUNDS
+        for name in SOUNDS:self.assertIn(name,sounds)
+
     def test_witness_mechanism_assets(self):
         from witness_resources import BLOCKS,SOUNDS,TESTS
         for name in BLOCKS:
@@ -354,7 +386,7 @@ class Resources(unittest.TestCase):
         biomes={'silent_expanse','fractured_fields','hollow_shelves','glass_woodland','ashen_basin','obsidian_dunes'}
         stem=json.loads((DATA/'dimension/vestige.json').read_text())
         self.assertEqual({b['biome'][4:] for b in stem['generator']['biome_source']['outside']['outside']['biomes']},biomes)
-        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),69)
+        sounds=json.loads((ASSETS/'sounds.json').read_text());self.assertEqual(len(sounds),74)
         loops=set()
         for biome in biomes:
             data=json.loads((DATA/f'worldgen/biome/{biome}.json').read_text())
@@ -371,7 +403,7 @@ class Resources(unittest.TestCase):
             if report[name]['loop']:self.assertLess(report[name]['splice_delta'],.03)
 
     def test_recipes_only_use_known_local_items(self):
-        registered = set(generator.BLOCKS + generator.ITEMS + generator.sanctuary_resources.BLOCKS + generator.sanctuary_resources.MACHINES + generator.sanctuary_resources.ITEMS + ['obsidian_stairs','obsidian_slab','observatory_relay'])
+        registered = set(generator.foundry_resources.BLOCKS + generator.foundry_resources.ITEMS + generator.BLOCKS + generator.ITEMS + generator.sanctuary_resources.BLOCKS + generator.sanctuary_resources.MACHINES + generator.sanctuary_resources.ITEMS + ['obsidian_stairs','obsidian_slab','observatory_relay'])
         for path in (DATA / 'recipe').glob('*.json'):
             recipe = json.loads(path.read_text())
             if recipe['result']['id'].startswith('tnd:'):self.assertIn(recipe['result']['id'][4:], registered)
@@ -483,7 +515,7 @@ class Resources(unittest.TestCase):
         for name in ['relay','archive','foundry','observatory']:self.assertFalse((DATA/f'worldgen/structure_set/{name}.json').exists())
         tests = list((DATA / 'test_instance').glob('*.json'))
         self.assertEqual({path.stem for path in tests}, {'dimension', 'extractor', 'portal_resistance',
-                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS)|set(generator.metropolis_resources.TESTS)|set(generator.convergence_resources.TESTS)|set(generator.discovery_resources.TESTS)|set(generator.assault_resources.TESTS)|set(generator.sanctuary_resources.TESTS))
+                         'portal_terrain', 'portal_arrival', 'portal_no_space', 'portal_round_trip', 'habitat_ores', 'buildings', 'outpost_terrain', 'mastery_actions', 'console', 'extraction_modes', 'talent_menus', 'talent_effects', 'companion_bond','companion_follow','companion_travel','companion_cold_arrival','sentinel_dodge','sentinel_hit','sentinel_interrupt','echo_lens','echo_deposits','vault_progress','vault_recovery','vault_safety','vault_rotations','resonant_aegis','biome_palette','vestige_landscapes','mastery_celebration','custodian_phase','custodian_dodge','custodian_hit','custodian_crown','custodian_stagger','custodian_progress','custodian_recovery','forge_processing','forge_recovery','forge_hoppers','field_objectives','field_actions','field_completion','recall_success','recall_movement','recall_damage','recall_blocked','recall_replaced','recall_guards','observatory','survey_authority'}|set(generator.awakening_resources.TESTS)|set(generator.industry_resources.TESTS)|set(generator.city_resources.TESTS)|set(generator.metropolis_resources.TESTS)|set(generator.convergence_resources.TESTS)|set(generator.discovery_resources.TESTS)|set(generator.assault_resources.TESTS)|set(generator.sanctuary_resources.TESTS)|set(generator.foundry_resources.TESTS))
         for path in tests: self.assertTrue(json.loads(path.read_text())['required'])
         self.assertTrue((ASSETS / 'sounds/ambient/low_signal.ogg').read_bytes().startswith(b'OggS'))
 

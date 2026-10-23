@@ -6,8 +6,14 @@ import java.util.*;
 public final class CoreTests {
     private static int assertions;
     public static void main(String[] args) {
-        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions(); sanctuary(); witness();
+        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions(); sanctuary(); witness(); foundry();
         System.out.println("PASS: " + assertions + " assertions (progression, saves, production, cycle, activity ledger, mastery rules, expeditions, sanctuary route)");
+    }
+    private static void foundry(){
+        for(int index:new int[]{8,12,13}){int solutions=0;for(int a=0;a<4;a++)for(int b=0;b<4;b++)for(int c=0;c<4;c++)if(FoundryAct.ready(index,a,b,c))solutions++;check(solutions==1,"Each physical foundry circuit has one unambiguous solution");}
+        long mask=0;int heat=0;for(int i=0;i<48;i++){mask=SanctuaryRoute.complete(mask,i);check(FoundryAct.heat(mask)>=heat&&FoundryAct.heat(mask)<=3,"The foundry heat rises monotonically and stays bounded");heat=FoundryAct.heat(mask);}
+        for(int i=0;i<4;i++){var p=FoundryAct.resonance(i);check(p.y()==11||p.y()==21,"Resonances belong to the two real gallery levels");check(!FoundryAct.shaft(p.x(),p.z()),"The guided route never asks a player to stand in the open shaft");}
+        rejects(()->FoundryAct.resonance(4));rejects(()->FoundryAct.valve(8,3));check(!FoundryAct.shaft(0,18),"The fixed station always has a complete solid landing");
     }
     private static void witness(){
         int solutions=0;for(int a=0;a<4;a++)for(int b=0;b<4;b++)for(int c=0;c<4;c++){int mask=WitnessAct.circuit(a,b,c);check(mask>=0&&mask<=7,"bounded circuit mask");if(mask==7)solutions++;check(WitnessAct.litPrefix(mask)>=0&&WitnessAct.litPrefix(mask)<=3,"bounded active beam prefix");}check(solutions==1,"one unambiguous physical circuit orientation");

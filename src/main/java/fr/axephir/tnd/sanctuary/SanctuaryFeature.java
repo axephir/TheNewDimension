@@ -22,10 +22,10 @@ public final class SanctuaryFeature extends Feature<NoneFeatureConfiguration> {
             int edge=Math.min(SanctuaryRoute.HALF_X-Math.abs(lx),SanctuaryRoute.HALF_Z-Math.abs(lz));
             // Continuous mineral foundations connect every chamber, crown and approach to terrain.
             boolean hall=index>=0&&Math.abs(dx)<=50&&Math.abs(dz)<=50;
-            for(int y=-9;y<=0;y++)world.setBlock(pos.set(x,SanctuaryRoute.FLOOR+y,z),
+            for(int y=index>=8&&index<16?-30:-9;y<=0;y++)world.setBlock(pos.set(x,SanctuaryRoute.FLOOR+y,z),
                 hall?SanctuaryInterior.sample(dx,y,dz,index,0):stone(y==0?floor(lx,lz,dx,dz,index):"obsidian_metal"),2);
             if(index>=0&&Math.abs(dx)<=50&&Math.abs(dz)<=50){
-                int height=SanctuaryRoute.boss(index)?62:32+(index%3)*7;
+                int height=fr.axephir.tnd.domain.FoundryAct.contains(index)?fr.axephir.tnd.domain.FoundryAct.height(index):SanctuaryRoute.boss(index)?62:32+(index%3)*7;
                 for(int y=1;y<=height;y++){
                     var state=chamber(dx,y,dz,index,height);pos.set(x,SanctuaryRoute.FLOOR+y,z);if(!state.isAir()||!chunk.getBlockState(pos).isAir())world.setBlock(pos,state,2);
                 }

@@ -23,13 +23,18 @@ import java.util.*;
 public final class SanctuaryNodeEntity extends BlockEntity implements MenuProvider {
     private SanctuaryRoute.Site site;private int index=-1,spawned,killed,absent,traces,sequence,relays,securityDelay,partyScale;private Vec3 securityMark,securityOrigin;private boolean active;private String token="";
     boolean witness,bridgeWanted,circuitLatched;int bridgeStage,relicStage,shutterStage,gateLift,alignTicks,seenPhase=-1,scenePulse;
+    boolean foundryAct,foundryLatched;int foundryCooling,foundryPulse,foundrySpan;
+    public boolean foundry(){return foundryAct&&fr.axephir.tnd.domain.FoundryAct.contains(index);}
+    public String encounterToken(){return token;}
+    public void authoredFinish(){if(foundry())finish();}
+    public BlockPos resonance(){if(foundry()&&index==12){var p=fr.axephir.tnd.domain.FoundryAct.resonance(Math.min(3,sequence));return local(p.x(),p.y(),p.z());}return pad(site,index,sequence);}
     public boolean enhanced(){return witness&&index>=0&&index<8;}
-    public void initializeWitness(SanctuaryRoute.Site site,int index){initialize(site,index);witness=index>=0&&index<8;setChanged();}
+    public void initializeWitness(SanctuaryRoute.Site site,int index){initialize(site,index);witness=index>=0&&index<8;foundryAct=fr.axephir.tnd.domain.FoundryAct.contains(index);setChanged();}
     public BlockPos local(int x,int y,int z){return worldPosition.offset(x,y-1,z-18);}
     public int discoveries(Player player){return natural()&&level instanceof ServerLevel w?SanctuaryLedger.get(w.getServer()).discoveries(site.key(),player.getUUID()):0;}
     long siteKey(){return site.key();}
     void witnessFinish(){if(enhanced())finish();}
-    public void sceneTick(){if(enhanced()&&natural()&&level instanceof ServerLevel w)WitnessScene.tick(this,w);}
+    public void sceneTick(){if(natural()&&level instanceof ServerLevel w){if(enhanced())WitnessScene.tick(this,w);if(foundry())FoundryScene.tick(this,w);}}
     private final Set<UUID> live=new HashSet<>(),participants=new HashSet<>();
     public SanctuaryNodeEntity(BlockPos p,BlockState s){super(SanctuaryContent.NODE_ENTITY.get(),p,s);}
     public void initialize(SanctuaryRoute.Site site,int index){this.site=site;this.index=index;setChanged();}
@@ -53,11 +58,11 @@ public final class SanctuaryNodeEntity extends BlockEntity implements MenuProvid
         if(!natural()||!available()&&!SanctuaryRoute.done(mask(),index)||index%8!=0&&index%8!=5||p.distanceToSqr(Vec3.atCenterOf(at))>64)return;
         int cx=site.x()+SanctuaryRoute.x(index),cz=site.z()+SanctuaryRoute.z(index);int[][] offsets={{-24,8},{24,8},{0,-30}};
         for(int n=0;n<3;n++)if(at.equals(new BlockPos(cx+offsets[n][0],SanctuaryRoute.FLOOR+1,cz+offsets[n][1]))){
-            String fragment="observatory.tnd."+(index%8==5?"echo.":"trace.")+(index/8)+"."+n;
+            String fragment=foundry()?"observatory.tnd.foundry."+(index%8==5?"echo.":"trace.")+n:"observatory.tnd."+(index%8==5?"echo.":"trace.")+(index/8)+"."+n;
             if(SanctuaryRoute.done(mask(),index)){p.sendOverlayMessage(Component.translatable(fragment));return;}
             boolean fresh=(traces&(1<<n))==0;traces|=1<<n;participant(p);setChanged();p.sendOverlayMessage(Component.translatable(fragment));
             if(fresh&&level instanceof ServerLevel w)w.playSound(null,at,fr.axephir.tnd.core.ModContent.atmosphereSound("observatory_relay"),SoundSource.BLOCKS,.45f,.8f+n*.15f);
-            if(traces==7&&(!enhanced()||index!=5||circuitLatched))finish();return;
+            if(traces==7&&(!enhanced()||index!=5||circuitLatched)&&(!foundry()||foundryLatched))finish();return;
         }
     }
     public boolean action(ServerPlayer player,int action){
@@ -73,7 +78,7 @@ public final class SanctuaryNodeEntity extends BlockEntity implements MenuProvid
             if(player.isCreative()){player.sendOverlayMessage(Component.translatable("observatory.tnd.survival_required"));return false;}
             if(level.getDifficulty()==net.minecraft.world.Difficulty.PEACEFUL){player.sendOverlayMessage(Component.translatable("observatory.tnd.difficulty_required"));return false;}
         }
-        if(slot==0||slot==5){player.sendOverlayMessage(Component.translatable(enhanced()&&index==5&&!circuitLatched?"observatory.tnd.witness.seek_circuit":"observatory.tnd.seek_traces",Integer.bitCount(traces)));player.closeContainer();return true;}
+        if(slot==0||slot==5){player.sendOverlayMessage(Component.translatable(foundry()&&!foundryLatched?"observatory.tnd.foundry.seek_valves":enhanced()&&index==5&&!circuitLatched?"observatory.tnd.witness.seek_circuit":"observatory.tnd.seek_traces",Integer.bitCount(traces)));player.closeContainer();return true;}
         if(slot==4){active=true;token=UUID.randomUUID().toString();absent=0;setChanged();player.closeContainer();return true;}
         if(slot==2){
             int[] wanted=tones();int cx=site.x()+SanctuaryRoute.x(index),cz=site.z()+SanctuaryRoute.z(index);
@@ -85,7 +90,7 @@ public final class SanctuaryNodeEntity extends BlockEntity implements MenuProvid
     }
     private void beginEncounter(){participants.clear();partyScale=0;active=true;token=UUID.randomUUID().toString();spawned=killed=absent=0;live.clear();setChanged();}
     private SanctuaryConstruct.Kind[] bossKinds(){return switch(Math.clamp(index/8,0,5)){
-        case 0->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.COLOSSUS};case 1->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.LENSKEEPER};case 2->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.SMELTER};case 3->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.HORTULAN};case 4->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.AXIOM,SanctuaryConstruct.Kind.ANTIPHON};default->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.ARCHON};};}
+        case 0->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.COLOSSUS};case 1->foundry()?new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.FOUNDER,SanctuaryConstruct.Kind.REGULATOR}:new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.LENSKEEPER};case 2->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.SMELTER};case 3->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.HORTULAN};case 4->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.AXIOM,SanctuaryConstruct.Kind.ANTIPHON};default->new SanctuaryConstruct.Kind[]{SanctuaryConstruct.Kind.ARCHON};};}
     public void defeated(SanctuaryConstruct construct){
         if(!accepts(construct.getUUID(),construct.token()))return;live.remove(construct.getUUID());killed++;setChanged();if(killed>=target()&&spawned>=target()&&(index%8!=3||relays==15))finish();
     }
@@ -112,7 +117,7 @@ public final class SanctuaryNodeEntity extends BlockEntity implements MenuProvid
         if(level instanceof ServerLevel w&&site!=null&&index%8==3)for(int[] d:new int[][]{{-24,-24},{24,-24},{24,24},{-24,24}}){var at=new BlockPos(site.x()+SanctuaryRoute.x(index)+d[0],SanctuaryRoute.FLOOR+2,site.z()+SanctuaryRoute.z(index)+d[1]);if(w.hasChunkAt(at)&&w.getBlockState(at).is(SanctuaryContent.RELAY.get()))w.setBlock(at,SanctuaryContent.RELAY.get().defaultBlockState(),3);}setChanged();}
     private void finish(){
         if(!(level instanceof ServerLevel w)||!available())return;var ledger=SanctuaryLedger.get(w.getServer());
-        if(!ledger.finish(site.key(),index))return;active=false;token="";if(enhanced())scenePulse=24;setChanged();openGate();
+        if(!ledger.finish(site.key(),index))return;active=false;token="";if(enhanced())scenePulse=24;if(foundry())foundryPulse=20;setChanged();openGate();
         if(SanctuaryRoute.boss(index))for(var id:participants)ledger.eligible(site.key(),id,index/8);
         for(var p:w.players())if(inside(p)){if(index%8!=0&&index%8!=5)p.sendOverlayMessage(Component.translatable("observatory.tnd.complete",index+1));if(SanctuaryRoute.boss(index))claim(p);}
         w.sendParticles(ParticleTypes.END_ROD,worldPosition.getX()+.5,worldPosition.getY()+1.2,worldPosition.getZ()+.5,35,.6,1,.6,.025);
@@ -120,7 +125,7 @@ public final class SanctuaryNodeEntity extends BlockEntity implements MenuProvid
     }
     public boolean claim(ServerPlayer p){if(!(level instanceof ServerLevel w)||!SanctuaryRoute.boss(index)||!SanctuaryLedger.get(w.getServer()).claim(site.key(),p.getUUID(),index/8))return false;
         give(p,new ItemStack(SanctuaryContent.CORE.get()));give(p,new ItemStack(SanctuaryContent.SHARD.get(),12+index/8*2));
-        if(index/8==3)give(p,new ItemStack(SanctuaryContent.MEMORY.get()));if(index==47){give(p,new ItemStack(SanctuaryContent.BLADE.get()));give(p,new ItemStack(SanctuaryContent.PICKAXE.get()));}return true;
+        if(foundry()&&index==15)give(p,new ItemStack(SanctuaryContent.FOUNDRY_HEART.get()));if(index/8==3)give(p,new ItemStack(SanctuaryContent.MEMORY.get()));if(index==47){give(p,new ItemStack(SanctuaryContent.BLADE.get()));give(p,new ItemStack(SanctuaryContent.PICKAXE.get()));}return true;
     }
     private static void give(ServerPlayer p,ItemStack item){if(!p.getInventory().add(item))p.drop(item,false);}
     public void tick(){
@@ -129,28 +134,28 @@ public final class SanctuaryNodeEntity extends BlockEntity implements MenuProvid
         if(!active)return;
         var players=w.players().stream().filter(this::inside).toList();players.forEach(this::participant);
         if(players.isEmpty()||w.getDifficulty()==net.minecraft.world.Difficulty.PEACEFUL){absent+=20;if(absent>=200)reset();return;}absent=0;
-        if(index%8==4){var target=pad(site,index,sequence);w.sendParticles(ParticleTypes.END_ROD,target.getX()+.5,target.getY()+.3,target.getZ()+.5,5,.4,.15,.4,.01);for(var p:players)if(p.position().distanceToSqr(Vec3.atBottomCenterOf(target))<3){sequence++;setChanged();w.playSound(null,target,fr.axephir.tnd.core.ModContent.atmosphereSound("observatory_relay"),SoundSource.BLOCKS,.4f,.8f+sequence*.15f);if(sequence==4)finish();break;}return;}
+        if(index%8==4){if(sequence>=4){if(!foundry()||foundryLatched)finish();return;}var target=resonance();w.sendParticles(ParticleTypes.END_ROD,target.getX()+.5,target.getY()+.3,target.getZ()+.5,5,.4,.15,.4,.01);for(var p:players)if(p.position().distanceToSqr(Vec3.atBottomCenterOf(target))<3){sequence++;setChanged();w.playSound(null,target,fr.axephir.tnd.core.ModContent.atmosphereSound("observatory_relay"),SoundSource.BLOCKS,.4f,.8f+sequence*.15f);if(sequence==4&&(!foundry()||foundryLatched))finish();break;}return;}
         security(w,players);
         if(index%8==6&&spawned>0&&spawned%4==0&&!live.isEmpty())return;
         int cap=SanctuaryRoute.boss(index)?2:index%8==6?4:6;
         if(spawned>=target()||live.size()>=cap)return;
-        int n=spawned;var kind=SanctuaryRoute.boss(index)?bossKinds()[n]:n%4==3?SanctuaryConstruct.Kind.CANTOR:n%3==2?SanctuaryConstruct.Kind.LANCER:SanctuaryConstruct.Kind.WATCHER;
+        int n=spawned;var kind=SanctuaryRoute.boss(index)?bossKinds()[n]:foundry()?n%4==3?SanctuaryConstruct.Kind.FOUNDRY_MENDER:n%3==2?SanctuaryConstruct.Kind.FOUNDRY_ARBALIST:SanctuaryConstruct.Kind.FOUNDRY_WARDEN:n%4==3?SanctuaryConstruct.Kind.CANTOR:n%3==2?SanctuaryConstruct.Kind.LANCER:SanctuaryConstruct.Kind.WATCHER;
         int cx=site.x()+SanctuaryRoute.x(index),cz=site.z()+SanctuaryRoute.z(index);int[][] offsets={{-14,-2},{14,-2},{0,-22},{0,6}};
         var at=new BlockPos(cx+offsets[n%4][0],SanctuaryRoute.FLOOR+1,cz+offsets[n%4][1]);if(!w.hasChunkAt(at))return;
         var mob=SanctuaryEntities.TYPES.get(kind).get().create(w,EntitySpawnReason.EVENT);if(mob==null)return;mob.setPos(Vec3.atBottomCenterOf(at));
         if(partyScale==0)partyScale=Math.min(4,players.size());mob.bind(worldPosition,token,partyScale,n);if(!w.noCollision(mob)){mob.discard();return;}
-        mob.setTarget(players.get(n%players.size()));if(!w.addFreshEntity(mob)){mob.discard();return;}live.add(mob.getUUID());spawned++;setChanged();if(enhanced()&&index==7)WitnessScene.bossSpawn(this,mob,players);if(index%8==6&&n%4==0)for(var p:players)p.sendOverlayMessage(Component.translatable("observatory.tnd.wave",n/4+1));
+        mob.setTarget(players.get(n%players.size()));if(!w.addFreshEntity(mob)){mob.discard();return;}live.add(mob.getUUID());spawned++;setChanged();if(enhanced()&&index==7)WitnessScene.bossSpawn(this,mob,players);if(foundry()&&index==15)FoundryScene.bossSpawn(this,mob);if(index%8==6&&n%4==0)for(var p:players)p.sendOverlayMessage(Component.translatable("observatory.tnd.wave",n/4+1));
     }
     private void syncRelays(ServerLevel w){if(index%8!=3)return;int[][] points={{-24,-24},{24,-24},{24,24},{-24,24}};for(int n=0;n<4;n++){var at=new BlockPos(site.x()+SanctuaryRoute.x(index)+points[n][0],SanctuaryRoute.FLOOR+2,site.z()+SanctuaryRoute.z(index)+points[n][1]);if(!w.hasChunkAt(at))continue;var state=w.getBlockState(at);boolean lit=(relays&(1<<n))==0;if(state.is(SanctuaryContent.RELAY.get())&&state.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT)!=lit)w.setBlock(at,state.setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT,lit),3);}}
     private void openGate(){
         if(!(level instanceof ServerLevel w)||index<1||!SanctuaryRoute.done(mask(),index-1))return;
         int cx=site.x()+SanctuaryRoute.x(index),cz=site.z()+SanctuaryRoute.z(index),dx=Integer.signum(SanctuaryRoute.x(index-1)-SanctuaryRoute.x(index)),dz=Integer.signum(SanctuaryRoute.z(index-1)-SanctuaryRoute.z(index));
-        int top=8;if(enhanced()){if(gateLift<8){gateLift++;setChanged();if(gateLift==1)WitnessScene.sound(w,worldPosition,"witness_bridge",.45f,.8f);if(gateLift==8)WitnessScene.sound(w,worldPosition,"observatory_relay",.3f,.9f);}top=gateLift;}
+        int top=8;if(enhanced()||foundry()){if(gateLift<8){gateLift++;setChanged();if(gateLift==1)WitnessScene.sound(w,worldPosition,"witness_bridge",.45f,.8f);if(gateLift==8)WitnessScene.sound(w,worldPosition,"observatory_relay",.3f,.9f);}top=gateLift;}
         for(int a=-5;a<=5;a++)for(int y=1;y<=top;y++){var p=new BlockPos(cx+dx*48+(dz!=0?a:0),SanctuaryRoute.FLOOR+y,cz+dz*48+(dx!=0?a:0));if(w.hasChunkAt(p)&&w.getBlockState(p).is(SanctuaryContent.GATE.get()))w.setBlock(p,Blocks.AIR.defaultBlockState(),3);}
     }
     public Component getDisplayName(){return Component.translatable("observatory.tnd.title");}
     public AbstractContainerMenu createMenu(int id,Inventory inv,Player p){return new SanctuaryMenu(id,inv,this);}
-    protected void saveAdditional(ValueOutput out){super.saveAdditional(out);out.putInt("index",index);out.putBoolean("witnessAct",witness);out.putBoolean("bridgeWanted",bridgeWanted);out.putInt("bridgeStage",bridgeStage);out.putInt("shutterStage",shutterStage);out.putInt("gateLift",gateLift);out.putBoolean("circuitLatched",circuitLatched);out.putInt("relicStage",relicStage);out.putInt("seenPhase",seenPhase);out.putInt("scenePulse",scenePulse);if(site!=null){out.putInt("siteX",site.x());out.putInt("siteZ",site.z());}out.putBoolean("active",active);out.putString("token",token);out.putInt("spawned",spawned);out.putInt("killed",killed);out.putInt("traces",traces);out.putInt("sequence",sequence);out.putInt("relays",relays);out.putInt("partyScale",partyScale);out.store("live",Codec.STRING.listOf(),live.stream().map(UUID::toString).toList());out.store("participants",Codec.STRING.listOf(),participants.stream().map(UUID::toString).toList());}
-    protected void loadAdditional(ValueInput in){super.loadAdditional(in);index=in.getIntOr("index",-1);witness=in.getBooleanOr("witnessAct",false);bridgeWanted=in.getBooleanOr("bridgeWanted",false);bridgeStage=Math.clamp(in.getIntOr("bridgeStage",0),0,10);shutterStage=Math.clamp(in.getIntOr("shutterStage",0),0,3);gateLift=Math.clamp(in.getIntOr("gateLift",0),0,8);circuitLatched=in.getBooleanOr("circuitLatched",false);relicStage=Math.clamp(in.getIntOr("relicStage",0),0,3);seenPhase=Math.clamp(in.getIntOr("seenPhase",-1),-1,2);scenePulse=Math.clamp(in.getIntOr("scenePulse",0),0,24);if(index>=0&&index<48)site=SanctuaryRoute.nearest(in.getIntOr("siteX",worldPosition.getX()),in.getIntOr("siteZ",worldPosition.getZ()));active=in.getBooleanOr("active",false);token=in.getStringOr("token","");spawned=Math.clamp(in.getIntOr("spawned",0),0,12);killed=Math.clamp(in.getIntOr("killed",0),0,spawned);traces=in.getIntOr("traces",0)&7;sequence=Math.clamp(in.getIntOr("sequence",0),0,4);relays=in.getIntOr("relays",0)&15;partyScale=Math.clamp(in.getIntOr("partyScale",0),0,4);live.clear();participants.clear();loadIds(in,"live",live,12);loadIds(in,"participants",participants,16);}
+    protected void saveAdditional(ValueOutput out){super.saveAdditional(out);out.putInt("index",index);out.putBoolean("foundryAct",foundryAct);out.putBoolean("foundryLatched",foundryLatched);out.putInt("foundryCooling",foundryCooling);out.putInt("foundryPulse",foundryPulse);out.putInt("foundrySpan",foundrySpan);out.putBoolean("witnessAct",witness);out.putBoolean("bridgeWanted",bridgeWanted);out.putInt("bridgeStage",bridgeStage);out.putInt("shutterStage",shutterStage);out.putInt("gateLift",gateLift);out.putBoolean("circuitLatched",circuitLatched);out.putInt("relicStage",relicStage);out.putInt("seenPhase",seenPhase);out.putInt("scenePulse",scenePulse);if(site!=null){out.putInt("siteX",site.x());out.putInt("siteZ",site.z());}out.putBoolean("active",active);out.putString("token",token);out.putInt("spawned",spawned);out.putInt("killed",killed);out.putInt("traces",traces);out.putInt("sequence",sequence);out.putInt("relays",relays);out.putInt("partyScale",partyScale);out.store("live",Codec.STRING.listOf(),live.stream().map(UUID::toString).toList());out.store("participants",Codec.STRING.listOf(),participants.stream().map(UUID::toString).toList());}
+    protected void loadAdditional(ValueInput in){super.loadAdditional(in);index=in.getIntOr("index",-1);foundryAct=in.getBooleanOr("foundryAct",false);foundryLatched=in.getBooleanOr("foundryLatched",false);foundryCooling=Math.clamp(in.getIntOr("foundryCooling",0),0,360);foundryPulse=Math.clamp(in.getIntOr("foundryPulse",0),0,20);foundrySpan=Math.clamp(in.getIntOr("foundrySpan",0),0,10);witness=in.getBooleanOr("witnessAct",false);bridgeWanted=in.getBooleanOr("bridgeWanted",false);bridgeStage=Math.clamp(in.getIntOr("bridgeStage",0),0,10);shutterStage=Math.clamp(in.getIntOr("shutterStage",0),0,3);gateLift=Math.clamp(in.getIntOr("gateLift",0),0,8);circuitLatched=in.getBooleanOr("circuitLatched",false);relicStage=Math.clamp(in.getIntOr("relicStage",0),0,3);seenPhase=Math.clamp(in.getIntOr("seenPhase",-1),-1,2);scenePulse=Math.clamp(in.getIntOr("scenePulse",0),0,24);if(index>=0&&index<48)site=SanctuaryRoute.nearest(in.getIntOr("siteX",worldPosition.getX()),in.getIntOr("siteZ",worldPosition.getZ()));active=in.getBooleanOr("active",false);token=in.getStringOr("token","");spawned=Math.clamp(in.getIntOr("spawned",0),0,12);killed=Math.clamp(in.getIntOr("killed",0),0,spawned);traces=in.getIntOr("traces",0)&7;sequence=Math.clamp(in.getIntOr("sequence",0),0,4);relays=in.getIntOr("relays",0)&15;partyScale=Math.clamp(in.getIntOr("partyScale",0),0,4);live.clear();participants.clear();loadIds(in,"live",live,12);loadIds(in,"participants",participants,16);}
     private static void loadIds(ValueInput in,String key,Set<UUID> ids,int max){for(String raw:in.read(key,Codec.STRING.listOf()).orElse(List.of()).stream().limit(max).toList())try{ids.add(UUID.fromString(raw));}catch(IllegalArgumentException ignored){}}
 }

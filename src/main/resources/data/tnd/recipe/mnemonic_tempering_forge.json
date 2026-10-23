@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NCN",
+    "UHU",
+    "FOF"
+  ],
+  "key": {
+    "N": "tnd:nocturne_ingot",
+    "C": "tnd:mnemonic_circuit",
+    "U": "tnd:umbra_alloy",
+    "H": "tnd:foundry_heart",
+    "F": "tnd:industrial_frame",
+    "O": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "id": "tnd:mnemonic_tempering_forge",
+    "count": 1
+  }
+}

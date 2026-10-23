@@ -39,6 +39,7 @@ public final class SanctuaryInterior {
     public static BlockState sample(int x,int y,int z,int index,int height){
         int ax=Math.abs(x),az=Math.abs(z),slot=index%8,act=index/8;
         int surface=floorLevel(x,z,index);
+        var foundry=(ax<48&&az<48||y<=0)?FoundryArchitecture.sample(x,y,z,index,height):null;if(foundry!=null)return foundry;
         var authored=WitnessArchitecture.sample(x,y,z,index,height);if(authored!=null)return authored;
         if(y<=0){
             int inset=Math.min(Math.min(ax-12,30-ax),Math.min(z+34,-16-z));
@@ -164,21 +165,7 @@ public final class SanctuaryInterior {
                         if(y>=9&&y<=13&&Math.abs(u)+Math.abs(v)<=13-y)return stone(y==9?"amber_seal":"obsidian_relief");
                     }
                 }
-                case 1 -> {
-                    // Open shelves with individual plinths, aisles and recessed luminous drawers.
-                    // The shelves have actual air gaps, rather than opaque rectangular stacks.
-                    if(ax>=19&&ax<=27&&z>=6&&z<=21){
-                        boolean end=z<=7||z>=20,post=(ax==19||ax==27)&&end;
-                        if(post&&y<=9)return stone(y==2||y==8?"obsidian_relief":"obsidian_pillar");
-                        if((y==2||y==5||y==8)&&(ax<=21||ax>=25))return slab(true);
-                        if((y==3||y==6)&&(ax==20||ax==26)&&Math.floorMod(z,4)<=1)return stone("memory_lattice");
-                    }
-                    if(ax>=16&&ax<=26&&z>=30&&z<=34&&y>=3&&y<=5){
-                        if(y==3)return stone("obsidian_relief");
-                        if(y==4&&z==33&&ax%3==0)return stone("memory_lattice");
-                        if(y==5)return slab(false);
-                    }
-                }
+                case 1 -> { /* The foundry supplies its own load-bearing industrial fittings. */ }
                 case 2 -> {
                     // Faceted reactor vessels: hollow jackets, capstones, risers and high pipes.
                     int rx=ax-24,rz=az-17,r=rx*rx+rz*rz;

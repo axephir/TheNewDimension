@@ -27,7 +27,7 @@ public final class ReadinessTests {
     public static final DeferredRegister<Consumer<GameTestHelper>> FUNCTIONS = DeferredRegister.create(
             BuiltInRegistries.TEST_FUNCTION, TheNewDimension.ID);
     static {
-        ObservatoryTests.register(FUNCTIONS);WitnessTests.register(FUNCTIONS);
+        ObservatoryTests.register(FUNCTIONS);WitnessTests.register(FUNCTIONS);FoundryTests.register(FUNCTIONS);
         SymbiosisTests.register(FUNCTIONS);
         ConvergenceTests.register(FUNCTIONS);
         AssaultTests.register(FUNCTIONS);

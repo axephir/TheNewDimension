@@ -481,5 +481,40 @@
     "peak": 0.53997802734375,
     "rms": 0.11624378724144274,
     "splice_delta": 0
+  },
+  "foundry_valve": {
+    "duration": 1.3,
+    "loop": false,
+    "peak": 0.519989013671875,
+    "rms": 0.07692156374545522,
+    "splice_delta": 0
+  },
+  "foundry_ignite": {
+    "duration": 7.5,
+    "loop": false,
+    "peak": 0.519989013671875,
+    "rms": 0.1163558316901148,
+    "splice_delta": 0
+  },
+  "foundry_work": {
+    "duration": 5.6,
+    "loop": false,
+    "peak": 0.519989013671875,
+    "rms": 0.04812321955575172,
+    "splice_delta": 0
+  },
+  "foundry_release": {
+    "duration": 3.1,
+    "loop": false,
+    "peak": 0.519989013671875,
+    "rms": 0.10297918950312414,
+    "splice_delta": 0
+  },
+  "foundry_temper": {
+    "duration": 3.8,
+    "loop": false,
+    "peak": 0.519989013671875,
+    "rms": 0.1104410517896667,
+    "splice_delta": 0
   }
 }

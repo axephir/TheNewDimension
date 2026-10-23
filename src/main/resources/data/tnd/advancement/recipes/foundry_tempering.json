@@ -1,0 +1,24 @@
+{
+  "criteria": {
+    "heart": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:foundry_heart"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "heart"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:mnemonic_tempering_forge"
+    ]
+  }
+}

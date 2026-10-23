@@ -36,6 +36,7 @@ import discovery_resources
 import assault_resources
 import constellation_resources
 import sanctuary_resources
+import foundry_resources
 SHAPES.update(awakening_resources.SHAPES)
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
@@ -491,6 +492,7 @@ def languages():
     assault_resources.languages(fr,en)
     constellation_resources.languages(fr,en)
     sanctuary_resources.languages(fr,en)
+    foundry_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 
@@ -504,7 +506,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--audio', action='store_true')
     options = parser.parse_args()
-    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); discovery_resources.content(write,png,ASSETS,DATA); assault_resources.content(write,png,ASSETS,DATA); sanctuary_resources.content(write,png,ASSETS,DATA); languages()
+    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); discovery_resources.content(write,png,ASSETS,DATA); assault_resources.content(write,png,ASSETS,DATA); sanctuary_resources.content(write,png,ASSETS,DATA); foundry_resources.content(write,png,ASSETS,DATA); languages()
     if options.audio:
         audio()
         import awakening_audio
@@ -517,4 +519,6 @@ if __name__ == '__main__':
         sanctuary_audio.generate(ASSETS,write)
         import witness_audio
         witness_audio.generate(ASSETS,write)
+        import foundry_audio
+        foundry_audio.generate(ASSETS,write)
     print('Generated 16px blocks/items, 64px character atlases, nine ancient sites, Nacre-9 and the First Silence Observatory.')

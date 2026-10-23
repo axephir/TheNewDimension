@@ -54,7 +54,7 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
             for(int i=0;i<4;i++){int side=i%2==0?-1:1;boolean lower=i>=2;var arm=t.addOrReplaceChild("arm"+i,box(32,0,-1.2f,-1,-1.5f,2.4f,6,3),PartPose.offset(side*(lower?4.5f:6),lower?1:-5,lower?2:0));
                 var fore=arm.addOrReplaceChild("fore",box(32,0,-1.5f,0,-1.7f,3,6,3.4f),PartPose.offsetAndRotation(0,4,0,-.12f,0,side*.1f));
                 fore.addOrReplaceChild("fingers",box(0,32,-1.5f,4,-2,3,2,3),PartPose.ZERO);
-                if(kind==SanctuaryConstruct.Kind.COLOSSUS||kind==SanctuaryConstruct.Kind.SMELTER)fore.addOrReplaceChild("hammer",box(0,0,-2,-1,-3,4,5,6),PartPose.offset(0,5,0));
+                if(kind==SanctuaryConstruct.Kind.COLOSSUS||kind==SanctuaryConstruct.Kind.SMELTER||kind==SanctuaryConstruct.Kind.FOUNDER||kind==SanctuaryConstruct.Kind.FOUNDRY_WARDEN)fore.addOrReplaceChild("hammer",box(0,0,-2,-1,-3,4,5,6),PartPose.offset(0,5,0));
                 if(kind.ranged()||kind==SanctuaryConstruct.Kind.ARCHON)fore.addOrReplaceChild("blade",box(48,0,-.3f,0,-.6f,.6f,10,1.2f),PartPose.offsetAndRotation(side*2,1,0,-.3f,0,0));
                 arm.addOrReplaceChild("pauldron",box(0,32,-2.4f,-1.8f,-2.2f,4.8f,2,4.4f),PartPose.ZERO);
                 arm.addOrReplaceChild("shoulder_lip",box(0,32,-2.7f,-1.9f,-2.5f,5.4f,.6f,5),PartPose.ZERO);
@@ -70,7 +70,28 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
                 var halo=t.addOrReplaceChild("halo",CubeListBuilder.create(),PartPose.offset(0,-8,3));
                 for(int n=0;n<12;n++){double angle=n*Math.PI/6;halo.addOrReplaceChild("segment"+n,box(0,32,-1.7f,-.4f,-.5f,3.4f,.8f,1),PartPose.offsetAndRotation((float)Math.cos(angle)*8,(float)Math.sin(angle)*8,0,0,0,(float)(angle+Math.PI/2)));}
             }
+            if(kind==SanctuaryConstruct.Kind.FOUNDER){
+                for(int side:new int[]{-1,1}){
+                    t.addOrReplaceChild("furnace_shoulder"+side,box(0,0,-2.5f,-3,-2.5f,5,6,5),PartPose.offset(side*6,-5,1));
+                    for(int n=0;n<4;n++)t.addOrReplaceChild("radiator"+side+"_"+n,box(48,0,-1.8f,-.25f,-.4f,3.6f,.5f,.8f),PartPose.offset(side*4.5f,-4+n*1.4f,3.6f));
+                }
+                for(int n=0;n<3;n++)t.addOrReplaceChild("exhaust"+n,box(0,32,-.7f,-5,-.9f,1.4f,8,1.8f),PartPose.offset((n-1)*2.4f,-6,3));
+                armsHammer(t);
+            }
+            if(kind==SanctuaryConstruct.Kind.REGULATOR||kind==SanctuaryConstruct.Kind.FOUNDRY_ARBALIST){
+                var cage=t.addOrReplaceChild("regulator_cage",CubeListBuilder.create(),PartPose.offset(0,-3,0));
+                for(int n=0;n<12;n++){double a=n*Math.PI/6;cage.addOrReplaceChild("ring"+n,box(n%3==0?48:0,n%3==0?0:32,-1.6f,-.35f,-.6f,3.2f,.7f,1.2f),PartPose.offsetAndRotation((float)Math.cos(a)*8,(float)Math.sin(a)*8,1,0,0,(float)(a+Math.PI/2)));}
+            }
+            if(kind==SanctuaryConstruct.Kind.FOUNDRY_MENDER){
+                for(int n=0;n<3;n++)t.addOrReplaceChild("repair_vessel"+n,box(48,0,-.6f,-2,-.6f,1.2f,4,1.2f),PartPose.offset((n-1)*2,-1,4));
+            }
             return LayerDefinition.create(mesh,64,64);
+        }
+        private static void armsHammer(PartDefinition t){
+            var fore=t.getChild("arm0").getChild("fore");
+            fore.addOrReplaceChild("founder_handle",box(32,0,-.5f,-4,-.5f,1,12,1),PartPose.offset(0,4,-2));
+            fore.addOrReplaceChild("founder_head",box(0,0,-4,-2,-2.5f,8,4,5),PartPose.offset(0,0,-2));
+            fore.addOrReplaceChild("founder_edge",box(48,0,-4.1f,-.4f,-2.7f,8.2f,.8f,.4f),PartPose.offset(0,0,-2));
         }
         public void setupAnim(State s){super.setupAnim(s);float age=AtmosphereOptions.ANIMATIONS.get()?s.ageInTicks:0;float scale=kind.height/1.875f;
             root.xScale=scale;root.yScale=scale;root.zScale=scale;root.y=24-24*scale;if(AtmosphereOptions.ANIMATIONS.get()&&s.awakening>0)root.y+=Math.min(1,s.awakening/(s.ritual?160f:80f))*kind.height*13;
@@ -82,6 +103,9 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
             for(int i=0;i<4;i++){arms[i].xRot=-wind*(i<2?1.7f:1.1f)+release*.8f+(i>=2?.3f:0)+Mth.cos(s.walkAnimationPos*.6f+i*Mth.PI)*s.walkAnimationSpeed*.3f;arms[i].xRot+=waking*.65f;arms[i].zRot=(i%2==0?-1:1)*(wind*.35f+(i>=2?.5f:0));if(i>=2)arms[i].visible=kind==SanctuaryConstruct.Kind.ARCHON||kind==SanctuaryConstruct.Kind.HORTULAN;}
             if(s.charge>0&&s.pattern==2){arms[0].xRot=-1.5f;arms[1].xRot=-wind*.8f;}
             if(s.charge>0&&s.pattern==3){arms[0].zRot=-wind*1.3f;arms[1].zRot=wind*1.3f;}
+            if(kind==SanctuaryConstruct.Kind.REGULATOR||kind==SanctuaryConstruct.Kind.FOUNDRY_ARBALIST)torso.getChild("regulator_cage").zRot=age*(s.charge>0?.035f:.008f);
+            if(s.charge>0&&s.pattern==5){arms[0].xRot=-wind*2.5f;torso.xRot=wind*.25f;}
+            if(s.charge>0&&s.pattern==6){arms[0].xRot=-1.5f;arms[1].xRot=-1.5f;}
             for(int i=0;i<2;i++)legs[i].xRot=Mth.cos(s.walkAnimationPos*.65f+i*Mth.PI)*Math.min(1,s.walkAnimationSpeed)*.5f;
         }
     }

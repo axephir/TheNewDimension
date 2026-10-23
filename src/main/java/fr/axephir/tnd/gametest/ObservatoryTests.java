@@ -40,15 +40,15 @@ final class ObservatoryTests {
     static void interiorRoutes(GameTestHelper h){
         var shapeCache=new HashMap<net.minecraft.world.level.block.state.BlockState,Boolean>();
         for(int index=0;index<48;index++){
-            int height=SanctuaryRoute.boss(index)?62:32+(index%3)*7;
+            int height=fr.axephir.tnd.domain.FoundryAct.contains(index)?fr.axephir.tnd.domain.FoundryAct.height(index):SanctuaryRoute.boss(index)?62:32+(index%3)*7;
             int[][] floors=new int[95][95];
             for(int x=-47;x<=47;x++)for(int z=-47;z<=47;z++){
-                boolean[] solid=new boolean[20];
-                for(int y=-6;y<=13;y++){
+                boolean[] solid=new boolean[30];
+                for(int y=-6;y<=23;y++){
                     var state=SanctuaryInterior.sample(x,y,z,index,height);
                     solid[y+6]=shapeCache.computeIfAbsent(state,s->!s.getCollisionShape(h.getLevel(),BlockPos.ZERO).isEmpty());
                 }
-                for(int feet=-4;feet<=11;feet++)if(solid[feet+5]&&!solid[feet+6]&&!solid[feet+7])floors[x+47][z+47]|=1<<(feet+4);
+                for(int feet=-4;feet<=21;feet++)if(solid[feet+5]&&!solid[feet+6]&&!solid[feet+7])floors[x+47][z+47]|=1<<(feet+4);
             }
             var seen=new HashSet<BlockPos>();var queue=new ArrayDeque<BlockPos>();
             var start=new BlockPos(0,1,20);seen.add(start);queue.add(start);
@@ -56,13 +56,14 @@ final class ObservatoryTests {
                 var p=queue.removeFirst();
                 for(var direction:Direction.Plane.HORIZONTAL)for(int step=-1;step<=1;step++){
                     var q=p.relative(direction).above(step);int x=q.getX(),z=q.getZ(),y=q.getY();
-                    if(Math.abs(x)>47||Math.abs(z)>47||y< -4||y>11)continue;
+                    if(Math.abs(x)>47||Math.abs(z)>47||y< -4||y>21)continue;
                     if((floors[x+47][z+47]&(1<<(y+4)))!=0&&seen.add(q))queue.addLast(q);
                 }
             }
             for(var target:new BlockPos[]{new BlockPos(-47,1,0),new BlockPos(47,1,0),new BlockPos(0,1,-47),new BlockPos(0,1,47),new BlockPos(-35,1,33),new BlockPos(35,1,33),new BlockPos(-42,11,-12),new BlockPos(42,11,12),new BlockPos(0,1,-20),new BlockPos(0,1,28)})
-                check(h,seen.contains(target),"Room "+index+" retains a walk/jump route to "+target);
-            if(index%8!=7&&index%8!=3)check(h,seen.contains(new BlockPos(22,-3,-26)),"The lowest court has a connected return route in room "+index);
+                {if(index==12&&target.equals(new BlockPos(0,1,-20)))continue;check(h,seen.contains(target),"Room "+index+" retains a walk/jump route to "+target);}
+            if(!fr.axephir.tnd.domain.FoundryAct.contains(index)&&index%8!=7&&index%8!=3)check(h,seen.contains(new BlockPos(22,-3,-26)),"The lowest court has a connected return route in room "+index);
+            if(index==12)for(int pad=0;pad<4;pad++){var p=fr.axephir.tnd.domain.FoundryAct.resonance(pad);check(h,seen.contains(new BlockPos(p.x(),p.y(),p.z())),"The great well has a connected walk/jump route to each of its four actual gallery resonances");}
             if(index%8==0||index%8==5)for(var target:new BlockPos[]{new BlockPos(-24,1,10),new BlockPos(24,1,10),new BlockPos(0,1,-28)})check(h,seen.contains(target),"Stele approaches remain connected in room "+index);
             if(index%8==2)for(int n=0;n<4;n++)check(h,seen.contains(new BlockPos(-12+n*8,1,-12)),"Each dial is reachable in room "+index);
             if(index%8==3)for(int x:new int[]{-24,24})for(int z:new int[]{-24,24})check(h,seen.contains(new BlockPos(x,1,z+Integer.signum(z)*2)),"Relay approaches remain at ground level in room "+index);

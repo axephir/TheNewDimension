@@ -707,5 +707,60 @@
         "attenuation_distance": 48
       }
     ]
+  },
+  "foundry_valve": {
+    "subtitle": "subtitles.tnd.foundry_valve",
+    "sounds": [
+      {
+        "name": "tnd:ambient/foundry_valve",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "foundry_ignite": {
+    "subtitle": "subtitles.tnd.foundry_ignite",
+    "sounds": [
+      {
+        "name": "tnd:ambient/foundry_ignite",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "foundry_work": {
+    "subtitle": "subtitles.tnd.foundry_work",
+    "sounds": [
+      {
+        "name": "tnd:ambient/foundry_work",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "foundry_release": {
+    "subtitle": "subtitles.tnd.foundry_release",
+    "sounds": [
+      {
+        "name": "tnd:ambient/foundry_release",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "foundry_temper": {
+    "subtitle": "subtitles.tnd.foundry_temper",
+    "sounds": [
+      {
+        "name": "tnd:ambient/foundry_temper",
+        "stream": false,
+        "volume": 0.65,
+        "attenuation_distance": 48
+      }
+    ]
   }
 }

@@ -146,6 +146,7 @@
     "tnd:axiomatic_assembler",
     "tnd:mnemonic_sorter",
     "tnd:obsidian_stairs",
-    "tnd:obsidian_slab"
+    "tnd:obsidian_slab",
+    "tnd:mnemonic_tempering_forge"
   ]
 }

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "lit=false,step=0": {
+      "model": "tnd:block/foundry_valve_0_0"
+    },
+    "lit=false,step=1": {
+      "model": "tnd:block/foundry_valve_1_0"
+    },
+    "lit=false,step=2": {
+      "model": "tnd:block/foundry_valve_2_0"
+    },
+    "lit=false,step=3": {
+      "model": "tnd:block/foundry_valve_3_0"
+    },
+    "lit=true,step=0": {
+      "model": "tnd:block/foundry_valve_0_1"
+    },
+    "lit=true,step=1": {
+      "model": "tnd:block/foundry_valve_1_1"
+    },
+    "lit=true,step=2": {
+      "model": "tnd:block/foundry_valve_2_1"
+    },
+    "lit=true,step=3": {
+      "model": "tnd:block/foundry_valve_3_1"
+    }
+  }
+}

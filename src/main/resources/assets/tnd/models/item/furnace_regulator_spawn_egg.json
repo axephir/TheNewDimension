@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tnd:item/furnace_regulator_spawn_egg"
+  }
+}
