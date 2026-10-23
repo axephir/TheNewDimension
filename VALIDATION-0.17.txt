@@ -1,0 +1,53 @@
+THE NEW DIMENSION — 0.17.0-dev — L’Éveil des Témoins
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : c6bb70ce06521b1adeac34c8a782ca6015071b3a
+CI du commit exact : https://github.com/axephir/TheNewDimension/actions/runs/39956124775
+Statut : succès.
+
+CONTENU
+Premier acte : huit salles réactives, gravures, faisceaux des prismes,
+circuit à trois coupleurs, passerelle réelle de 75 blocs, portes animées,
+trois réceptacles personnels et courts fragments de mémoire.
+Colosse : éveil de huit secondes, animation, trois phases mises en scène,
+failles et triple impact, avertissements lisibles et ouvertures de riposte.
+Modèles originaux, aides contextuelles et carte avec compteurs personnels.
+Quatre sons originaux ; bibliothèque totale de 69 sons avec sous-titres FR/EN.
+
+VÉRIFICATIONS AUTOMATISÉES
+Compilation et 54 115 assertions du noyau ; 188 GameTests Minecraft réussis.
+25 groupes de contrôles des ressources ; les 69 OGG se décodent sans saturation.
+Les 65 fichiers sonores précédents et les neuf atlas/modèles d’armures portées
+restent identiques à leurs versions de référence.
+Tests des circuits réels, conditions de progression, interactions occluses,
+récompenses individuelles uniques, sérialisation, construction bloquée et reprise,
+passage praticable, portes, apparition du Colosse, sauvegarde de l’émergence,
+nouveaux motifs d’attaque et maintien des règles des stations anciennes.
+Contrôle des UV des matériaux sur les couvercles et modèles en mouvement.
+Les modèles utilisent la bibliothèque originale de textures 16 × 16.
+
+CLIENT NATIF
+Site inédit de contrôle, Survie et Résistance VI, rendu logiciel llvmpipe.
+Trois stèles réellement lues ; premier réceptacle ouvert puis retrouvé ouvert
+après sauvegarde, sans second versement. Prismes tournés physiquement et accord
+validé automatiquement. Relais coupés, alcôve libérée et réceptacle examiné.
+Passerelle déployée dans le monde puis traversée à pied. Quatre résonances
+atteintes à leurs positions physiques, avec téléportations de contrôle.
+Trois coupleurs orientés, courant stabilisé et échos lus. Carte et compteurs
+inspectés, dont la fenêtre native 854 × 480. Colosse éveillé, émergence et
+phases observées avec baisse d’intégrité accélérée par commandes.
+Treize fichiers F2 natifs, sans retouche, comparés aux originaux du client.
+
+PORTÉE
+Les améliorations de mécanismes concernent le premier acte ; les cinq suivants
+conservent leurs objectifs existants. Aucun parcours humain complet, durée totale,
+équilibrage final en coopération, écoute physique ou benchmark FPS revendiqué.
+Remplacer le JAR TND côté client et serveur. Rejoindre un Observatoire entièrement
+inédit ou un nouveau monde pour les nouveaux appareils et objectifs. Les anciennes
+stations, maîtrises, récompenses, machines et familiers restent compatibles.
+Guide : docs/WITNESSES_0.17.md.
+
+FICHIERS
+tnd-0.17.0-dev.jar : 5757210 octets
+SHA-256 : 6302b3b975ad7a35fa532b3e59db1506fa61d06193d8cb4113157f2e9f0b4f46
+TheNewDimension-0.17.0-dev.zip : 10918013 octets
+SHA-256 : d2fab119063e4ae3920b7f4b397a145f78b1b354ded08b661994b33d5281256d

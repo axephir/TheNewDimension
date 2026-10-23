@@ -22,3 +22,7 @@ Références visuelles externes consultées pour l’atmosphère de l’Observat
 ## Révision 0.16.1
 
 Les neuf sprites d’objets du Premier Silence ont été redessinés avec l’outil de génération d’images, puis extraits, recadrés et exportés techniquement en 16 × 16. Leurs palettes et pixels canoniques sont dans `scripts/sanctuary_item_art.py`. Aucun sprite d’un autre jeu ni texture de référence Assassin’s Creed n’est distribué.
+
+## Révision 0.17
+
+Les appareils du premier acte utilisent des modèles JSON originaux et la bibliothèque de textures 16 × 16 du projet. Les quatre nouveaux sons sont synthétisés par `scripts/witness_audio.py`, sans enregistrement externe, et possèdent leurs sous-titres français et anglais. Les 65 fichiers sonores précédents ne sont pas régénérés pour cette révision.
