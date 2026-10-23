@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:function",
+  "function": "tnd:relic_companion",
+  "environment": "minecraft:default",
+  "structure": "tnd:test_habitat",
+  "max_ticks": 1800,
+  "required": true
+}

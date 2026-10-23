@@ -6,8 +6,14 @@ import java.util.*;
 public final class CoreTests {
     private static int assertions;
     public static void main(String[] args) {
-        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions(); sanctuary(); witness(); foundry();
+        progression(); profiles(); production(); cycle(); activities(); masteryRules(); expeditions(); sanctuary(); witness(); foundry(); archive();
         System.out.println("PASS: " + assertions + " assertions (progression, saves, production, cycle, activity ledger, mastery rules, expeditions, sanctuary route)");
+    }
+    private static void archive(){
+        long mask=0;int previous=0;for(int i=0;i<48;i++){mask=SanctuaryRoute.complete(mask,i);int phase=ArchiveAct.phase(mask);check(phase>=previous&&phase<=3,"Archive illumination is permanent and bounded");previous=phase;}
+        var order=new HashSet<Integer>();for(int i=0;i<3;i++)order.add(ArchiveAct.echo(i));check(order.size()==3,"The palimpsest visits each memory exactly once");
+        for(int i=0;i<4;i++){var p=ArchiveAct.resonance(i);check(p.y()==13||p.y()==25,"All atlas objectives stand on authored galleries");check(Math.abs(p.x())>=34||Math.abs(p.z())>=34,"Atlas objectives stay on the broad perimeter decks");}
+        rejects(()->ArchiveAct.resonance(4));rejects(()->ArchiveAct.mirror(18,3));
     }
     private static void foundry(){
         for(int index:new int[]{8,12,13}){int solutions=0;for(int a=0;a<4;a++)for(int b=0;b<4;b++)for(int c=0;c<4;c++)if(FoundryAct.ready(index,a,b,c))solutions++;check(solutions==1,"Each physical foundry circuit has one unambiguous solution");}

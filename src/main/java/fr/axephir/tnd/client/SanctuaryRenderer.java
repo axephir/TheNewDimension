@@ -63,6 +63,19 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
                 if(kind==SanctuaryConstruct.Kind.ARCHON&&i<2)for(int n=0;n<3;n++)arm.addOrReplaceChild("crest"+n,box(0,32,-.5f,-4.5f,-.6f,1,5,1.2f),PartPose.offsetAndRotation(side*(n*.9f),-1,n-1,0,0,side*(.25f+n*.22f)));
             }
             for(int i=0;i<2;i++){int side=i==0?-1:1;var leg=r.addOrReplaceChild("leg"+i,box(32,0,-1.6f,0,-1.6f,3.2f,7,3.2f),PartPose.offset(side*2.5f,11,0));var shin=leg.addOrReplaceChild("shin",box(32,0,-1.3f,0,-1.4f,2.6f,6,2.8f),PartPose.offset(0,6,0));shin.addOrReplaceChild("foot",box(0,32,-1.8f,4,-2.6f,3.6f,3,4.5f),PartPose.ZERO);}
+            if(kind==SanctuaryConstruct.Kind.CONSERVATOR){
+                // A nested three-axis armillary cage surrounds the articulated guardian's central lens.
+                for(int axis=0;axis<3;axis++){
+                    var orbit=t.addOrReplaceChild("archive_orbit"+axis,CubeListBuilder.create(),PartPose.offsetAndRotation(0,-4,0,axis==1?1.05f:0,axis==2?1.05f:0,axis*.4f));
+                    for(int n=0;n<16;n++){double a=n*Math.PI/8;orbit.addOrReplaceChild("leaf"+n,box(n%4==0?48:0,n%4==0?0:32,-1.3f,-.35f,-.5f,2.6f,.7f,1),PartPose.offsetAndRotation((float)Math.cos(a)*(7+axis*.8f),(float)Math.sin(a)*(7+axis*.8f),0,0,0,(float)(a+Math.PI/2)));}
+                }
+                for(int side:new int[]{-1,1})for(int n=0;n<4;n++)t.addOrReplaceChild("archive_blade"+side+"_"+n,box(0,32,-.35f,-4,-.6f,.7f,8,1.2f),PartPose.offsetAndRotation(side*(5+n*.9f),-7+n*.8f,3,0,side*.2f,side*(.15f+n*.11f)));
+                t.getChild("core").addOrReplaceChild("lens",box(48,0,-2,-2,-.4f,4,4,.8f),PartPose.offset(0,0,-1.3f));
+            }
+            if(kind.archiveGuard())for(int side:new int[]{-1,1}){
+                t.addOrReplaceChild("archive_tablet"+side,box(0,32,-1,-4,-.6f,2,8,1.2f),PartPose.offsetAndRotation(side*5,-2,3,0,side*.3f,side*.15f));
+                if(kind==SanctuaryConstruct.Kind.ARCHIVE_ERASER)t.addOrReplaceChild("archive_lens"+side,box(48,0,-.7f,-.7f,-.7f,1.4f,1.4f,1.4f),PartPose.offsetAndRotation(side*6,-7,0,0,0,.785f));
+            }
             if(kind==SanctuaryConstruct.Kind.HORTULAN)for(int side:new int[]{-1,1})for(int n=0;n<4;n++)t.addOrReplaceChild("branch"+side+"_"+n,box(32,32,-.5f,-3,-.5f,1,6,1),PartPose.offsetAndRotation(side*(3+n),-8-n,2,0,0,side*(.3f+n*.1f)));
             if(kind==SanctuaryConstruct.Kind.SMELTER)for(int n=0;n<3;n++)t.addOrReplaceChild("chimney"+n,box(0,0,-.7f,-3,-1,1.4f,6,2),PartPose.offset((n-1)*2,-5,4));
             if(kind==SanctuaryConstruct.Kind.LENSKEEPER||kind==SanctuaryConstruct.Kind.ANTIPHON)for(int side:new int[]{-1,1})t.addOrReplaceChild("lens"+side,box(48,0,-.8f,-.8f,-.8f,1.6f,1.6f,1.6f),PartPose.offsetAndRotation(side*7,-9,0,0,0,.785f));
@@ -106,6 +119,7 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
             if(kind==SanctuaryConstruct.Kind.REGULATOR||kind==SanctuaryConstruct.Kind.FOUNDRY_ARBALIST)torso.getChild("regulator_cage").zRot=age*(s.charge>0?.035f:.008f);
             if(s.charge>0&&s.pattern==5){arms[0].xRot=-wind*2.5f;torso.xRot=wind*.25f;}
             if(s.charge>0&&s.pattern==6){arms[0].xRot=-1.5f;arms[1].xRot=-1.5f;}
+            if(kind==SanctuaryConstruct.Kind.CONSERVATOR){for(int axis=0;axis<3;axis++){var orbit=torso.getChild("archive_orbit"+axis);orbit.zRot=axis*.4f+age*(axis%2==0?1:-1)*(s.charge>0?.035f:.009f);orbit.yRot=(axis==2?1.05f:0)+Mth.sin(age*.018f+axis)*.2f;orbit.xRot=(axis==1?1.05f:0)+wind*.2f;}torso.y+=Mth.sin(age*.035f)*.35f;}
             for(int i=0;i<2;i++)legs[i].xRot=Mth.cos(s.walkAnimationPos*.65f+i*Mth.PI)*Math.min(1,s.walkAnimationSpeed)*.5f;
         }
     }

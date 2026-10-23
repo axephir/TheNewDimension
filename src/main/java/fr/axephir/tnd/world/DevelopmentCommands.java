@@ -26,6 +26,7 @@ public final class DevelopmentCommands {
     public static void register(RegisterCommandsEvent event) {
         event.getDispatcher().register(Commands.literal("tnd")
                 .then(senseCommands())
+                .then(Commands.literal("relics").executes(ctx->{fr.axephir.tnd.sanctuary.RelicMenu.open(ctx.getSource().getPlayerOrException());return 1;}))
                 .then(Commands.literal("recover").executes(ctx->{var p=ctx.getSource().getPlayerOrException();boolean ok=fr.axephir.tnd.narrative.Convergence.recover(p);if(!ok)p.sendSystemMessage(Component.translatable("story.tnd.no_reference"));return ok?1:0;}))
                 .then(Commands.literal("anomaly").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)).executes(ctx->{if(!TndConfig.DEVELOPMENT_COMMANDS.getAsBoolean())return 0;fr.axephir.tnd.narrative.RareAnomalies.trigger(ctx.getSource().getPlayerOrException());return 1;}))
                 .then(Commands.literal("familiar").executes(ctx->{fr.axephir.tnd.familiar.FamiliarMenu.open(ctx.getSource().getPlayerOrException());return 1;}))

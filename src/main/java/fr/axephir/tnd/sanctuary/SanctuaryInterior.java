@@ -39,6 +39,7 @@ public final class SanctuaryInterior {
     public static BlockState sample(int x,int y,int z,int index,int height){
         int ax=Math.abs(x),az=Math.abs(z),slot=index%8,act=index/8;
         int surface=floorLevel(x,z,index);
+        var archive=ArchiveArchitecture.sample(x,y,z,index,height);if(archive!=null)return archive;
         var foundry=(ax<48&&az<48||y<=0)?FoundryArchitecture.sample(x,y,z,index,height):null;if(foundry!=null)return foundry;
         var authored=WitnessArchitecture.sample(x,y,z,index,height);if(authored!=null)return authored;
         if(y<=0){

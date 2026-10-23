@@ -9,7 +9,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 public final class SanctuaryFamiliar {
     @SubscribeEvent public void tooltip(net.neoforged.neoforge.event.entity.player.ItemTooltipEvent event){
         var stack=event.getItemStack();
-        String key=stack.is(SanctuaryContent.MEMORY.get())?"memory_use":stack.is(SanctuaryContent.CORE.get())?"core_use":stack.is(SanctuaryContent.COMPASS.get())?"compass_use":null;
+        String key=stack.is(ArchiveContent.LENS.get())?"archive.relic_use":stack.is(SanctuaryContent.MEMORY.get())?"memory_use":stack.is(SanctuaryContent.CORE.get())?"core_use":stack.is(SanctuaryContent.COMPASS.get())?"compass_use":null;
         if(key!=null)event.getToolTip().add(net.minecraft.network.chat.Component.translatable("observatory.tnd."+key).withStyle(net.minecraft.ChatFormatting.GRAY));
     }
     @SubscribeEvent public void tick(PlayerTickEvent.Post event){if(!(event.getEntity() instanceof net.minecraft.server.level.ServerPlayer p)||p.tickCount%100!=0||!SanctuaryRegions.protectedAt(p.level(),p.blockPosition()))return;

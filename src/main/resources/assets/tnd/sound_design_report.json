@@ -516,5 +516,40 @@
     "peak": 0.519989013671875,
     "rms": 0.1104410517896667,
     "splice_delta": 0
+  },
+  "archive_turn": {
+    "duration": 1.1,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.05425125980033919,
+    "splice_delta": 0
+  },
+  "archive_memory": {
+    "duration": 4.6,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.1371042010772742,
+    "splice_delta": 0
+  },
+  "archive_atlas": {
+    "duration": 9.5,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.1011896179771842,
+    "splice_delta": 0
+  },
+  "archive_awakening": {
+    "duration": 8.2,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.1157382540284962,
+    "splice_delta": 0
+  },
+  "archive_relic": {
+    "duration": 2.8,
+    "loop": false,
+    "peak": 0.47998046875,
+    "rms": 0.10236056342357645,
+    "splice_delta": 0
   }
 }

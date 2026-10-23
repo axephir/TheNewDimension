@@ -48,9 +48,10 @@ final class InventoryMasteries {
         var guide=AstralButton.create(Component.literal("?"),b->Minecraft.getInstance().gui.setScreen(new FieldGuideScreen(event.getScreen()))).bounds(x,y+50,22,22).tooltip(Tooltip.create(Component.translatable("gui.tnd.inventory_guide"))).build();event.addListener(guide);
         var archives=AstralButton.create(Component.literal("≡"),b->{var p=Minecraft.getInstance().player;if(p!=null)p.connection.sendCommand("tnd archives");}).bounds(x,y+75,22,22).tooltip(Tooltip.create(Component.translatable("gui.tnd.archives"))).build();event.addListener(archives);
         var familiar=AstralButton.create(Component.literal("◇"),b->{var p=Minecraft.getInstance().player;if(p!=null)p.connection.sendCommand("tnd familiar");}).bounds(x,y+100,22,22).tooltip(Tooltip.create(Component.translatable("familiar.tnd.title"))).build();event.addListener(familiar);
+        var relic=AstralButton.create(Component.literal("✧"),b->{var p=Minecraft.getInstance().player;if(p!=null)p.connection.sendCommand("tnd relics");}).bounds(x,y+125,22,22).tooltip(Tooltip.create(Component.translatable("observatory.tnd.archive.relic_title"))).build();event.addListener(relic);
         // Click callbacks retain their parent screen; weak values avoid keeping old
         // inventories and worlds alive through the otherwise weak screen keys.
-        TABS.put(event.getScreen(),java.util.List.of(new java.lang.ref.WeakReference<>(button),new java.lang.ref.WeakReference<>(expeditions),new java.lang.ref.WeakReference<>(guide),new java.lang.ref.WeakReference<>(archives),new java.lang.ref.WeakReference<>(familiar)));
+        TABS.put(event.getScreen(),java.util.List.of(new java.lang.ref.WeakReference<>(button),new java.lang.ref.WeakReference<>(expeditions),new java.lang.ref.WeakReference<>(guide),new java.lang.ref.WeakReference<>(archives),new java.lang.ref.WeakReference<>(familiar),new java.lang.ref.WeakReference<>(relic)));
     }
     private InventoryMasteries() {}
 }

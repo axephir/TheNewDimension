@@ -762,5 +762,60 @@
         "attenuation_distance": 48
       }
     ]
+  },
+  "archive_turn": {
+    "subtitle": "subtitles.tnd.archive_turn",
+    "sounds": [
+      {
+        "name": "tnd:ambient/archive_turn",
+        "stream": false,
+        "volume": 0.6,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archive_memory": {
+    "subtitle": "subtitles.tnd.archive_memory",
+    "sounds": [
+      {
+        "name": "tnd:ambient/archive_memory",
+        "stream": false,
+        "volume": 0.6,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archive_atlas": {
+    "subtitle": "subtitles.tnd.archive_atlas",
+    "sounds": [
+      {
+        "name": "tnd:ambient/archive_atlas",
+        "stream": false,
+        "volume": 0.6,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archive_awakening": {
+    "subtitle": "subtitles.tnd.archive_awakening",
+    "sounds": [
+      {
+        "name": "tnd:ambient/archive_awakening",
+        "stream": false,
+        "volume": 0.6,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archive_relic": {
+    "subtitle": "subtitles.tnd.archive_relic",
+    "sounds": [
+      {
+        "name": "tnd:ambient/archive_relic",
+        "stream": false,
+        "volume": 0.6,
+        "attenuation_distance": 48
+      }
+    ]
   }
 }

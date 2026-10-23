@@ -17,7 +17,7 @@ public final class TndClient {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.CLIENT,AtmosphereOptions.SPEC);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(AtmosphereDirector::tick);
-        bus.addListener(TndClient::screens);
+        bus.addListener(TndClient::screens);RelicControls.register(bus);
         bus.addListener(UmbraArmorModels::register);
         bus.addListener(VestigeHud::register);
         bus.addListener(PrestigeHud::register);
@@ -33,7 +33,7 @@ public final class TndClient {
     }
     private static void screens(RegisterMenuScreensEvent event) {
         event.register(fr.axephir.tnd.sanctuary.SanctuaryContent.MENU.get(),SanctuaryScreen::new);
-        event.register(fr.axephir.tnd.sanctuary.TemperingContent.MENU.get(),TemperingScreen::new);
+        event.register(fr.axephir.tnd.sanctuary.TemperingContent.MENU.get(),TemperingScreen::new);event.register(fr.axephir.tnd.sanctuary.ArchiveContent.MENU.get(),RelicScreen::new);
         event.register(fr.axephir.tnd.narrative.ConvergenceContent.MENU.get(),ConvergenceScreen::new);
         event.register(fr.axephir.tnd.technology.SpatialAnchors.MENU.get(),SpatialAnchorScreen::new);
         event.register(fr.axephir.tnd.familiar.FamiliarContent.MENU.get(),FamiliarScreen::new);

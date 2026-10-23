@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tnd:item/archive_eraser_spawn_egg"
+  }
+}

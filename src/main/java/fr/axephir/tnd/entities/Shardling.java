@@ -26,6 +26,11 @@ import java.util.UUID;
 public final class Shardling extends TamableAnimal {
     private static final EntityDataAccessor<Boolean> DOWNED=SynchedEntityData.defineId(Shardling.class,EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> LEVEL=SynchedEntityData.defineId(Shardling.class,EntityDataSerializers.INT),BOND=SynchedEntityData.defineId(Shardling.class,EntityDataSerializers.INT),PULSE=SynchedEntityData.defineId(Shardling.class,EntityDataSerializers.INT);
+    private BlockPos archiveAnchor;private long archiveUntil;
+    public void holdArchive(BlockPos at,int ticks){archiveAnchor=at.immutable();archiveUntil=level().getGameTime()+ticks;}
+    public void releaseArchive(){archiveAnchor=null;archiveUntil=0;}
+    public boolean archiveHolding(){return archiveAnchor!=null&&archiveUntil>level().getGameTime()&&available()&&!isOrderedToSit()&&getTarget()==null&&getOwner()!=null&&distanceToSqr(getOwner())<80*80;}
+    public void relicPulse(){entityData.set(PULSE,30);}
     private int protocols;public int protocols(){return protocols;}
     private int xp,guardCooldown,pulseCooldown;private boolean released;private UUID challenger;private BlockPos safe;
     public Shardling(EntityType<? extends Shardling> type,Level level){super(type,level);xpReward=0;setPersistenceRequired();}
@@ -43,6 +48,11 @@ public final class Shardling extends TamableAnimal {
     public boolean available(){return isTame()&&!downed()&&bondTicks()==0&&authorized();}
     @Override protected void registerGoals(){
         goalSelector.addGoal(0,new FloatGoal(this));goalSelector.addGoal(1,new SitWhenOrderedToGoal(this));
+        goalSelector.addGoal(1,new net.minecraft.world.entity.ai.goal.Goal(){
+            {setFlags(java.util.EnumSet.of(Flag.MOVE,Flag.LOOK));}
+            public boolean canUse(){return archiveHolding();}
+            public void tick(){if(archiveAnchor==null)return;if(distanceToSqr(net.minecraft.world.phys.Vec3.atBottomCenterOf(archiveAnchor))>2)getNavigation().moveTo(archiveAnchor.getX()+.5,archiveAnchor.getY(),archiveAnchor.getZ()+.5,1);else{getNavigation().stop();getLookControl().setLookAt(archiveAnchor.getX()+.5,archiveAnchor.getY()+1,archiveAnchor.getZ()-1);}}
+        });
         goalSelector.addGoal(2,new MeleeAttackGoal(this,1.15,true));goalSelector.addGoal(3,new FollowOwnerGoal(this,1.15,7,2){
             private boolean here(){return available()&&getOwner()!=null&&getOwner().level()==level();}
             @Override public boolean canUse(){return here()&&super.canUse();}
