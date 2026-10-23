@@ -53,6 +53,10 @@ class Resources(unittest.TestCase):
             self.assertFalse((DATA/f'recipe/{name}.json').exists(),'Authored quest devices cannot be cheaply crafted as indestructible blocks')
         filament=json.loads((ASSETS/'blockstates/observatory_filament.json').read_text())['variants']
         self.assertEqual(len(filament),16,'Four real light states and four visible arrow directions')
+        for name in ['observatory_filament_*','observatory_coupler*','observatory_reliquary_*','observatory_dial']:
+            for path in (ASSETS/'models/block').glob(name+'.json'):
+                for element in json.loads(path.read_text()).get('elements',[]):
+                    for face in element['faces'].values():self.assertTrue(all(0<=n<=16 for n in face['uv']),(path,'Moving lids retain valid material UVs'))
         for name in SOUNDS:
             self.assertIn(name,json.loads((ASSETS/'sounds.json').read_text()))
         for locale in ['fr_fr','en_us']:

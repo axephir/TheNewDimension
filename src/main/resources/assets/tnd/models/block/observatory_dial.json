@@ -20,22 +20,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#frame"
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            14,
+            3
+          ]
         },
         "south": {
-          "texture": "#frame"
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            14,
+            3
+          ]
         },
         "east": {
-          "texture": "#frame"
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            14,
+            3
+          ]
         },
         "west": {
-          "texture": "#frame"
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            14,
+            3
+          ]
         },
         "up": {
-          "texture": "#frame"
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            14,
+            14
+          ]
         },
         "down": {
-          "texture": "#frame"
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            14,
+            14
+          ]
         }
       }
     },
@@ -52,22 +88,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#body"
+          "texture": "#body",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
         },
         "south": {
-          "texture": "#body"
+          "texture": "#body",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
         },
         "east": {
-          "texture": "#body"
+          "texture": "#body",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
         },
         "west": {
-          "texture": "#body"
+          "texture": "#body",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
         },
         "up": {
-          "texture": "#body"
+          "texture": "#body",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
         },
         "down": {
-          "texture": "#body"
+          "texture": "#body",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
         }
       }
     },
@@ -84,22 +156,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            6,
+            7
+          ]
         },
         "south": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            6,
+            7
+          ]
         },
         "east": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            6,
+            7
+          ]
         },
         "west": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            6,
+            7
+          ]
         },
         "up": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            6,
+            6
+          ]
         },
         "down": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            6,
+            6
+          ]
         }
       },
       "rotation": {
@@ -126,22 +234,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            4,
+            3
+          ]
         },
         "south": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            4,
+            3
+          ]
         },
         "east": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            4,
+            3
+          ]
         },
         "west": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            4,
+            3
+          ]
         },
         "up": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
         },
         "down": {
-          "texture": "#light"
+          "texture": "#light",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
         }
       }
     }

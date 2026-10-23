@@ -3,7 +3,9 @@ BLOCKS=['observatory_filament','observatory_coupler','observatory_reliquary']
 SOUNDS=['witness_current','witness_bridge','witness_reliquary','witness_awaken']
 TESTS=['witness_circuit','witness_discoveries','witness_bridge','witness_gates','witness_boss','witness_restore','witness_generation']
 def content(write,assets,data):
-    def box(a,b,tex):return {'from':a,'to':b,'faces':{side:{'texture':tex} for side in ['north','south','east','west','up','down']}}
+    def box(a,b,tex):
+        w,h,d=[b[i]-a[i] for i in range(3)]
+        return {'from':a,'to':b,'faces':{side:{'texture':tex,'uv':[0,0,w if side in ['north','south','up','down'] else d,d if side in ['up','down'] else h]} for side in ['north','south','east','west','up','down']}}
     def model(name,elements,light):write(assets/f'models/block/{name}.json',{'textures':{'body':'tnd:block/obsidian_relief','stone':'tnd:block/obsidian_tiles','frame':'tnd:block/obsidian_ribbed','light':'tnd:block/'+light,'particle':'tnd:block/obsidian_metal'},'elements':elements})
     for power,light in enumerate(['obsidian_relief','guiding_inlay','amber_seal','luminous_script']):
         model('observatory_filament_'+str(power),[box([0,0,0],[16,16,16],'#stone'),box([3,16,7],[10,16.04,9],'#light'),box([9,16,5],[11,16.04,11],'#light'),box([11,16,6],[12,16.04,10],'#light'),box([12,16,7],[13,16.04,9],'#light')],light)
@@ -14,7 +16,7 @@ def content(write,assets,data):
         model('observatory_coupler'+suffix,[box([1,0,1],[15,3,15],'#frame'),box([5,3,5],[11,10,11],'#body'),box([3,9,3],[13,12,13],'#frame'),box([4,12,6],[10,14,10],'#light'),box([10,11,4],[12,15,12],'#light'),box([12,12,6],[14,14,10],'#light')],'luminous_script' if lit else 'silent_conduit')
         for stage in range(4):
             up=stage*2.5
-            model('observatory_reliquary_'+str(stage)+suffix,[box([1,0,1],[15,3,15],'#frame'),box([2,3,2],[4,11,14],'#body'),box([12,3,2],[14,11,14],'#body'),box([4,3,12],[12,11,14],'#body'),box([4,4,4],[12,9,12],'#light'),box([1,11+up,1],[15,14+up,15],'#frame'),box([6,14+up,6],[10,15+up,10],'#light')],'luminous_script' if lit else 'memory_lattice')
+            model('observatory_reliquary_'+str(stage)+suffix,[box([1,0,1],[15,3,15],'#frame'),box([2,3,2],[4,11,14],'#body'),box([12,3,2],[14,11,14],'#body'),box([4,3,12],[12,11,14],'#body'),box([4,4,4],[12,9,12],'#light'),box([1,11+up,1],[15,14+up,15],'#frame'),box([6,14+up,6],[10,15+up,10],'#light')]+[box([x,9,z],[x+1,11+up,z+1],'#frame') for x in [3,12] for z in [3,12]],'luminous_script' if lit else 'memory_lattice')
     write(assets/'blockstates/observatory_coupler.json',{'variants':{f'lit={str(lit).lower()},tone={tone}':{'model':'tnd:block/observatory_coupler'+('_active' if lit else ''),'y':[270,0,90,180][tone]} for lit in [False,True] for tone in range(4)}})
     write(assets/'blockstates/observatory_reliquary.json',{'variants':{f'lit={str(lit).lower()},tone={stage}':{'model':'tnd:block/observatory_reliquary_'+str(stage)+('_active' if lit else '')} for lit in [False,True] for stage in range(4)}})
     write(assets/'models/block/observatory_reliquary.json',{'parent':'tnd:block/observatory_reliquary_0'})
