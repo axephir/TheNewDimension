@@ -60,7 +60,7 @@ Les nouveaux Observatoires, métropoles, laboratoires, massifs et minerais appar
 
 | Domaine | Contenu |
 |---|---|
-| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 74 sons originaux |
+| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 79 sons originaux |
 | Exploration | Neuf grandes architectures sur massifs couronnés, sanctuaire à trois ailes et boss, observatoire, citadelle, conservatoire, tours aménagées, archives et expédition du Premier Silence en six actes |
 | RPG | Quinze maîtrises, XP manuelle, talents, synergies, perception, progression au-delà du niveau 100 et célébrations personnelles |
 | Équipements | Minerais exposés, alliages, armure en relief, outils, armes, égide, marteau et objets de retour |
@@ -92,7 +92,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **216 GameTests natifs**, **54 177 assertions du noyau**, **27 contrôles des ressources** JSON/NBT et le décodage des 74 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **216 GameTests natifs**, **54 236 assertions du noyau**, **28 contrôles des ressources** JSON/NBT et le décodage des 79 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 
