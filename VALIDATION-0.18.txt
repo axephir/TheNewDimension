@@ -1,0 +1,53 @@
+THE NEW DIMENSION — 0.18.0-dev — La Forge du Premier Feu
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : 69beabf832f93656ee15da4a7c2062420451166e
+CI du commit exact : https://github.com/axephir/TheNewDimension/actions/runs/40001029104
+Statut : succès.
+
+CONTENU
+Deuxième acte : huit chambres de roche noire métallique, turbines et presses,
+marques graduées, circuits de vannes et six fragments de mémoire brefs.
+Puits : fond à -27, galeries +10/+20, voûte +76, escaliers, deux échelles,
+résonances réelles et raccourci supérieur soutenu déployé en dix étapes.
+Trois nouvelles familles de gardes ; duo du Premier Fondeur et du Régulateur.
+Attaques croisées, ouverture des cœurs, purge partagée, phase du survivant,
+récompense personnelle unique après les deux gardiens.
+Forge de trempe craftable avec le cœur du duo ; socle, port FE transactionnel,
+80 000 FE, huit éclats et deux auralites par choix permanent confirmé.
+Bonus exclusifs : dégâts +12 %, vitesse +10 % ou résistance au recul +15 %,
+en main principale, sans perdre nom, enchantements ou usure de l’équipement.
+Cinq nouveaux sons originaux ; bibliothèque de 74 sons sous-titrés FR/EN.
+
+VÉRIFICATIONS AUTOMATISÉES
+Compilation, 54 177 assertions du noyau, 199 GameTests Minecraft requis réussis.
+27 groupes de contrôles JSON/NBT/textures et modèles ; les 74 OGG décodent
+sans saturation. Les 69 OGG précédents sont identiques à leur référence.
+Contrôle des 48 salles avec formes de collision natives, deux galeries,
+puits réellement généré, échelles soutenues, circuits occlus ou éloignés,
+progression combinée, mécanismes bloqués puis repris sans écrasement,
+sérialisation, deux gardiens réels, tirs croisés, purge et récompense unique.
+Trempe avec véritable enchantement et nom, conservation de l’usure, bonus
+natif unique, énergie exacte, socle incomplet, sortie pleine, annulation,
+rechargement, conservation FE par câbles et export par véritable entonnoir.
+
+CLIENT NATIF
+Monde isolé ; Survie avec Résistance VI ; rendu logiciel llvmpipe.
+Interactions et compteurs contrôlés, escaliers et remontée d’échelle testés.
+Passerelle supérieure franchie à pied, fenêtres 1280×720 et 854×480.
+Duo, purge et atelier de trempe examinés en situation de contrôle.
+Quatorze fichiers F2 comparés aux originaux, sans retouche ni redimensionnement.
+Les combats et l’atelier utilisent des commandes de contrôle documentées.
+
+PORTÉE
+Aucune campagne humaine complète, durée totale, équilibrage final du duo,
+écoute physique ou performance sur configuration de joueur revendiquée.
+Explorer un Observatoire entièrement inédit ou un nouveau monde ; les stations
+anciennes gardent leurs objectifs et leurs gardiens. Les autres systèmes,
+maîtrises, familiers, équipements et machines restent compatibles.
+Guide : docs/FOUNDRY_0.18.md.
+
+FICHIERS
+tnd-0.18.0-dev.jar : 6016571 octets
+SHA-256 : b315d2172b5b09eb4454ae936b8188e3cff1467878e7c90ef053aceca4231d70
+TheNewDimension-0.18.0-dev.zip : 11394347 octets
+SHA-256 : b0b804c49cb17e937a6c253767bb0fb0c4ebf67b39050a08780847ef84a55b70

@@ -26,3 +26,8 @@ Les neuf sprites d’objets du Premier Silence ont été redessinés avec l’ou
 ## Révision 0.17
 
 Les appareils du premier acte utilisent des modèles JSON originaux et la bibliothèque de textures 16 × 16 du projet. Les quatre nouveaux sons sont synthétisés par `scripts/witness_audio.py`, sans enregistrement externe, et possèdent leurs sous-titres français et anglais. Les 65 fichiers sonores précédents ne sont pas régénérés pour cette révision.
+
+
+## Révision 0.18
+
+La forge conserve les matériaux originaux de pierre noire en 16 × 16. La plaque graduée des vannes, le sprite du cœur et les cinq atlas de personnages sont des créations procédurales originales, définies dans `scripts/foundry_resources.py`. Modèles articulés, dispositifs JSON, plans, textes et interfaces sont originaux. Les cinq nouveaux sons sont synthétisés par `scripts/foundry_audio.py`, sans enregistrement externe ; les 69 OGG précédents sont conservés byte pour byte.

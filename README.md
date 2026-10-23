@@ -2,13 +2,17 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.17.0-dev — L’Éveil des Témoins.**
+**Version : 0.18.0-dev — La Forge du Premier Feu.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.17.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.17.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.17.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.17.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.18.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.18.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.18.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.18.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**Le deuxième acte devient la Forge du Premier Feu** : huit chambres de pierre noire et métal ancien, turbines et presses animées, circuits de vannes, six fragments brefs et un puits monumental excavé sur 27 blocs, sous une voûte haute de 76 blocs. Deux galeries à 10 et 20 mètres se parcourent par de vrais escaliers. Résonances, repères gravés, échelles de secours et passage supérieur déployable guident une boucle lisible autour du puits.
+
+**Le Premier Fondeur et le Régulateur** forment un nouveau duo de fin de progression, accompagné de trois nouvelles familles de gardes. Frappes et tirs peuvent ouvrir le cœur du partenaire ; les vannes offrent des purges espacées, et le survivant change de phase. Une récompense personnelle unique permet de fabriquer une **forge de trempe mnémonique**. Socle physique, FE, réactifs réels et confirmation explicite : chaque arme ou outil accepte un seul choix permanent de dégâts, vitesse d’attaque ou résistance au recul, en conservant ses composants. Cinq nouveaux sons originaux accompagnent les installations. **Un Observatoire entièrement inédit est nécessaire** ; les anciennes stations conservent leurs règles et récompenses. [Guide de la 0.18](docs/FOUNDRY_0.18.md).
 
 **Le premier acte devient une séquence réactive de huit salles** : faisceaux des prismes, circuit à rétablir, passerelle de galerie déployable, portes qui se lèvent, trois découvertes personnelles et gravures qui se réveillent. Le Colosse bénéficie d’un éveil de huit secondes, de trois phases mises en scène et de nouveaux motifs d’attaque. Aides contextuelles, compteur de découvertes et quatre nouveaux sons accompagnent ce parcours. Les nouveaux mécanismes apparaissent dans les sites entièrement inédits ; les anciennes stations conservent leurs règles. [Guide de la 0.17](docs/WITNESSES_0.17.md).
 
@@ -54,7 +58,7 @@ Les nouveaux Observatoires, métropoles, laboratoires, massifs et minerais appar
 
 | Domaine | Contenu |
 |---|---|
-| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 69 sons originaux |
+| Vestige | Six biomes naturels, métropole, Observatoire, reliefs, brouillard, particules, cycle indépendant de 40 minutes, 74 sons originaux |
 | Exploration | Neuf grandes architectures sur massifs couronnés, sanctuaire à trois ailes et boss, observatoire, citadelle, conservatoire, tours aménagées, archives et expédition du Premier Silence en six actes |
 | RPG | Quinze maîtrises, XP manuelle, talents, synergies, perception, progression au-delà du niveau 100 et célébrations personnelles |
 | Équipements | Minerais exposés, alliages, armure en relief, outils, armes, égide, marteau et objets de retour |
@@ -86,7 +90,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **188 GameTests natifs**, **54 115 assertions du noyau**, **25 contrôles des ressources** JSON/NBT et le décodage des 69 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **199 GameTests natifs**, **54 177 assertions du noyau**, **27 contrôles des ressources** JSON/NBT et le décodage des 74 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 
