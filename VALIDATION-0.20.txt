@@ -1,0 +1,59 @@
+THE NEW DIMENSION — 0.20.0-dev — Les Soutes de Nacre
+Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25
+Source : 65f9d94227ceebc39f0c70570d1ce2a776da4c49
+CI du commit exact : https://github.com/axephir/TheNewDimension/actions/runs/40047494785
+Statut : succès.
+
+CONTENU
+Trois matières : ferronyte de l’Overworld, thalassite des fonds océaniques,
+astérium personnel après les boss. Cinq outils et quatre pièces d’armure
+par matière : 27 équipements natifs, enchantables et réparables.
+Sept machines : hydrocentrifugeuse, four à pression, drague et foreuse
+abyssales, réplicateur d’astérium, turbine et assembleur de précision.
+Assemblages physiques, FE transactionnels, trépans, entretien, hoppers,
+recettes exactes, redstone et sorties protégées. Dernier palier lié aux boss.
+Soutes sous chaque métropole : huit halls de 97 blocs de côté, galeries,
+escaliers, voûtes, grues, appareils et coffres. Un seul accès de surface.
+292 ennemis finis, dont quatre boss de 9 à 13 blocs nominaux ; douze acteurs
+vivants maximum par rencontre. Aucune énigme, portes après élimination,
+extraction personnelle et registre partagé durable. Migration des anciens
+chunks de ville chargés, avec préservation des contenants et blocs étrangers.
+
+VÉRIFICATIONS
+236 GameTests Minecraft requis, 54 236 assertions du noyau et 30 groupes
+JSON/NBT/textures réussis sur la CI du commit exact.
+Scénario complémentaire local : turbine bloquée, kit d’entretien conservé,
+puis 640 000 FE exactement, un seau vide et usure effective après libération.
+Les 79 Vorbis antérieurs sont inchangés et décodent localement sans saturation.
+Tests de transactions FE et rollback, vrais hoppers, consommation exacte,
+sorties pleines, redstone, entretien, sauvegarde, mine réelle, nodules réels,
+biomes, acquisition, entrée unique, parcours, accès aux galeries, boss natif,
+acteurs absents, progression linéaire, butin personnel et migration sûre.
+Les tickets du banc de tests préservent les tickets natifs des fixtures et
+les plateformes partagées ; le contenu de production ne force aucun chunk.
+
+CLIENT NATIF
+SAVED: Nacre city 17,-19; completion mask 3 (first two of eight sectors).
+SAVED: first boss personal extraction bit 2 claimed; 3 raw asterium and 1 sundered drive.
+W-only gallery walk, auto-jump off, Survival: (53910.5,17,-57146.5) -> [53932.77261884463, 23.0, -57146.5].
+W-only shaft climb, Survival, flight disabled: (54146.5,17,-57023.5) -> [54224.57503380697, 89.0, -57023.21401071229].
+Real finite waves and boss; deaths accelerated with native kill commands.
+Later halls viewed in Spectator without crediting their objectives.
+Workshop, FE and all equipment staged by commands in an isolated QA world.
+Guide pages checked at native 1280x720 and 854x480 sizes; 18 native F2 images.
+World saved and client closed normally. llvmpipe software rendering; null audio output.
+
+PORTÉE
+Les minerais naturels demandent des chunks d’Overworld inédits. Les villes
+existantes sont enrichies progressivement quand leurs chunks sont chargés ;
+un volume occupé est conservé. Une métropole inexplorée est recommandée pour
+un parcours intégral. Les anciens donjons et les 79 fichiers OGG sont conservés.
+La campagne entière et l’équilibrage humain multijoueur restent à éprouver.
+Aucune durée de jeu ou performance sur configuration de joueur garantie.
+Guide : docs/DEPTHS_0.20.md.
+
+FICHIERS
+tnd-0.20.0-dev.jar : 6510932 octets
+SHA-256 : ae036e687a6fd64973789c9cbf15bb15adb1219f8703f29baf5c09cba94825b3
+TheNewDimension-0.20.0-dev.zip : 12250338 octets
+SHA-256 : 8c1664741e18f6f54b5e1da4d74ed52ea3d06971142f29305577ffd19e076313

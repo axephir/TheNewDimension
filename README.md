@@ -2,13 +2,17 @@
 
 Mod d’exploration, RPG et industrie pour **Minecraft Java 26.2 · NeoForge 26.2.0.93 · Java 25**.
 
-**Version : 0.19.0-dev — Les Archives du Silence.**
+**Version : 0.20.0-dev — Les Soutes de Nacre.**
 
-[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.19.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.19.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.19.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.19.md)
+[Télécharger le JAR](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/tnd-0.20.0-dev.jar) · [Pack avec sources](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/TheNewDimension-0.20.0-dev.zip) · [Empreintes SHA-256](https://github.com/axephir/TheNewDimension/raw/refs/heads/downloads/SHA256SUMS-0.20.0-dev) · [Captures Minecraft](https://github.com/axephir/TheNewDimension/blob/downloads/GALLERY_0.20.md)
 
 Placer le JAR dans `mods/` de l’instance et retirer l’ancien JAR TND. Installer la même version côté serveur et côté client. Aucun autre mod de gameplay n’est nécessaire.
 
 ## Dans cette version
+
+**Les Soutes de Nacre** ajoutent trois filières de matériaux : ferronyte des profondeurs de l’Overworld, thalassite exposée au fond des océans et astérium des boss. Chacune possède cinq outils et une armure complète, soit **27 équipements**. **Sept nouvelles machines** assurent le traitement des minerais, le dragage, une excavation 17 × 17, la réplication, l’assemblage et une production de 1 600 FE/t. Assemblages physiques, trépans et entretien imposent de préparer l’usine ; les composants de boss ouvrent le dernier palier.
+
+Sous chaque métropole, **huit grands halls**, des galeries en relief et un parcours de combat continu accueillent **292 ennemis, dont quatre boss monumentaux**. Une seule entrée de surface, aucune énigme, portes de progression, coffres riches et extraction personnelle des nodules après victoire. Les anciennes villes sont enrichies progressivement uniquement dans les chunks chargés et sans remplacer les contenants existants ; une zone occupée est conservée. Pour un parcours intégral, préférer une métropole inexplorée. Les minerais naturels apparaissent dans les nouveaux chunks d’Overworld. [Guide de la 0.20](docs/DEPTHS_0.20.md).
 
 **Les Archives du Silence** transforment le troisième acte de l’Observatoire : huit chambres de monolithes noirs, miroirs physiques, souvenirs à ordonner, deux niveaux de galeries et un grand atlas suspendu. Le familier peut maintenir son ancre ; une commande manuelle permet aussi de terminer le parcours. Un raccourci supérieur se reconstruit après la réussite. Deux nouveaux gardes et **le Conservateur**, gardien de douze blocs aux anneaux articulés, défendent ce lieu. Sa lentille déverrouille **un seul accord de relique actif** : esquive, égide ou rappel offensif du familier. Menu astral illustré, nouvel onglet à gauche de l’inventaire et touche R modifiable, recharge commune, cinq sons originaux et six fragments mystérieux. **Explorer un Observatoire entièrement inédit.** [Guide de la 0.19](docs/ARCHIVES_0.19.md).
 
@@ -92,7 +96,7 @@ python3 scripts/check_resources.py
 python3 scripts/check_audio.py
 ```
 
-La validation automatisée comprend **216 GameTests natifs**, **54 236 assertions du noyau**, **28 contrôles des ressources** JSON/NBT et le décodage des 79 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
+La validation automatisée comprend **236 GameTests natifs**, **54 236 assertions du noyau**, **30 contrôles des ressources** JSON/NBT et le décodage des 79 fichiers OGG. Le rendu, les interactions et les écrans sont également examinés dans le client Minecraft. Les scénarios d’erreur du dénouement conservent les journaux et vérifient l’absence de destruction du monde source. Cela ne prétend pas garantir toute panne matérielle ; voir le §14.6 du cahier et le guide de récupération.
 
 Dans l’environnement Codex :
 
