@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "tnd:resonant_blade",
-    "tnd:nocturne_blade"
+    "tnd:nocturne_blade",
+    "tnd:ferronyte_sword",
+    "tnd:thalassite_sword",
+    "tnd:asterium_sword"
   ]
 }

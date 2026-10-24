@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ADA",
+    "QNQ",
+    "ADA"
+  ],
+  "key": {
+    "A": "tnd:purified_auralite",
+    "D": "minecraft:diamond",
+    "Q": "minecraft:quartz",
+    "N": "minecraft:netherite_scrap"
+  },
+  "result": {
+    "id": "tnd:mineral_matrix",
+    "count": 2
+  }
+}

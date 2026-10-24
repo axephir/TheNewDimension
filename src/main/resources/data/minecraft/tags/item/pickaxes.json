@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "tnd:resonant_pickaxe",
-    "tnd:nocturne_pickaxe"
+    "tnd:nocturne_pickaxe",
+    "tnd:ferronyte_pickaxe",
+    "tnd:thalassite_pickaxe",
+    "tnd:asterium_pickaxe"
   ]
 }

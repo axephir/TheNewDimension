@@ -147,3 +147,12 @@ Les stations 16 à 23 nouvellement générées portent `archiveAct`. Les archive
 Le Conservateur et ses deux gardes s’intègrent aux rencontres finies avec jeton de station. Les attaques mémorisent origine, direction et cible ; la géométrie de dommage correspond aux marques. Le gardien possède une émergence, trois phases et des ouvertures de noyau. La lentille est une récompense personnelle du registre, jamais un butin générique répétable.
 
 Les reliques utilisent trois attachments personnels sérialisés : déverrouillage, sélection unique et échéance commune en gameTime du serveur. Le menu synchronise les valeurs du serveur ; le paquet d’activation ne porte aucun choix ni aucune coordonnée. Esquive par balayage de collision, rappel du seul familier propriétaire vers une case sûre et effets natifs. La recharge suit mort et reconnexion et interdit les changements d’accord pendant sa durée.
+
+
+## Soutes et industrie avancée (0.20)
+
+`deepindustry` possède son registre de machines, ses recettes à deux entrées, ses ports FE transactionnels et ses inventaires physiques. Il ne modifie pas les ordinaux historiques de `Industry.Kind`. Le commit d’un cycle vérifie les sorties, l’énergie, l’entretien et la cible avant de retirer les matières. Les extractions sont bornées aux chunks chargés et consultent les événements de protection. Les curseurs, l’intégrité, le combustible entamé et l’armement sont sauvegardés nativement.
+
+`depths/DepthsLayout` définit une seule entrée par `CityRegions.Region`, huit salles et une sortie finale rejoignant ce même accès. `DepthsArchitecture` évalue une forme volumétrique déterministe à l’intérieur du chunk courant, sans écrire dans ses voisins. `MetropolisFeature` l’appelle après le mobilier de surface. La migration des villes anciennes limite le débit et refuse les volumes contenant des blocs étrangers ou des entités de blocs.
+
+`DepthsNodeEntity` gère les vagues finies et n’accepte que les morts des UUID du jeton courant. Les `SanctuaryConstruct` reconnaissent les contrôleurs des deux familles de donjons, en conservant leurs contrats historiques. `DepthsLedger`, SavedData du serveur, porte l’avancement linéaire et les extractions personnelles ; une récompense est marquée avant l’insertion dans l’inventaire. Les noeuds révoquent les tentatives abandonnées ; les entités déchargées ne valent pas une élimination. Aucun ticket de chunk n’est demandé par le contenu.

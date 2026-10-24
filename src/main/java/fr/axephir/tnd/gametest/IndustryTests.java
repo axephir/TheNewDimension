@@ -79,7 +79,7 @@ final class IndustryTests {
         // A real enclosed pen keeps native navigation inside the machine's working area.
         for(int x=-5;x<=5;x++)for(int z=-5;z<=5;z++)if(Math.abs(x)==5||Math.abs(z)==5)w.setBlock(at.offset(x,0,z),Blocks.OAK_FENCE.defaultBlockState(),3);
         var chunks=new java.util.ArrayList<net.minecraft.world.level.ChunkPos>();
-        for(int x=(at.getX()>>4)-1;x<=(at.getX()>>4)+1;x++)for(int z=(at.getZ()>>4)-1;z<=(at.getZ()>>4)+1;z++){w.setChunkForced(x,z,true);chunks.add(new net.minecraft.world.level.ChunkPos(x,z));}
+        for(int x=(at.getX()>>4)-1;x<=(at.getX()>>4)+1;x++)for(int z=(at.getZ()>>4)-1;z<=(at.getZ()>>4)+1;z++){if(w.setChunkForced(x,z,true))chunks.add(new net.minecraft.world.level.ChunkPos(x,z));}
         var cows=new java.util.ArrayList<Animal>();
         for(int i=0;i<2;i++){var cow=EntityTypes.COW.create(w,EntitySpawnReason.EVENT);cow.setNoAi(true);cow.setPos(Vec3.atBottomCenterOf(at.east(2+i)));w.addFreshEntity(cow);cows.add(cow);}
         boolean[] fed={false};

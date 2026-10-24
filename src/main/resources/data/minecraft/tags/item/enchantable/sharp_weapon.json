@@ -1,5 +1,11 @@
 {
   "values": [
-    "tnd:nocturne_blade"
+    "tnd:nocturne_blade",
+    "tnd:ferronyte_sword",
+    "tnd:ferronyte_axe",
+    "tnd:thalassite_sword",
+    "tnd:thalassite_axe",
+    "tnd:asterium_sword",
+    "tnd:asterium_axe"
   ]
 }

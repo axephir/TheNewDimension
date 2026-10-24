@@ -30,10 +30,12 @@ public final class SanctuaryConstruct extends Monster {
         FOUNDER("first_founder",4.0f,10.0f,3200,.20,34),REGULATOR("furnace_regulator",2.8f,7.0f,2600,.23,28),
         COLOSSUS("threshold_colossus",3.2f,7.8f,1800,.20,26),LENSKEEPER("keeper_of_lenses",2.8f,6.2f,2200,.22,24),
         SMELTER("silent_smelter",3.8f,8.8f,2800,.18,30),HORTULAN("petrified_hortulan",3.6f,7.6f,2600,.20,26),
-        AXIOM("axiom_guardian",2.4f,6.4f,1900,.25,26),ANTIPHON("antiphon_guardian",2.4f,6.4f,1900,.23,24),ARCHON("first_silence_archon",4.4f,11.2f,5600,.19,32);
+        AXIOM("axiom_guardian",2.4f,6.4f,1900,.25,26),ANTIPHON("antiphon_guardian",2.4f,6.4f,1900,.23,24),ARCHON("first_silence_archon",4.4f,11.2f,5600,.19,32),
+        DEPTHS_SENTINEL("depths_sentinel",1.2f,3.2f,300,.29,18),DEPTHS_HUNTER("depths_hunter",1f,2.7f,220,.34,20),DEPTHS_RIFLE("depths_rifle",1.1f,3.3f,260,.25,17),
+        DEPTHS_BASTION("depths_bastion",4.6f,10.5f,3600,.19,32),DEPTHS_LENS("depths_lens",3.8f,9.0f,4000,.21,30),DEPTHS_REAPER("depths_reaper",4.0f,10.0f,4600,.24,34),DEPTHS_SOVEREIGN("depths_sovereign",5.2f,13.0f,6000,.20,36);
         public final String id;public final float width,height;public final double hp,speed,damage;
         Kind(String id,float width,float height,double hp,double speed,double damage){this.id=id;this.width=width;this.height=height;this.hp=hp;this.speed=speed;this.damage=damage;}
-        public boolean foundryPair(){return this==FOUNDER||this==REGULATOR;}public boolean foundryGuard(){return this==FOUNDRY_WARDEN||this==FOUNDRY_ARBALIST||this==FOUNDRY_MENDER;}public boolean archiveGuard(){return this==ARCHIVE_KEEPER||this==ARCHIVE_ERASER;}public boolean boss(){return !archiveGuard()&&!foundryGuard()&&this!=WATCHER&&this!=LANCER&&this!=CANTOR;}public boolean pair(){return this==AXIOM||this==ANTIPHON||foundryPair();}public boolean ranged(){return this==ARCHIVE_ERASER||this==CONSERVATOR||this==LANCER||this==CANTOR||this==LENSKEEPER||this==ANTIPHON||this==FOUNDRY_ARBALIST||this==FOUNDRY_MENDER||this==REGULATOR;}
+        public boolean depths(){return name().startsWith("DEPTHS_");}public boolean depthsGuard(){return this==DEPTHS_SENTINEL||this==DEPTHS_HUNTER||this==DEPTHS_RIFLE;}public boolean foundryPair(){return this==FOUNDER||this==REGULATOR;}public boolean foundryGuard(){return this==FOUNDRY_WARDEN||this==FOUNDRY_ARBALIST||this==FOUNDRY_MENDER;}public boolean archiveGuard(){return this==ARCHIVE_KEEPER||this==ARCHIVE_ERASER;}public boolean boss(){return !depthsGuard()&&!archiveGuard()&&!foundryGuard()&&this!=WATCHER&&this!=LANCER&&this!=CANTOR;}public boolean pair(){return this==AXIOM||this==ANTIPHON||foundryPair();}public boolean ranged(){return this==DEPTHS_RIFLE||this==DEPTHS_LENS||this==ARCHIVE_ERASER||this==CONSERVATOR||this==LANCER||this==CANTOR||this==LENSKEEPER||this==ANTIPHON||this==FOUNDRY_ARBALIST||this==FOUNDRY_MENDER||this==REGULATOR;}
     }
     private static final EntityDataAccessor<Integer> CHARGE=SynchedEntityData.defineId(SanctuaryConstruct.class,EntityDataSerializers.INT),EXPOSED=SynchedEntityData.defineId(SanctuaryConstruct.class,EntityDataSerializers.INT),PATTERN=SynchedEntityData.defineId(SanctuaryConstruct.class,EntityDataSerializers.INT),PHASE=SynchedEntityData.defineId(SanctuaryConstruct.class,EntityDataSerializers.INT),AWAKEN=SynchedEntityData.defineId(SanctuaryConstruct.class,EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> RITUAL=SynchedEntityData.defineId(SanctuaryConstruct.class,EntityDataSerializers.BOOLEAN);
@@ -80,6 +82,10 @@ public final class SanctuaryConstruct extends Monster {
         if(kind==Kind.ARCHON)attack=cycle%5;
         if(kind==Kind.CONSERVATOR)attack=7+(cycle%(phase()==0?2:3));
         if(kind==Kind.ARCHIVE_ERASER)attack=8;
+        if(kind==Kind.DEPTHS_BASTION)attack=cycle%3==0?5:cycle%2;
+        if(kind==Kind.DEPTHS_LENS)attack=cycle%2==0?8:9;
+        if(kind==Kind.DEPTHS_REAPER)attack=cycle%3==0?6:cycle%2==0?3:0;
+        if(kind==Kind.DEPTHS_SOVEREIGN)attack=cycle%4==0?7:cycle%4==1?9:cycle%4==2?6:3;
         entityData.set(PATTERN,attack);entityData.set(CHARGE,kind==Kind.CONSERVATOR?72-phase()*6:kind.boss()?Math.max(36,60-phase()*8):36);stagger=0;cycle++;
         if(kind==Kind.CONSERVATOR&&level() instanceof ServerLevel w)for(var p:w.players())if(valid(p))p.sendOverlayMessage(ArchiveScene.tr("attack."+attack));
         if(kind.foundryPair()&&level() instanceof ServerLevel w)for(var p:w.players())if(valid(p)&&distanceToSqr(p)<50*50)p.sendOverlayMessage(Component.translatable("observatory.tnd.foundry.attack."+attack));
@@ -119,7 +125,7 @@ public final class SanctuaryConstruct extends Monster {
         };
     }
     protected void customServerAiStep(ServerLevel w){
-        if(home!=null&&tickCount%20==0&&w.hasChunkAt(home)&&(!(w.getBlockEntity(home) instanceof SanctuaryNodeEntity node)||!node.accepts(getUUID(),token))){discard();return;}
+        if(home!=null&&tickCount%20==0&&w.hasChunkAt(home)&&!homeAccepts(w)){discard();return;}
         if(awakening()>0){entityData.set(AWAKEN,awakening()-1);navigation.stop();if(tickCount%8==0){ring(w,position(),kind.width+1,24);w.sendParticles(ParticleTypes.WHITE_ASH,getX(),getY()+.4,getZ(),12,kind.width,.3,kind.width,.02);}if(kind.boss()&&tickCount%10==0)updateBar(w);return;}
         super.customServerAiStep(w);if(cooldown>0)cooldown--;
         int hpPhase=integrity()<maxIntegrity()/3?2:integrity()<maxIntegrity()*2/3?1:0;if(kind.pair()&&home!=null&&w.hasChunkAt(home)&&w.getBlockEntity(home) instanceof SanctuaryNodeEntity node&&node.killed()>0)hpPhase=2;if(hpPhase>phase()){entityData.set(PHASE,hpPhase);if(kind==Kind.CONSERVATOR){vent(100);ArchiveScene.sound(w,blockPosition(),"archive_memory",.8f,.7f+hpPhase*.15f);for(var p:w.players())if(valid(p))p.sendOverlayMessage(ArchiveScene.tr("phase."+hpPhase));}if(ritual()&&home!=null&&w.hasChunkAt(home)&&w.getBlockEntity(home) instanceof SanctuaryNodeEntity node)WitnessScene.phase(node,this,hpPhase);cooldown=Math.max(cooldown,50);playSound(fr.axephir.tnd.core.ModContent.atmosphereSound("observatory_core"),.8f,.7f+hpPhase*.15f);}
@@ -140,6 +146,7 @@ public final class SanctuaryConstruct extends Monster {
         }}
         if(kind.boss()&&tickCount%10==0)updateBar(w);
     }
+    private boolean homeAccepts(ServerLevel w){var n=w.getBlockEntity(home);return n instanceof SanctuaryNodeEntity s?s.accepts(getUUID(),token):n instanceof fr.axephir.tnd.depths.DepthsNodeEntity d&&d.accepts(getUUID(),token);}
     private void updateBar(ServerLevel w){
         bar.setProgress(Math.clamp(integrity()/maxIntegrity(),0,1));bar.setColor(exposed()>0?BossEvent.BossBarColor.YELLOW:BossEvent.BossBarColor.BLUE);
         var near=w.players().stream().filter(p->!p.isSpectator()&&distanceToSqr(p)<64*64).toList();for(var p:List.copyOf(bar.getPlayers()))if(!near.contains(p))bar.removePlayer(p);near.forEach(bar::addPlayer);
@@ -154,6 +161,7 @@ public final class SanctuaryConstruct extends Monster {
             var attacker=source.getEntity();if(attacker instanceof ServerPlayer p)node.participant(p);
             if(attacker instanceof fr.axephir.tnd.entities.Shardling pet&&pet.getOwnerReference()!=null){var owner=w.getServer().getPlayerList().getPlayer(pet.getOwnerReference().getUUID());if(owner!=null)node.participant(owner);}
         }
+        if(success&&home!=null&&w.hasChunkAt(home)&&w.getBlockEntity(home) instanceof fr.axephir.tnd.depths.DepthsNodeEntity node){var attacker=source.getEntity();if(attacker instanceof ServerPlayer p)node.participant(p);if(attacker instanceof fr.axephir.tnd.entities.Shardling pet&&pet.getOwnerReference()!=null){var owner=w.getServer().getPlayerList().getPlayer(pet.getOwnerReference().getUUID());if(owner!=null)node.participant(owner);}}
         if(success&&charge()>0){stagger+=amount;if(stagger>=(kind.boss()?(kind==Kind.ARCHON?350:220):14)){entityData.set(CHARGE,0);entityData.set(EXPOSED,80);cooldown=100;playSound(SoundEvents.AMETHYST_CLUSTER_BREAK,.6f,.7f);}}
         return success;
     }
@@ -164,7 +172,7 @@ public final class SanctuaryConstruct extends Monster {
             float layer=Math.min(getMaxHealth(),reserve);reserve-=layer;setHealth(layer);syncIntegrity();entityData.set(CHARGE,0);entityData.set(EXPOSED,80);cooldown=110;
             playSound(fr.axephir.tnd.core.ModContent.atmosphereSound("observatory_core"),1,.8f);return;
         }
-        boolean before=dead;super.die(source);if(!before&&dead){bar.removeAllPlayers();if(home!=null&&level() instanceof ServerLevel w&&w.hasChunkAt(home)&&w.getBlockEntity(home) instanceof SanctuaryNodeEntity node)node.defeated(this);}}
+        boolean before=dead;super.die(source);if(!before&&dead){bar.removeAllPlayers();if(home!=null&&level() instanceof ServerLevel w&&w.hasChunkAt(home)&&w.getBlockEntity(home) instanceof SanctuaryNodeEntity node)node.defeated(this);if(home!=null&&level() instanceof ServerLevel w&&w.hasChunkAt(home)&&w.getBlockEntity(home) instanceof fr.axephir.tnd.depths.DepthsNodeEntity node)node.defeated(this);}}
     private void syncIntegrity(){entityData.set(RESERVE,reserve);entityData.set(TOTAL,totalIntegrity);}
     @Override public void stopSeenByPlayer(ServerPlayer player){super.stopSeenByPlayer(player);bar.removePlayer(player);}
     public void remove(RemovalReason reason){bar.removeAllPlayers();super.remove(reason);}

@@ -1,5 +1,17 @@
 {
   "values": [
-    "tnd:nocturne_pickaxe"
+    "tnd:nocturne_pickaxe",
+    "tnd:ferronyte_pickaxe",
+    "tnd:ferronyte_axe",
+    "tnd:ferronyte_shovel",
+    "tnd:ferronyte_hoe",
+    "tnd:thalassite_pickaxe",
+    "tnd:thalassite_axe",
+    "tnd:thalassite_shovel",
+    "tnd:thalassite_hoe",
+    "tnd:asterium_pickaxe",
+    "tnd:asterium_axe",
+    "tnd:asterium_shovel",
+    "tnd:asterium_hoe"
   ]
 }

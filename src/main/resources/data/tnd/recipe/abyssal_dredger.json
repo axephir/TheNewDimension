@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TDT",
+    "FCF",
+    "OHO"
+  ],
+  "key": {
+    "T": "tnd:thalassite_ingot",
+    "D": "tnd:hardened_drill_bit",
+    "F": "tnd:industrial_frame",
+    "C": "tnd:pressure_circuit",
+    "O": "tnd:copper_coil",
+    "H": "minecraft:hopper"
+  },
+  "result": {
+    "id": "tnd:abyssal_dredger",
+    "count": 1
+  }
+}

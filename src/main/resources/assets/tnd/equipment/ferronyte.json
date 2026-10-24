@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "tnd:ferronyte"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "tnd:ferronyte"
+      }
+    ]
+  }
+}

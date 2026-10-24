@@ -1,0 +1,46 @@
+{
+  "criteria": {
+    "ore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:raw_ferronyte"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:ferronyte_sword",
+      "tnd:ferronyte_pickaxe",
+      "tnd:ferronyte_axe",
+      "tnd:ferronyte_shovel",
+      "tnd:ferronyte_hoe",
+      "tnd:ferronyte_helmet",
+      "tnd:ferronyte_chestplate",
+      "tnd:ferronyte_leggings",
+      "tnd:ferronyte_boots",
+      "tnd:ferronyte_smelting",
+      "tnd:ferronyte_blasting",
+      "tnd:pressure_circuit",
+      "tnd:maintenance_kit",
+      "tnd:mineral_matrix",
+      "tnd:resonant_fuel_cell",
+      "tnd:hardened_drill_bit",
+      "tnd:hydrocentrifuge",
+      "tnd:pressure_kiln",
+      "tnd:abyssal_dredger",
+      "tnd:abyssal_bore",
+      "tnd:asterium_replicator",
+      "tnd:closed_cycle_turbine",
+      "tnd:precision_assembler"
+    ]
+  }
+}

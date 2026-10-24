@@ -1,0 +1,12 @@
+{
+  "feature": "tnd:thalassite_floor",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 1
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

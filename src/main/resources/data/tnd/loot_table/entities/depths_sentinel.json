@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.4
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "tnd:raw_ferronyte"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "tnd:raw_thalassite"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "tnd:maintenance_kit"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "tnd:pressure_circuit"
+        }
+      ]
+    }
+  ]
+}

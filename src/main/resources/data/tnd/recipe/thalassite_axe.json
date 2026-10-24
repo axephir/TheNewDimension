@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "II ",
+    "IS ",
+    " S "
+  ],
+  "key": {
+    "I": "tnd:thalassite_ingot",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "tnd:thalassite_axe",
+    "count": 1
+  }
+}

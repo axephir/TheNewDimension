@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "I I",
+    "I I"
+  ],
+  "key": {
+    "I": "tnd:thalassite_ingot"
+  },
+  "result": {
+    "id": "tnd:thalassite_leggings",
+    "count": 1
+  }
+}

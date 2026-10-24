@@ -2,6 +2,9 @@
   "values": [
     "tnd:ward_helmet",
     "tnd:shade_helmet",
-    "tnd:choir_helmet"
+    "tnd:choir_helmet",
+    "tnd:ferronyte_helmet",
+    "tnd:thalassite_helmet",
+    "tnd:asterium_helmet"
   ]
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FTF",
+    "BCB",
+    "OHO"
+  ],
+  "key": {
+    "F": "tnd:ferronyte_ingot",
+    "T": "tnd:thalassite_ingot",
+    "B": "minecraft:blast_furnace",
+    "C": "tnd:pressure_circuit",
+    "O": "tnd:copper_coil",
+    "H": "tnd:industrial_frame"
+  },
+  "result": {
+    "id": "tnd:pressure_kiln",
+    "count": 1
+  }
+}

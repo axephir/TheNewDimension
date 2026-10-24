@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "WCW",
+    "OHO"
+  ],
+  "key": {
+    "F": "tnd:ferronyte_ingot",
+    "W": "minecraft:water_bucket",
+    "C": "tnd:control_circuit",
+    "O": "tnd:copper_coil",
+    "H": "tnd:industrial_frame"
+  },
+  "result": {
+    "id": "tnd:hydrocentrifuge",
+    "count": 1
+  }
+}

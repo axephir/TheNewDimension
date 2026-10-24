@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CTC",
+    "CCC"
+  ],
+  "key": {
+    "C": "minecraft:coal_block",
+    "T": "tnd:thalassite_ingot"
+  },
+  "result": {
+    "id": "tnd:resonant_fuel_cell",
+    "count": 1
+  }
+}

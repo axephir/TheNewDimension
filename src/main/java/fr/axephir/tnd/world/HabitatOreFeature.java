@@ -27,6 +27,8 @@ public final class HabitatOreFeature extends Feature<NoneFeatureConfiguration> {
         return TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(TheNewDimension.ID, color + "_ore"));
     }
     static {
+        FEATURES.register("ferronyte_veins",()->new fr.axephir.tnd.deepindustry.DeepOreFeature(false));
+        FEATURES.register("thalassite_floor",()->new fr.axephir.tnd.deepindustry.DeepOreFeature(true));
         FEATURES.register("metropolis",fr.axephir.tnd.city.MetropolisFeature::new);
         FEATURES.register("vestige_landscape",VestigeLandscapeFeature::new);
         FEATURES.register("echo_bloom",EchoBloomFeature::new);

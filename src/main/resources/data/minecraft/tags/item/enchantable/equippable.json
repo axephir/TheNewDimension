@@ -11,6 +11,18 @@
     "tnd:choir_helmet",
     "tnd:choir_chestplate",
     "tnd:choir_leggings",
-    "tnd:choir_boots"
+    "tnd:choir_boots",
+    "tnd:ferronyte_helmet",
+    "tnd:ferronyte_chestplate",
+    "tnd:ferronyte_leggings",
+    "tnd:ferronyte_boots",
+    "tnd:thalassite_helmet",
+    "tnd:thalassite_chestplate",
+    "tnd:thalassite_leggings",
+    "tnd:thalassite_boots",
+    "tnd:asterium_helmet",
+    "tnd:asterium_chestplate",
+    "tnd:asterium_leggings",
+    "tnd:asterium_boots"
   ]
 }

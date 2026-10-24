@@ -38,6 +38,7 @@ import constellation_resources
 import sanctuary_resources
 import foundry_resources
 import archive_resources
+import deep_resources
 SHAPES.update(awakening_resources.SHAPES)
 
 ROOT = Path(__file__).resolve().parents[1] / 'src/main/resources'
@@ -71,7 +72,7 @@ def texture(name, item=False):
 
 def content():
     # NeoForge supplies pack type specific formats (data 107.1, resources 88.0).
-    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — L’éveil des Témoins 0.17 / Minecraft 26.2'}})
+    write(ROOT / 'pack.mcmeta', {'pack': {'description': 'The New Dimension — Les Soutes de Nacre 0.20 / Minecraft 26.2'}})
     for block in BLOCKS:
         if block not in SHAPES: texture(block)
         variants = {'': {'model': f'tnd:block/{block}'}}
@@ -495,6 +496,7 @@ def languages():
     sanctuary_resources.languages(fr,en)
     foundry_resources.languages(fr,en)
     archive_resources.languages(fr,en)
+    deep_resources.languages(fr,en)
     write(ASSETS / 'lang/fr_fr.json', fr)
     write(ASSETS / 'lang/en_us.json', en)
 
@@ -508,7 +510,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--audio', action='store_true')
     options = parser.parse_args()
-    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); discovery_resources.content(write,png,ASSETS,DATA); assault_resources.content(write,png,ASSETS,DATA); sanctuary_resources.content(write,png,ASSETS,DATA); foundry_resources.content(write,png,ASSETS,DATA); archive_resources.content(write,png,ASSETS,DATA); languages()
+    content(); world(); structures(); awakening_resources.content(write,png,ASSETS,DATA); character_art.content(png,ASSETS); industry_resources.content(write,png,ASSETS,DATA); city_resources.content(write,png,ASSETS,DATA,nbt_payload); metropolis_resources.content(write,png,ASSETS,DATA,nbt_payload); convergence_resources.content(write,png,ASSETS,DATA); discovery_resources.content(write,png,ASSETS,DATA); assault_resources.content(write,png,ASSETS,DATA); sanctuary_resources.content(write,png,ASSETS,DATA); foundry_resources.content(write,png,ASSETS,DATA); archive_resources.content(write,png,ASSETS,DATA); deep_resources.content(write,png,ASSETS,DATA); languages()
     if options.audio:
         audio()
         import awakening_audio

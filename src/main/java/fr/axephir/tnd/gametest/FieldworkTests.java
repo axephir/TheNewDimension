@@ -20,6 +20,7 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.dimension.LevelStem;
@@ -50,11 +51,15 @@ final class FieldworkTests {
         }catch(Exception e){throw new IllegalStateException("Cannot create isolated native Vestige test level",e);}
     }
     static BlockPos center(GameTestHelper h,int lane){return new BlockPos(128+lane*48,120,128);}
+    // Native fixture tickets can overlap at a chunk boundary. Release only tickets owned by this helper,
+    // and retain them until every overlapping platform has finished using the chunk.
+    private static final Map<ServerLevel,Map<ChunkPos,PlatformTicket>> PLATFORM_TICKETS=new WeakHashMap<>();
+    private static final class PlatformTicket {final boolean owned;int users=1;PlatformTicket(boolean owned){this.owned=owned;}}
     static void platform(ServerLevel world,BlockPos at){
-        for(int cx=(at.getX()-12)>>4;cx<=(at.getX()+12)>>4;cx++)for(int cz=(at.getZ()-12)>>4;cz<=(at.getZ()+12)>>4;cz++)world.setChunkForced(cx,cz,true);
+        for(int cx=(at.getX()-12)>>4;cx<=(at.getX()+12)>>4;cx++)for(int cz=(at.getZ()-12)>>4;cz<=(at.getZ()+12)>>4;cz++){var tickets=PLATFORM_TICKETS.computeIfAbsent(world,k->new HashMap<>());var key=new ChunkPos(cx,cz);var ticket=tickets.get(key);if(ticket==null)tickets.put(key,new PlatformTicket(world.setChunkForced(cx,cz,true)));else ticket.users++;}
         for(var p:BlockPos.betweenClosed(at.offset(-12,-1,-12),at.offset(12,4,12)))world.setBlock(p,p.getY()==at.getY()-1?Blocks.STONE.defaultBlockState():Blocks.AIR.defaultBlockState(),2);
     }
-    static void release(ServerLevel world,BlockPos at){for(int cx=(at.getX()-12)>>4;cx<=(at.getX()+12)>>4;cx++)for(int cz=(at.getZ()-12)>>4;cz<=(at.getZ()+12)>>4;cz++)world.setChunkForced(cx,cz,false);}
+    static void release(ServerLevel world,BlockPos at){var tickets=PLATFORM_TICKETS.get(world);if(tickets==null)return;for(int cx=(at.getX()-12)>>4;cx<=(at.getX()+12)>>4;cx++)for(int cz=(at.getZ()-12)>>4;cz<=(at.getZ()+12)>>4;cz++){var key=new ChunkPos(cx,cz);var held=tickets.get(key);if(held!=null&&--held.users==0){tickets.remove(key);if(held.owned)world.setChunkForced(cx,cz,false);}}if(tickets.isEmpty())PLATFORM_TICKETS.remove(world);}
     static ServerPlayer player(GameTestHelper h,ServerLevel world,BlockPos at){
         var p=GameplayTests.player(h);p.teleport(new net.minecraft.world.level.portal.TeleportTransition(world,Vec3.atBottomCenterOf(at),Vec3.ZERO,0,0,net.minecraft.world.level.portal.TeleportTransition.DO_NOTHING));p.connection.markClientLoaded();p.hasChangedDimension();return p;
     }

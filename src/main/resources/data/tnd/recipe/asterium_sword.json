@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    " I ",
+    " S "
+  ],
+  "key": {
+    "I": "tnd:asterium_ingot",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "tnd:asterium_sword",
+    "count": 1
+  }
+}

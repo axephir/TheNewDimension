@@ -147,6 +147,18 @@
     "tnd:mnemonic_sorter",
     "tnd:obsidian_stairs",
     "tnd:obsidian_slab",
-    "tnd:mnemonic_tempering_forge"
+    "tnd:mnemonic_tempering_forge",
+    "tnd:ferronyte_ore",
+    "tnd:deepslate_ferronyte_ore",
+    "tnd:thalassite_nodule",
+    "tnd:asterium_nodule",
+    "tnd:hydrocentrifuge",
+    "tnd:pressure_kiln",
+    "tnd:abyssal_dredger",
+    "tnd:abyssal_bore",
+    "tnd:asterium_replicator",
+    "tnd:closed_cycle_turbine",
+    "tnd:precision_assembler",
+    "tnd:depths_terminal"
   ]
 }

@@ -98,6 +98,13 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
             if(kind==SanctuaryConstruct.Kind.FOUNDRY_MENDER){
                 for(int n=0;n<3;n++)t.addOrReplaceChild("repair_vessel"+n,box(48,0,-.6f,-2,-.6f,1.2f,4,1.2f),PartPose.offset((n-1)*2,-1,4));
             }
+            if(kind.depths()){
+                for(int side:new int[]{-1,1})for(int n=0;n<(kind.boss()?5:3);n++)t.addOrReplaceChild("depths_spine"+side+"_"+n,box(0,32,-.4f,-2,-.5f,.8f,4,1),PartPose.offsetAndRotation(side*(5+n*.6f),-6-n*.8f,2,0,0,side*(.2f+n*.1f)));
+                if(kind==SanctuaryConstruct.Kind.DEPTHS_BASTION){armsHammer(t);for(int side:new int[]{-1,1})t.addOrReplaceChild("bastion_shield"+side,box(0,0,-2,-5,-1,4,10,2),PartPose.offsetAndRotation(side*6,-2,-1,0,side*.2f,side*.08f));}
+                if(kind==SanctuaryConstruct.Kind.DEPTHS_LENS||kind==SanctuaryConstruct.Kind.DEPTHS_SOVEREIGN){var orbit=t.addOrReplaceChild("depths_orbit",CubeListBuilder.create(),PartPose.offset(0,-5,2));for(int n=0;n<16;n++){double a=n*Math.PI/8;orbit.addOrReplaceChild("sector"+n,box(n%4==0?48:0,n%4==0?0:32,-1.7f,-.45f,-.6f,3.4f,.9f,1.2f),PartPose.offsetAndRotation((float)Math.cos(a)*9,(float)Math.sin(a)*9,0,0,0,(float)(a+Math.PI/2)));}}
+                if(kind==SanctuaryConstruct.Kind.DEPTHS_REAPER||kind==SanctuaryConstruct.Kind.DEPTHS_HUNTER)for(int i=0;i<2;i++)t.getChild("arm"+i).getChild("fore").addOrReplaceChild("reaper_edge",box(48,0,-.4f,0,-1,.8f,12,2),PartPose.offsetAndRotation(0,3,-1,-.25f,0,i==0?-.35f:.35f));
+                if(kind==SanctuaryConstruct.Kind.DEPTHS_RIFLE)t.getChild("arm0").getChild("fore").addOrReplaceChild("pressure_barrel",box(0,32,-1,-1,-7,2,2,10),PartPose.offset(0,4,-1));
+            }
             return LayerDefinition.create(mesh,64,64);
         }
         private static void armsHammer(PartDefinition t){
@@ -113,13 +120,14 @@ public final class SanctuaryRenderer extends MobRenderer<SanctuaryConstruct,Sanc
             torso.xRot=wind*.12f-release*.15f+waking*.55f;torso.y+=Mth.sin(age*.045f)*.12f;
             crown.yRot=age*(s.charge>0?.06f:.01f)*(kind==SanctuaryConstruct.Kind.ANTIPHON?-1:1);crown.y-=wind*1.8f+s.phase*.4f;
             core.yRot=age*(s.exposed>0?.07f:.02f);core.xScale=core.yScale=core.zScale=1+Mth.sin(age*.08f)*.06f+(s.exposed>0?.25f:0);
-            for(int i=0;i<4;i++){arms[i].xRot=-wind*(i<2?1.7f:1.1f)+release*.8f+(i>=2?.3f:0)+Mth.cos(s.walkAnimationPos*.6f+i*Mth.PI)*s.walkAnimationSpeed*.3f;arms[i].xRot+=waking*.65f;arms[i].zRot=(i%2==0?-1:1)*(wind*.35f+(i>=2?.5f:0));if(i>=2)arms[i].visible=kind==SanctuaryConstruct.Kind.ARCHON||kind==SanctuaryConstruct.Kind.HORTULAN;}
+            for(int i=0;i<4;i++){arms[i].xRot=-wind*(i<2?1.7f:1.1f)+release*.8f+(i>=2?.3f:0)+Mth.cos(s.walkAnimationPos*.6f+i*Mth.PI)*s.walkAnimationSpeed*.3f;arms[i].xRot+=waking*.65f;arms[i].zRot=(i%2==0?-1:1)*(wind*.35f+(i>=2?.5f:0));if(i>=2)arms[i].visible=kind==SanctuaryConstruct.Kind.ARCHON||kind==SanctuaryConstruct.Kind.HORTULAN||kind==SanctuaryConstruct.Kind.DEPTHS_SOVEREIGN;}
             if(s.charge>0&&s.pattern==2){arms[0].xRot=-1.5f;arms[1].xRot=-wind*.8f;}
             if(s.charge>0&&s.pattern==3){arms[0].zRot=-wind*1.3f;arms[1].zRot=wind*1.3f;}
             if(kind==SanctuaryConstruct.Kind.REGULATOR||kind==SanctuaryConstruct.Kind.FOUNDRY_ARBALIST)torso.getChild("regulator_cage").zRot=age*(s.charge>0?.035f:.008f);
             if(s.charge>0&&s.pattern==5){arms[0].xRot=-wind*2.5f;torso.xRot=wind*.25f;}
             if(s.charge>0&&s.pattern==6){arms[0].xRot=-1.5f;arms[1].xRot=-1.5f;}
             if(kind==SanctuaryConstruct.Kind.CONSERVATOR){for(int axis=0;axis<3;axis++){var orbit=torso.getChild("archive_orbit"+axis);orbit.zRot=axis*.4f+age*(axis%2==0?1:-1)*(s.charge>0?.035f:.009f);orbit.yRot=(axis==2?1.05f:0)+Mth.sin(age*.018f+axis)*.2f;orbit.xRot=(axis==1?1.05f:0)+wind*.2f;}torso.y+=Mth.sin(age*.035f)*.35f;}
+            if(kind==SanctuaryConstruct.Kind.DEPTHS_LENS||kind==SanctuaryConstruct.Kind.DEPTHS_SOVEREIGN)torso.getChild("depths_orbit").zRot=age*(s.charge>0?.045f:.008f);
             for(int i=0;i<2;i++)legs[i].xRot=Mth.cos(s.walkAnimationPos*.65f+i*Mth.PI)*Math.min(1,s.walkAnimationSpeed)*.5f;
         }
     }

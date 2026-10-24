@@ -2,6 +2,9 @@
   "values": [
     "tnd:ward_chestplate",
     "tnd:shade_chestplate",
-    "tnd:choir_chestplate"
+    "tnd:choir_chestplate",
+    "tnd:ferronyte_chestplate",
+    "tnd:thalassite_chestplate",
+    "tnd:asterium_chestplate"
   ]
 }

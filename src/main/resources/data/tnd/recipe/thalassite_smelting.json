@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": "tnd:raw_thalassite",
+  "result": {
+    "id": "tnd:thalassite_ingot"
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

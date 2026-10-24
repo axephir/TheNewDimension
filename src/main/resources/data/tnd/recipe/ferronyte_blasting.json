@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": "tnd:raw_ferronyte",
+  "result": {
+    "id": "tnd:ferronyte_ingot"
+  },
+  "experience": 0.7,
+  "cookingtime": 100
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " F ",
+    "QCQ",
+    " F "
+  ],
+  "key": {
+    "F": "tnd:ferronyte_ingot",
+    "Q": "minecraft:quartz",
+    "C": "tnd:copper_coil"
+  },
+  "result": {
+    "id": "tnd:maintenance_kit",
+    "count": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "tnd:asterium"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "tnd:asterium"
+      }
+    ]
+  }
+}

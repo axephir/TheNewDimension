@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FTF",
+    "CNC",
+    "FHF"
+  ],
+  "key": {
+    "F": "tnd:ferronyte_ingot",
+    "T": "tnd:thalassite_ingot",
+    "C": "tnd:pressure_circuit",
+    "N": "minecraft:netherite_ingot",
+    "H": "tnd:industrial_frame"
+  },
+  "result": {
+    "id": "tnd:precision_assembler",
+    "count": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "I I"
+  ],
+  "key": {
+    "I": "tnd:asterium_ingot"
+  },
+  "result": {
+    "id": "tnd:asterium_helmet",
+    "count": 1
+  }
+}

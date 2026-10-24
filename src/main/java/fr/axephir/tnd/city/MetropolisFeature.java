@@ -66,6 +66,8 @@ public final class MetropolisFeature extends Feature<NoneFeatureConfiguration> {
                 w.setBlock(new BlockPos(x,y,z),(rib?CityContent.DOME_RIB:CityContent.DOME).get().defaultBlockState(),2);
             }
         }
+        fr.axephir.tnd.depths.DepthsArchitecture.generate(w,x0,z0);
+        w.getChunk(x0>>4,z0>>4).setData(fr.axephir.tnd.depths.DepthsMigration.GENERATED,true);
         return true;
     }
 }

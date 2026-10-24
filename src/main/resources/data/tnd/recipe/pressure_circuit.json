@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TQT",
+    "CRC",
+    "TQT"
+  ],
+  "key": {
+    "T": "tnd:thalassite_ingot",
+    "Q": "minecraft:quartz",
+    "C": "tnd:control_circuit",
+    "R": "minecraft:redstone_block"
+  },
+  "result": {
+    "id": "tnd:pressure_circuit",
+    "count": 2
+  }
+}

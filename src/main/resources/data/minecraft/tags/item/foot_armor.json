@@ -2,6 +2,9 @@
   "values": [
     "tnd:ward_boots",
     "tnd:shade_boots",
-    "tnd:choir_boots"
+    "tnd:choir_boots",
+    "tnd:ferronyte_boots",
+    "tnd:thalassite_boots",
+    "tnd:asterium_boots"
   ]
 }

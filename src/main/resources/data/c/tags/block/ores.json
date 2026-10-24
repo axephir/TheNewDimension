@@ -1,6 +1,9 @@
 {
   "values": [
     "tnd:auralite_ore",
-    "tnd:noctilite_ore"
+    "tnd:noctilite_ore",
+    "tnd:ferronyte_ore",
+    "tnd:deepslate_ferronyte_ore",
+    "tnd:thalassite_nodule"
   ]
 }

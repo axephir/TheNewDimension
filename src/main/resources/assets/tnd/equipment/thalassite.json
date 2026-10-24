@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "tnd:thalassite"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "tnd:thalassite"
+      }
+    ]
+  }
+}

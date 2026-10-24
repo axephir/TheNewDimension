@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AMA",
+    "NSN",
+    "FCF"
+  ],
+  "key": {
+    "A": "tnd:asterium_ingot",
+    "M": "tnd:mineral_matrix",
+    "N": "minecraft:netherite_ingot",
+    "S": "tnd:sundered_drive",
+    "F": "tnd:industrial_frame",
+    "C": "tnd:mnemonic_circuit"
+  },
+  "result": {
+    "id": "tnd:asterium_replicator",
+    "count": 1
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "criteria": {
+    "ore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "tnd:raw_thalassite"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "tnd:thalassite_sword",
+      "tnd:thalassite_pickaxe",
+      "tnd:thalassite_axe",
+      "tnd:thalassite_shovel",
+      "tnd:thalassite_hoe",
+      "tnd:thalassite_helmet",
+      "tnd:thalassite_chestplate",
+      "tnd:thalassite_leggings",
+      "tnd:thalassite_boots",
+      "tnd:thalassite_smelting",
+      "tnd:thalassite_blasting"
+    ]
+  }
+}
